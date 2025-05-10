@@ -1,5 +1,7 @@
-import React from 'react';
-import styles from './Environment.module.css'; // Assuming CSS module for styling
+import styles from './Environment.module.css';
+import treeIcon from '../../assets/placeholder-icon-tree.png';
+import waterIcon from '../../assets/placeholder-icon-water.png';
+import communityIcon from '../../assets/placeholder-icon-community.png';
 
 const EnvironmentSection = () => {
   return (
@@ -11,17 +13,17 @@ const EnvironmentSection = () => {
         </p>
         <div className={styles.benefitsGrid}>
           <div className={styles.benefitItem}>
-            <img src="/placeholder-icon-tree.svg" alt="Redução de CO2" />
+            <img src={treeIcon} alt="Redução de CO2" />
             <h3>Redução de CO2</h3>
             <p>Cada lote de energia solar consumido através da Ecolote representa menos dióxido de carbono liberado na atmosfera.</p>
           </div>
           <div className={styles.benefitItem}>
-            <img src="/placeholder-icon-water.svg" alt="Preservação de Recursos Naturais" />
+            <img src={waterIcon} alt="Preservação de Recursos Naturais" />
             <h3>Preservação de Recursos</h3>
             <p>Diminuímos a dependência de fontes de energia não renováveis, preservando recursos naturais para as futuras gerações.</p>
           </div>
           <div className={styles.benefitItem}>
-            <img src="/placeholder-icon-community.svg" alt="Comunidade Sustentável" />
+            <img src={communityIcon} alt="Comunidade Sustentável" />
             <h3>Comunidade Sustentável</h3>
             <p>Junte-se a uma comunidade crescente de pessoas e empresas comprometidas com a sustentabilidade e o consumo consciente.</p>
           </div>
@@ -35,4 +37,3 @@ const EnvironmentSection = () => {
 };
 
 export default EnvironmentSection;
-
