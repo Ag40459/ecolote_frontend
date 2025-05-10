@@ -1,0 +1,47 @@
+/* Features.module.css */
+.featuresSection {
+  padding: 60px 20px;
+  background-color: #ffffff; /* White background */
+}
+
+.featuresTitle {
+  text-align: center;
+  font-size: 2.5em;
+  color: #333;
+  margin-bottom: 40px;
+}
+
+.featuresGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.featureItem {
+  background-color: #f9f9f9; /* Light gray background for items */
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.featureIcon {
+  font-size: 3em; /* Adjust as needed */
+  color: #4CAF50; /* Green */
+  margin-bottom: 15px;
+}
+
+.featureItem h3 {
+  font-size: 1.5em;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.featureItem p {
+  font-size: 1em;
+  color: #555;
+  line-height: 1.6;
+}
+

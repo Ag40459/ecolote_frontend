@@ -1,0 +1,30 @@
+/* Comparison.module.css */
+.comparisonContainer {
+  display: flex;
+  justify-content: space-around;
+  padding: 20px;
+  background-color: #e9e9e9; /* Slightly different background for distinction if needed */
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.comparisonTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.comparisonTable th, .comparisonTable td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: left;
+}
+
+.comparisonTable th {
+  background-color: #f2f2f2;
+}
+
+.highlight {
+  font-weight: bold;
+  color: #4CAF50; /* Green for positive aspects */
+}
+

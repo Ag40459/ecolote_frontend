@@ -1,0 +1,37 @@
+/* HowItWorks.module.css */
+.howItWorksContainer {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.howItWorksTitle {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.howItWorksSteps {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.step {
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.step h3 {
+  margin-top: 0;
+  color: #555;
+}
+
+.step p {
+  color: #666;
+  line-height: 1.6;
+}
+

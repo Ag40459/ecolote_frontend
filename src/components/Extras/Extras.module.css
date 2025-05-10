@@ -1,0 +1,19 @@
+/* Styles for Extras section */
+.extrasContainer {
+  padding: 20px;
+  background-color: #f9f9f9;
+}
+
+.extrasTitle {
+  font-size: 2em;
+  color: #333;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.extrasContent {
+  font-size: 1.2em;
+  color: #555;
+  line-height: 1.6;
+}
+

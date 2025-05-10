@@ -1,0 +1,139 @@
+/* styles/global.css ou index.css - Estilos Globais */
+:root {
+  /* Tema Claro (Padrão) */
+  --primary-bg-color: #F5F5F5;
+  --secondary-bg-color: #FFFFFF;
+  --text-color: #212121;
+  --accent-color-green: #43A047;
+  --accent-color-gold: #FFC107;
+  --link-color: #1976D2;
+  --navbar-bg-color: #FFFFFF;
+  --navbar-text-color: #212121;
+  --footer-bg-color: #333333;
+  --footer-text-color: #F5F5F5;
+
+  /* Outras variáveis de espaçamento, fontes, etc. */
+  --font-family-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  --container-width: 90%;
+  --container-max-width: 1200px;
+}
+
+body.dark-theme {
+  --primary-bg-color: #121212;
+  --secondary-bg-color: #1E1E1E;
+  --text-color: #E0E0E0;
+  --accent-color-green: #66BB6A;
+  --accent-color-gold: #FFB300;
+  --link-color: #90CAF9;
+  --navbar-bg-color: #1E1E1E;
+  --navbar-text-color: #E0E0E0;
+  --footer-bg-color: #121212;
+  --footer-text-color: #E0E0E0;
+}
+
+body {
+  font-family: var(--font-family-sans);
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background-color: var(--primary-bg-color);
+  color: var(--text-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  line-height: 1.6;
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
+a {
+  color: var(--link-color);
+  text-decoration: none;
+  transition: color 0.2s ease-in-out;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+.container {
+  width: var(--container-width);
+  max-width: var(--container-max-width);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+/* Botão CTA Padrão */
+.cta-button {
+  display: inline-block;
+  padding: 12px 24px;
+  background-color: var(--accent-color-gold);
+  color: var(--text-color);
+  font-weight: bold;
+  text-align: center;
+  border-radius: 5px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.cta-button:hover {
+  background-color: var(--accent-color-green);
+  color: var(--primary-bg-color);
+  text-decoration: none;
+  transform: translateY(-2px);
+}
+
+/* Seções */
+.content-section {
+  padding: 60px 0;
+}
+
+.content-section.alt-bg {
+  background-color: var(--secondary-bg-color);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin-top: 0;
+  margin-bottom: 0.75em;
+  font-weight: 600;
+}
+
+h1 { font-size: 2.5rem; }
+h2 { font-size: 2rem; }
+h3 { font-size: 1.75rem; }
+
+/* Botão Flutuante WhatsApp */
+.whatsapp-float {
+  position: fixed;
+  width: 60px;
+  height: 60px;
+  bottom: 40px;
+  right: 40px;
+  background-color: #25D366;
+  color: #FFF;
+  border-radius: 50px;
+  text-align: center;
+  font-size: 30px;
+  box-shadow: 2px 2px 6px rgba(0,0,0,0.2);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease-in-out;
+}
+
+.whatsapp-float:hover {
+  transform: scale(1.1);
+}
+
+.whatsapp-float svg {
+  fill: white;
+}
+

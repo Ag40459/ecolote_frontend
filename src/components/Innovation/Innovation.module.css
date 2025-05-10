@@ -1,0 +1,21 @@
+/* Styles for Innovation section */
+.innovationContainer {
+  padding: 20px;
+  background-color: #f0f0f0; /* Light gray background */
+}
+
+.innovationTitle {
+  font-size: 2em;
+  color: #333;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.innovationContent {
+  font-size: 1.2em;
+  color: #555;
+  line-height: 1.6;
+}
+
+/* Add more specific styles as needed */
+
