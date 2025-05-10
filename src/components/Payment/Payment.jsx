@@ -21,7 +21,7 @@ const PaymentSection = () => {
     {
       iconClass: 'fas fa-hand-holding-usd',
       name: 'Financiamento Facilitado',
-      description: 'Consulte nossas opções de financiamento em parceria com instituições financeiras para adquirir seus lotes de energia com condições especiais.'
+      description: 'Consulte nossas opções de financiamento em parceria com instituições financeiras para adquirir seus lotes de energia com condições especiais com pagamento da primeira parcela de até 120 dias.'
     }
   ];
 

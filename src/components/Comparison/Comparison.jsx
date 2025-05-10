@@ -6,45 +6,57 @@ const ComparisonSection = () => {
   // Estes dados devem ser extraídos do e-book ou da estrutura fornecida
   const comparisonData = [
     {
+      feature: 'Propriedade',
+      ecolote: 'Você é dono de uma usina solar remota em seu nome',
+      tradicional: 'Você aluga uma cota de energia gerada por uma usina de terceiros',
+      destaqueEcolote: true,
+    },
+    {
       feature: 'Custo Inicial',
-      ecolote: 'Baixo (Aquisição de lotes)',
-      tradicional: 'Alto (Instalação de painéis)',
+      ecolote: 'Acessível e com parcelas que cabem no lugar da conta de luz',
+      tradicional: 'Sem custo inicial pois se trata de desconto na conta de luz',
       destaqueEcolote: true,
     },
     {
       feature: 'Manutenção',
-      ecolote: 'Nenhuma (Gerenciada pela usina)',
-      tradicional: 'Necessária (Limpeza, reparos)',
+      ecolote: 'Inclusa (gerenciada pela usina do projeto Ecolote)',
+      tradicional: 'Não visível ao cliente, mas embutida no custo mensal',
       destaqueEcolote: true,
     },
     {
       feature: 'Burocracia',
-      ecolote: 'Mínima (Plataforma online)',
-      tradicional: 'Moderada (Projetos, aprovações)',
+      ecolote: 'Quase nenhuma — já vem homologado e em seu nome',
+      tradicional: 'Pode envolver análise de crédito, fidelidade e contratos complexos',
       destaqueEcolote: false,
     },
     {
       feature: 'Flexibilidade',
-      ecolote: 'Alta (Planos ajustáveis, sem fidelidade longa)',
-      tradicional: 'Baixa (Sistema fixo na propriedade)',
+      ecolote: 'Alta — créditos acumulam no seu CPF ',
+      tradicional: 'Baixa — depende do contrato, região e prestador',
       destaqueEcolote: true,
     },
     {
-      feature: 'Mobilidade',
-      ecolote: 'Total (Créditos te acompanham)',
-      tradicional: 'Nenhuma (Fixo à propriedade)',
+      feature: 'Segurança',
+      ecolote: 'Possui seguro contra furto/roubo e garantia da empresa de seguro',
+      tradicional: 'Equipamento não é seu porém a taxa de seguro já esta imbutida no contrato',
       destaqueEcolote: true,
     },
     {
       feature: 'Impacto Ambiental',
-      ecolote: 'Positivo (Energia 100% limpa)',
-      tradicional: 'Positivo (Energia limpa, mas com pegada de fabricação dos painéis)',
-      destaqueEcolote: false, // Ambos são positivos, mas Ecolote foca na geração em larga escala
+      ecolote: 'Altamente positivo, com reserva ambiental no bairro solar rural',
+      tradicional: 'Positivo, mas sem controle sobre o ambiente da usina compartilhada',
+      destaqueEcolote: false,
     },
     {
-      feature: 'Tempo para Economia',
-      ecolote: 'Imediato (Após compensação dos créditos)',
-      tradicional: 'Médio Prazo (Payback do investimento inicial)',
+      feature: 'Valorização',
+      ecolote: 'É um ativo real que pode ser valorizado e revendido',
+      tradicional: 'Sem valor de revenda — apenas uso temporário',
+      destaqueEcolote: true,
+    },
+     {
+      feature: 'Liberdade de Uso',
+      ecolote: 'Usina integralmente sua, sem vínculo com terceiros',
+      tradicional: 'Uso limitado e vinculado ao prestador',
       destaqueEcolote: true,
     },
   ];
@@ -52,7 +64,7 @@ const ComparisonSection = () => {
   return (
     <section id="comparison" className={`${styles.comparisonSection} content-section alt-bg`}>
       <div className={`${styles.container} container`}>
-        <h2 className={styles.sectionTitle}>Ecolote vs. Energia Solar Tradicional</h2>
+        <h2 className={styles.sectionTitle}>Ecolote vs. Energia Solar Compartilhada</h2>
         <p className={styles.sectionSubtitle}>
           Veja como o Ecolote se destaca ao oferecer uma alternativa mais acessível, flexível e prática para você aproveitar os benefícios da energia solar.
         </p>
@@ -62,7 +74,7 @@ const ComparisonSection = () => {
               <tr>
                 <th>Característica</th>
                 <th>Ecolote</th>
-                <th>Solar Tradicional (Residencial)</th>
+                <th>Energia Solar Compartilhada</th>
               </tr>
             </thead>
             <tbody>
@@ -77,7 +89,8 @@ const ComparisonSection = () => {
           </table>
         </div>
         <p className={styles.comparisonNote}>
-          <strong>Nota:</strong> A energia solar tradicional em telhados é uma excelente opção, mas o Ecolote oferece uma alternativa para quem busca mais flexibilidade, menor custo inicial e zero preocupação com manutenção.
+          <strong>Nota:</strong> O Ecolote não é um serviço temporário: é sua própria mini usina solar remota, com segurança jurídica, liberdade total e potencial de valorização.<br></br><br></br>
+Já o modelo compartilhado é uma alternativa temporária de uso, sem vínculo real com o bem.
         </p>
       </div>
     </section>

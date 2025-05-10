@@ -15,10 +15,13 @@ const About = () => {
               Imagine poder contribuir ativamente para um futuro mais sustentável, economizar significativamente na sua conta de luz e ainda fazer parte de uma comunidade engajada na transformação energética do país. Com o Ecolote, isso não é apenas possível, é simples e prático.
             </p>
             <p>
-              Nós conectamos você a usinas de energia solar parceiras, permitindo que você adquira "lotes" dessa energia gerada de forma limpa. Esses lotes são convertidos em créditos que abatem diretamente o valor da sua fatura de energia elétrica convencional. Tudo isso sem a necessidade de obras, instalações de painéis solares em sua propriedade ou qualquer tipo de burocracia complexa.
+            Você adquire sua própria mini usina solar remota, instalada em um lote rural de 30m², em uma das regiões com maior incidência solar do estado.
+Essa usina é sua — registrada no seu nome, com garantia e monitoramento — e injeta energia diretamente na rede elétrica.
+A energia gerada é convertida em créditos que abatem em sua conta de luz, sem a necessidade de instalar nada em sua casa ou apartamento.
+Tudo de forma legal, sustentável e com segurança contratual.
             </p>
             <p>
-              Seja você pessoa física ou jurídica, o Ecolote oferece planos flexíveis e transparentes, adaptados às suas necessidades de consumo. Junte-se a nós e faça parte da mudança. Ecolote: energia inteligente para você, sustentabilidade para o planeta.
+              Seja você, pessoa física ou jurídica, o Ecolote oferece planos flexíveis e transparentes, adaptados às suas necessidades de consumo. Junte-se a nós e faça parte da mudança. Ecolote: energia inteligente para você, sustentabilidade para o planeta.
             </p>
           </div>
           <div className={styles.aboutImageContainer}>

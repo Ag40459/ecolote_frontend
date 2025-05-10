@@ -1,5 +1,4 @@
-import React from 'react';
-import styles from './Innovation.module.css'; // Crie este arquivo CSS
+import styles from './Innovation.module.css'; 
 
 const InnovationSection = () => {
   const innovations = [
@@ -11,14 +10,9 @@ const InnovationSection = () => {
     {
       iconClass: 'fas fa-cubes', // Ícone para Blockchain e Transparência
       title: 'Blockchain para Transparência Total',
-      description: 'Todas as transações e a rastreabilidade dos seus créditos de energia são registradas em blockchain, garantindo segurança, imutabilidade e total transparência no processo.'
+      description: 'Todas as transações e a rastreabilidade dos seus créditos de energia são registradas no blockchain da concessionária de energia, garantindo segurança, imutabilidade e total transparência no processo.'
     },
-    {
-      iconClass: 'fas fa-mobile-alt', // Ícone para Plataforma Intuitiva
-      title: 'Plataforma Digital Intuitiva',
-      description: 'Acesse e gerencie seus lotes de energia, acompanhe sua economia e interaja com a comunidade Ecolote através de uma plataforma mobile-first, simples e amigável.'
-    },
-    {
+        {
       iconClass: 'fas fa-network-wired', // Ícone para Smart Grid
       title: 'Integração com Smart Grids',
       description: 'Estamos na vanguarda da integração com redes elétricas inteligentes (smart grids), preparando o caminho para um futuro energético mais conectado e eficiente.'

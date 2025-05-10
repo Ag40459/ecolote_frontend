@@ -219,14 +219,7 @@ const ContactSection = () => {
           <button type="submit" className={`${styles.submitButton} cta-button`}>Enviar Mensagem</button>
         </form>
 
-        <div className={styles.contactInfo}>
-            <h3>Outras Formas de Contato</h3>
-            <p><i className="fas fa-envelope"></i> Email: <a href="mailto:contato@ecolote.com.br">contato@ecolote.com.br</a></p>
-            <p><i className="fas fa-phone"></i> Telefone: (XX) XXXX-XXXX (se aplicável)</p>
-            <p><i className="fab fa-whatsapp"></i> WhatsApp: <a href="https://wa.me/5581985967343" target="_blank" rel="noopener noreferrer">(81) 98596-7343</a></p>
-            {/* Adicionar links para redes sociais se houver */}
-        </div>
-      </div>
+             </div>
     </section>
   );
 };

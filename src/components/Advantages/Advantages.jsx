@@ -6,7 +6,7 @@ const AdvantagesSection = () => {
     {
       iconClass: 'fas fa-dollar-sign',
       title: 'Economia Comprovada',
-      description: 'Reduza sua conta de luz em até X% (informação do e-book) e livre-se das flutuações tarifárias. Com o Ecolote, seu dinheiro rende mais.'
+      description: 'Reduza sua conta de luz em até 100% e livre-se das flutuações tarifárias. Acumule o que não foi usado da energia gerada. Com o Ecolote, seu dinheiro rende mais'
     },
     {
       iconClass: 'fas fa-bolt',
@@ -21,7 +21,7 @@ const AdvantagesSection = () => {
     {
       iconClass: 'fas fa-shield-alt',
       title: 'Segurança e Confiabilidade',
-      description: 'Conte com a solidez de usinas parceiras e uma plataforma robusta que garante a entrega dos seus créditos de energia com total segurança.'
+      description: 'Conte com um seguro já incluso para proteção dos seus equipamentos e uma plataforma para acompanhar os créditos de energia gerados.'
     },
     {
       iconClass: 'fas fa-chart-area',
