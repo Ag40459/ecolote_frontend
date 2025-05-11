@@ -24,7 +24,6 @@ const Navbar = () => {
     };
   }, []);
 
-  // Função para o botão de tema (a lógica do tema em si estará no App.jsx ou contexto)
   const handleThemeToggle = () => {
     document.body.classList.toggle('dark-theme');
     // Salvar preferência no localStorage, se desejar
@@ -46,10 +45,9 @@ const Navbar = () => {
             <li><a href="#innovation" onClick={() => setIsMobileMenuOpen(false)}>Inovação</a></li>
             <li><a href="#payment" onClick={() => setIsMobileMenuOpen(false)}>Pagamento</a></li>
             <li><a href="#contact" onClick={() => setIsMobileMenuOpen(false)}>Contato</a></li>
-          </ul>.
+          </ul>
         </nav>
         <button onClick={handleThemeToggle} className={styles.themeToggleButton} aria-label="Alternar tema">
-          {/* Ícone de lua/sol pode ser SVG ou texto */}
           🌙
         </button>
         <button className={styles.menuToggle} id="menu-toggle" aria-label="Abrir menu" onClick={toggleMobileMenu}>

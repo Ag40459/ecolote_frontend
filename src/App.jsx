@@ -16,8 +16,7 @@ import Conclusion from './components/Conclusion/Conclusion'; // Exemplo
 import Footer from './components/Footer/Footer';
 
 function App() {
-  // Lógica para alternar tema pode vir aqui ou em um contexto separado
-  // Por enquanto, vamos assumir que a classe do tema é aplicada no body diretamente por um script separado (theme-switcher.js)
+
 
   return (
     <>

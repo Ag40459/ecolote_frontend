@@ -95,17 +95,21 @@
 /* Responsividade para o menu mobile */
 @media (max-width: 992px) { /* Ajuste este breakpoint conforme necessário */
   .navLinksContainer {
-    display: none; /* Esconde os links por padrão */
-    position: absolute;
-    top: 100%; /* Abaixo do header */
-    left: 0;
-    width: 100%;
-    background-color: var(--secondary-bg-color);
-    flex-direction: column;
-    align-items: center;
-    padding: 1rem 0;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  }
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  max-height: calc(100vh - 60px); /* ou ajuste conforme a altura do seu header */
+  overflow-y: auto; /* permite rolar se exceder o limite */
+  background-color: var(--secondary-bg-color);
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem 0;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  z-index: 9999;
+}
+
 
   .navLinksContainer.active {
     display: flex; /* Mostra quando o menu está ativo */
