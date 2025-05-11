@@ -8,7 +8,7 @@
 .conclusionSection {
     padding: 60px 20px;
     text-align: center;
-    background-color: #f9f9f9; /* Light gray background */
+    background-color: #f9f9f9;
 }
 
 .conclusionTitle {
@@ -25,8 +25,8 @@
     margin: 0 auto 20px auto;
 }
 
-.ctaButton {
-    background-color: #4CAF50; /* Green */
+.ctaButtonConclusion {
+    background-color:  var(--accent-color-green);
     border: none;
     color: white;
     padding: 15px 32px;
@@ -37,9 +37,30 @@
     margin: 4px 2px;
     cursor: pointer;
     border-radius: 5px;
-}
+    }
 
-.ctaButton:hover {
-    background-color: #45a049;
+.ctaButtonConclusion:hover {
+    background-color: var(--accent-color-gold);
+}
+.secondaryButtonConclusion{
+    background-color: var(--accent-color-gold); 
+    border: none;
+    color: white;
+     font-weight: bold;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
+    }
+    
+.secondaryButtonConclusion:hover {
+    background-color:  var(--accent-color-green);
+     transform: translateY(-5px); /* Deslocamento mais visível */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
 }
 

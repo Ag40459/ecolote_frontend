@@ -1,4 +1,4 @@
-import styles from './Conclusion.module.css'; // Crie este arquivo CSS
+import styles from './Conclusion.module.css';
 
 const ConclusionSection = () => {
   return (
@@ -19,6 +19,7 @@ const ConclusionSection = () => {
             Entenda Melhor Como Funciona
           </a>
         </div>
+        <br></br>
         <p className={styles.finalPhrase}>
           <strong>Ecolote: Energia limpa para todos – um novo Brasil começa aqui 🌱⚡</strong>
         </p>

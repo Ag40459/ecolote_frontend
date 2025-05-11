@@ -1,6 +1,4 @@
-/* styles/global.css ou index.css - Estilos Globais */
 :root {
-  /* Tema Claro (Padrão) */
   --primary-bg-color: #F5F5F5;
   --secondary-bg-color: #FFFFFF;
   --text-color: #212121;
@@ -12,7 +10,6 @@
   --footer-bg-color: #333333;
   --footer-text-color: #F5F5F5;
 
-  /* Outras variáveis de espaçamento, fontes, etc. */
   --font-family-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   --container-width: 90%;
   --container-max-width: 1200px;

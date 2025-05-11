@@ -1,3 +1,9 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
 .sectionTitle {
   text-align: center;
   font-size: 2.2rem; 
@@ -15,6 +21,15 @@
   color: var(--text-color);
 }
 
+.centeredParagraph {
+  max-width: 90%;
+  margin: 0 auto;
+  text-align: center;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: var(--text-color);
+}
+
 .benefitsGrid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -24,7 +39,7 @@
 }
 
 .benefitItem {
-  background-color: var(--primary-bg-color); /* Usar primary para contraste com alt-bg da seção */
+  background-color: var(--primary-bg-color);
   padding: 2rem;
   border-radius: 8px;
   text-align: center;

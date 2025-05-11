@@ -8,8 +8,8 @@ const EnvironmentSection = () => {
     <section id="environment" className={styles.environmentSection}>
       <div className={styles.container}>
         <h2 className={styles.sectionTitle}>Impacto Ambiental Positivo</h2>
-        <p>
-          Ao escolher a Ecolote, você não apenas economiza na conta de luz, mas também contribui ativamente para um futuro mais sustentável. A energia solar é uma fonte limpa e renovável, que reduz significativamente a emissão de gases de efeito estufa, combatendo as mudanças climáticas..
+        <p className={styles.centeredParagraph}>
+          Ao escolher a Ecolote, você não apenas economiza na conta de luz, mas também contribui ativamente para um futuro mais sustentável. A energia solar é uma fonte limpa e renovável, que reduz significativamente a emissão de gases de efeito estufa, combatendo as mudanças climáticas.
         </p>
         <div className={styles.benefitsGrid}>
           <div className={styles.benefitItem}>
