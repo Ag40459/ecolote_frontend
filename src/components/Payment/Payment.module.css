@@ -1,4 +1,10 @@
-/* Payment.module.css */
+.sectionTitle {
+  text-align: center;
+  font-size: 2.2rem;
+  margin-bottom: 1rem;
+  color: var(--accent-color-green);
+}
+
 .paymentSection {
   padding: 60px 20px;
   background-color: #f9f9f9; /* Light gray background */

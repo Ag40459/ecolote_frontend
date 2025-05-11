@@ -1,5 +1,4 @@
-import React from 'react';
-import styles from './Payment.module.css'; // Crie este arquivo CSS
+import styles from './Payment.module.css'; 
 
 const PaymentSection = () => {
   const paymentMethods = [

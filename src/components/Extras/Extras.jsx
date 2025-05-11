@@ -1,4 +1,3 @@
-import React from 'react';
 import styles from './Extras.module.css'; // Assume CSS module for styling
 
 const ExtrasSection = () => {
@@ -7,7 +6,10 @@ const ExtrasSection = () => {
       <div className={`${styles.container} container`}>
         <h2 className={styles.sectionTitle}>Extras</h2>
         <div className={styles.extrasContent}>
-          <p>
+     
+         <div className={styles.blogSection}>
+  <h3>Dúvidas Frequentes</h3>
+      <p>
   Aqui você encontrará respostas para as dúvidas mais comuns sobre o Ecolote&nbsp;
   <a
     href="https://docs.google.com/document/d/1r2sNiulvtPQsloQTFp81O7rgKz-s01y9SL_wbmEJ60I/edit?usp=sharing"
@@ -18,14 +20,8 @@ const ExtrasSection = () => {
     📄
   </a>
 </p>
-
-         <div className={styles.blogSection}>
-  <h3>Blog/Notícias</h3>
-  <p>
-    <span role="img" aria-label="emojis">EM BREVE ⏳</span> <br></br>Fique por dentro das últimas novidades sobre energia solar, sustentabilidade e o Ecolote. 
-    
-  </p>
 </div>
+
 <div className={styles.testimonialsSection}>
 
 
@@ -41,6 +37,13 @@ const ExtrasSection = () => {
     >
       📘
     </a>
+  </p>
+</div>
+         <div className={styles.blogSection}>
+  <h3>Blog/Notícias</h3>
+  <p>
+    <span role="img" aria-label="emojis">EM BREVE ⏳</span> <br></br>Fique por dentro das últimas novidades sobre energia solar, sustentabilidade e o Ecolote. 
+    
   </p>
 </div>
 

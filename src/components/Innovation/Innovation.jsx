@@ -25,7 +25,7 @@ const InnovationSection = () => {
   return (
     <section id="innovation" className={`${styles.innovationSection} content-section alt-bg`}>
       <div className={`${styles.container} container`}>
-        <h2 className={styles.innovationTitle}>Inovação no DNA Ecolote</h2>
+        <h2 className={styles.sectionTitle}>Inovação no DNA Ecolote</h2>
         <p className={styles.sectionSubtitle}>
           O EcoLote une tecnologia de ponta a um modelo de negócio inovador, tornando o acesso à energia solar mais inteligente, acessível e sustentável.
         </p>

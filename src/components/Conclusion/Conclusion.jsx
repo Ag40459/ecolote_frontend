@@ -1,4 +1,3 @@
-import React from 'react';
 import styles from './Conclusion.module.css'; // Crie este arquivo CSS
 
 const ConclusionSection = () => {

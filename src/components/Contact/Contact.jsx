@@ -1,5 +1,5 @@
 import styles from '../Contact/Contact.module.css'; 
-import ContactModal from '../ContactModal/ContactModal.jsx'; // Importando o novo modal
+import ContactModal from '../ContactModal/ContactModal.jsx';
 import { useState } from 'react';
 
 const ContactSection = () => {

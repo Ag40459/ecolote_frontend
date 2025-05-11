@@ -1,4 +1,10 @@
-/* Conclusion.module.css */
+.sectionTitle {
+  text-align: center;
+  font-size: 2.2rem;
+  margin-bottom: 1rem;
+  color: var(--accent-color-green);
+}
+
 .conclusionSection {
     padding: 60px 20px;
     text-align: center;
