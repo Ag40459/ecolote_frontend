@@ -1,5 +1,4 @@
-import React from 'react';
-import styles from './Environment.module.css'; // Assuming CSS module for styling
+import styles from './Environment.module.css';
 
 const EnvironmentSection = () => {
   return (
