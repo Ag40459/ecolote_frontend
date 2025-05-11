@@ -1,4 +1,10 @@
-/* Features.module.css */
+.sectionTitle {
+  text-align: center;
+  font-size: 2.2rem;
+  margin-bottom: 1rem;
+  color: var(--accent-color-green);
+}
+
 .featuresSection {
   padding: 60px 20px;
   background-color: #ffffff; /* White background */

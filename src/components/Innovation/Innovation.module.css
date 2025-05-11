@@ -1,6 +1,6 @@
 .innovationContainer {
   padding: 20px;
-  background-color: #f0f0f0; /* Light gray background */
+  background-color: #f0f0f0;
 }
 
 .innovationTitle {
@@ -16,5 +16,39 @@
   line-height: 1.6;
 }
 
-/* Add more specific styles as needed */
+.innovationsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsividade para o layout */
+  gap: 20px;
+}
 
+.innovationCard {
+  display: flex;
+  flex-direction: column; /* Para o título e a descrição ficarem em uma coluna */
+  align-items: center; /* Alinhar tudo ao centro */
+  padding: 20px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.innovationIconContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.innovationIcon {
+  width: 50px; /* Tamanho do ícone ajustado */
+  height: 50px;
+  object-fit: contain; /* Mantém a proporção do ícone */
+}
+
+.innovationDescription {
+  font-size: 1.1em;
+  color: #555;
+  text-align: center;
+  line-height: 1.6;
+  margin-top: 10px;
+}

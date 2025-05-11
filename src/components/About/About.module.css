@@ -1,4 +1,10 @@
-/* About.module.css */
+.sectionTitle {
+  text-align: center;
+  font-size: 2.2rem;
+  margin-bottom: 1rem;
+  color: var(--accent-color-green);
+}
+
 .aboutContainer {
   padding: 20px;
   background-color: #f9f9f9;

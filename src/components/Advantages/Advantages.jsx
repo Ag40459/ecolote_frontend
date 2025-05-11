@@ -1,5 +1,4 @@
-import React from 'react';
-import styles from './Advantages.module.css'; // Crie este arquivo CSS
+import styles from './Advantages.module.css'; 
 
 const AdvantagesSection = () => {
   const advantages = [

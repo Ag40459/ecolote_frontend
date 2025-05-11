@@ -1,9 +1,7 @@
-import React from 'react';
-import styles from './Comparison.module.css'; // Assuming CSS module for styling
+import styles from './Comparison.module.css'; 
 
 const ComparisonSection = () => {
-  // Dados de exemplo para a tabela de comparação
-  // Estes dados devem ser extraídos do e-book ou da estrutura fornecida
+ 
   const comparisonData = [
     {
       feature: 'Propriedade',

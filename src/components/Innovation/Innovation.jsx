@@ -1,36 +1,39 @@
 import styles from './Innovation.module.css'; 
+import bolt from '../../assets/bolt.svg'; 
+import brain from '../../assets/brain.svg'; 
+import network_wired from '../../assets/network_wired.svg'; 
 
 const InnovationSection = () => {
   const innovations = [
     {
-      iconClass: 'fas fa-brain', // Ícone para IA e Otimização
+      icon: brain, 
       title: 'Inteligência Artificial na Gestão',
-      description: 'Utilizamos algoritmos de IA para otimizar a distribuição de energia, prever demandas e garantir a máxima eficiência na geração e consumo dos seus lotes solares.'
+      description: 'Com algoritmos de IA, otimizamos a geração e distribuição de energia, prevemos demandas e garantimos o melhor desempenho dos seus lotes solares com máxima eficiência.'
     },
     {
-      iconClass: 'fas fa-cubes', // Ícone para Blockchain e Transparência
-      title: 'Blockchain para Transparência Total',
-      description: 'Todas as transações e a rastreabilidade dos seus créditos de energia são registradas no blockchain da concessionária de energia, garantindo segurança, imutabilidade e total transparência no processo.'
+      icon: bolt, 
+      title: 'kWh Gerados e Armazenados com Segurança',
+      description: 'Toda energia produzida pelo seu EcoLote (em kWh) é registrada pela concessionária e armazenada em um sistema oficial. Esse saldo de kWh fica disponível por até 5 anos para abater ou até eliminar sua conta de luz — com total rastreabilidade e segurança.'
     },
-        {
-      iconClass: 'fas fa-network-wired', // Ícone para Smart Grid
-      title: 'Integração com Smart Grids',
-      description: 'Estamos na vanguarda da integração com redes elétricas inteligentes (smart grids), preparando o caminho para um futuro energético mais conectado e eficiente.'
+    {
+      icon: network_wired, 
+      title: 'Smart Grids: Energia com Tecnologia',
+      description: 'Estamos na vanguarda da integração de redes elétricas inteligentes, conectando fontes renováveis com tecnologias avançadas para otimizar a distribuição de energia. Essa inovação garante uma gestão mais eficiente, segura e sustentável, proporcionando mais controle e economia para os consumidores.'
     }
   ];
 
   return (
     <section id="innovation" className={`${styles.innovationSection} content-section alt-bg`}>
       <div className={`${styles.container} container`}>
-        <h2 className={styles.sectionTitle}>Inovação no DNA Ecolote</h2>
+        <h2 className={styles.innovationTitle}>Inovação no DNA Ecolote</h2>
         <p className={styles.sectionSubtitle}>
-          O Ecolote combina tecnologia de ponta e modelos de negócio disruptivos para revolucionar o mercado de energia solar.
+          O EcoLote une tecnologia de ponta a um modelo de negócio inovador, tornando o acesso à energia solar mais inteligente, acessível e sustentável.
         </p>
         <div className={styles.innovationsGrid}>
           {innovations.map((innovation, index) => (
             <div key={index} className={styles.innovationCard}>
               <div className={styles.innovationIconContainer}>
-                <i className={`${innovation.iconClass} ${styles.innovationIcon}`}></i>
+                <img src={innovation.icon} alt={innovation.title} className={styles.innovationIcon} />
               </div>
               <h3 className={styles.innovationTitle}>{innovation.title}</h3>
               <p className={styles.innovationDescription}>{innovation.description}</p>
