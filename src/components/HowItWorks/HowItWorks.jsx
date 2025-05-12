@@ -23,7 +23,7 @@ const HowItWorks = () => {
     },
     {
       id: 3,
-      title: 'Adquira Seus EcoLote',
+      title: 'Garanta Seu EcoLote',
       description: 'Adquira seu EcoLote, gere seus próprios kWh e elimine a dependência da conta de luz convencional. Além disso, acumule a energia não utilizada, contribuindo para um futuro mais sustentável.',
       image: HowItWorksImage3
     },

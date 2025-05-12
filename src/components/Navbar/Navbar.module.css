@@ -15,11 +15,16 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
-.container {
+.container { 
   display: flex;
   justify-content: space-between;
   align-items: center;
-  /* Reutilizando a classe global .container para largura e centralização */
+  padding-left: 10px;  
+  padding-right: 25px; 
+  width: 100%; 
+  margin-left: auto; 
+  margin-right: auto; 
+  box-sizing: border-box;
 }
 
 .logo {

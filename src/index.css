@@ -111,9 +111,9 @@ h3 { font-size: 1.75rem; }
   position: fixed;
   width: 60px;
   height: 60px;
-  bottom: 40px;
-  right: 40px;
-  background-color: #25D366;
+  bottom: 20px; /* Mantido para referência de posicionamento do botão de scroll */
+  right: 20px;
+  background-color: rgba(37, 211, 102, 0.7); /* Cor verde do WhatsApp com 70% de opacidade */
   color: #FFF;
   border-radius: 50px;
   text-align: center;
@@ -123,11 +123,14 @@ h3 { font-size: 1.75rem; }
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: transform 0.2s ease-in-out;
+  transition: transform 0.2s ease-in-out, background-color 0.3s ease, opacity 0.3s ease;
+  opacity: 0.8; /* Transparência geral do botão */
 }
 
 .whatsapp-float:hover {
   transform: scale(1.1);
+  background-color: rgba(37, 211, 102, 1); /* Cor sólida no hover */
+  opacity: 1; /* Opacidade total no hover */
 }
 
 .whatsapp-float svg {
