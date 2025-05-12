@@ -49,7 +49,7 @@ const LoginPageContent = ({ switchToRegister, onClose }) => {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         required
-                        placeholder="seuemail@ecolote.com.br"
+                        placeholder="seuemail@gmail.com"
                     />
                 </div>
                 <div className={modalStyles.formGroup}>
