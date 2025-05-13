@@ -13,7 +13,7 @@ const InnovationSection = () => {
     {
       icon: bolt, 
       title: 'kWh Gerados e Armazenados com Segurança',
-      description: 'Toda energia produzida pelo seu EcoLote (em kWh) é registrada pela concessionária e armazenada em um sistema oficial. Esse saldo de kWh fica disponível por até 5 anos para abater ou até eliminar sua conta de luz — com total rastreabilidade e segurança.'
+      description: 'Toda energia produzida pelo seu EcoLote (em kWh) é registrada pela concessionária e armazenada em um sistema oficial. Esse saldo de kWh fica disponível por até 5 anos para abater ou reduzir sua conta de luz a uma taxa mínima — com total rastreabilidade e segurança.'
     },
     {
       icon: network_wired, 

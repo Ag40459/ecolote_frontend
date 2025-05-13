@@ -5,7 +5,7 @@ const AdvantagesSection = () => {
     {
       iconClass: 'fas fa-dollar-sign',
       title: 'Economia Comprovada',
-      description: 'Reduza sua conta de luz em até 100% e livre-se das flutuações tarifárias. Acumule o que não foi usado da energia gerada. Com o Ecolote, seu dinheiro rende mais'
+      description: 'Com o Ecolote, você gera sua própria energia, acumula o que não usar e reduz sua conta de luz a uma taxa mínima. Diga adeus às flutuações tarifárias e faça seu dinheiro render mais!'
     },
     {
       iconClass: 'fas fa-bolt',
