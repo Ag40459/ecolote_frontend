@@ -109,8 +109,8 @@ h3 { font-size: 1.75rem; }
 /* Botão Flutuante WhatsApp */
 .whatsapp-float {
   position: fixed;
-  width: 60px;
-  height: 60px;
+  width: 50px;
+  height: 50px;
   bottom: 20px; /* Mantido para referência de posicionamento do botão de scroll */
   right: 20px;
   background-color: rgba(37, 211, 102, 0.7); /* Cor verde do WhatsApp com 70% de opacidade */

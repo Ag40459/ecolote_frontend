@@ -44,7 +44,6 @@ const PaymentSection = () => {
         </div>
         <div className={styles.paymentInfo}>
           <p><strong>Transparência Total:</strong> Todos os custos e condições são claramente apresentados antes da finalização da sua compra.</p>
-          <p><strong>Segurança Garantida:</strong> Utilizamos as mais modernas tecnologias de segurança para proteger suas transações financeiras.</p>
         </div>
       </div>
     </section>
