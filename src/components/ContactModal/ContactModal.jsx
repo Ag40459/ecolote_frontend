@@ -77,6 +77,7 @@ const ContactModal = ({ isOpen, onClose }) => {
         resetAllFormsAndMessages(); 
         setTimeout(() => {
             setModalStep(1);
+             onClose();
             setSelectedType("");
         }, 3000); 
 
@@ -179,7 +180,7 @@ const ContactModal = ({ isOpen, onClose }) => {
 
         {modalStep === 1 && (
           <div className={styles.typeSelectionContainer}>
-            <h2>Como podemos te ajudar?</h2>
+            <h2>Como Deseja Participar do Ecolote?</h2>
             {/* Mensagens de sucesso/erro globais podem ser mostradas aqui se desejar, mesmo após voltar ao passo 1 */}
             {/* {submitSuccessMessage && <p className={styles.successMessage}>{submitSuccessMessage}</p>} 
             {submitErrorMessage && <p className={styles.errorMessage}>{submitErrorMessage}</p>} */}

@@ -88,7 +88,7 @@ CREATE TABLE IF NOT EXISTS public.investidores (
     nome_investidor TEXT NOT NULL,
     email_investidor TEXT NOT NULL UNIQUE,
     telefone_investidor TEXT NOT NULL,
-    tipo_investidor TEXT NOT NULL,
+    tipo_investidor TEXT,
     area_interesse_principal TEXT,
     valor_interesse_investimento TEXT NOT NULL,
     mensagem_investidor TEXT,
