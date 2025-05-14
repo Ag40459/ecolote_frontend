@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import styles from "./ContactModal.module.css";
 import { fetchCepData } from "../../utils/cepService";
 import apiClient from "../../services/apiClient"; // Importando o apiClient
@@ -28,7 +28,7 @@ const ContactModal = ({ isOpen, onClose }) => {
   const pjForm = usePessoaJuridicaForm();
   const invForm = useInvestidorForm();
 
-  const resetAllFormsAndMessages = () => {
+  const resetAllFormsAndMessages = useCallback(() => {
     pfForm.resetPessoaFisicaForm();
     pjForm.resetPessoaJuridicaForm();
     invForm.resetInvestidorForm();
@@ -36,7 +36,7 @@ const ContactModal = ({ isOpen, onClose }) => {
     setSubmitSuccessMessage("");
     setSubmitErrorMessage("");
     setIsSubmitting(false);
-  };
+  }, [pfForm, pjForm, invForm]);
 
   const handleTypeSelect = (type) => {
     setSelectedType(type);
@@ -46,8 +46,6 @@ const ContactModal = ({ isOpen, onClose }) => {
 
   const handleBack = () => {
     setModalStep(1);
-    // Mantém os dados do formulário caso o usuário queira apenas corrigir o tipo
-    // Mas limpa mensagens de submissão
     setSubmitSuccessMessage("");
     setSubmitErrorMessage("");
   };
@@ -63,67 +61,28 @@ const ContactModal = ({ isOpen, onClose }) => {
 
     if (selectedType === "pessoa física") {
       endpoint = "/pessoas-fisicas";
-      const pfValues = pfForm.getValues();
-      payload = {
-        nome_completo: pfValues.pfName,
-        telefone: pfValues.pfTelefone,
-        modelo_imovel: pfValues.pfModeloImovel,
-        outro_modelo_imovel: pfValues.pfModeloImovel === "Outro" ? pfValues.pfOutroModeloImovel : null,
-        media_conta_energia: pfValues.pfMediaContaEnergia,
-        cep: pfValues.pfCep,
-        rua: pfValues.pfRua,
-        numero: pfValues.pfNumero,
-        complemento: pfValues.pfComplemento,
-        bairro: pfValues.pfBairro,
-        cidade: pfValues.pfCidade,
-        estado: pfValues.pfEstado,
-        pretensao_pagamento: pfValues.pfPretensaoPagamento,
-      };
+      payload = pfForm.getValues(); // CORRIGIDO: Usa diretamente o retorno do hook
     } else if (selectedType === "pessoa jurídica") {
       endpoint = "/pessoas-juridicas";
-      const pjValues = pjForm.getValues();
-      payload = {
-        nome_empresa: pjValues.pjNomeEmpresa,
-        cnpj: pjValues.pjCnpj,
-        telefone: pjValues.pjTelefone,
-        modelo_imovel: pjValues.pjModeloImovel,
-        outro_modelo_imovel: pjValues.pjModeloImovel === "Outro" ? pjValues.pjOutroModeloImovel : null,
-        media_conta_energia: pjValues.pjMediaContaEnergia,
-        cep: pjValues.pjCep,
-        rua: pjValues.pjRua,
-        numero: pjValues.pjNumero,
-        complemento: pjValues.pjComplemento,
-        bairro: pjValues.pjBairro,
-        cidade: pjValues.pjCidade,
-        estado: pjValues.pjEstado,
-        pretensao_pagamento: pjValues.pjPretensaoPagamento,
-      };
+      payload = pjForm.getValues(); // CORRIGIDO: Usa diretamente o retorno do hook
     } else if (selectedType === "investidor") {
       endpoint = "/investidores";
-      const invValues = invForm.getValues();
-      payload = {
-        nome: invValues.invNome,
-        email: invValues.invEmail,
-        telefone: invValues.invTelefone,
-        cidade: invValues.invCidade,
-        estado: invValues.invEstado,
-        valor_investimento: invValues.invValorInvestimento,
-      };
+      payload = invForm.getValues(); // CORRIGIDO: Usa diretamente o retorno do hook
     }
 
     if (endpoint) {
       try {
         const response = await apiClient.post(endpoint, payload);
         setSubmitSuccessMessage(response.data.message || "Dados enviados com sucesso!");
-        resetAllFormsAndMessages(); // Limpa formulários e mensagens
-        // Opcional: voltar para o passo 1 ou fechar o modal após um tempo
+        resetAllFormsAndMessages(); 
         setTimeout(() => {
             setModalStep(1);
             setSelectedType("");
-            // onClose(); // Descomente se quiser fechar automaticamente
-        }, 3000); // Fecha ou volta após 3 segundos
+        }, 3000); 
 
       } catch (error) {
+         console.error("Erro na submissão:", error);
+  console.log("Detalhes do erro:", error.response?.data);
         console.error("Erro na submissão:", error);
         if (error.response && error.response.data && error.response.data.message) {
           setSubmitErrorMessage(error.response.data.message);
@@ -136,17 +95,26 @@ const ContactModal = ({ isOpen, onClose }) => {
     }
   };
 
-  // Efeito para buscar CEP (mantido como antes)
+  // Efeito para buscar CEP 
+  const currentPfCep = pfForm.pfCep;
+  const currentPjCep = pjForm.pjCep;
+  const { setPfRua, setPfBairro, setPfCidade, setPfEstado } = pfForm;
+  const { setPjRua, setPjBairro, setPjCidade, setPjEstado } = pjForm;
+
   useEffect(() => {
-    let currentCep = "";
+    let cepToSearch = "";
+    let formTypeForCep = "";
+
     if (selectedType === "pessoa física") {
-      currentCep = pfForm.pfCep;
+      cepToSearch = currentPfCep;
+      formTypeForCep = "pessoa física";
     } else if (selectedType === "pessoa jurídica") {
-      currentCep = pjForm.pjCep;
+      cepToSearch = currentPjCep;
+      formTypeForCep = "pessoa jurídica";
     }
 
-    if (currentCep && currentCep.replace(/[^0-9]/g, "").length === 8) {
-      const numericCep = currentCep.replace(/[^0-9]/g, "");
+    if (cepToSearch && cepToSearch.replace(/[^0-9]/g, "").length === 8) {
+      const numericCep = cepToSearch.replace(/[^0-9]/g, "");
       setLoadingCep(true);
       setCepError("");
       fetchCepData(numericCep)
@@ -156,29 +124,31 @@ const ContactModal = ({ isOpen, onClose }) => {
             setCepError("CEP não encontrado.");
             return;
           }
-          if (selectedType === "pessoa física") {
-            pfForm.setPfRua(data.logradouro || "");
-            pfForm.setPfBairro(data.bairro || "");
-            pfForm.setPfCidade(data.localidade || "");
-            pfForm.setPfEstado(data.uf || "");
-          } else if (selectedType === "pessoa jurídica") {
-            pjForm.setPjRua(data.logradouro || "");
-            pjForm.setPjBairro(data.bairro || "");
-            pjForm.setPjCidade(data.localidade || "");
-            pjForm.setPjEstado(data.uf || "");
+          if (formTypeForCep === "pessoa física") {
+            setPfRua(data.logradouro || "");
+            setPfBairro(data.bairro || "");
+            setPfCidade(data.localidade || "");
+            setPfEstado(data.uf || "");
+          } else if (formTypeForCep === "pessoa jurídica") {
+            setPjRua(data.logradouro || "");
+            setPjBairro(data.bairro || "");
+            setPjCidade(data.localidade || "");
+            setPjEstado(data.uf || "");
           }
         })
         .catch(err => {
           setLoadingCep(false);
           setCepError(err.message || "Erro ao buscar CEP. Tente novamente.");
-          if (selectedType === "pessoa física") {
-            pfForm.setPfRua(""); pfForm.setPfBairro(""); pfForm.setPfCidade(""); pfForm.setPfEstado("");
-          } else if (selectedType === "pessoa jurídica") {
-            pjForm.setPjRua(""); pjForm.setPjBairro(""); pjForm.setPjCidade(""); pjForm.setPjEstado("");
+          if (formTypeForCep === "pessoa física") {
+            setPfRua(""); setPfBairro(""); setPfCidade(""); setPfEstado("");
+          } else if (formTypeForCep === "pessoa jurídica") {
+            setPjRua(""); setPjBairro(""); setPjCidade(""); setPjEstado("");
           }
         });
     }
-  }, [pfForm.pfCep, pjForm.pjCep, selectedType, pfForm, pjForm]);
+  }, [currentPfCep, currentPjCep, selectedType, 
+      setPfRua, setPfBairro, setPfCidade, setPfEstado, 
+      setPjRua, setPjBairro, setPjCidade, setPjEstado]); // CORRIGIDO: Dependências mais estáveis
 
   if (!isOpen) {
     return null;
@@ -192,6 +162,9 @@ const ContactModal = ({ isOpen, onClose }) => {
       return <PessoaJuridicaForm formData={pjForm} loadingCep={loadingCep} cepError={cepError} />;
     }
     if (selectedType === "investidor") {
+      // Para Investidor, se o backend realmente não precisar de tipo_investidor,
+      // o hook useInvestidorForm_v2_corrigido.js e InvestidorForm_v2_corrigido.jsx já estão corretos.
+      // A mensagem de erro sobre tipo_investidor obrigatório não viria do backend se ele não o valida.
       return <InvestidorForm formData={invForm} />;
     }
     return null;
@@ -200,15 +173,16 @@ const ContactModal = ({ isOpen, onClose }) => {
   return (
     <div className={styles.modalOverlay}>
       <div className={styles.modalContent}>
-        <button className={styles.closeButton} onClick={() => { setModalStep(1); resetAllFormsAndMessages(); onClose(); }}>
+        <button className={styles.closeButton} onClick={() => { resetAllFormsAndMessages(); setModalStep(1); onClose(); }}>
           &times;
         </button>
 
         {modalStep === 1 && (
           <div className={styles.typeSelectionContainer}>
             <h2>Como podemos te ajudar?</h2>
-            {submitSuccessMessage && <p className={styles.successMessage}>{submitSuccessMessage}</p>} 
-            {submitErrorMessage && <p className={styles.errorMessage}>{submitErrorMessage}</p>} 
+            {/* Mensagens de sucesso/erro globais podem ser mostradas aqui se desejar, mesmo após voltar ao passo 1 */}
+            {/* {submitSuccessMessage && <p className={styles.successMessage}>{submitSuccessMessage}</p>} 
+            {submitErrorMessage && <p className={styles.errorMessage}>{submitErrorMessage}</p>} */}
             <button onClick={() => handleTypeSelect("pessoa física")} className={styles.typeButton}>
               Pessoa Física
             </button>
@@ -239,4 +213,3 @@ const ContactModal = ({ isOpen, onClose }) => {
 };
 
 export default ContactModal;
-

@@ -1,77 +1,130 @@
-import React from 'react';
-import styles from './ContactModal.module.css'; // Reutilizando os estilos do modal principal
-import { modelosImovelPF, mediaContaEnergiaOptions, pretensaoPagamentoOptions } from '../../config/formConfig';
+import styles from './ContactModal.module.css';
+import { formatPhone, formatCep, formatCurrency } from '../../utils/formatters';
 
-const PessoaFisicaForm = ({
-  formData, // Objeto contendo todos os estados e setters do usePessoaFisicaForm
-  loadingCep,
-  cepError,
-}) => {
+const modelosImovelPF = [
+  { value: "", label: "Selecione o modelo" },
+  { value: "Casa", label: "Casa" },
+  { value: "Apartamento", label: "Apartamento" },
+  { value: "Comercial", label: "Comercial" },
+  { value: "Rural", label: "Rural" },
+  { value: "Outro", label: "Outro" },
+];
+
+const pretensaoPagamentoOptions = [
+  { value: "", label: "Selecione a pretensão" },
+  { value: "avista", label: "À vista" },
+  { value: "financiado", label: "Financiado" },
+  { value: "consorcio", label: "Consórcio" },
+];
+
+const PessoaFisicaForm = ({ formData, loadingCep, cepError }) => {
   return (
     <>
       <div className={styles.formGroup}>
         <label htmlFor="pfName">Nome Completo:</label>
-        <input type="text" id="pfName" value={formData.pfName} onChange={(e) => formData.setPfName(e.target.value)} required />
+        <input type="text" id="pfName" value={formData.pfName || ''} onChange={(e) => formData.setPfName(e.target.value)} required />
       </div>
+
       <div className={styles.formGroup}>
         <label htmlFor="pfTelefone">Telefone:</label>
-        <input type="tel" id="pfTelefone" value={formData.pfTelefone} onChange={(e) => formData.setPfTelefone(e.target.value)} required />
+        <input
+          type="tel"
+          id="pfTelefone"
+          value={formData.pfTelefone || ''}
+          onChange={(e) => formData.setPfTelefone(formatPhone(e.target.value))}
+          placeholder="(00) 00000-0000"
+          required
+        />
       </div>
+
       <div className={styles.formGroup}>
         <label htmlFor="pfModeloImovel">Modelo do imóvel:</label>
-        <select id="pfModeloImovel" value={formData.pfModeloImovel} onChange={(e) => formData.setPfModeloImovel(e.target.value)} required>
+        <select id="pfModeloImovel" value={formData.pfModeloImovel || ''} onChange={(e) => formData.setPfModeloImovel(e.target.value)} required>
           {modelosImovelPF.map(option => (
             <option key={option.value} value={option.value}>{option.label}</option>
           ))}
         </select>
       </div>
-      {formData.pfModeloImovel === 'outro' && (
+
+      {formData.pfModeloImovel === 'Outro' && (
         <div className={styles.formGroup}>
           <label htmlFor="pfOutroModeloImovel">Qual tipo de moradia?</label>
-          <input type="text" id="pfOutroModeloImovel" value={formData.pfOutroModeloImovel} onChange={(e) => formData.setPfOutroModeloImovel(e.target.value)} required />
+          <input
+            type="text"
+            id="pfOutroModeloImovel"
+            value={formData.pfOutroModeloImovel || ''}
+            onChange={(e) => formData.setPfOutroModeloImovel(e.target.value)}
+            required
+          />
         </div>
       )}
+
       <div className={styles.formGroup}>
-        <label htmlFor="pfMediaContaEnergia">Média da conta de energia (últimos 3 meses):</label>
-        <select id="pfMediaContaEnergia" value={formData.pfMediaContaEnergia} onChange={(e) => formData.setPfMediaContaEnergia(e.target.value)} required>
-          {mediaContaEnergiaOptions.map(option => (
-            <option key={option.value} value={option.value}>{option.label}</option>
-          ))}
-        </select>
+        <label htmlFor="pfMediaContaEnergia">Média da conta de energia (R$):</label>
+        <input
+          type="text"
+          id="pfMediaContaEnergia"
+          value={formData.pfMediaContaEnergia || ''}
+          onChange={(e) => formData.setPfMediaContaEnergia(formatCurrency(e.target.value))}
+          placeholder="Ex: 250,00"
+          required
+        />
       </div>
+
       <div className={styles.formGroup}>
         <label htmlFor="pfCep">CEP:</label>
-        <input type="text" id="pfCep" value={formData.pfCep} onChange={(e) => formData.setPfCep(e.target.value)} maxLength="9" placeholder="00000-000" required />
+        <input
+          type="text"
+          id="pfCep"
+          value={formData.pfCep || ''}
+          onChange={(e) => formData.setPfCep(formatCep(e.target.value))}
+          maxLength="9"
+          placeholder="00000-000"
+          required
+        />
         {loadingCep && <p className={styles.loadingMessage}>Buscando CEP...</p>}
         {cepError && <p className={styles.errorMessage}>{cepError}</p>}
       </div>
+
       <div className={styles.formGroup}>
         <label htmlFor="pfRua">Rua:</label>
-        <input type="text" id="pfRua" value={formData.pfRua} onChange={(e) => formData.setPfRua(e.target.value)} required />
+        <input type="text" id="pfRua" value={formData.pfRua || ''} onChange={(e) => formData.setPfRua(e.target.value)} required />
       </div>
+
       <div className={styles.formGroup}>
         <label htmlFor="pfNumero">Número:</label>
-        <input type="text" id="pfNumero" value={formData.pfNumero} onChange={(e) => formData.setPfNumero(e.target.value)} required />
+        <input
+  type="text"
+  id="pfNumero"
+  value={formData.pfNumero || ''}
+  onChange={(e) => formData.setPfNumero(e.target.value.replace(/\D/g, ''))}
+  required
+/>
       </div>
+
       <div className={styles.formGroup}>
         <label htmlFor="pfComplemento">Complemento:</label>
-        <input type="text" id="pfComplemento" value={formData.pfComplemento} onChange={(e) => formData.setPfComplemento(e.target.value)} />
+        <input type="text" id="pfComplemento" value={formData.pfComplemento || ''} onChange={(e) => formData.setPfComplemento(e.target.value)} />
       </div>
+
       <div className={styles.formGroup}>
         <label htmlFor="pfBairro">Bairro:</label>
-        <input type="text" id="pfBairro" value={formData.pfBairro} onChange={(e) => formData.setPfBairro(e.target.value)} required />
+        <input type="text" id="pfBairro" value={formData.pfBairro || ''} onChange={(e) => formData.setPfBairro(e.target.value)} required />
       </div>
+
       <div className={styles.formGroup}>
         <label htmlFor="pfCidade">Cidade:</label>
-        <input type="text" id="pfCidade" value={formData.pfCidade} onChange={(e) => formData.setPfCidade(e.target.value)} required />
+        <input type="text" id="pfCidade" value={formData.pfCidade || ''} onChange={(e) => formData.setPfCidade(e.target.value)} required />
       </div>
+
       <div className={styles.formGroup}>
         <label htmlFor="pfEstado">Estado:</label>
-        <input type="text" id="pfEstado" value={formData.pfEstado} onChange={(e) => formData.setPfEstado(e.target.value)} required />
+        <input type="text" id="pfEstado" value={formData.pfEstado || ''} onChange={(e) => formData.setPfEstado(e.target.value)} required />
       </div>
+
       <div className={styles.formGroup}>
         <label htmlFor="pfPretensaoPagamento">Pretensão de Pagamento:</label>
-        <select id="pfPretensaoPagamento" value={formData.pfPretensaoPagamento} onChange={(e) => formData.setPfPretensaoPagamento(e.target.value)} required>
+        <select id="pfPretensaoPagamento" value={formData.pfPretensaoPagamento || ''} onChange={(e) => formData.setPfPretensaoPagamento(e.target.value)} required>
           {pretensaoPagamentoOptions.map(option => (
             <option key={option.value} value={option.value}>{option.label}</option>
           ))}
@@ -82,4 +135,3 @@ const PessoaFisicaForm = ({
 };
 
 export default PessoaFisicaForm;
-

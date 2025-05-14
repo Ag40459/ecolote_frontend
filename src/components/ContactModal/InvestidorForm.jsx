@@ -1,75 +1,96 @@
-import React from 'react';
-import styles from './ContactModal.module.css'; // Reutilizando os estilos
-import { valorInvestimentoOptions } from '../../config/formConfig'; // Importando opções do config
+import React, { useState, useEffect } from 'react';
+import styles from './ContactModal.module.css';
+import { valorInvestimentoOptions } from '../../config/formConfig';
+import { fetchEstados, fetchCidades } from '../../utils/cepService';
+import { formatPhone } from '../../utils/formatters';
+
 
 const InvestidorForm = ({ formData }) => {
-  // formData é esperado como o retorno do hook useInvestidorForm
-  // Ex: const { invNome, setInvNome, ... } = formData;
+  const [estados, setEstados] = useState([]);
+  const [cidades, setCidades] = useState([]);
+  const [estadoSelecionado, setEstadoSelecionado] = useState(formData.invEstado || '');
+  const [cidadeSelecionada, setCidadeSelecionada] = useState(formData.invCidade || '');
+
+  useEffect(() => {
+    const carregarEstados = async () => {
+      const estadosData = await fetchEstados();
+      setEstados(estadosData);
+    };
+    carregarEstados();
+  }, []);
+
+  useEffect(() => {
+    if (estadoSelecionado) {
+      const carregarCidades = async () => {
+        const cidadesData = await fetchCidades(estadoSelecionado);
+        setCidades(cidadesData);
+      };
+      carregarCidades();
+      setCidadeSelecionada('');
+      formData.setInvEstado(estadoSelecionado); // Atualiza no formData
+    }
+  }, [estadoSelecionado]);
+
+  useEffect(() => {
+    if (cidadeSelecionada) {
+      formData.setInvCidade(cidadeSelecionada); // Atualiza no formData
+    }
+  }, [cidadeSelecionada]);
 
   return (
     <>
       <div className={styles.formGroup}>
-        <label htmlFor="invNome">Nome:</label>
-        <input
-          type="text"
-          id="invNome"
-          name="invNome"
-          value={formData.invNome}
-          onChange={(e) => formData.setInvNome(e.target.value)}
-          required
-        />
+        <label htmlFor="invNome">Nome Completo:</label>
+        <input type="text" id="invNome" value={formData.invNome || ''} onChange={(e) => formData.setInvNome(e.target.value)} required />
       </div>
+
       <div className={styles.formGroup}>
         <label htmlFor="invEmail">Email:</label>
-        <input
-          type="email"
-          id="invEmail"
-          name="invEmail"
-          value={formData.invEmail}
-          onChange={(e) => formData.setInvEmail(e.target.value)}
-          required
-        />
+        <input type="email" id="invEmail" value={formData.invEmail || ''} onChange={(e) => formData.setInvEmail(e.target.value)} required />
       </div>
+
       <div className={styles.formGroup}>
-        <label htmlFor="invTelefone">Telefone:</label>
-        <input
-          type="tel"
-          id="invTelefone"
-          name="invTelefone"
-          value={formData.invTelefone}
-          onChange={(e) => formData.setInvTelefone(e.target.value)}
-          required
-        />
-      </div>
-      <div className={styles.formGroup}>
-        <label htmlFor="invCidade">Cidade:</label>
-        <input
-          type="text"
-          id="invCidade"
-          name="invCidade"
-          value={formData.invCidade}
-          onChange={(e) => formData.setInvCidade(e.target.value)}
-          required
-        />
-      </div>
+  <label htmlFor="invTelefone">Telefone:</label>
+  <input
+    type="tel"
+    id="invTelefone"
+    name="invTelefone"
+    value={formData.invTelefone || ''}
+    onChange={(e) => formData.setInvTelefone(formatPhone(e.target.value))}
+    required
+  />
+</div>
+
+
       <div className={styles.formGroup}>
         <label htmlFor="invEstado">Estado (UF):</label>
-        <input
-          type="text"
-          id="invEstado"
-          name="invEstado"
-          value={formData.invEstado}
-          onChange={(e) => formData.setInvEstado(e.target.value)}
-          required
-          maxLength="2" // Sigla do estado
-        />
+        <select id="invEstado" value={estadoSelecionado} onChange={(e) => setEstadoSelecionado(e.target.value)} required>
+          <option value="">Selecione o estado</option>
+          {estados.map((estado) => (
+            <option key={estado.sigla} value={estado.sigla}>
+              {estado.nome}
+            </option>
+          ))}
+        </select>
       </div>
+
+      <div className={styles.formGroup}>
+        <label htmlFor="invCidade">Cidade:</label>
+        <select id="invCidade" value={cidadeSelecionada} onChange={(e) => setCidadeSelecionada(e.target.value)} required disabled={!estadoSelecionado}>
+          <option value="">Selecione a cidade</option>
+          {cidades.map((cidade) => (
+            <option key={cidade} value={cidade}>
+              {cidade}
+            </option>
+          ))}
+        </select>
+      </div>
+
       <div className={styles.formGroup}>
         <label htmlFor="invValorInvestimento">Valor desejado para investimento:</label>
         <select
           id="invValorInvestimento"
-          name="invValorInvestimento"
-          value={formData.invValorInvestimento}
+          value={formData.invValorInvestimento || ''}
           onChange={(e) => formData.setInvValorInvestimento(e.target.value)}
           required
         >
@@ -83,4 +104,3 @@ const InvestidorForm = ({ formData }) => {
 };
 
 export default InvestidorForm;
-

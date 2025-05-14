@@ -73,7 +73,7 @@ const Navbar = ({ openAuthModal }) => {
                 {/* O link para cadastrar novo admin pode ser movido para dentro do dashboard ou removido 
                     se o cadastro for apenas via modal inicial e não por admin logado. 
                     Por ora, manterei, mas pode ser um ponto de ajuste futuro. */}
-                <li><Link to="/admin/register" onClick={closeMobileMenu}>Cadastrar Admin</Link></li> 
+                <li><Link to="/admin/register" onClick={closeMobileMenu}>Admin</Link></li> 
                 <li><button onClick={handleLogout} className={styles.navButtonLogout}>Sair</button></li>
               </>
             ) : (

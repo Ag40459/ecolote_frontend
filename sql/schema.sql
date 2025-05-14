@@ -92,8 +92,11 @@ CREATE TABLE IF NOT EXISTS public.investidores (
     area_interesse_principal TEXT,
     valor_interesse_investimento TEXT NOT NULL,
     mensagem_investidor TEXT,
+    cidade_investidor TEXT,
+    estado_investidor TEXT,
     created_at TIMESTAMPTZ DEFAULT now() NOT NULL,
-    updated_at TIMESTAMPTZ DEFAULT now() NOT NULL
+    updated_at TIMESTAMPTZ DEFAULT now() NOT NULL,
+    
 );
 
 CREATE INDEX IF NOT EXISTS idx_investidores_email ON public.investidores(email_investidor);
