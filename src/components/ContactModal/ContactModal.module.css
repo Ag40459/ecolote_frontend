@@ -185,8 +185,8 @@
 .submitButton {
   display: block;
   width: 100%;
-  background-color: #28a745;
-  color: white;
+  background-color: var(--submit-button-bg);
+  color: var(--submit-button-text);
   padding: 14px 18px; /* Aumentado */
   margin-top: 10px; /* Adicionado margin-top */
   border: none;
@@ -227,38 +227,17 @@
   color: white;
 }
 
-body.dark-theme .submitButton {
-  background-color: #66bb6a;
-  color: #121212;
-}
-
 .resendButton {
-  color: #4a90e2;
-}
-
-body.dark-theme .resendButton {
-  color: #90caf9;
-}
-
-body.dark-theme .resendButton:hover {
-  color: #64b5f6;
+  color: var(--resend-button-color);
 }
 
 .resendLink {
-  color: #4a90e2;
+   color: var(--resend-link-color);
   cursor: pointer;
   text-decoration: underline;
   font-size: 14px;
 }
 
 .resendLink:hover {
-  color: #2a6fc9;
-}
-
-body.dark-theme .resendLink {
-  color: #90caf9;
-}
-
-body.dark-theme .resendLink:hover {
-  color: #64b5f6;
+  color: var(--resend-link-hover);
 }

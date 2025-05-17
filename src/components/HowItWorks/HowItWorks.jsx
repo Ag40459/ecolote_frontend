@@ -67,7 +67,7 @@ const HowItWorks = () => {
 
   return (
     <section id="how-it-works" className={styles.container}>
-      <h2 className={styles.title}>Como Funciona o Ecolote?</h2>
+      <h2 className={styles.title}></h2>
       
       <div className={styles.stepsContainer}>
         <div className={styles.carouselContainer}>

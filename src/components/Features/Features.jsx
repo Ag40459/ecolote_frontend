@@ -46,11 +46,17 @@ details: 'A associação cuida da gestão de cada Ecolote, garantindo o repasse 
 ];
 
 export default function Features() {
-  const [expandedIndex, setExpandedIndex] = useState(null);
+ const [expandedIndices, setExpandedIndices] = useState([]);
 
-  const toggleExpand = (index) => {
-    setExpandedIndex(expandedIndex === index ? null : index);
-  };
+const toggleExpand = (index) => {
+  setExpandedIndices(prev => {
+    if (prev.includes(index)) {
+      return prev.filter(i => i !== index);
+    } else {
+      return [...prev, index];
+    }
+  });
+};
 
   return (
     <section id="features" className={styles.featuresContainer}>
@@ -61,16 +67,16 @@ export default function Features() {
             <div className={styles.featureTitle}>{feature.title}</div>
             <div className={styles.featureDescription}>{feature.description}</div>
             <div
-              className={`${styles.featureDetails} ${expandedIndex === index ? styles.expanded : ''}`}
-            >
-              {feature.details}
-            </div>
-            <button
-              className={styles.detailsButton}
-              onClick={() => toggleExpand(index)}
-            >
-              {expandedIndex === index ? 'Ver menos' : 'Saiba mais'}
-            </button>
+  className={`${styles.featureDetails} ${expandedIndices.includes(index) ? styles.expanded : ''}`}
+>
+  {feature.details}
+</div>
+<button
+  className={styles.detailsButton}
+  onClick={() => toggleExpand(index)}
+>
+  {expandedIndices.includes(index) ? 'Ver menos' : 'Saiba mais'}
+</button>
           </div>
         ))}
       </div>

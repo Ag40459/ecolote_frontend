@@ -1,6 +1,6 @@
 :root {
-  --primary-bg-color: #F5F5F5;
-  --secondary-bg-color: #FFFFFF;
+  --primary-bg-color: #e3e9e3;
+  --secondary-bg-color: #e1e8e0dc;
   --text-color: #212121;
   --accent-color-green: #43A047;
   --accent-color-gold: #FFC107;
@@ -9,10 +9,25 @@
   --navbar-text-color: #212121;
   --footer-bg-color: #333333;
   --footer-text-color: #F5F5F5;
+    --liner-division-color: rgba(178, 207, 186, 0.991);
+
+
+     --submit-button-bg: #28a745;
+     --submit-button-text: white;
+     --resend-button-color: #4a90e2;
+     --resend-button-hover: #2a6fc9;
+     --resend-link-color: #4a90e2;
+     --resend-link-hover: #2a6fc9;
 
   --font-family-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   --container-width: 90%;
   --container-max-width: 1200px;
+--card-bg: var(--card-bg-light);
+     --text-secondary: var(--text-secondary-light);
+   --card-bg-light: rgba(76, 175, 80, 0.05);
+     --card-bg-dark: rgba(255, 255, 255, 0.05);
+     --text-secondary-light: rgba(0, 0, 0, 0.75);
+     --text-secondary-dark: rgba(255, 255, 255, 0.85);
 }
 
 body.dark-theme {
@@ -26,6 +41,20 @@ body.dark-theme {
   --navbar-text-color: #E0E0E0;
   --footer-bg-color: #121212;
   --footer-text-color: #E0E0E0;
+    --liner-division-color: rgba(239, 231, 231, 0.991);
+
+  --card-icon-fill: var(--text-color);
+     --card-description-align: justify;
+
+   --card-bg: var(--card-bg-dark);
+   --text-secondary: var(--text-secondary-dark);
+
+        --submit-button-bg: #66bb6a;
+     --submit-button-text: #121212;
+     --resend-button-color: #90caf9;
+     --resend-button-hover: #64b5f6;
+     --resend-link-color: #90caf9;
+     --resend-link-hover: #64b5f6;
 }
 
 body {
@@ -37,6 +66,9 @@ body {
   color: var(--text-color);
   transition: background-color 0.3s ease, color 0.3s ease;
   line-height: 1.6;
+
+  --card-icon-fill: black;
+     --card-description-align: center;
 }
 
 *, *::before, *::after {
@@ -136,4 +168,3 @@ h3 { font-size: 1.75rem; }
 .whatsapp-float svg {
   fill: white;
 }
-
