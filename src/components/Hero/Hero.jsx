@@ -12,7 +12,7 @@ const Hero = () => {
     },
     {
       title: "Energia Solar Para Todos, Sem Complicações",
-      content: "Você não precisa ter telhado próprio para gerar sua própria energia. Com o Ecolote, seja dono de uma usina solar remota e reduza sua conta de luz."
+      content: "Você não precisa ter telhado próprio para gerar sua própria energia. Com o Ecolote, você é dono de uma usina solar remota e podendo reduzir sua conta de luz a tax mínima."
     },
     {
       title: "Invista no Futuro com o Ecolote",

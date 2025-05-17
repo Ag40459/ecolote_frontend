@@ -7,7 +7,6 @@ const About = () => {
       <div className={`${styles.container} container`}>
         <h2 className={styles.sectionTitle}>O Que é o Ecolote?</h2>
 
-        {/* Imagem reposicionada no topo com legenda */}
         <div className={styles.aboutImageContainer}>
           <img
             src={imageAbout}
@@ -30,12 +29,15 @@ const About = () => {
           </p>
 
           <h3 className={styles.subtitle}>Benefícios</h3>
-          <ul className={styles.benefitsList}>
-            <li><strong>✔ Reduz sua conta de luz a taxa mínima</strong></li>
-            <li><strong>✔ Sem instalação em sua casa</strong></li>
-            <li><strong>✔ Energia 100% limpa e sustentável</strong></li>
-            <li><strong>✔ Usina registrada em seu nome</strong></li>
-          </ul>
+         
+         <ul className={styles.benefitsList}>
+          
+  <li><strong><span className={styles.checkmark}>✔</span> Reduz sua conta de luz a taxa mínima</strong></li>
+  <li><strong><span className={styles.checkmark}>✔</span> Sem instalação em sua casa</strong></li>
+  <li><strong><span className={styles.checkmark}>✔</span> Energia 100% limpa e sustentável</strong></li>
+  <li><strong><span className={styles.checkmark}>✔</span> Usina registrada em seu nome</strong></li>
+</ul>
+
 
           <h3 className={styles.subtitle}>Para Quem é Indicado</h3>
           <p>

@@ -38,6 +38,18 @@ const PessoaFisicaForm = ({ formData, loadingCep, cepError }) => {
       </div>
 
       <div className={styles.formGroup}>
+  <label htmlFor="pfEmail">Email:</label>
+  <input
+    type="email"
+    id="pfEmail"
+    value={formData.pfEmail || ''}
+    onChange={(e) => formData.setPfEmail(e.target.value)}
+    placeholder="exemplo@email.com"
+    required
+  />
+</div>
+
+      <div className={styles.formGroup}>
         <label htmlFor="pfModeloImovel">Modelo do imóvel:</label>
         <select id="pfModeloImovel" value={formData.pfModeloImovel || ''} onChange={(e) => formData.setPfModeloImovel(e.target.value)} required>
           {modelosImovelPF.map(option => (

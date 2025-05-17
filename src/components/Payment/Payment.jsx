@@ -61,7 +61,7 @@ const PaymentSection = () => {
             Entre em contato agora mesmo e nossa equipe apresentará a simulação completa com todas as opções
             de pagamento personalizadas para o seu perfil.
           </p>
-          <a href="/contato" className={styles.ctaButton}>Solicitar Simulação</a>
+          <a href="#contact" className={styles.ctaButton}>Solicitar Simulação</a>
         </div>
       </div>
     </section>

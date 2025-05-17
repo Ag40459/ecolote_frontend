@@ -44,7 +44,7 @@
 
 .backButton {
   background: transparent;
-  border: 1px solid #ccc;
+  border: none;
   color: #555;
   padding: 8px 12px;
   border-radius: 5px;
@@ -56,8 +56,9 @@
 }
 
 .backButton:hover {
-  background-color: #f0f0f0;
-  border-color: #bbb;
+  color: var(--accent-color-green);
+  text-decoration: none;
+  transform: translateY(-2px);
 }
 
 .typeSelectionContainer h2,
@@ -200,3 +201,64 @@
   background-color: #1e7e34;
 }
 
+/* Tema Claro (Mantido) */
+.modalOverlay {
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.modalContent {
+  background-color: #ffffff;
+  color: #333;
+
+}
+
+/* Tema Escuro (Novo) */
+.darkOverlay {
+  background-color: rgba(18, 18, 18, 0.9);
+}
+
+.darkContent {
+  background-color: #1e1e1e;
+  color: #e0e0e0;
+}
+
+.submitButton {
+  background-color: #28a745;
+  color: white;
+}
+
+body.dark-theme .submitButton {
+  background-color: #66bb6a;
+  color: #121212;
+}
+
+.resendButton {
+  color: #4a90e2;
+}
+
+body.dark-theme .resendButton {
+  color: #90caf9;
+}
+
+body.dark-theme .resendButton:hover {
+  color: #64b5f6;
+}
+
+.resendLink {
+  color: #4a90e2;
+  cursor: pointer;
+  text-decoration: underline;
+  font-size: 14px;
+}
+
+.resendLink:hover {
+  color: #2a6fc9;
+}
+
+body.dark-theme .resendLink {
+  color: #90caf9;
+}
+
+body.dark-theme .resendLink:hover {
+  color: #64b5f6;
+}

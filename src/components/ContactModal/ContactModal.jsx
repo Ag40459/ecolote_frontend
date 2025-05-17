@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import styles from "./ContactModal.module.css";
 import { fetchCepData } from "../../utils/cepService";
-import apiClient from "../../services/apiClient"; // Importando o apiClient
+import apiClient from "../../services/apiClient";
 
 // Importando os hooks de formulário
 import { usePessoaFisicaForm } from "../../hooks/usePessoaFisicaForm";
@@ -12,6 +12,7 @@ import { useInvestidorForm } from "../../hooks/useInvestidorForm";
 import PessoaFisicaForm from "./PessoaFisicaForm";
 import PessoaJuridicaForm from "./PessoaJuridicaForm";
 import InvestidorForm from "./InvestidorForm";
+import VerificationCodeModal from "./VerificationCodeModal";
 
 const ContactModal = ({ isOpen, onClose }) => {
   const [modalStep, setModalStep] = useState(1); // 1 for type selection, 2 for form
@@ -23,6 +24,11 @@ const ContactModal = ({ isOpen, onClose }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccessMessage, setSubmitSuccessMessage] = useState("");
   const [submitErrorMessage, setSubmitErrorMessage] = useState("");
+  
+  // Estados para verificação de código
+  const [isVerificationModalOpen, setIsVerificationModalOpen] = useState(false);
+  const [tempFormData, setTempFormData] = useState(null);
+  const [verificationEmail, setVerificationEmail] = useState('');
 
   const pfForm = usePessoaFisicaForm();
   const pjForm = usePessoaJuridicaForm();
@@ -36,6 +42,8 @@ const ContactModal = ({ isOpen, onClose }) => {
     setSubmitSuccessMessage("");
     setSubmitErrorMessage("");
     setIsSubmitting(false);
+    setTempFormData(null);
+    setVerificationEmail('');
   }, [pfForm, pjForm, invForm]);
 
   const handleTypeSelect = (type) => {
@@ -58,41 +66,100 @@ const ContactModal = ({ isOpen, onClose }) => {
 
     let endpoint = "";
     let payload = {};
+    let email = "";
 
     if (selectedType === "pessoa física") {
       endpoint = "/pessoas-fisicas";
-      payload = pfForm.getValues(); // CORRIGIDO: Usa diretamente o retorno do hook
+      payload = pfForm.getValues();
+      email = payload.email;
     } else if (selectedType === "pessoa jurídica") {
       endpoint = "/pessoas-juridicas";
-      payload = pjForm.getValues(); // CORRIGIDO: Usa diretamente o retorno do hook
+      payload = pjForm.getValues();
+      email = payload.email;
     } else if (selectedType === "investidor") {
       endpoint = "/investidores";
-      payload = invForm.getValues(); // CORRIGIDO: Usa diretamente o retorno do hook
+      payload = invForm.getValues();
+      email = payload.email;
     }
 
     if (endpoint) {
       try {
-        const response = await apiClient.post(endpoint, payload);
-        setSubmitSuccessMessage(response.data.message || "Dados enviados com sucesso!");
-        resetAllFormsAndMessages(); 
-        setTimeout(() => {
-            setModalStep(1);
-             onClose();
-            setSelectedType("");
-        }, 3000); 
-
+        // Armazena os dados temporariamente e solicita o código de verificação
+        setTempFormData({ endpoint, payload });
+        setVerificationEmail(email);
+        
+        console.log("Enviando solicitação de código para:", email);
+        
+        // Chama a API para enviar o código de verificação
+        await apiClient.post('/verificacao/enviar-codigo', { email });
+        
+        // Abre o modal de verificação
+        setIsVerificationModalOpen(true);
+        
       } catch (error) {
-         console.error("Erro na submissão:", error);
-  console.log("Detalhes do erro:", error.response?.data);
-        console.error("Erro na submissão:", error);
+        console.error("Erro ao iniciar verificação:", error);
         if (error.response && error.response.data && error.response.data.message) {
           setSubmitErrorMessage(error.response.data.message);
         } else {
-          setSubmitErrorMessage("Não foi possível enviar seus dados. Tente novamente mais tarde.");
+          setSubmitErrorMessage("Não foi possível iniciar a verificação. Tente novamente mais tarde.");
         }
       } finally {
         setIsSubmitting(false);
       }
+    }
+  };
+
+  // Função para verificar o código
+  const handleVerifyCode = async (code) => {
+    if (!tempFormData) {
+      throw new Error("Dados do formulário não encontrados");
+    }
+
+    try {
+      console.log("Verificando código:", code, "para email:", verificationEmail);
+      
+      // Verifica o código
+      await apiClient.post('/verificacao/validar-codigo', {
+        email: verificationEmail,
+        codigo: code
+      });
+
+      console.log("Código validado com sucesso, enviando dados do formulário");
+      
+      // Se o código for válido, envia os dados do formulário
+      const response = await apiClient.post(tempFormData.endpoint, tempFormData.payload);
+      
+      // Fecha o modal de verificação
+      setIsVerificationModalOpen(false);
+      
+      // Exibe mensagem de sucesso
+      setSubmitSuccessMessage(response.data.message || "Dados enviados com sucesso!");
+      
+      // Limpa os formulários
+      resetAllFormsAndMessages();
+      
+      // Fecha o modal principal após um tempo
+      setTimeout(() => {
+        setModalStep(1);
+        onClose();
+        setSelectedType("");
+      }, 3000);
+      
+    } catch (error) {
+      console.error("Erro na verificação:", error);
+      throw new Error(
+        error.response?.data?.message || "Código inválido. Por favor, tente novamente."
+      );
+    }
+  };
+
+  // Função para reenviar o código
+  const handleResendCode = async () => {
+    try {
+      console.log("Reenviando código para:", verificationEmail);
+      await apiClient.post('/verificacao/enviar-codigo', { email: verificationEmail });
+    } catch (error) {
+      console.error("Erro ao reenviar código:", error);
     }
   };
 
@@ -149,7 +216,7 @@ const ContactModal = ({ isOpen, onClose }) => {
     }
   }, [currentPfCep, currentPjCep, selectedType, 
       setPfRua, setPfBairro, setPfCidade, setPfEstado, 
-      setPjRua, setPjBairro, setPjCidade, setPjEstado]); // CORRIGIDO: Dependências mais estáveis
+      setPjRua, setPjBairro, setPjCidade, setPjEstado]);
 
   if (!isOpen) {
     return null;
@@ -163,9 +230,6 @@ const ContactModal = ({ isOpen, onClose }) => {
       return <PessoaJuridicaForm formData={pjForm} loadingCep={loadingCep} cepError={cepError} />;
     }
     if (selectedType === "investidor") {
-      // Para Investidor, se o backend realmente não precisar de tipo_investidor,
-      // o hook useInvestidorForm_v2_corrigido.js e InvestidorForm_v2_corrigido.jsx já estão corretos.
-      // A mensagem de erro sobre tipo_investidor obrigatório não viria do backend se ele não o valida.
       return <InvestidorForm formData={invForm} />;
     }
     return null;
@@ -181,9 +245,6 @@ const ContactModal = ({ isOpen, onClose }) => {
         {modalStep === 1 && (
           <div className={styles.typeSelectionContainer}>
             <h2>Como Deseja Participar do Ecolote?</h2>
-            {/* Mensagens de sucesso/erro globais podem ser mostradas aqui se desejar, mesmo após voltar ao passo 1 */}
-            {/* {submitSuccessMessage && <p className={styles.successMessage}>{submitSuccessMessage}</p>} 
-            {submitErrorMessage && <p className={styles.errorMessage}>{submitErrorMessage}</p>} */}
             <button onClick={() => handleTypeSelect("pessoa física")} className={styles.typeButton}>
               Pessoa Física
             </button>
@@ -209,6 +270,15 @@ const ContactModal = ({ isOpen, onClose }) => {
           </form>
         )}
       </div>
+      
+      {/* Modal de verificação */}
+      <VerificationCodeModal
+        isOpen={isVerificationModalOpen}
+        onClose={() => setIsVerificationModalOpen(false)}
+        onVerify={handleVerifyCode}
+        onResendCode={handleResendCode}
+        email={verificationEmail}
+      />
     </div>
   );
 };

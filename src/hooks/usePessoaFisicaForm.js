@@ -4,6 +4,7 @@ import { useState, useCallback } from "react";
 export const usePessoaFisicaForm = () => {
   const [pfName, setPfName] = useState("");
   const [pfTelefone, setPfTelefone] = useState("");
+  const [pfEmail, setPfEmail] = useState("");
   const [pfModeloImovel, setPfModeloImovel] = useState(""); // Ex: "Casa", "Apartamento", "Outro"
   const [pfOutroModeloImovel, setPfOutroModeloImovel] = useState("");
   const [pfMediaContaEnergia, setPfMediaContaEnergia] = useState("");
@@ -19,6 +20,7 @@ export const usePessoaFisicaForm = () => {
   const resetPessoaFisicaForm = useCallback(() => {
     setPfName("");
     setPfTelefone("");
+    setPfEmail("");
     setPfModeloImovel("");
     setPfOutroModeloImovel("");
     setPfMediaContaEnergia("");
@@ -33,11 +35,12 @@ export const usePessoaFisicaForm = () => {
   }, []);
 
   const getValues = useCallback(() => {
-    // Mapeia os nomes dos estados do hook para os nomes esperados pelo backend (pessoaFisicaController.js)
+
     const payload = {
       nome_completo: pfName,
       telefone: pfTelefone,
-      modelo_imovel: pfModeloImovel === 'Outro' ? 'outro' : pfModeloImovel, // Ajusta 'Outro' para 'outro' para o backend
+      email: pfEmail,
+      modelo_imovel: pfModeloImovel === 'Outro' ? 'outro' : pfModeloImovel, 
       media_conta_energia: pfMediaContaEnergia,
       cep: pfCep,
       rua: pfRua,
@@ -49,17 +52,17 @@ export const usePessoaFisicaForm = () => {
       pretensao_pagamento: pfPretensaoPagamento,
     };
 
-    // Adiciona outro_modelo_imovel apenas se modelo_imovel for 'outro' (após o ajuste de case)
     if (payload.modelo_imovel && payload.modelo_imovel.toLowerCase() === "outro") {
       payload.outro_modelo_imovel = pfOutroModeloImovel;
     } else {
-      payload.outro_modelo_imovel = null; // Garante que seja null se não for 'outro'
+      payload.outro_modelo_imovel = null; 
     }
 
     return payload;
   }, [
     pfName,
     pfTelefone,
+    pfEmail,
     pfModeloImovel,
     pfOutroModeloImovel,
     pfMediaContaEnergia,
@@ -76,6 +79,7 @@ export const usePessoaFisicaForm = () => {
   return {
     pfName, setPfName,
     pfTelefone, setPfTelefone,
+    pfEmail, setPfEmail,
     pfModeloImovel, setPfModeloImovel,
     pfOutroModeloImovel, setPfOutroModeloImovel,
     pfMediaContaEnergia, setPfMediaContaEnergia,

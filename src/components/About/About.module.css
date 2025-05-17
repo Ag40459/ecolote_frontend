@@ -76,6 +76,13 @@
   font-size: 1.2rem;
 }
 
+.checkmark {
+  color: var(--accent-color-green); 
+  margin-right: 6px; 
+  font-weight: bold; 
+}
+
+
 .ctaContainer {
   text-align: center;
   margin-top: 2rem;
