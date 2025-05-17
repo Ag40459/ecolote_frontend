@@ -27,8 +27,10 @@ const ContactSection = () => {
           </button>
         </div>
         <ContactModal isOpen={isModalOpen} onClose={closeModal} />
-
       </div>
+      <br></br>
+          <strong>Ecolote: Energia limpa para todos – um novo Brasil começa aqui 🌱⚡</strong>
+
     </section>
   );
 };

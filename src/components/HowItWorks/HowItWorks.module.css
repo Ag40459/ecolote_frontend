@@ -1,78 +1,160 @@
 .container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 4rem 2rem;
+  background-color: var(--background);
+  transition: background-color 0.3s ease;
 }
 
-.sectionTitle {
-  text-align: center;
-  font-size: 2.2rem;
-  margin-bottom: 1rem;
-  color: var(--accent-color-green);
-  }
-
-.sectionSubtitle {
-  text-align: center;
-  font-size: 1.1rem;
-  margin-bottom: 2.5rem;
-  max-width: 800px;
-  margin-left: auto;
-  margin-right: auto;
-  color: var(--text-color);
-}
-
-.stepsGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
-  gap: 2rem;
-  margin-top: 2rem;
+.title {
+  font-size: 2rem;
+  font-weight: bold;
   margin-bottom: 2rem;
-  }
-
-.stepItem {
-  background-color: var(--primary-bg-color);
-  padding: 2rem;
-  border-radius: 8px;
-  text-align: center;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  
+  color: var(--text-primary);
 }
 
-.stepItem:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+.stepsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  width: 100%;
+  max-width: 800px;
+  position: relative;
 }
 
+.step {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.5rem;
+  position: relative;
+}
+
+.stepHeader {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.stepNumber {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: #4CAF50;
+  color: white;
+  font-weight: bold;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.stepNumber::after {
+  position: absolute;
+  top: -6px;
+  right: -10px;
+  width: 16px;
+  height: 16px;
+  background-image: url('/icons/property-icon.svg'); /* substitua pelo path correto */
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.containerstepImage{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 .stepImage {
   width: 100%;
-  max-width: 200px; 
+  max-width: 100%;
   height: auto;
-  display: block; 
-  margin-left: auto;
-  margin-right: auto; 
-  border-radius: 6px;
   object-fit: contain;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
-.stepItem h3 {
-  font-size: 1.35rem;
-  margin-bottom: 0.75rem;
-  color: var(--accent-color-green);
+.dark-theme .stepNumber {
+  background-color: #66BB6A;
 }
 
-.stepItem p {
-  font-size: 1rem;
-  line-height: 1.6;
-  color: var(--text-color);
+.dark-theme {
+  background-color: rgba(102, 187, 106, 0.4);
+}
+
+.dark-theme ::after {
+  background-color: rgba(102, 187, 106, 0.6);
+}
+
+.faqCta {
+  margin-top: 4rem;
+  padding: 2rem;
+  border-radius: 12px;
+  background-color: rgba(76, 175, 80, 0.05);
+  border: 1px solid rgba(76, 175, 80, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   text-align: center;
-  margin-bottom: 0;
+  gap: 1rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.callToAction {
+.faqIcon {
+  font-size: 2rem;
+  color: var(--ownership-color, #4CAF50);
+}
+
+.faqContent {
+  max-width: 600px;
+}
+
+.faqTitle {
+  font-size: 1.5rem;
   font-weight: bold;
-  font-size: 1.2rem;
-  margin-top: 2.5rem;
-  color: var(--accent-color-gold);
-  text-align: center;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.faqDescription {
+  color: var(--text-secondary);
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.faqButton {
+  margin-top: 1rem;
+  background-color: var(--ownership-color, #4CAF50);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.faqButton:hover {
+  background-color: var(--primary-dark, #388E3C);
+  transform: translateY(-2px);
+  }
+
+
+.dark-theme .faqCta {
+  background-color: rgba(102, 187, 106, 0.1);
+  border-color: rgba(102, 187, 106, 0.3);
+}
+
+.dark-theme .faqIcon {
+  color: var(--ownership-color, #66BB6A);
+}
+
+.dark-theme .faqButton {
+  background-color: var(--ownership-color, #66BB6A);
+}
+
+.dark-theme .faqButton:hover {
+  background-color: #4CAF50;
 }

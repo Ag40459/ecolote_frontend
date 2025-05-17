@@ -1,34 +1,51 @@
 import styles from './About.module.css';
 import imageAbout from '../../assets/imageAbout.png';
 
-
 const About = () => {
   return (
     <section id="about" className={`${styles.aboutSection} content-section`}>
       <div className={`${styles.container} container`}>
         <h2 className={styles.sectionTitle}>O Que é o Ecolote?</h2>
-        
-        <div className={styles.aboutContent}>
-          <div className={styles.aboutText}>
-            <p>
-              <strong>Ecolote é a sua porta de entrada para a revolução da energia solar.</strong> Uma plataforma inovadora que nasceu com o propósito de democratizar o acesso à energia limpa, tornando-a mais acessível, rentável e, acima de tudo, descomplicada para todos os brasileiros.
-            </p>
-            <p>
-              Imagine poder contribuir ativamente para um futuro mais sustentável, eliminar de vez sua conta de luz e ainda fazer parte de uma comunidade engajada na transformação energética do país. Com o Ecolote, isso não é apenas possível, é simples e prático.
-            </p>
-            <p>
-            Você adquire sua própria mini usina solar remota, instalada em um lote rural de 30m², em uma das regiões com maior incidência solar do estado.
-            Essa usina é sua — registrada no seu nome, com garantia e monitoramento — o Ecolote injeta energia diretamente na rede elétrica.
-            A energia gerada é convertida em kWh que serve para eliminar sua conta de luz, sem a necessidade de instalar nada em sua casa ou apartamento.
-            Tudo de forma legal, sustentável e com segurança contratual.
-            </p>
-            <p>
-              Seja você, pessoa física ou jurídica, o Ecolote oferece planos flexíveis e transparentes, adaptados às suas necessidades de consumo. Junte-se a nós e faça parte da mudança. Ecolote: energia inteligente para você, sustentabilidade para o planeta.
-            </p>
-          </div>
-          <div className={styles.aboutImageContainer}>
-            {/* Imagem representativa da energia solar ou da plataforma Ecolote */}
-            <img src={imageAbout} alt="Visão panorâmica do Bairro Rural Solar" className={styles.aboutImage} />
+
+        {/* Imagem reposicionada no topo com legenda */}
+        <div className={styles.aboutImageContainer}>
+          <img
+            src={imageAbout}
+            alt="Usina solar do Ecolote com painéis solares organizados em fileiras em um terreno rural, com sistema de monitoramento e segurança"
+            className={styles.aboutImage}
+          />
+          <p className={styles.imageCaption}>
+            Usina solar remota do Ecolote: sua energia limpa sem complicações
+          </p>
+        </div>
+
+        <div className={styles.aboutText}>
+          <p>
+            <strong>Ecolote é a sua porta de entrada para a revolução da energia solar. </strong> 
+            Uma plataforma inovadora que democratiza o acesso à energia limpa, tornando-a acessível, rentável e descomplicada para todos os brasileiros.
+          </p>
+          <p>
+            Você adquire uma <strong>mini usina solar remota</strong>, instalada em um lote rural de <strong>30m²</strong> em uma das regiões com maior incidência solar do estado.
+            A usina é registrada em seu nome, com <strong>garantia</strong>, <strong>monitoramento</strong> e funcionamento totalmente legalizado.
+          </p>
+
+          <h3 className={styles.subtitle}>Benefícios</h3>
+          <ul className={styles.benefitsList}>
+            <li><strong>✔ Reduz sua conta de luz a taxa mínima</strong></li>
+            <li><strong>✔ Sem instalação em sua casa</strong></li>
+            <li><strong>✔ Energia 100% limpa e sustentável</strong></li>
+            <li><strong>✔ Usina registrada em seu nome</strong></li>
+          </ul>
+
+          <h3 className={styles.subtitle}>Para Quem é Indicado</h3>
+          <p>
+            Seja pessoa física ou jurídica, o Ecolote oferece <strong>planos flexíveis e transparentes</strong>, adaptados ao seu perfil de consumo. 
+            Faça parte da transformação energética do Brasil com <strong>energia inteligente para você e sustentabilidade para o planeta</strong>.
+          </p>
+
+          <div className={styles.ctaContainer}>
+            <a href="#contact" className={styles.ctaButton}>Quero Minha Usina Solar</a>
+
           </div>
         </div>
       </div>

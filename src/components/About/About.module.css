@@ -1,3 +1,9 @@
+.aboutSection {
+  padding: 40px 20px;
+  background-color: var(--secondary-bg-color);
+  color: var(--text-color);
+}
+
 .sectionTitle {
   text-align: center;
   font-size: 2.2rem;
@@ -5,23 +11,87 @@
   color: var(--accent-color-green);
 }
 
-.aboutContainer {
-  padding: 20px;
-  background-color: #f9f9f9;
+.container {
+  max-width: var(--container-max-width);
+  margin: 0 auto;
 }
 
-.title {
-  color: #333;
+.aboutImageContainer {
+  text-align: center;
+  margin-bottom: 1.5rem;
 }
 
-.text {
-  color: #555;
+.aboutImage {
+  width: 100%;
+  max-width: 700px;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.imageCaption {
+  margin-top: 0.5rem;
+  font-size: 0.95rem;
+  color: var(--text-color);
+  font-style: italic;
+}
+
+.aboutText {
   line-height: 1.6;
 }
 
 .aboutText p {
   text-align: justify;
-  color: #555;
-  line-height: 1.6;
   margin-bottom: 1rem;
+  font-size: 1.05rem;
+  color: var(--text-color);
+}
+
+.subtitle {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-top: 2rem;
+  margin-bottom: 0.8rem;
+  color: var(--accent-color-green);
+}
+
+.benefitsList {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 1.5rem;
+}
+
+.benefitsList li {
+  padding-left: 1.6rem;
+  margin-bottom: 0.8rem;
+  position: relative;
+  font-weight: 600;
+}
+
+.benefitsList li::before {
+  position: absolute;
+  left: 0;
+  top: 0.1rem;
+  color: var(--accent-color-green);
+  font-size: 1.2rem;
+}
+
+.ctaContainer {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.ctaButton {
+  background-color: #2e7d32;
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.ctaButton:hover {
+  background-color: #1b5e20;
 }

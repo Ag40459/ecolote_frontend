@@ -1,0 +1,85 @@
+.faqSection {
+  padding: 4rem 0;
+  background-color: var(--primary-bg-color);
+}
+
+.sectionTitle {
+  text-align: center;
+  font-size: 2.2rem;
+  margin-bottom: 1rem;
+  color: var(--accent-color-green);
+}
+
+.sectionSubtitle {
+  text-align: center;
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+  color: var(--text-color);
+}
+
+.faqContainer {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.faqItem {
+  margin-bottom: 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background-color: var(--secondary-bg-color);
+  padding: 1rem;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.faqQuestion {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: var(--accent-color-green);
+  cursor: pointer;
+}
+
+.faqAnswer {
+  margin-top: 0.5rem;
+  color: var(--text-color);
+  line-height: 1.6;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease;
+}
+
+.faqAnswer.expanded {
+  max-height: 300px;
+}
+
+.faqToggle {
+  margin-top: 0.5rem;
+  text-align: center;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--accent-color-green);
+  display: flex;
+  justify-content: center;
+}
+
+.faqToggle:hover {
+  color: var(--accent-color-gold);
+}
+
+.backButtonContainer {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.backButton {
+  text-decoration: none;
+  color: var(--accent-color-green);
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.backButton:hover {
+  text-decoration: underline;
+}

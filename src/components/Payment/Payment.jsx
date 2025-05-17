@@ -1,36 +1,48 @@
-import styles from './Payment.module.css'; 
+import styles from './Payment.module.css';
+
+const paymentMethods = [
+  {
+    iconClass: 'fas fa-credit-card',
+    name: 'Cartão de Crédito',
+    description:
+      'Adquira seu EcoLote com rapidez e segurança utilizando as principais bandeiras de cartão. Parcelamento em até 12x disponível para sua comodidade.',
+  },
+  {
+    iconClass: 'fas fa-barcode',
+    name: 'Boleto Bancário',
+    description:
+      'Prefere pagamento à vista com desconto especial? Gere seu boleto diretamente na plataforma e efetue o pagamento em qualquer banco ou aplicativo financeiro.',
+  },
+  {
+    iconClass: 'fas fa-university',
+    name: 'Transferência Bancária (PIX/TED)',
+    description:
+      'Realize o pagamento via PIX para aprovação instantânea e liberação imediata do seu processo de aquisição, ou utilize TED/DOC para transferências tradicionais.',
+  },
+  {
+    iconClass: 'fas fa-hand-holding-usd',
+    name: 'Financiamento Facilitado',
+    description:
+      'Torne-se proprietário da sua usina solar com entrada reduzida e parcelas que cabem no seu orçamento. Financiamento com instituições parceiras e carência de até 120 dias.',
+  },
+  {
+    iconClass: 'fas fa-shield-alt',
+    name: 'Transparência Total',
+    description:
+      'Todos os custos, condições e benefícios são apresentados com clareza antes da finalização da sua compra. Sem surpresas, sem taxas ocultas.',
+  },
+];
 
 const PaymentSection = () => {
-  const paymentMethods = [
-    {
-      iconClass: 'fas fa-credit-card',
-      name: 'Cartão de Crédito',
-      description: 'Pague seus lotes de energia de forma rápida e segura com as principais bandeiras de cartão de crédito. Parcelamento disponível (verificar condições).'
-    },
-    {
-      iconClass: 'fas fa-barcode',
-      name: 'Boleto Bancário',
-      description: 'Opção prática para pagamento à vista. Gere seu boleto diretamente na plataforma e pague em qualquer banco ou casa lotérica.'
-    },
-    {
-      iconClass: 'fas fa-university', // Ou 'fas fa-exchange-alt' para TED/DOC
-      name: 'Transferência Bancária (PIX/TED)',
-      description: 'Realize o pagamento via PIX para aprovação instantânea ou utilize TED/DOC. Informações detalhadas disponíveis na área de pagamento.'
-    },
-    {
-      iconClass: 'fas fa-hand-holding-usd',
-      name: 'Financiamento Facilitado',
-      description: 'Consulte nossas opções de financiamento em parceria com instituições financeiras para adquirir seus lotes de energia com condições especiais com pagamento da primeira parcela de até 120 dias.'
-    }
-  ];
-
   return (
     <section id="payment" className={`${styles.paymentSection} content-section`}>
       <div className={`${styles.container} container`}>
         <h2 className={styles.sectionTitle}>Formas de Pagamento Flexíveis</h2>
         <p className={styles.sectionSubtitle}>
-          No Ecolote, facilitamos ao máximo a aquisição dos seus lotes de energia solar, oferecendo diversas opções de pagamento seguras e convenientes.
+          No Ecolote, facilitamos a aquisição do seu lote de energia solar com propriedade individual,
+          oferecendo opções de pagamento seguras que se adaptam à sua realidade financeira.
         </p>
+
         <div className={styles.paymentMethodsGrid}>
           {paymentMethods.map((method, index) => (
             <div key={index} className={styles.paymentMethodCard}>
@@ -42,8 +54,14 @@ const PaymentSection = () => {
             </div>
           ))}
         </div>
-        <div className={styles.paymentInfo}>
-          <p><strong>Transparência Total:</strong> Todos os custos e condições são claramente apresentados antes da finalização da sua compra.</p>
+
+        <div className={styles.paymentCTA}>
+          <h3>Pronto para Investir no Seu Futuro Energético?</h3>
+          <p>
+            Entre em contato agora mesmo e nossa equipe apresentará a simulação completa com todas as opções
+            de pagamento personalizadas para o seu perfil.
+          </p>
+          <a href="/contato" className={styles.ctaButton}>Solicitar Simulação</a>
         </div>
       </div>
     </section>

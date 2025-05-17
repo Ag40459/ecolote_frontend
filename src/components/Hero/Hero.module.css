@@ -1,17 +1,16 @@
-/* Hero.module.css */
 .heroSection {
-  background-image: url("https://images.unsplash.com/photo-1509390636529-8027f539534d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"); /* Imagem de exemplo - substituir */
+  position: relative;
+  height: 100vh;
+  min-height: 600px;
+  background-image: url('../../assets/hero-bg.jpg');
   background-size: cover;
   background-position: center;
-  background-repeat: no-repeat;
-  color: white;
-  text-align: center;
-  padding: 120px 20px 80px; /* Aumentar padding superior para acomodar navbar fixa */
-  position: relative;
-  min-height: 70vh; /* Altura mínima para a seção hero */
   display: flex;
   align-items: center;
   justify-content: center;
+  text-align: center;
+  color: white;
+  padding: 0 20px;
 }
 
 .heroOverlay {
@@ -20,46 +19,130 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Overlay escuro para melhor contraste do texto */
+  background-color: rgba(0, 0, 0, 0.6);
   z-index: 1;
 }
 
 .heroContent {
   position: relative;
   z-index: 2;
-  max-width: 800px;
+  max-width: 900px;
 }
 
 .heroTitle {
-  font-size: 3rem; /* Ajustar conforme necessário */
+  font-size: 3rem;
   font-weight: 700;
-  margin-bottom: 1rem;
-  line-height: 1.2;
+  margin-bottom: 1.5rem;
+  color: #E6B800;
 }
 
 .heroSubtitle {
-  font-size: 1.25rem; /* Ajustar conforme necessário */
-  margin-bottom: 2rem;
+  font-size: 1.125rem;
   line-height: 1.6;
+  margin-bottom: 2rem;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .ctaButton {
-  /* Estilos já definidos em global.css, mas pode adicionar específicos aqui se necessário */
+  display: inline-block;
   padding: 15px 30px;
-  font-size: 1.1rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 50px;
+  background-color: #28a745;
+  color: white;
+  transition: all 0.3s ease;
+  margin-top: 1rem;
 }
 
-/* Responsividade */
+.ctaButton:hover {
+  background-color: #218838;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  transform: translateY(-3px);
+}
+
+.carouselControls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+  gap: 20px;
+}
+
+.carouselArrow {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 2rem;
+  cursor: pointer;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.carouselArrow:hover {
+  opacity: 1;
+}
+
+.carouselDotsWrapper {
+  height: 44px; /* Mesma altura das setas */
+  display: flex;
+  align-items: center;
+}
+
+.carouselDots {
+  display: flex;
+  gap: 10px;
+}
+
+.carouselDot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.5);
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.carouselDot.active {
+  background-color: #E6B800;
+  transform: scale(1.2);
+}
+
+
 @media (max-width: 768px) {
-  .heroSection {
-    padding: 100px 20px 60px;
-    min-height: 60vh;
-  }
   .heroTitle {
-    font-size: 2.5rem;
+    font-size: 2.4rem;
   }
+
   .heroSubtitle {
-    font-size: 1.1rem;
+    font-size: 1.125rem;
+  }
+
+  .ctaButton {
+    padding: 14px 28px;
+    font-size: 1.05rem;
   }
 }
 
+@media (max-width: 480px) {
+  .heroTitle {
+    font-size: 2rem;
+  }
+
+  .heroSubtitle {
+    font-size: 1.125rem;
+  }
+
+  .ctaButton {
+    padding: 16px 32px;
+    font-size: 1.125rem;
+  }
+}

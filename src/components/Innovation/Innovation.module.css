@@ -1,61 +1,96 @@
-.sectionTitle {
-  text-align: center;
-  font-size: 2.2rem;
-  margin-bottom: 1rem;
-  color: var(--accent-color-green);
+/* Innovation.module.css */
+.innovationSection {
+  padding: 60px 0;
+  background-color: var(--primary-bg-color);
 }
 
-.innovationContainer {
-  padding: 20px;
-  background-color: #f0f0f0;
+.innovationHeader {
+  text-align: center;
+  margin-bottom: 40px;
 }
 
 .innovationTitle {
-  font-size: 2em;
-  color: #333;
+  color: var(--accent-color-green);
+  font-size: 2rem;
+}
+
+.innovationSubtitle {
+  color: var(--text-color);
+  font-size: 1.2rem;
+  max-width: 800px;
+  margin: 0 auto;
   text-align: center;
-  margin-bottom: 20px;
 }
 
-.innovationContent {
-  font-size: 1.2em;
-  color: #555;
-  line-height: 1.7;
-}
-
-.innovationsGrid {
+.innovationCards {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsividade para o layout */
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 20px;
 }
 
 .innovationCard {
-  display: flex;
-  flex-direction: column; /* Para o título e a descrição ficarem em uma coluna */
-  align-items: center; /* Alinhar tudo ao centro */
+  background-color: var(--secondary-bg-color);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
   padding: 20px;
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
 }
 
-.innovationIconContainer {
+.innovationCard:hover {
+  transform: scale(1.02);
+}
+
+.cardIconContainer {
+  text-align: center;
+  padding: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 15px;
 }
 
-.innovationIcon {
-  width: 50px; /* Tamanho do ícone ajustado */
-  height: 50px;
-  object-fit: contain; /* Mantém a proporção do ícone */
+.cardIcon {
+  width: 48px;
+  height: 48px;
+  fill: var(--text-color); /* Controla cor do SVG */
+  transition: fill 0.3s ease;
 }
 
-.innovationDescription {
-  font-size: 1.1em;
-  color: #555;
+body.dark-theme .cardIcon {
+  fill: white;
+}
+
+
+.cardTitle {
+  color: var(--accent-color-green);
+  font-size: 1.5rem;
+  margin-bottom: 8px;
+}
+
+.cardDescription {
+  color: var(--text-color);
+  margin: 10px 0;
+  text-align: justify;
+}
+
+body.dark-theme .cardDescription {
   text-align: center;
-  line-height: 1.6;
+}
+
+.cardHighlight {
+  color: var(--accent-color-gold);
+  font-weight: bold;
   margin-top: 10px;
+}
+
+@media (max-width: 768px) {
+  .innovationCards {
+    grid-template-columns: 1fr;
+  }
+  .innovationTitle {
+    font-size: 1.8rem;
+  }
+  .cardDescription {
+    text-align: center;
+  }
 }

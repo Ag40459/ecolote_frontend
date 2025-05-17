@@ -1,14 +1,33 @@
+if (!localStorage.getItem('theme')) {
+  localStorage.setItem('theme', 'dark');
+  document.body.classList.add('dark-theme');
+} else if (localStorage.getItem('theme') === 'dark') {
+  document.body.classList.add('dark-theme');
+}
+
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import styles from './Navbar.module.css';
 
-// A função openAuthModal será passada como prop pelo App.jsx
 const Navbar = ({ openAuthModal }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+    const [isDarkTheme, setIsDarkTheme] = useState(true);
   const { admin, logout } = useAuth();
   const navigate = useNavigate();
+
+    useEffect(() => {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+      setIsDarkTheme(savedTheme === 'dark');
+      document.body.classList.toggle('dark-theme', savedTheme === 'dark');
+    } else {
+      setIsDarkTheme(true);
+      document.body.classList.add('dark-theme');
+      localStorage.setItem('theme', 'dark');
+    }
+  }, []);
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -59,11 +78,10 @@ const Navbar = ({ openAuthModal }) => {
           <ul className={styles.navLinks}>
             <li><a href="#hero" onClick={closeMobileMenu}>Início</a></li>
             <li><a href="#about" onClick={closeMobileMenu}>Sobre</a></li>
-            <li><a href="#features" onClick={closeMobileMenu}>Diferenciais</a></li>
+            <li><a href="#features" onClick={closeMobileMenu}>Diferenciaiss</a></li>
             <li><a href="#how-it-works" onClick={closeMobileMenu}>Funcionamento</a></li>
             <li><a href="#environment" onClick={closeMobileMenu}>Sustentabilidade</a></li>
             <li><a href="#comparison" onClick={closeMobileMenu}>Comparativo</a></li>
-            <li><a href="#advantages" onClick={closeMobileMenu}>Vantagens</a></li>
             <li><a href="#innovation" onClick={closeMobileMenu}>Inovação</a></li>
             <li><a href="#payment" onClick={closeMobileMenu}>Pagamento</a></li>
             <li><a href="#contact" onClick={closeMobileMenu}>Contato</a></li>
