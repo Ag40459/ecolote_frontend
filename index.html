@@ -3,6 +3,20 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+   
+   <script type="text/javascript">
+  // Verifica se há um caminho armazenado na sessão
+  (function() {
+    const redirectPath = sessionStorage.getItem('redirectPath');
+    if (redirectPath && redirectPath !== '/') {
+      // Remove o item da sessão
+      sessionStorage.removeItem('redirectPath');
+      // Atualiza o histórico do navegador
+      window.history.replaceState(null, null, redirectPath);
+    }
+  })();
+</script>
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Ecolote</title>
     <script type="module" crossorigin src="/assets/index-Cf5YCfZd.js"></script>
