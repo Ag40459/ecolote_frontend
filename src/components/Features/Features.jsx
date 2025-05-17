@@ -60,7 +60,9 @@ const toggleExpand = (index) => {
 
   return (
     <section id="features" className={styles.featuresContainer}>
-      <div className={styles.featuresGrid}>
+            <h2 className={styles.title}>Diferenciais</h2>
+            <br></br>
+            <div className={styles.featuresGrid}>
         {features.map((feature, index) => (
           <div key={index} className={styles.featureCard}>
             <div className={styles.featureIcon}>{feature.icon}</div>

@@ -64,4 +64,9 @@
       width: 70%;
       height: 100px;
       font-size: 24px;
+      cursor: pointer;
+}
+
+strong{
+    color: var(--accent-color-green);
 }

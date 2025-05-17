@@ -58,7 +58,7 @@ const PaymentSection = () => {
         <div className={styles.paymentCTA}>
           <h3>Pronto para Investir no Seu Futuro Energético?</h3>
           <p>
-            Entre em contato agora mesmo e nossa equipe apresentará a simulação completa com todas as opções
+            Faça seu pré-cadastro agora mesmo e nossa equipe apresentará a simulação completa com todas as opções
             de pagamento personalizadas para o seu perfil.
           </p>
           <a href="#contact" className={styles.ctaButton}>Solicitar Simulação</a>

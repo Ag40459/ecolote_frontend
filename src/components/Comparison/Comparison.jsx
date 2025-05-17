@@ -80,7 +80,7 @@ const Comparison = () => {
         </div>
 
         <div className={styles.ctaContainer}>
-          <h3>Pronto para Investir no Seu Futuro Energético?</h3>
+          <h3 className={styles.sectionTitle}>Pronto para Investir no Seu Futuro Energético?</h3>
           <p>Dê o primeiro passo para a independência energética com propriedade real.</p>
           <a href="#contact" className={styles.ctaButton}>Solicitar Simulação Personalizada</a>
         </div>

@@ -2,13 +2,13 @@
   max-width: 1200px;
   margin: 0 auto;
   padding: 2rem 1rem;
-    box-shadow: inset 0 6px 8px -6px var(--liner-division-color);
-
+  box-shadow: inset 0 6px 8px -6px var(--liner-division-color);
 }
 
 .sectionTitle {
   text-align: center;
   font-size: 2.2rem; 
+  padding: 2rem 0 2rem;
   margin-bottom: 1rem;
   color: var(--accent-color-green);
 }
@@ -26,7 +26,7 @@
 .centeredParagraph {
   max-width: 90%;
   margin: 0 auto;
-  text-align: center;
+  text-align: justify;
   font-size: 1.1rem;
   line-height: 1.6;
   color: var(--text-color);
@@ -47,6 +47,8 @@
   text-align: center;
   box-shadow: 0 5px 15px rgba(0,0,0,0.08);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  position: relative;
 }
 
 .benefitItem:hover {
@@ -71,7 +73,7 @@
   font-size: 1rem;
   line-height: 1.6;
   color: var(--text-color);
-  text-align: center;
+  text-align: justify;
   margin-bottom: 0;
 }
 
@@ -81,4 +83,31 @@
   margin-top: 2.5rem;
   color: var(--accent-color-gold);
   text-align: center;
+}
+
+/* Novos estilos para a funcionalidade de expandir/recolher */
+.toggleArrow {
+  color: var(--accent-color-green);
+  font-size: 1.2rem;
+  margin-top: 1rem;
+  transition: all 0.3s ease;
+}
+
+.description {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease, opacity 0.5s ease;
+  opacity: 0;
+  margin-top: 0.5rem;
+}
+
+.description.visible {
+  max-height: 500px; /* Valor alto o suficiente para acomodar o conteúdo */
+  opacity: 1;
+  margin-bottom: 1rem;
+}
+
+/* Estilo para o card expandido */
+.benefitItem.expanded {
+  padding-bottom: 1rem;
 }

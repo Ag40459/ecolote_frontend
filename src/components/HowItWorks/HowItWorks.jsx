@@ -67,8 +67,8 @@ const HowItWorks = () => {
 
   return (
     <section id="how-it-works" className={styles.container}>
-      <h2 className={styles.title}></h2>
-      
+      <h2 className={styles.title}>Sua Jornada com o EcoLote</h2>
+      <br></br>
       <div className={styles.stepsContainer}>
         <div className={styles.carouselContainer}>
           {steps.map((step, index) => (
@@ -77,22 +77,27 @@ const HowItWorks = () => {
               className={`${styles.carouselSlide} ${index === currentSlide ? styles.activeSlide : ''}`}
             >
               <div className={styles.step}>
-                <div className={styles.stepNumber}>{index + 1}</div>
-                <div className={styles.stepContent}>
-                  <div className={styles.stepHeader}>
-                    <h3>{step.title}</h3>
-                  </div>
-                  <p>{step.description}</p>
-                  <div className={styles.containerstepImage}>
-                    <br></br>
-                    <img
-                      src={step.image}
-                      alt={step.title}
-                      className={styles.stepImage}
-                    />
-                  </div>
-                </div>
-              </div>
+  <div className={styles.stepHeader}>
+    <div className={styles.stepNumber}>{index + 1}</div>
+    <h3 className={styles.stepTitle}>{step.title}</h3>
+  </div>
+    <br></br>
+  <div className={styles.stepContent}>
+    <p className={styles.description}>{step.description}</p>
+    <br></br>
+    <div className={styles.containerstepImage}>
+    <br></br>
+
+      <img
+        src={step.image}
+        alt={step.title}
+        className={styles.stepImage}
+      />
+    </div>
+  </div>
+</div>
+
+
             </div>
           ))}
         </div>

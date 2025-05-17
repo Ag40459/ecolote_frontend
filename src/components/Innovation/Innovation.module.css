@@ -1,8 +1,7 @@
 .innovationSection {
   padding: 60px 0;
   background-color: var(--primary-bg-color);
-    box-shadow: inset 0 6px 8px -6px var(--liner-division-color);
-
+  box-shadow: inset 0 6px 8px -6px var(--liner-division-color);
 }
 
 .innovationHeader {
@@ -36,6 +35,9 @@
   transition: transform 0.3s ease;
   padding: 20px;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .innovationCard:hover {
@@ -48,32 +50,54 @@
   display: flex;
   justify-content: center;
   align-items: center;
-   color: var(--card-icon-fill);
+  color: var(--card-icon-fill);
+  height: 80px; /* Altura fixa para o container do ícone */
 }
 
 .cardIcon {
   width: 48px;
   height: 48px;
-   fill: var(--card-icon-fill);
+  fill: var(--card-icon-fill);
   transition: fill 0.3s ease;
+}
+
+.cardContent {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 }
 
 .cardTitle {
   color: var(--accent-color-green);
   font-size: 1.5rem;
   margin-bottom: 8px;
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .cardDescription {
   color: var(--text-color);
+  text-align: justify;
   margin: 10px 0;
-  text-align: var(--card-description-align);
+  padding: 1rem 0;
+  flex: 1; 
+  display: flex;
+  align-items: center;
+   align-items: flex-start;
+  min-height: 120px;
 }
 
 .cardHighlight {
   color: var(--accent-color-gold);
   font-weight: bold;
-  margin-top: 10px;
+  margin-top: auto; 
+  text-align: center;
+  padding-top: 1rem;
+  min-height: 60px; 
+  display: flex;
+  align-items: center;
 }
 
 @media (max-width: 768px) {
@@ -84,6 +108,6 @@
     font-size: 1.8rem;
   }
   .cardDescription {
-    text-align: center;
+    text-align: justify;
   }
 }

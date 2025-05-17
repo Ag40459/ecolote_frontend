@@ -6,21 +6,21 @@ import NetworkIcon from '../../assets/NetworkIcon';
 const innovations = [
   {
     Icon: BrainIcon,
-    title: 'Inteligência Artificial a Seu Favor',
+    title: 'Inteligência Artificial',
     description:
       'Nossos algoritmos de IA monitoram constantemente o desempenho da sua usina, prevendo condições climáticas, otimizando a geração e garantindo máxima eficiência.',
     highlight: 'Previsão de geração e economia com precisão',
   },
   {
     Icon: BoltIcon,
-    title: 'kWh Gerados e Armazenados Digitalmente',
+    title: 'kWh Gerados',
     description:
       'Toda energia produzida pelo seu EcoLote é registrada pela concessionária e convertida em créditos digitais.',
     highlight: 'Acúmulo de créditos por 5 anos, mesmo mudando de endereço',
   },
   {
     Icon: NetworkIcon,
-    title: 'Rede Inteligente Compartilhada',
+    title: 'Rede Inteligente',
     description:
       'Você integra uma rede elétrica inteligente que distribui energia de forma otimizada, garantindo custos reduzidos e manutenção eficiente.',
     highlight: 'Gestão compartilhada: custos menores',
