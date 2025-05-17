@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from 'react';
 import styles from './HowItWorks.module.css';
 
 import HowItWorksImage1 from '../../assets/HowItWorksImage1.png';
@@ -38,35 +39,101 @@ const steps = [
     description: 'Seu EcoLote está em um ambiente especialmente projetado, com áreas verdes preservadas, infraestrutura de qualidade e gestão profissional da associação. Um espaço que valoriza seu investimento e o meio ambiente.',
     image: HowItWorksImage6,
   },
-]
-;
+];
 
 const HowItWorks = () => {
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [hoveredDot, setHoveredDot] = useState(null);
+  const totalSlides = steps.length;
+
+  // Função para avançar para o próximo slide
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev === totalSlides - 1 ? 0 : prev + 1));
+  };
+
+  // Função para voltar ao slide anterior
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev === 0 ? totalSlides - 1 : prev - 1));
+  };
+
+  // Efeito para transição automática a cada 9 segundos
+  useEffect(() => {
+    const interval = setInterval(() => {
+      nextSlide();
+    }, 9000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <section id="how-it-works" className={styles.container}>
       <h2 className={styles.title}>Como Funciona o Ecolote?</h2>
+      
       <div className={styles.stepsContainer}>
-        {steps.map((step, index) => (
-          <div key={index}>
-            <div className={styles.step}>
-              <div className={styles.stepNumber}>{index + 1}</div>
-              <div className={styles.stepContent}>
-                <div className={styles.stepHeader}>
-                  <h3>{step.title}</h3>
-                </div>
-                <p>{step.description}</p>
-                <div className={styles.containerstepImage}>
-                  <br></br>
-                <img
-                  src={step.image}
-                  alt={step.title}
-                  className={styles.stepImage}
-                />
+        <div className={styles.carouselContainer}>
+          {steps.map((step, index) => (
+            <div 
+              key={index} 
+              className={`${styles.carouselSlide} ${index === currentSlide ? styles.activeSlide : ''}`}
+            >
+              <div className={styles.step}>
+                <div className={styles.stepNumber}>{index + 1}</div>
+                <div className={styles.stepContent}>
+                  <div className={styles.stepHeader}>
+                    <h3>{step.title}</h3>
+                  </div>
+                  <p>{step.description}</p>
+                  <div className={styles.containerstepImage}>
+                    <br></br>
+                    <img
+                      src={step.image}
+                      alt={step.title}
+                      className={styles.stepImage}
+                    />
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
+
+       <div className={styles.carouselControls}>
+  <button
+    className={`${styles.carouselButton} ${document.body.classList.contains('dark-theme') ? styles.darkArrow : ''}`}
+    onClick={prevSlide}
+    aria-label="Slide anterior"
+  >
+    &lt;
+  </button>
+
+  <div className={styles.carouselIndicators}>
+  {steps.map((_, index) => (
+    <button
+      key={index}
+      data-number={index + 1}
+      className={`${styles.carouselDot} ${currentSlide === index ? styles.activeDot : ''}`}
+      onClick={() => setCurrentSlide(index)}
+      onMouseEnter={() => setHoveredDot(index)}
+      onMouseLeave={() => setHoveredDot(null)}
+      aria-label={`Ir para slide ${index + 1}`}
+    >
+      {(hoveredDot === index || currentSlide === index) && (
+        <span className={styles.dotNumber}>{index + 1}</span>
+      )}
+    </button>
+  ))}
+</div>
+
+
+  <button
+    className={`${styles.carouselButton} ${document.body.classList.contains('dark-theme') ? styles.darkArrow : ''}`}
+    onClick={nextSlide}
+    aria-label="Próximo slide"
+  >
+    &gt;
+  </button>
+</div>
+
       </div>
 
       <div className={styles.faqCta}>

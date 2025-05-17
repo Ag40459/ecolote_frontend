@@ -23,6 +23,119 @@
   position: relative;
 }
 
+/* Estilos do carrossel */
+.carouselContainer {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.carouselSlide {
+  display: none;
+  width: 100%;
+  transition: opacity 0.5s ease;
+}
+
+.activeSlide {
+  display: block;
+  animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.carouselControls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2rem;
+  gap: 1rem;
+  padding: 0.5rem 1.5rem;
+  border-radius: 30px;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.carouselButton {
+  background: transparent;
+  border: none;
+  color: var(--text-color);
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.3s ease;
+}
+
+.carouselButton:hover {
+  color: #FFC107;
+}
+
+.carouselIndicators {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.carouselDot {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: transparent;
+  border: 3px solid #888;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 6px;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+  font-weight: bold;
+  cursor: pointer;
+  position: relative;
+  box-sizing: border-box;
+  padding: 0;
+  aspect-ratio: 1/1;
+}
+
+.dotNumber {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #E6B800;
+  font-size: 0.9rem;
+  font-weight: bold;
+  transition: opacity 0.3s ease;
+}
+
+.carouselDot:hover {
+  transform: scale(1.2);
+}
+
+.activeDot {
+  border-color: #E6B800;
+  transform: scale(1.2);
+}
+
+@media (max-width: 768px) {
+  .carouselDot {
+    width: 16px;
+    height: 16px;
+    border-width: 2px;
+  }
+  
+  .carouselDot::before {
+    font-size: 0.8rem;
+  }
+}
+
+/* Estilos originais */
 .step {
   display: flex;
   align-items: flex-start;
@@ -85,6 +198,28 @@
 
 .dark-theme ::after {
   background-color: rgba(102, 187, 106, 0.6);
+}
+
+/* Ajustes para tema escuro */
+:global(.dark-theme) .carouselButton {
+  color: white;
+}
+
+:global(.dark-theme) .carouselButton:hover {
+  color: #FFC107;
+}
+
+:global(.dark-theme) .carouselDot {
+  background-color: transparent;
+  border-color: #888;
+}
+
+:global(.dark-theme) .activeDot {
+  border-color: #FFC107;
+}
+
+:global(.dark-theme) .dotNumber {
+  color: #FFC107;
 }
 
 .faqCta {
@@ -157,4 +292,15 @@
 
 .dark-theme .faqButton:hover {
   background-color: #4CAF50;
+}
+
+/* Ajustes responsivos para o carrossel */
+@media (max-width: 768px) {
+  .carouselControls {
+    padding: 0.3rem 0.8rem;
+  }
+  
+  .carouselButton {
+    font-size: 1.2rem;
+  }
 }
