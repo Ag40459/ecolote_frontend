@@ -35,4 +35,8 @@ export default defineConfig({
     }
   ],
   base: "/", 
+  server: {
+    host: '0.0.0.0',
+    allowedHosts: ['dev.ecolote.com.br']
+  }
 });

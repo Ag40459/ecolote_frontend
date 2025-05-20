@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import styles from './ContactModal.module.css';
 import { modelosImovelPJ, pretensaoPagamentoOptions } from '../../config/formConfig';
 import { formatCNPJ, formatPhone, formatCurrency, onlyNumbers } from '../../utils/formatters';
-import { fetchCnpjData } from '../../utils/cnpjService';
+import { fetchCNPJData } from '../../utils/cnpjService';
 
 // Função utilitária para atualizar valores apenas se estiverem vazios
 const setIfEmpty = (currentValue, newValue, setFunction) => {
@@ -16,7 +16,7 @@ const PessoaJuridicaForm = ({ formData, loadingCep, cepError }) => {
     const fetchData = async () => {
       const cleanCnpj = formData.pjCnpj?.replace(/\D/g, '');
       if (cleanCnpj?.length === 14) {
-        const data = await fetchCnpjData(cleanCnpj);
+        const data = await fetchCNPJData(cleanCnpj);
         if (data) {
           setIfEmpty(formData.pjNomeEmpresa, data.razao_social, formData.setPjNomeEmpresa);
           setIfEmpty(formData.pjEmailComercial, data.email, formData.setPjEmailComercial);

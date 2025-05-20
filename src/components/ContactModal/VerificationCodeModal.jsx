@@ -1,12 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import styles from './ContactModal.module.css';
+import styles from './VerificationCodeModal.module.css';
 
-const VerificationCodeModal = ({ isOpen, onClose, onVerify, email, onResendCode }) => {
-  const [verificationCode, setVerificationCode] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
+const VerificationCodeModal = ({ isOpen, onClose, onVerify, onResend, onBack, email }) => {
+  const [code, setCode] = useState('');
   const [error, setError] = useState('');
+  const [isVerifying, setIsVerifying] = useState(false);
   const [countdown, setCountdown] = useState(0);
-
+  
+  // Resetar o código quando o modal é aberto
+  useEffect(() => {
+    if (isOpen) {
+      setCode('');
+      setError('');
+    }
+  }, [isOpen]);
+  
+  // Gerenciar o contador de tempo para reenvio
   useEffect(() => {
     let timer;
     if (countdown > 0) {
@@ -14,94 +23,91 @@ const VerificationCodeModal = ({ isOpen, onClose, onVerify, email, onResendCode 
     }
     return () => clearTimeout(timer);
   }, [countdown]);
-
-  useEffect(() => {
-  if (!isOpen) {
-    // Reset dos estados quando o modal é fechado
-    setVerificationCode('');
-    setError('');
-    setIsSubmitting(false);
-  }
-}, [isOpen]);
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!verificationCode.trim()) {
+  
+  // Função para lidar com a verificação do código
+  const handleVerify = async () => {
+    if (!code.trim()) {
       setError('Por favor, insira o código de verificação');
       return;
     }
-
-    setIsSubmitting(true);
+    
+    setIsVerifying(true);
     setError('');
-
+    
     try {
-      await onVerify(verificationCode);
-      // Se chegar aqui, a verificação foi bem-sucedida
-    } catch (err) {
-      setError(err.message || 'Código inválido. Por favor, tente novamente.');
+      await onVerify(code);
+    } catch (error) {
+      setError(error.message);
     } finally {
-      setIsSubmitting(false);
+      setIsVerifying(false);
     }
   };
-
-  const handleResendCode = () => {
-    onResendCode();
-    setCountdown(60); // 60 segundos de espera para reenvio
+  
+  // Função para lidar com o reenvio do código
+  const handleResend = () => {
+    if (countdown > 0) return;
+    
+    onResend();
+    setCountdown(60); // Iniciar contador de 60 segundos
   };
-
+  
   if (!isOpen) return null;
-
-return (
-  <div className={`${styles.modalOverlay} ${document.body.classList.contains('dark-theme') ? styles.darkOverlay : ''}`}>
-    <div className={`${styles.modalContent} ${document.body.classList.contains('dark-theme') ? styles.darkContent : ''}`}>
-      <button className={styles.closeButton} onClick={onClose}>
-        &times;
-      </button>
-      <h2>Verificação de Email</h2>
-      <p>
-        Enviamos um código de verificação para <strong>{email}</strong>.
-        Por favor, insira o código abaixo para completar seu cadastro.
-      </p>
-
-      <form onSubmit={handleSubmit} className={styles.verificationForm}>
+  
+  return (
+    <div className={styles.modalOverlay}>
+      <div className={styles.modalContainer}>
+        <button 
+          className={styles.modalCloseButton} 
+          onClick={onClose}
+          aria-label="Fechar modal"
+        >×</button>
+        
+        <h3 className={styles.modalTitle}>Verificação de Email</h3>
+        <p className={styles.modalSubtitle}>
+          Enviamos um código de verificação para <strong>{email}</strong>
+        </p>
+        
         <div className={styles.formGroup}>
-          <label htmlFor="verificationCode">Código de Verificação:</label>
+          <label className={styles.formLabel}>Código de Verificação</label>
           <input
             type="text"
-            id="verificationCode"
-            value={verificationCode}
-            onChange={(e) => setVerificationCode(e.target.value)}
+            className={styles.formInput}
+            value={code}
+            onChange={(e) => setCode(e.target.value)}
             placeholder="Digite o código recebido"
             required
           />
+          {error && <p className={styles.errorMessage}>{error}</p>}
         </div>
-
-        {error && <p className={styles.errorMessage}>{error}</p>}
-
-        <button type="submit" className={styles.submitButton} disabled={isSubmitting}>
-          {isSubmitting ? 'Verificando...' : 'Verificar Código'}
+        
+        <button 
+          className={styles.verifyButton}
+          onClick={handleVerify}
+          disabled={isVerifying}
+        >
+          {isVerifying ? 'Verificando...' : 'Verificar Código'}
         </button>
-
-        <div className={styles.resendCodeContainer}>
-          {countdown > 0 ? (
-            <p>Reenviar código em {countdown} segundos</p>
-          ) : (
-            <span 
-      className={styles.resendLink} 
-      onClick={handleResendCode} 
-      role="button" 
-      tabIndex={0} 
-    >
-      Reenviar Código
-    </span>
-          )}
+        
+        <div className={styles.actionLinks}>
+          <button 
+            className={styles.resendLink}
+            onClick={handleResend}
+            disabled={countdown > 0}
+          >
+            {countdown > 0 ? `Reenviar código (${countdown}s)` : 'Reenviar código'}
+          </button>
+          
+          <button 
+            className={styles.backButton}
+            onClick={onBack}
+            type="button"
+          >
+            Voltar
+          </button>
         </div>
-      </form>
+      </div>
     </div>
-  </div>
-);
-
-
+  );
 };
 
 export default VerificationCodeModal;

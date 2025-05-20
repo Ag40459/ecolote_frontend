@@ -1,0 +1,353 @@
+.simulatorContainer {
+  background-color: #00a651; 
+  padding: 10px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+    align-items: center;
+      color: white;
+  position: relative;
+  overflow: visible;
+    min-height: 100vh;
+}
+
+.simulatorContent {
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+  margin-bottom: 0; /* Garantir que não haja margem inferior */
+}
+
+.simulatorTitle {
+  color: #fff;
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 5px;
+  text-align: center;
+  max-width: 800px;
+}
+
+.simulatorSubtitle {
+  color: #fff;
+  font-size: 1.1rem;
+  text-align: center;
+  margin-bottom: 10px;
+  max-width: 800px;
+}
+
+.simulatorCard {
+  background-color: #e1e8e0dc;
+  border-radius: 30px;
+  padding: 20px;
+  width: 100%;
+  max-width: 900px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: visible;
+  margin-bottom: 0; /* Garantir que não haja margem inferior */
+}
+
+.simulatorForm {
+  width: 100%;
+  position: relative;
+  overflow: visible;
+  margin-bottom: 0; /* Garantir que não haja margem inferior */
+}
+
+.formLabel {
+  display: block;
+  margin-bottom: 15px;
+  color: #333;
+  font-weight: 500;
+  font-size: 1.1rem;
+}
+
+.sliderContainer {
+  margin-bottom: 25px;
+  width: 100%;
+}
+
+.sliderWrapper {
+  position: relative;
+  padding: 10px 0;
+  height: 40px;
+}
+
+.slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 10px;
+  border-radius: 5px;
+  background: transparent;
+  outline: none;
+  margin: 0;
+  position: relative;
+  z-index: 2;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #00a651;
+  cursor: pointer;
+  border: 2px solid white;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  position: relative;
+  z-index: 3;
+}
+
+.slider::-moz-range-thumb {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #00a651;
+  cursor: pointer;
+  border: 2px solid white;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  position: relative;
+  z-index: 3;
+}
+
+.sliderTrack {
+  height: 10px;
+  background: linear-gradient(to right, #00a651 0%, #00a651 var(--percent, 50%), #e0e0e0 var(--percent, 50%), #e0e0e0 100%);
+  border-radius: 5px;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  transform: translateY(-50%);
+  z-index: 1;
+}
+
+.sliderTooltip {
+  position: absolute;
+  top: -40px;
+  transform: translateX(-50%);
+  background-color: #1a1a2e;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 10;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  opacity: 1;
+  transition: opacity 0.2s ease;
+}
+
+.sliderTooltip::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 5px 5px 0;
+  border-style: solid;
+  border-color: #1a1a2e transparent transparent;
+}
+
+.formRow {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  position: relative;
+  overflow: visible;
+  margin-bottom: 0; /* Garantir que não haja margem inferior */
+}
+
+@media (min-width: 768px) {
+  .formRow {
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+  }
+}
+
+.valueContainer {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  overflow: visible;
+}
+
+@media (min-width: 768px) {
+  .valueContainer {
+    max-width: 250px;
+  }
+}
+
+.valueInputWrapper {
+  position: relative;
+  width: 100%;
+}
+
+.valueInput {
+  width: 100%;
+  padding: 15px 20px;
+  padding-left: 45px;
+  padding-right: 40px;
+  border: 1px solid #ddd;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  color: #333;
+  background-color: white;
+  appearance: none;
+  height: 56px;
+}
+
+.valueInput:focus {
+  outline: none;
+  border-color: #00a651;
+  box-shadow: 0 0 0 2px rgba(0, 166, 81, 0.2);
+}
+
+.valuePrefix {
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #333;
+  font-weight: bold;
+  z-index: 2;
+  font-size: 1.1rem;
+}
+
+.dropdownArrow {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #777;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.dropdownArrowOpen {
+  transform: translateY(-50%) rotate(180deg);
+}
+
+.valueDropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  z-index: 9999;
+  max-height: 200px;
+  overflow-y: auto;
+  margin-top: 5px;
+}
+
+.dropdownItem {
+  padding: 12px 20px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  color: #333;
+  font-size: 1rem;
+}
+
+.dropdownItem:hover {
+  background-color: #f5f5f5;
+}
+
+.simulateButton {
+  background-color: #1a1a2e;
+  color: white;
+  border: none;
+  border-radius: 50px;
+  padding: 15px 30px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+  white-space: nowrap;
+  height: 56px;
+  width: 100%;
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .simulateButton {
+    width: auto;
+    min-width: 200px;
+  }
+}
+
+.simulateButton:hover {
+  background-color: #121224;
+  transform: translateY(-2px);
+}
+
+/* Remover elementos decorativos que podem ocupar espaço */
+.simulatorDecoration {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .simulatorTitle {
+    font-size: 1.6rem;
+  }
+  
+  .simulatorSubtitle {
+    font-size: 1rem;
+  }
+  
+  .simulatorCard {
+    border-radius: 20px;
+    padding: 20px;
+  }
+  
+  .formLabel {
+    font-size: 1rem;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .simulatorTitle {
+    font-size: 1.8rem;
+  }
+  
+  .simulatorCard {
+    max-width: 700px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .simulatorContainer {
+    min-height: 100vh;
+    
+  }
+    .simulatorCard {
+    padding: 25px;
+  }
+}
+@media (max-width: 768px) {
+  .simulatorContainer {
+  min-height: 65vh;
+  }
+ }
+@media (min-width: 769px) and (max-width: 1200px) {
+  .simulatorContainer {
+  min-height: 62vh;
+  }
+}
+@media (min-width: 1201px) {
+  .simulatorContainer {
+  min-height: 100vh;
+  }
+}

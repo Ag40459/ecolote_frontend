@@ -1,0 +1,776 @@
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+.modalContainer {
+  background-color: #e1e8e0dc;
+  border-radius: 30px;
+  width: 100%;
+  max-width: 800px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  animation: modalFadeIn 0.3s ease;
+  }
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.modalHeader {
+  position: relative;
+  padding-bottom: 0;
+}
+
+.modalCloseButton {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background-color: rgba(255, 255, 255, 0.9);
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-size: 24px;
+  color: #333;
+  z-index: 10;
+  transition: background-color 0.2s;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.modalCloseButton:hover {
+  background-color: rgba(255, 255, 255, 1);
+}
+
+.modalIllustration {
+  width: 100%;
+  text-align: center;
+  padding: 0;
+  overflow: hidden;
+  border-radius: 30px 30px 0 0;
+  max-height: 250px;
+  background-color: #00a651;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 180px;
+}
+
+.modalIllustration img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+/* Animação de pulso de energia */
+.energyPulseContainer {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.energyPulseOuter,
+.energyPulseMiddle,
+.energyPulseInner {
+  position: absolute;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.energyPulseOuter {
+  width: 150px;
+  height: 150px;
+  animation: pulse 2s infinite ease-out;
+}
+
+.energyPulseMiddle {
+  width: 100px;
+  height: 100px;
+  background-color: rgba(255, 255, 255, 0.3);
+  animation: pulse 2s infinite ease-out 0.5s;
+}
+
+.energyPulseInner {
+  width: 60px;
+  height: 60px;
+  background-color: rgba(255, 255, 255, 0.9);
+  animation: glow 2s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(1.2);
+    opacity: 0;
+  }
+}
+
+@keyframes glow {
+  0% {
+    box-shadow: 0 0 10px 5px rgba(255, 255, 255, 0.5);
+    background-color: rgba(255, 255, 255, 0.8);
+  }
+  50% {
+    box-shadow: 0 0 20px 10px rgba(255, 255, 255, 0.7);
+    background-color: rgba(255, 255, 255, 1);
+  }
+  100% {
+    box-shadow: 0 0 10px 5px rgba(255, 255, 255, 0.5);
+    background-color: rgba(255, 255, 255, 0.8);
+  }
+}
+
+.modalContent {
+  padding: 30px;
+}
+
+.modalTitle {
+  font-size: 2rem;
+  color: #00a651;
+  text-align: center;
+  margin-bottom: 15px;
+  font-weight: 700;
+}
+
+.modalSubtitle {
+  font-size: 1.1rem;
+  color: #333;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.formGroup {
+  margin-bottom: 25px;
+}
+
+.formLabel {
+  display: block;
+  margin-bottom: 10px;
+  color: #333;
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+.formInput {
+  width: 100%;
+  padding: 15px 20px;
+  border: 1px solid #ddd;
+  border-radius: 50px;
+  font-size: 1rem;
+  color: #333;
+  background-color: #f9f9f9;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.formInput:focus {
+  outline: none;
+  border-color: #00a651;
+  box-shadow: 0 0 0 2px rgba(0, 166, 81, 0.2);
+}
+
+/* Estilo para o wrapper do input de moeda */
+.currencyInputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.currencyPrefix {
+  position: absolute;
+  left: 20px;
+  color: #333;
+  font-size: 1rem;
+  font-weight: 500;
+  z-index: 1;
+}
+
+.currencyInputWrapper .formInput {
+  padding-left: 45px;
+}
+
+/* Estilo para o wrapper do input de CNPJ */
+.cnpjInputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.cnpjLoading,
+.cnpjValid,
+.cnpjInvalid {
+  position: absolute;
+  right: 20px;
+  font-size: 1rem;
+  z-index: 1;
+}
+
+.cnpjLoading {
+  color: #666;
+  font-style: italic;
+}
+
+.cnpjValid {
+  color: #00a651;
+  font-weight: bold;
+  cursor: help;
+}
+
+.cnpjInvalid {
+  color: #ff6b6b;
+  font-weight: bold;
+  cursor: help;
+}
+
+.radioGroup {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.radioOption {
+  flex: 1;
+  min-width: 120px;
+}
+
+.radioLabel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+  color: #333;
+  font-size: 0.95rem;
+}
+
+.radioInput {
+  position: absolute;
+  opacity: 0;
+}
+
+.radioInput:checked + .radioLabel {
+  background-color: #00a651;
+  color: white;
+  border-color: #00a651;
+}
+
+.submitButton {
+  width: 100%;
+  background-color: #1a1a2e;
+  color: white;
+  border: none;
+  border-radius: 50px;
+  padding: 15px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+  margin-top: 20px;
+}
+
+.submitButton:hover {
+  background-color: #121224;
+  transform: translateY(-2px);
+}
+
+.loadingMessage {
+  margin-top: 5px;
+  color: #00a651;
+  font-size: 0.9rem;
+}
+
+.errorMessage {
+  margin-top: 5px;
+  color: #ff6b6b;
+  font-size: 0.9rem;
+}
+
+/* Estilos para a tela de resultados */
+.resultsContainer {
+  padding: 10px 0;
+}
+
+.comparison {
+  display: flex;
+  margin-bottom: 30px;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.comparisonItem {
+  flex: 1;
+  padding: 25px 20px;
+  text-align: center;
+}
+
+.comparisonItemCurrent {
+  background-color: #ff6b6b;
+  color: white;
+}
+
+.comparisonItemInstallment {
+  background-color: #00a651;
+  color: white;
+}
+
+.comparisonLabel {
+  font-size: 1rem;
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+
+.comparisonValue {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.totalValue {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 1.2rem;
+  color: #333;
+  font-weight: 500;
+  padding: 15px;
+  background-color: #f9f9f9;
+  border-radius: 15px;
+}
+
+.specificationsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.specificationCard {
+  background-color: #f9f9f9;
+  border-radius: 20px;
+  padding: 20px;
+  text-align: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.specificationCard2 {
+  background-color: #f9f9f9;
+  border-radius: 20px;
+  padding: 20px;
+  text-align: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+margin-bottom: 10px;
+}
+
+.specificationCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.specificationIcon {
+  font-size: 24px;
+  margin: 0 auto 15px;
+  width: 50px;
+  height: 50px;
+  background-color: rgba(255, 255, 255, 0.769);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.specificationLabel {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 5px;
+}
+
+.specificationValue {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.installmentNote {
+  font-size: 0.9rem;
+  color: #666;
+  font-style: italic;
+  text-align: center;
+  margin: 20px 0;
+}
+
+/* Botão de pré-cadastro (substituindo o link de consultor) */
+.preCadastroButton {
+  display: block;
+  width: 100%;
+  text-align: center;
+  margin-top: 30px;
+  color: white;
+  background-color: #00a651;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1.1rem;
+  padding: 15px 30px;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.preCadastroButton:hover {
+  background-color: #008c44;
+  transform: translateY(-2px);
+}
+
+/* Modal de pretensão de pagamento */
+.intentionModalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1100;
+}
+
+.intentionModalContainer {
+  background-color: white;
+  border-radius: 20px;
+  padding: 30px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  position: relative;
+  animation: modalFadeIn 0.3s ease;
+}
+
+.intentionModalTitle {
+  font-size: 1.5rem;
+  color: #00a651;
+  text-align: center;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.intentionModalSubtitle {
+  font-size: 1rem;
+  color: #333;
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.intentionOptions {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.intentionOption {
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 50px;
+  background-color: #f9f9f9;
+  color: #333;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+}
+
+.intentionOption:hover {
+  background-color: #00a651;
+  color: white;
+  border-color: #00a651;
+  transform: translateY(-2px);
+}
+
+.intentionOption:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Botão de voltar para o modal de verificação */
+.backButton {
+  display: inline-block;
+  margin-top: 15px;
+  color: #666;
+  background-color: transparent;
+  border: 1px solid #ddd;
+  border-radius: 50px;
+  padding: 10px 20px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.backButton:hover {
+  background-color: #f5f5f5;
+  color: #333;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .modalContainer {
+    width: 95%;
+    max-height: 85vh;
+    border-radius: 20px;
+  }
+  
+  .modalIllustration {
+    border-radius: 20px 20px 0 0;
+    max-height: 150px;
+  }
+  
+  .modalContent {
+    padding: 20px;
+  }
+  
+  .modalTitle {
+    font-size: 1.5rem;
+  }
+  
+  .modalSubtitle {
+    font-size: 1rem;
+  }
+  
+  .comparison {
+    flex-direction: column;
+  }
+  
+  .specificationsGrid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+  
+  .radioGroup {
+    flex-direction: column;
+  }
+  
+  .radioOption {
+    width: 100%;
+  }
+  
+  .intentionModalContainer {
+    width: 95%;
+    padding: 20px;
+  }
+}
+
+/* Tablets */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .specificationsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .modalTitle {
+    font-size: 1.8rem;
+  }
+}
+
+.totalValue {
+  margin-bottom: 1rem;
+}
+
+.oldValue {
+  text-decoration: line-through;
+  color: var(--gray-500);
+  font-size: 1rem;
+}
+
+.newValue {
+  color: var(--green-600);
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.kwhSurplusOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1100;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+.kwhSurplusContainer {
+  background-color: white;
+  border-radius: 20px;
+  padding: 30px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  position: relative;
+  animation: modalFadeIn 0.3s ease;
+}
+
+.kwhSurplusTitle {
+  font-size: 1.5rem;
+  color: #00a651;
+  text-align: center;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.kwhSurplusContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.kwhSurplusIcon {
+  font-size: 36px;
+  margin-bottom: 15px;
+  width: 70px;
+  height: 70px;
+  background-color: #f9f9f9;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  color: #00a651;
+}
+
+.kwhSurplusText {
+  font-size: 1rem;
+  color: #333;
+  margin-bottom: 15px;
+  line-height: 1.5;
+}
+
+.kwhSurplusHighlight {
+  font-size: 1.2rem;
+  color: #00a651;
+  margin-bottom: 15px;
+  font-weight: 500;
+  padding: 10px 15px;
+  background-color: rgba(0, 166, 81, 0.1);
+  border-radius: 10px;
+}
+
+.kwhSurplusExplanation {
+  font-size: 0.9rem;
+  color: #666;
+  font-style: italic;
+}
+
+.specificationCardHighlight {
+  border: 2px solid #00a651;
+  position: relative;
+  overflow: hidden;
+}
+
+.specificationCardHighlight::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 40px 40px 0;
+  border-color: transparent #00a651 transparent transparent;
+}
+
+.surplusIndicator {
+  display: inline-block;
+  margin-left: 5px;
+  font-size: 0.8rem;
+  color: #00a651;
+  font-weight: bold;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.6;
+  }
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .kwhSurplusContainer {
+    width: 95%;
+    padding: 20px;
+  }
+  
+  .kwhSurplusTitle {
+    font-size: 1.3rem;
+  }
+  
+  .kwhSurplusIcon {
+    width: 60px;
+    height: 60px;
+    font-size: 30px;
+  }
+}
+
+.installmentNote {
+  text-align: center;
+  margin: 20px 0;
+  padding: 15px;
+  background-color: #f0f9f4;
+  border-radius: 10px;
+  font-size: 1.1rem;
+  color: #00a651;
+  font-weight: 500;
+  border: 1px dashed #00a651;
+}
+
+.installmentNote strong {
+  font-weight: 700;
+}

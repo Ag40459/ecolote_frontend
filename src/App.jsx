@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './index.css'; 
 
@@ -9,6 +9,7 @@ import Hero from './components/Hero/Hero';
 import About from './components/About/About';
 import Features from './components/Features/Features';
 import HowItWorks from './components/HowItWorks/HowItWorks';
+import SolarEnergySimulator from './components/SolarEnergySimulator/SolarEnergySimulator';
 import Environment from './components/Environment/Environment';
 import Comparison from './components/Comparison/Comparison';
 import Innovation from './components/Innovation/Innovation';
@@ -29,6 +30,7 @@ const MainLayout = ({ isAuthModalOpen, setIsAuthModalOpen }) => (
       <About />
       <Features />
       <HowItWorks />
+      <SolarEnergySimulator />
       <Environment />
       <Comparison />
       <Innovation />
@@ -37,7 +39,6 @@ const MainLayout = ({ isAuthModalOpen, setIsAuthModalOpen }) => (
     </main>
     <Footer />
 
-    {/* Modal de autenticação */}
     <AuthModal 
       isOpen={isAuthModalOpen} 
       onClose={() => setIsAuthModalOpen(false)} 
@@ -65,6 +66,7 @@ function App() {
           </Route>
 
           <Route path="/faq" element={<FAQ />} />
+           <Route path="/simulador" element={<SolarEnergySimulator />} /> 
 
           <Route path="/*" element={<MainLayout isAuthModalOpen={isAuthModalOpen} setIsAuthModalOpen={setIsAuthModalOpen} />} />
         </Routes>
