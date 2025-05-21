@@ -1,10 +1,11 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './SimulationModal.module.css';
 import { solarCalculator, formatCurrency } from '../../utils/calc';
 import { formatPhone, formatCep } from '../../utils/formatters';
 import { fetchCepData } from '../../utils/cepService';
 import apiClient from '../../services/apiClient';
 import VerificationCodeModal from '../ContactModal/VerificationCodeModal';
+import CNPJModal from './CNPJModal';
 
 // Componente de animação para o canto superior esquerdo
 const EnergyPulseAnimation = () => (
@@ -76,25 +77,28 @@ const SimulationModal = ({ initialValue, onClose }) => {
   // Estados para modais
   const [isPaymentIntentionModalOpen, setIsPaymentIntentionModalOpen] = useState(false);
   const [isVerificationModalOpen, setIsVerificationModalOpen] = useState(false);
+  const [isCNPJModalOpen, setIsCNPJModalOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState('');
   
   // Estado para armazenar resultados da simulação
   const [results, setResults] = useState(null);
+  
+  // Estado para armazenar dados do CNPJ
+  const [cnpjData, setCnpjData] = useState(null);
 
   // Formatar o valor inicial
   useEffect(() => {
     setFormattedBillValue(formatCurrency(billValue.toString()));
-  }, [billValue]);
+  }, []);
 
   // Função para lidar com a mudança no valor da conta
- const handleBillValueChange = (e) => {
-  const raw = e.target.value.replace(/\D/g, '');
-  const numeric = raw ? parseInt(raw, 10) : 0;
-
-  setBillValue(numeric);
-  setFormattedBillValue(formatCurrency(numeric));
-};
+  const handleBillValueChange = (e) => {
+    const value = e.target.value.replace(/[^\d]/g, '');
+    const numericValue = value ? parseInt(value) : 0;
+    setBillValue(numericValue);
+    setFormattedBillValue(formatCurrency(value));
+  };
 
   // Função para buscar dados do CEP
   const handleCepChange = async (e) => {
@@ -136,6 +140,19 @@ const SimulationModal = ({ initialValue, onClose }) => {
 
   // Função para iniciar o pré-cadastro
   const handlePreRegister = () => {
+    // Se for perfil empresarial, abrir modal de CNPJ primeiro
+    if (profileType === 'empresa') {
+      setIsCNPJModalOpen(true);
+    } else {
+      // Para outros perfis, abrir modal de pretensão de pagamento diretamente
+      setIsPaymentIntentionModalOpen(true);
+    }
+  };
+
+  // Função para processar os dados do CNPJ
+  const handleCNPJSubmit = (data) => {
+    setCnpjData(data);
+    setIsCNPJModalOpen(false);
     setIsPaymentIntentionModalOpen(true);
   };
 
@@ -151,7 +168,6 @@ const SimulationModal = ({ initialValue, onClose }) => {
     try {
       // Enviar solicitação de código de verificação
       await apiClient.post('/verificacao/enviar-codigo', { email });
-      console.log(email);
       
       // Abrir modal de verificação
       setIsVerificationModalOpen(true);
@@ -187,7 +203,8 @@ const SimulationModal = ({ initialValue, onClose }) => {
           media_conta_energia: billValue.toString(),
           cep: cep,
           rua: address.logradouro,
-          numero: '', // Precisa ser preenchido pelo usuário em etapa posterior
+          numero: '0001', // Valor fixo conforme solicitado
+          complemento: 'Simulador(PF)', // Valor fixo conforme solicitado
           bairro: address.bairro,
           cidade: address.cidade,
           estado: address.estado,
@@ -195,48 +212,82 @@ const SimulationModal = ({ initialValue, onClose }) => {
         };
       } else if (profileType === 'empresa') {
         endpoint = '/pessoas-juridicas';
+        
+        // Usar dados do CNPJ se disponíveis
+        const razaoSocial = cnpjData ? cnpjData.razao_social : name;
+        const nomeFantasia = cnpjData ? (cnpjData.nome_fantasia || razaoSocial) : name;
+        const cnpjValue = cnpjData ? cnpjData.cnpj : '';
+        
+        // Usar nome do responsável e telefone do formulário se não disponíveis no CNPJ
+        const nomeResponsavel = name;
+        const telefoneResponsavel = phone;
+        
         payload = {
-          razao_social: name,
+          razao_social: razaoSocial,
+          nome_fantasia: nomeFantasia,
+          cnpj: cnpjValue,
           telefone_comercial: phone,
           email_comercial: email,
+          nome_responsavel: nomeResponsavel,
+          telefone_responsavel: telefoneResponsavel,
           tipo_imovel_comercial: 'Comercial', // Valor padrão
-          media_conta_energia_pj: billValue,
+          media_conta_energia_pj: billValue.toString(),
           cep_pj: cep,
-          rua_pj: address.logradouro,
-          bairro_pj: address.bairro,
-          cidade_pj: address.cidade,
-          estado_pj: address.estado,
+          rua_pj: address.logradouro || '',
+          numero_pj: '0001', // Valor fixo conforme solicitado
+          complemento_pj: 'Simulador(PJ)', // Valor fixo conforme solicitado
+          bairro_pj: address.bairro || '',
+          cidade_pj: address.cidade || '',
+          estado_pj: address.estado || '',
           pretensao_pagamento_pj: paymentIntention
         };
       } else if (profileType === 'investidor') {
         endpoint = '/investidores';
         payload = {
-          nome: name,
-          email: email,
-          telefone: phone,
-          cidade: address.cidade,
-          estado: address.estado,
-          valor_investimento: billValue.toString(),
-          tipo_investidor: 'Pessoa Física' // Valor padrão
+          nome_investidor: name,
+          email_investidor: email,
+          telefone_investidor: phone,
+          tipo_investidor: 'Pessoa Física', // Valor padrão
+          area_interesse_principal: 'Energia Solar', // Valor padrão
+          valor_interesse_investimento: billValue.toString(),
+          cidade_investidor: address.cidade || '',
+          estado_investidor: address.estado || ''
         };
       }
       
-      // Envia os dados para o backend
-      const response = await apiClient.post(endpoint, payload);
+      // Log do payload para depuração
+      console.log('Enviando dados para o backend:', endpoint, payload);
       
-      // Fecha o modal de verificação
-      setIsVerificationModalOpen(false);
-      
-      // Fecha o modal principal
-      onClose();
-      
-      // Exibe mensagem de sucesso (pode ser implementado de outra forma)
-      alert('Pré-cadastro realizado com sucesso!');
+      try {
+        // Envia os dados para o backend
+        const response = await apiClient.post(endpoint, payload);
+        console.log('Resposta do backend:', response.data);
+        
+        // Fecha o modal de verificação
+        setIsVerificationModalOpen(false);
+        
+        // Fecha o modal principal
+        onClose();
+        
+        // Exibe mensagem de sucesso
+        alert('Pré-cadastro realizado com sucesso!');
+      } catch (error) {
+        console.error('Erro ao enviar dados:', error);
+        console.error('Detalhes do erro:', error.response?.data);
+        
+        // Exibe mensagem de erro específica
+        const errorMessage = error.response?.data?.message || 
+                            error.response?.data?.error || 
+                            error.message || 
+                            "Erro ao processar sua solicitação. Por favor, tente novamente.";
+        
+        throw new Error(errorMessage);
+      }
       
     } catch (error) {
       console.error("Erro na verificação:", error);
       throw new Error(
-        error.response?.data?.message || "Código inválido. Por favor, tente novamente."
+        error.response?.data?.message || error.message || "Código inválido. Por favor, tente novamente."
       );
     }
   };
@@ -245,7 +296,6 @@ const SimulationModal = ({ initialValue, onClose }) => {
   const handleResendCode = async () => {
     try {
       await apiClient.post('/verificacao/enviar-codigo', { email });
-      console.log(email);
     } catch (error) {
       console.error("Erro ao reenviar código:", error);
     }
@@ -266,7 +316,7 @@ const SimulationModal = ({ initialValue, onClose }) => {
       </div>
       
       <div className={styles.modalContent}>
-        <h2 className={`${styles.modalTitle} sectionTitle`}>Simulador</h2>
+        <h2 className={`${styles.modalTitle} sectionTitle`}>EcoSimula</h2>
         <p className={styles.modalSubtitle}>
           Preencha os campos abaixo e veja agora mesmo quanto você poderia economizar investindo em energia solar.
         </p>
@@ -275,6 +325,7 @@ const SimulationModal = ({ initialValue, onClose }) => {
           <div className={styles.formGroup}>
             <label className={styles.formLabel}>Média mensal de gasto com energia:</label>
             <div className={styles.currencyInputWrapper}>
+              <span className={styles.currencyPrefix}>R$</span>
               <input
                 type="text"
                 className={styles.formInput}
@@ -414,12 +465,12 @@ const SimulationModal = ({ initialValue, onClose }) => {
           <div className={styles.comparison}>
             <div className={`${styles.comparisonItem} ${styles.comparisonItemCurrent}`}>
               <div className={styles.comparisonLabel}>Valor Atual da Conta</div>
-              <div className={styles.comparisonValue}>{formatCurrency(results.monthlyBill)}</div>
+              <div className={styles.comparisonValue}>R$ {formatCurrency(results.monthlyBill)}</div>
             </div>
             
             <div className={`${styles.comparisonItem} ${styles.comparisonItemInstallment}`}>
               <div className={styles.comparisonLabel}>Valor da Sua Parcela</div>
-              <div className={styles.comparisonValue}>{formatCurrency(results.monthlyInstallment)}</div>
+              <div className={styles.comparisonValue}>R$ {formatCurrency(results.monthlyInstallment)}</div>
             </div>
           </div>
           
@@ -498,6 +549,13 @@ const SimulationModal = ({ initialValue, onClose }) => {
     <div className={styles.modalOverlay}>
       <div className={styles.modalContainer}>
         {step === 'form' ? renderForm() : renderResults()}
+        
+        {/* Modal de CNPJ */}
+        <CNPJModal 
+          isOpen={isCNPJModalOpen}
+          onClose={() => setIsCNPJModalOpen(false)}
+          onSubmit={handleCNPJSubmit}
+        />
         
         {/* Modal de pretensão de pagamento */}
         <PaymentIntentionModal 

@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import styles from './InitialSimulator.module.css';
-import { formatCurrency, DROPDOWN_OPTIONS,  } from '../../utils/calc';
+import { formatCurrency, DROPDOWN_OPTIONS  } from '../../utils/calc';
 
 const InitialSimulator = ({ onSimulate }) => {
   const [billValue, setBillValue] = useState(200);
@@ -158,7 +158,7 @@ const InitialSimulator = ({ onSimulate }) => {
 
   return (
     <section className={styles.simulatorContainer}>
-      <div className={styles.simulatorContent}>
+      <div id="simulator" className={styles.simulatorContent}>
         <h2 className={styles.simulatorTitle}>
           Faça Sua Simulação
         </h2>

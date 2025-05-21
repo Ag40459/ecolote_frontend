@@ -2,81 +2,78 @@
   position: fixed;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.7);
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(5px);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
   overflow-y: auto;
   padding: 20px;
+  transition: opacity 0.3s ease;
 }
 
 .modalContainer {
-  background-color: #e1e8e0dc;
-  border-radius: 30px;
+  background-color: var(--modal-bg, #ffffff);
+  border-radius: 20px;
+  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.25), 0 5px 15px rgba(0, 0, 0, 0.1);
   width: 100%;
   max-width: 800px;
   max-height: 90vh;
   overflow-y: auto;
   position: relative;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  transform: translateY(0);
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  overflow: hidden;
   animation: modalFadeIn 0.3s ease;
-  }
-
-@keyframes modalFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
 
 .modalHeader {
   position: relative;
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-color-dark) 100%);
   padding-bottom: 0;
+  overflow: hidden;
+  border-radius: 20px 20px 0 0;
+  min-height: 180px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .modalCloseButton {
   position: absolute;
   top: 20px;
   right: 20px;
-  background-color: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.2);
   border: none;
-  border-radius: 50%;
   width: 40px;
   height: 40px;
+  border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
   font-size: 24px;
-  color: #333;
+  color: white;
   z-index: 10;
-  transition: background-color 0.2s;
+  transition: all 0.2s ease;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .modalCloseButton:hover {
-  background-color: rgba(255, 255, 255, 1);
+  background: rgba(255, 255, 255, 0.3);
+  transform: rotate(90deg);
 }
 
 .modalIllustration {
   width: 100%;
   text-align: center;
-  padding: 0;
   overflow: hidden;
-  border-radius: 30px 30px 0 0;
-  max-height: 250px;
-  background-color: #00a651;
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 180px;
 }
 
 .modalIllustration img {
@@ -159,7 +156,7 @@
 
 .modalTitle {
   font-size: 2rem;
-  color: #00a651;
+  color: var(--primary-color);
   text-align: center;
   margin-bottom: 15px;
   font-weight: 700;
@@ -167,19 +164,20 @@
 
 .modalSubtitle {
   font-size: 1.1rem;
-  color: #333;
+  color: var(--text-color);
   text-align: center;
   margin-bottom: 30px;
 }
 
 .formGroup {
+  position: relative;
   margin-bottom: 25px;
 }
 
 .formLabel {
   display: block;
   margin-bottom: 10px;
-  color: #333;
+  color: var(--text-color);
   font-weight: 500;
   font-size: 1rem;
 }
@@ -187,18 +185,18 @@
 .formInput {
   width: 100%;
   padding: 15px 20px;
-  border: 1px solid #ddd;
-  border-radius: 50px;
+  border: 2px solid var(--border-color, #e0e0e0);
+  border-radius: 12px;
   font-size: 1rem;
-  color: #333;
-  background-color: #f9f9f9;
-  transition: border-color 0.3s, box-shadow 0.3s;
+  color: var(--text-color);
+  background-color: var(--input-bg, #f8f9fa);
+  transition: all 0.3s ease;
 }
 
 .formInput:focus {
   outline: none;
-  border-color: #00a651;
-  box-shadow: 0 0 0 2px rgba(0, 166, 81, 0.2);
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 4px rgba(var(--primary-color-rgb), 0.1);
 }
 
 /* Estilo para o wrapper do input de moeda */
@@ -211,7 +209,7 @@
 .currencyPrefix {
   position: absolute;
   left: 20px;
-  color: #333;
+  color: var(--text-color);
   font-size: 1rem;
   font-weight: 500;
   z-index: 1;
@@ -219,39 +217,6 @@
 
 .currencyInputWrapper .formInput {
   padding-left: 45px;
-}
-
-/* Estilo para o wrapper do input de CNPJ */
-.cnpjInputWrapper {
-  position: relative;
-  display: flex;
-  align-items: center;
-}
-
-.cnpjLoading,
-.cnpjValid,
-.cnpjInvalid {
-  position: absolute;
-  right: 20px;
-  font-size: 1rem;
-  z-index: 1;
-}
-
-.cnpjLoading {
-  color: #666;
-  font-style: italic;
-}
-
-.cnpjValid {
-  color: #00a651;
-  font-weight: bold;
-  cursor: help;
-}
-
-.cnpjInvalid {
-  color: #ff6b6b;
-  font-weight: bold;
-  cursor: help;
 }
 
 .radioGroup {
@@ -271,12 +236,12 @@
   align-items: center;
   justify-content: center;
   padding: 12px 15px;
-  border: 1px solid #ddd;
+  border: 2px solid var(--border-color);
   border-radius: 50px;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.3s ease;
   text-align: center;
-  color: #333;
+  color: var(--text-color);
   font-size: 0.95rem;
 }
 
@@ -286,14 +251,14 @@
 }
 
 .radioInput:checked + .radioLabel {
-  background-color: #00a651;
+  background-color: var(--primary-color);
   color: white;
-  border-color: #00a651;
+  border-color: var(--primary-color);
 }
 
 .submitButton {
   width: 100%;
-  background-color: #1a1a2e;
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-color-dark) 100%);
   color: white;
   border: none;
   border-radius: 50px;
@@ -301,24 +266,31 @@
   font-size: 1.1rem;
   font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.3s, transform 0.2s;
+  transition: all 0.3s ease;
   margin-top: 20px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(var(--primary-color-rgb), 0.3);
 }
 
 .submitButton:hover {
-  background-color: #121224;
-  transform: translateY(-2px);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(var(--primary-color-rgb), 0.4);
+}
+
+.submitButton:active {
+  transform: translateY(-1px);
 }
 
 .loadingMessage {
   margin-top: 5px;
-  color: #00a651;
+  color: var(--info-color);
   font-size: 0.9rem;
 }
 
 .errorMessage {
   margin-top: 5px;
-  color: #ff6b6b;
+  color: var(--error-color);
   font-size: 0.9rem;
 }
 
@@ -332,7 +304,7 @@
   margin-bottom: 30px;
   border-radius: 20px;
   overflow: hidden;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-md);
 }
 
 .comparisonItem {
@@ -342,12 +314,12 @@
 }
 
 .comparisonItemCurrent {
-  background-color: #ff6b6b;
+  background-color: var(--error-color);
   color: white;
 }
 
 .comparisonItemInstallment {
-  background-color: #00a651;
+  background-color: var(--success-color);
   color: white;
 }
 
@@ -366,10 +338,10 @@
   text-align: center;
   margin-bottom: 30px;
   font-size: 1.2rem;
-  color: #333;
+  color: var(--text-color);
   font-weight: 500;
   padding: 15px;
-  background-color: #f9f9f9;
+  background-color: var(--input-bg);
   border-radius: 15px;
 }
 
@@ -380,26 +352,22 @@
   margin-bottom: 30px;
 }
 
-.specificationCard {
-  background-color: #f9f9f9;
+.specificationCard, .specificationCard2 {
+  background-color: var(--input-bg);
   border-radius: 20px;
   padding: 20px;
   text-align: center;
   transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: var(--shadow-sm);
 }
 
 .specificationCard2 {
-  background-color: #f9f9f9;
-  border-radius: 20px;
-  padding: 20px;
-  text-align: center;
-  transition: transform 0.2s, box-shadow 0.2s;
-margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 
 .specificationCard:hover {
   transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-md);
 }
 
 .specificationIcon {
@@ -412,37 +380,42 @@ margin-bottom: 10px;
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-sm);
 }
 
 .specificationLabel {
   font-size: 0.9rem;
-  color: #666;
+  color: var(--text-secondary);
   margin-bottom: 5px;
 }
 
 .specificationValue {
   font-size: 1.2rem;
   font-weight: bold;
-  color: #333;
+  color: var(--text-color);
 }
 
 .installmentNote {
   font-size: 0.9rem;
-  color: #666;
+  color: var(--text-secondary);
   font-style: italic;
   text-align: center;
   margin: 20px 0;
+  padding: 15px;
+  background-color: rgba(var(--primary-color-rgb), 0.1);
+  border-radius: 10px;
+  font-weight: 500;
+  border: 1px dashed var(--primary-color);
 }
 
-/* Botão de pré-cadastro (substituindo o link de consultor) */
+/* Botão de pré-cadastro */
 .preCadastroButton {
   display: block;
   width: 100%;
   text-align: center;
   margin-top: 30px;
   color: white;
-  background-color: #00a651;
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-color-dark) 100%);
   text-decoration: none;
   font-weight: 600;
   font-size: 1.1rem;
@@ -450,12 +423,15 @@ margin-bottom: 10px;
   border: none;
   border-radius: 50px;
   cursor: pointer;
-  transition: background-color 0.3s, transform 0.2s;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(var(--primary-color-rgb), 0.3);
 }
 
 .preCadastroButton:hover {
-  background-color: #008c44;
-  transform: translateY(-2px);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(var(--primary-color-rgb), 0.4);
 }
 
 /* Modal de pretensão de pagamento */
@@ -465,62 +441,80 @@ margin-bottom: 10px;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(5px);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1100;
+  padding: 20px;
 }
 
 .intentionModalContainer {
-  background-color: white;
+  background-color: var(--modal-bg);
   border-radius: 20px;
-  padding: 30px;
+  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.25), 0 5px 15px rgba(0, 0, 0, 0.1);
   width: 90%;
   max-width: 500px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
   position: relative;
   animation: modalFadeIn 0.3s ease;
+  overflow: hidden;
+}
+
+.intentionModalContainer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 8px;
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-color-dark) 100%);
 }
 
 .intentionModalTitle {
   font-size: 1.5rem;
-  color: #00a651;
+  color: var(--primary-color);
   text-align: center;
   margin-bottom: 10px;
   font-weight: 600;
+  padding-top: 30px;
+  padding-left: 30px;
+  padding-right: 30px;
 }
 
 .intentionModalSubtitle {
   font-size: 1rem;
-  color: #333;
+  color: var(--text-color);
   text-align: center;
   margin-bottom: 25px;
+  padding-left: 30px;
+  padding-right: 30px;
 }
 
 .intentionOptions {
   display: flex;
   flex-direction: column;
   gap: 15px;
+  padding: 0 30px 30px;
 }
 
 .intentionOption {
   padding: 15px;
-  border: 1px solid #ddd;
+  border: 2px solid var(--border-color);
   border-radius: 50px;
-  background-color: #f9f9f9;
-  color: #333;
+  background-color: var(--input-bg);
+  color: var(--text-color);
   font-size: 1rem;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.3s ease;
   text-align: center;
 }
 
 .intentionOption:hover {
-  background-color: #00a651;
+  background-color: var(--primary-color);
   color: white;
-  border-color: #00a651;
+  border-color: var(--primary-color);
   transform: translateY(-2px);
 }
 
@@ -530,23 +524,96 @@ margin-bottom: 10px;
   transform: none;
 }
 
-/* Botão de voltar para o modal de verificação */
-.backButton {
-  display: inline-block;
-  margin-top: 15px;
-  color: #666;
-  background-color: transparent;
-  border: 1px solid #ddd;
-  border-radius: 50px;
-  padding: 10px 20px;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: all 0.2s;
+/* Animações para modais */
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
-.backButton:hover {
-  background-color: #f5f5f5;
-  color: #333;
+@keyframes modalFadeOut {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+  }
+}
+
+.modalOverlay.entering {
+  animation: modalBackdropIn 0.3s forwards;
+}
+
+.modalOverlay.exiting {
+  animation: modalBackdropOut 0.3s forwards;
+}
+
+.modalContainer.entering {
+  animation: modalFadeIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+.modalContainer.exiting {
+  animation: modalFadeOut 0.3s ease forwards;
+}
+
+@keyframes modalBackdropIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes modalBackdropOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+.totalValue {
+  margin-bottom: 1rem;
+}
+
+.oldValue {
+  text-decoration: line-through;
+  color: var(--text-secondary);
+  font-size: 1rem;
+}
+
+.newValue {
+  color: var(--success-color);
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.specificationCardHighlight {
+  border: 2px solid var(--primary-color);
+  position: relative;
+  overflow: hidden;
+}
+
+.specificationCardHighlight::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 40px 40px 0;
+  border-color: transparent var(--primary-color) transparent transparent;
+}
+
+.surplusIndicator {
+  display: inline-block;
+  margin-left: 5px;
+  font-size: 0.8rem;
+  color: var(--primary-color);
+  font-weight: bold;
+  animation: pulse 2s infinite;
 }
 
 /* Responsividade */
@@ -557,7 +624,7 @@ margin-bottom: 10px;
     border-radius: 20px;
   }
   
-  .modalIllustration {
+  .modalHeader {
     border-radius: 20px 20px 0 0;
     max-height: 150px;
   }
@@ -593,7 +660,21 @@ margin-bottom: 10px;
   
   .intentionModalContainer {
     width: 95%;
-    padding: 20px;
+  }
+  
+  .intentionModalTitle {
+    padding-top: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  
+  .intentionModalSubtitle {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  
+  .intentionOptions {
+    padding: 0 20px 20px;
   }
 }
 
@@ -606,171 +687,4 @@ margin-bottom: 10px;
   .modalTitle {
     font-size: 1.8rem;
   }
-}
-
-.totalValue {
-  margin-bottom: 1rem;
-}
-
-.oldValue {
-  text-decoration: line-through;
-  color: var(--gray-500);
-  font-size: 1rem;
-}
-
-.newValue {
-  color: var(--green-600);
-  font-size: 1.5rem;
-  font-weight: bold;
-}
-
-.kwhSurplusOverlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.7);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1100;
-  overflow-y: auto;
-  padding: 20px;
-}
-
-.kwhSurplusContainer {
-  background-color: white;
-  border-radius: 20px;
-  padding: 30px;
-  width: 90%;
-  max-width: 500px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-  position: relative;
-  animation: modalFadeIn 0.3s ease;
-}
-
-.kwhSurplusTitle {
-  font-size: 1.5rem;
-  color: #00a651;
-  text-align: center;
-  margin-bottom: 20px;
-  font-weight: 600;
-}
-
-.kwhSurplusContent {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-}
-
-.kwhSurplusIcon {
-  font-size: 36px;
-  margin-bottom: 15px;
-  width: 70px;
-  height: 70px;
-  background-color: #f9f9f9;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-  color: #00a651;
-}
-
-.kwhSurplusText {
-  font-size: 1rem;
-  color: #333;
-  margin-bottom: 15px;
-  line-height: 1.5;
-}
-
-.kwhSurplusHighlight {
-  font-size: 1.2rem;
-  color: #00a651;
-  margin-bottom: 15px;
-  font-weight: 500;
-  padding: 10px 15px;
-  background-color: rgba(0, 166, 81, 0.1);
-  border-radius: 10px;
-}
-
-.kwhSurplusExplanation {
-  font-size: 0.9rem;
-  color: #666;
-  font-style: italic;
-}
-
-.specificationCardHighlight {
-  border: 2px solid #00a651;
-  position: relative;
-  overflow: hidden;
-}
-
-.specificationCardHighlight::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 0;
-  height: 0;
-  border-style: solid;
-  border-width: 0 40px 40px 0;
-  border-color: transparent #00a651 transparent transparent;
-}
-
-.surplusIndicator {
-  display: inline-block;
-  margin-left: 5px;
-  font-size: 0.8rem;
-  color: #00a651;
-  font-weight: bold;
-  animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-  0% {
-    opacity: 0.6;
-  }
-  50% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0.6;
-  }
-}
-
-/* Responsividade */
-@media (max-width: 768px) {
-  .kwhSurplusContainer {
-    width: 95%;
-    padding: 20px;
-  }
-  
-  .kwhSurplusTitle {
-    font-size: 1.3rem;
-  }
-  
-  .kwhSurplusIcon {
-    width: 60px;
-    height: 60px;
-    font-size: 30px;
-  }
-}
-
-.installmentNote {
-  text-align: center;
-  margin: 20px 0;
-  padding: 15px;
-  background-color: #f0f9f4;
-  border-radius: 10px;
-  font-size: 1.1rem;
-  color: #00a651;
-  font-weight: 500;
-  border: 1px dashed #00a651;
-}
-
-.installmentNote strong {
-  font-weight: 700;
 }

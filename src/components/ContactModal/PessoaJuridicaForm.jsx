@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
 import styles from './ContactModal.module.css';
 import { modelosImovelPJ, pretensaoPagamentoOptions } from '../../config/formConfig';
-import { formatCNPJ, formatPhone, formatCurrency, onlyNumbers } from '../../utils/formatters';
+import { formatCNPJ, formatPhone, onlyNumbers } from '../../utils/formatters';
+import {  formatCurrency  } from '../../utils/calc';
 import { fetchCNPJData } from '../../utils/cnpjService';
 
 // Função utilitária para atualizar valores apenas se estiverem vazios

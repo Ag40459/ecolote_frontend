@@ -1,5 +1,7 @@
 import styles from './ContactModal.module.css';
-import { formatPhone, formatCep, formatCurrency } from '../../utils/formatters';
+import { formatPhone, formatCep } from '../../utils/formatters';
+import {  formatCurrency  } from '../../utils/calc';
+
 
 const modelosImovelPF = [
   { value: "", label: "Selecione o modelo" },

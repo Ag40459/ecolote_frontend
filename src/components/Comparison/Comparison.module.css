@@ -1,38 +1,139 @@
 .comparison {
-  padding: 60px 0;
+  position: relative;
+  padding: 80px 0;
   background-color: var(--primary-bg-color);
+  overflow: hidden;
 }
 
+/* Fundo com ondas de energia */
+.comparisonBackground {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.energyWaves {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 150px;
+  overflow: hidden;
+}
+
+.wave {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 200%;
+  height: 100%;
+  background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1200 120" xmlns="http://www.w3.org/2000/svg"><path d="M0 0v46.29c47.79 22.2 103.59 32.17 158 28 70.36-5.37 136.33-33.31 206.8-37.5 73.84-4.36 147.54 16.88 218.2 35.26 69.27 18.17 138.3 24.88 209.4 13.08 36.15-6 69.85-17.84 104.45-29.34C989.49 25 1113-14.29 1200 52.47V0z" fill="%2300a651" opacity=".05"/></svg>');
+  background-size: 1200px 100%;
+  animation: waveAnimation 15s linear infinite;
+}
+
+.wave:nth-child(2) {
+  bottom: 0;
+  animation: waveAnimation 10s linear infinite reverse;
+  opacity: 0.03;
+}
+
+@keyframes waveAnimation {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* Container principal */
 .container {
+  position: relative;
+  z-index: 1;
   max-width: var(--container-max-width);
   margin: 0 auto;
-  padding: 2rem 1rem;
-    box-shadow: inset 0 6px 8px -6px var(--liner-division-color);
-
+  padding: 0 20px;
+  box-shadow: inset 0 6px 8px -6px var(--liner-division-color);
 }
 
+/* Título da seção */
 .sectionTitle {
   text-align: center;
   font-size: 2.5rem;
   margin-bottom: 1.5rem;
   color: var(--accent-color-green);
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
 }
 
+.visible .sectionTitle {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.titleHighlight {
+  color: var(--primary-color);
+  position: relative;
+}
+
+.titleHighlight::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: var(--primary-color);
+  transform: scaleX(0);
+  transform-origin: left;
+  animation: expandLine 1.5s forwards 0.5s;
+}
+
+@keyframes expandLine {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* Introdução da seção */
 .sectionIntro {
   text-align: center;
   max-width: 800px;
-  margin: 0 auto 2rem;
+  margin: 0 auto 2.5rem;
   font-size: 1.2rem;
   line-height: 1.6;
-  color: var(--text-color);
+  color: var(--text-secondary);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s ease 0.2s, transform 0.8s ease 0.2s;
 }
 
+.visible .sectionIntro {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Abas de visualização */
 .viewTabs {
   display: flex;
   justify-content: center;
-  gap: 1rem;
-  border-bottom: 1px solid var(--border-color, #ccc);
-  margin-bottom: 2rem;
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+  position: relative;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s ease 0.3s, transform 0.8s ease 0.3s;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.visible .viewTabs {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .tabBtn {
@@ -40,71 +141,283 @@
   border: none;
   padding: 1rem 2rem;
   font-size: 1.1rem;
-  font-weight: 500;
-  color: var(--text-color);
+  font-weight: 600;
+  color: var(--text-secondary);
   cursor: pointer;
   position: relative;
   transition: color 0.3s ease;
 }
 
-.tabBtn.active {
-  color: var(--accent-color-green);
-}
-
-.tabBtn.active::after {
+.tabBtn::after {
   content: '';
   position: absolute;
   bottom: -1px;
   left: 0;
   width: 100%;
   height: 3px;
-  background-color: var(--accent-color-green);
+  background-color: var(--primary-color);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+  z-index: 1;
 }
 
+.tabBtn.active {
+  color: var(--primary-color);
+}
+
+.tabBtn.active::after {
+  transform: scaleX(1);
+}
+
+.tabText {
+  position: relative;
+  display: inline-block;
+  transition: transform 0.2s ease;
+}
+
+.tabBtn:hover .tabText {
+  transform: translateY(-2px);
+}
+
+/* Conteúdo das abas */
+.tabContent {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s ease 0.4s, transform 0.8s ease 0.4s;
+}
+
+.visible .tabContent {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Grid de benefícios */
 .benefitsGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 2rem;
   margin-bottom: 3rem;
 }
 
 .benefitCard {
-  background-color: var(--secondary-bg-color);
-  border-radius: 10px;
+  background-color: var(--card-bg);
+  border-radius: 15px;
   padding: 2rem;
   text-align: center;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-  color: var(--text-color);
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.5s ease forwards;
+}
+
+.benefitCard:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-md);
+}
+
+.iconContainer {
+  margin-bottom: 1.5rem;
 }
 
 .icon {
-  font-size: 2rem;
-  color: var(--accent-color-green);
+  font-size: 2.5rem;
+  color: var(--primary-color);
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-color-dark) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+
+.benefitCard:hover .icon {
+  transform: scale(1.1);
+}
+
+.benefitTitle {
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+  color: var(--text-color);
+  font-weight: 600;
+}
+
+.benefitDescription {
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+/* Comparação visual */
+.comparisonContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+.comparisonVisual {
+  position: relative;
+  margin-bottom: 2rem;
+}
+
+.comparisonSlider {
+  position: relative;
+  overflow: hidden;
+  border-radius: 15px;
+  box-shadow: var(--shadow-md);
+}
+
+.comparisonItem {
+  background-color: var(--card-bg);
+  padding: 2rem;
+  border-radius: 15px;
+  display: none;
+  flex-direction: column;
+  gap: 2rem;
+  opacity: 0;
+  transform: translateX(50px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.comparisonItem.activeItem {
+  display: flex;
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.comparisonFeature {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
   margin-bottom: 1rem;
 }
 
+.featureIcon {
+  font-size: 2rem;
+  color: var(--primary-color);
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-color-dark) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.featureTitle {
+  font-size: 1.5rem;
+  color: var(--text-color);
+  font-weight: 600;
+  margin: 0;
+}
+
+.comparisonCards {
+  display: flex;
+  gap: 2rem;
+}
+
+.comparisonCard {
+  flex: 1;
+  background-color: var(--secondary-bg-color);
+  border-radius: 12px;
+  padding: 1.5rem;
+  position: relative;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.comparisonCard:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-md);
+}
+
+.ecoloteCard {
+  border-left: 4px solid var(--primary-color);
+}
+
+.traditionalCard {
+  border-left: 4px solid var(--text-light);
+}
+
+.cardTitle {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border-color);
+  color: var(--text-color);
+}
+
+.ecoloteCard .cardTitle {
+  color: var(--primary-color);
+}
+
+.cardContent {
+  position: relative;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.winnerBadge {
+  position: absolute;
+  top: -35px;
+  right: -10px;
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-color-dark) 100%);
+  color: white;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  box-shadow: var(--shadow-sm);
+  transform: rotate(20deg);
+}
+
+.comparisonControls {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+}
+
+.controlDot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: var(--border-color);
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.controlDot:hover {
+  transform: scale(1.2);
+}
+
+.activeDot {
+  background-color: var(--primary-color);
+  transform: scale(1.2);
+}
+
+/* Tabela de comparação */
 .comparisonTableWrapper {
   overflow-x: auto;
   margin-bottom: 3rem;
+  border-radius: 15px;
+  box-shadow: var(--shadow-md);
 }
 
 .comparisonTable {
   width: 100%;
   border-collapse: collapse;
-  border: 1px solid var(--border-color, #ccc);
+  border: 1px solid var(--border-color);
+  background-color: var(--card-bg);
 }
 
 .comparisonTable th,
 .comparisonTable td {
   padding: 1rem;
-  border: 1px solid var(--border-color, #ccc);
+  border: 1px solid var(--border-color);
   text-align: left;
   color: var(--text-color);
 }
 
 .comparisonTable th {
-  background-color: var(--secondary-bg-color);
-  color: var(--accent-color-green);
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-color-dark) 100%);
+  color: white;
+  font-weight: 600;
 }
 
 .comparisonTable tr:nth-child(even) {
@@ -112,51 +425,167 @@
 }
 
 .highlightEcolote {
-  background-color: rgba(76, 175, 80, 0.15);
+  background-color: rgba(var(--primary-color-rgb), 0.1);
   font-weight: 500;
 }
 
-.highlightNote {
-  background-color: var(--secondary-bg-color);
-  border-left: 4px solid var(--accent-color-green);
-  padding: 1.5rem;
-  margin: 2rem 0;
-  border-radius: 0 8px 8px 0;
-  color: var(--text-color);
+.tableFeature {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
 }
 
+.tableIcon {
+  color: var(--primary-color);
+  font-size: 1.2rem;
+}
+
+/* Nota de destaque */
+.highlightNote {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  background-color: var(--secondary-bg-color);
+  border-left: 4px solid var(--primary-color);
+  padding: 1.5rem;
+  margin: 2rem 0;
+  border-radius: 0 15px 15px 0;
+  color: var(--text-color);
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.3s ease;
+}
+
+.highlightNote:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-md);
+}
+
+.noteIcon {
+  font-size: 2rem;
+  color: var(--primary-color);
+  flex-shrink: 0;
+}
+
+.noteContent {
+  line-height: 1.6;
+}
+
+/* Container de CTA */
 .ctaContainer {
   text-align: center;
-  background-color: var(--secondary-bg-color);
-  padding: 2rem;
-  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(var(--primary-color-rgb), 0.1) 0%, rgba(var(--primary-color-rgb), 0.05) 100%);
+  padding: 3rem 2rem;
+  border-radius: 20px;
+  margin-top: 3rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.ctaTitle {
+  font-size: 1.8rem;
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+}
+
+.ctaText {
+  font-size: 1.2rem;
+  color: var(--text-secondary);
+  margin-bottom: 2rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .ctaButton {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
   padding: 1rem 2rem;
-  background-color: var(--accent-color-gold);
-  color: var(--text-color);
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-color-dark) 100%);
+  color: white;
   text-decoration: none;
-  border-radius: 6px;
-  font-weight: 500;
-  margin-top: 1rem;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(var(--primary-color-rgb), 0.3);
 }
 
 .ctaButton:hover {
-  background-color: var(--accent-color-green);
-  color: var(--primary-bg-color);
-  transform: translateY(-2px);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(var(--primary-color-rgb), 0.4);
 }
 
+.ctaButtonIcon {
+  font-size: 1.2rem;
+  transition: transform 0.3s ease;
+}
+
+.ctaButton:hover .ctaButtonIcon {
+  transform: translateX(5px);
+}
+
+/* Animações */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsividade */
 @media (max-width: 768px) {
+  .comparison {
+    padding: 60px 0;
+  }
+  
+  .sectionTitle {
+    font-size: 2rem;
+  }
+  
+  .sectionIntro {
+    font-size: 1rem;
+  }
+  
   .tabBtn {
     padding: 0.75rem 1rem;
     font-size: 1rem;
   }
-
+  
   .benefitsGrid {
     grid-template-columns: 1fr;
+  }
+  
+  .comparisonCards {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .highlightNote {
+    flex-direction: column;
+    text-align: center;
+    padding: 1.5rem 1rem;
+  }
+  
+  .ctaContainer {
+    padding: 2rem 1rem;
+  }
+  
+  .ctaTitle {
+    font-size: 1.5rem;
+  }
+  
+  .ctaText {
+    font-size: 1rem;
+  }
+}
+
+/* Tablets */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .benefitsGrid {
+    grid-template-columns: repeat(2, 1fr);
   }
 }

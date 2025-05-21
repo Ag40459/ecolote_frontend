@@ -32,8 +32,37 @@
   font-weight: bold;
   color: var(--accent-color-green);
   text-decoration: none;
+  transition: color 0.3s ease;
 }
 
+.logo:hover {
+  color: var(--accent-color-gold);
+}
+
+/* Overlay para fechar o menu ao clicar fora */
+.menuOverlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  transition: opacity 0.3s ease;
+}
+
+.menuOverlay.active {
+  display: block;
+  animation: fadeIn 0.3s forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Estilo base para o container de links da navbar */
 .navLinksContainer {
   display: flex;
 }
@@ -70,7 +99,7 @@
 }
 
 .navLinks a:hover,
-.navLinks a.active { /* Você pode adicionar a classe .active via JS para o link da seção atual */
+.navLinks a.active {
   color: var(--accent-color-gold);
 }
 
@@ -79,6 +108,17 @@
   width: 100%;
 }
 
+.navLinks a.active::after {
+  animation: pulseUnderline 2s infinite;
+}
+
+@keyframes pulseUnderline {
+  0% { opacity: 0.6; }
+  50% { opacity: 1; }
+  100% { opacity: 0.6; }
+}
+
+/* Botão de alternância de tema */
 .themeToggleButton {
   background: none;
   border: none;
@@ -86,64 +126,191 @@
   font-size: 1.5rem;
   cursor: pointer;
   margin-left: 20px;
-  z-index: 11000;
+  z-index: 1001;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+  border-radius: 50%;
+  transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
+.themeToggleButton:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  transform: rotate(30deg);
+}
+
+.themeToggleButton svg {
+  transition: transform 0.3s ease;
+}
+
+.themeToggleButton:hover svg {
+  transform: scale(1.1);
+}
+
+/* Botão do menu mobile (três pontinhos) */
 .menuToggle {
-  display: none; /* Escondido em telas maiores */
+  display: none;
   background: none;
   border: none;
   color: var(--navbar-text-color);
   font-size: 1.8rem;
   cursor: pointer;
+  z-index: 1001;
+  padding: 5px;
+  border-radius: 50%;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.menuToggle:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Cabeçalho do menu mobile */
+.mobileMenuHeader {
+  display: none;
+}
+
+/* Botão de logout */
+.navButtonLogout {
+  background: none;
+  border: none;
+  color: var(--navbar-text-color);
+  font-weight: 200;
+  cursor: pointer;
+  padding: 0.5rem 0;
+  transition: color 0.2s ease-in-out;
+  text-align: left;
+}
+
+.navButtonLogout:hover {
+  color: var(--accent-color-gold);
+}
+
+/* Estilos de foco para acessibilidade */
+.navLinks a:focus,
+.menuToggle:focus,
+.themeToggleButton:focus,
+.closeMenuButton:focus,
+.navButtonLogout:focus {
+  outline: 2px solid var(--accent-color-gold);
+  outline-offset: 2px;
 }
 
 /* Responsividade para o menu mobile */
-@media (max-width: 992px) { /* Ajuste este breakpoint conforme necessário */
+@media (max-width: 992px) {
   .navLinksContainer {
-  display: none;
-  position: absolute;
-  top: 100%;
-  left: 0;
-  width: 100%;
-  max-height: calc(100vh - 60px); /* ou ajuste conforme a altura do seu header */
-  overflow-y: auto; /* permite rolar se exceder o limite */
-  background-color: var(--secondary-bg-color);
-  flex-direction: column;
-  align-items: center;
-  padding: 1rem 0;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  z-index: 9999;
-}
-
-
-  .navLinksContainer.active {
-    display: flex; /* Mostra quando o menu está ativo */
+    display: block;
+    position: fixed;
+    top: 0;
+    right: -280px; /* Começa fora da tela */
+    width: 280px;
+    height: 100vh;
+    background-color: var(--secondary-bg-color);
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.2);
+    transition: right 0.3s ease-in-out;
+    z-index: 10000;
+    padding-top: 60px; /* Espaço para o cabeçalho */
+    overflow-y: auto;
   }
-
+  
+  .navLinksContainer.active {
+    right: 0; /* Desliza para dentro da tela */
+    animation: slideIn 0.3s forwards;
+  }
+  
+  @keyframes slideIn {
+    from { right: -280px; opacity: 0.8; }
+    to { right: 0; opacity: 1; }
+  }
+  
+  .mobileMenuHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    border-bottom: 1px solid var(--primary-bg-color);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .mobileMenuTitle {
+    font-weight: bold;
+    color: var(--accent-color-gold);
+  }
+  
+  .closeMenuButton {
+    background: none;
+    border: none;
+    color: var(--navbar-text-color);
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  }
+  
+  .closeMenuButton:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: rotate(90deg);
+  }
+  
   .navLinks {
     flex-direction: column;
     width: 100%;
   }
-
+  
   .navLinks li {
     margin: 0;
     width: 100%;
-    text-align: center;
   }
-
-  .navLinks a {
+  
+  .navLinks a,
+  .navButtonLogout {
     display: block;
-    padding: 1rem;
-    width: 100%;
-    border-bottom: 1px solid var(--primary-bg-color); /* Linha divisória sutil */
+    padding: 1rem 1.5rem;
+    text-align: left;
+    border-bottom: 1px solid var(--primary-bg-color);
+    transition: background-color 0.2s ease;
   }
-
-  .navLinks li:last-child a {
-    border-bottom: none;
+  
+  .navLinks a:hover,
+  .navButtonLogout:hover {
+    background-color: rgba(255, 255, 255, 0.05);
   }
-
+  
+  .navLinks a::after {
+    display: none; /* Remove o underline em dispositivos móveis */
+  }
+  
   .menuToggle {
     display: block; /* Mostra o botão de toggle */
   }
+  
+  /* Ajuste para o botão de tema em mobile */
+  .themeToggleButton {
+    margin-right: 15px;
+  }
+}
+
+/* Garantir que a navbar fique sempre visível, mesmo com modais abertos */
+.navbar {
+  position: fixed;
+  z-index: 1100; /* Valor maior que outros elementos */
+}
+
+/* Estilo específico para o link Admin */
+.navLinkAdmin {
+  color: var(--navbar-text-color);
+  position: relative;
+}
+
+.navLinkAdmin:hover {
+  color: var(--accent-color-gold);
 }

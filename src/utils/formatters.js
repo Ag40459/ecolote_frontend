@@ -25,15 +25,6 @@ export const formatPhone = (value) => {
     .slice(0, 15);
 };
 
-export const formatCurrency = (value) => {
-  const numeric = value.replace(/\D/g, '');
-  const number = parseFloat(numeric) / 100;
-  return number.toLocaleString('pt-BR', {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  });
-};
-
 export const onlyNumbers = (value) => {
   return value.replace(/\D/g, '');
 };

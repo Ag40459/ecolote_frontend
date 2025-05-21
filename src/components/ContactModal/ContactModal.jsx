@@ -75,7 +75,7 @@ const ContactModal = ({ isOpen, onClose }) => {
     } else if (selectedType === "pessoa jurídica") {
       endpoint = "/pessoas-juridicas";
       payload = pjForm.getValues();
-      email = payload.email;
+      email = payload.email_comercial;
     } else if (selectedType === "investidor") {
       endpoint = "/investidores";
       payload = invForm.getValues();
