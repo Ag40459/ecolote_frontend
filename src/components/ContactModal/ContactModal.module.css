@@ -12,6 +12,8 @@
   z-index: 1100;
   padding: 20px;
   transition: opacity 0.3s ease;
+  /* Impede interação com elementos de fundo */
+  pointer-events: all;
 }
 
 .modalContent {
@@ -21,10 +23,11 @@
   width: 90%;
   max-width: 600px;
   max-height: 85vh;
-  overflow-y: auto;
   position: relative;
   transform: translateY(0);
   transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  display: flex;
+  flex-direction: column;
   overflow: hidden;
 }
 
@@ -36,6 +39,54 @@
   right: 0;
   height: 8px;
   background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-color-dark) 100%);
+}
+
+/* Container para conteúdo com scroll */
+.typeSelectionContainer,
+.contactForm {
+  overflow-y: auto;
+  /* Estilização da barra de rolagem para Firefox */
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary-color) rgba(0, 0, 0, 0.05);
+  /* Impede que o scroll do modal afete a página */
+  overscroll-behavior: contain;
+}
+
+/* Estilização da barra de rolagem para navegadores baseados em WebKit */
+.typeSelectionContainer::-webkit-scrollbar,
+.contactForm::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.typeSelectionContainer::-webkit-scrollbar-track,
+.contactForm::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 4px;
+}
+
+.typeSelectionContainer::-webkit-scrollbar-thumb,
+.contactForm::-webkit-scrollbar-thumb {
+  background: var(--primary-color, #00a651);
+  border-radius: 4px;
+  transition: background 0.3s ease;
+}
+
+.typeSelectionContainer::-webkit-scrollbar-thumb:hover,
+.contactForm::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-color-dark, #008c44);
+}
+
+/* Versão para tema escuro */
+[data-theme="dark"] .typeSelectionContainer::-webkit-scrollbar-track,
+[data-theme="dark"] .contactForm::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* Classe para bloquear o scroll do body quando modal estiver aberto */
+.bodyScrollLock {
+  overflow: hidden !important;
+  touch-action: none !important;
 }
 
 .closeButton {

@@ -114,7 +114,6 @@ const ContactModal = ({ isOpen, onClose }) => {
     if (!tempFormData) {
       throw new Error("Dados do formulário não encontrados");
     }
-
     try {
       console.log("Verificando código:", code, "para email:", verificationEmail);
       

@@ -1,0 +1,130 @@
+.carouselContainer {
+  position: relative;
+  width: 100%;
+  padding: 0 40px;
+  margin: 20px 0;
+}
+
+.carouselTrack {
+  display: grid;
+  grid-auto-flow: column;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+  padding: 10px 0;
+}
+
+.carouselTrack::-webkit-scrollbar {
+  display: none; /* Chrome/Safari/Opera */
+}
+
+.carouselItem {
+  scroll-snap-align: start;
+  transition: transform 0.3s ease;
+}
+
+.carouselItem:hover {
+  transform: translateY(-5px);
+}
+
+.navButton {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--primary-color, #0a9396);
+  color: white;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  transition: all 0.3s ease;
+}
+
+.navButton:hover {
+  background: var(--secondary-color, #005f73);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.navButton:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.prevButton {
+  left: 0;
+}
+
+.nextButton {
+  right: 0;
+}
+
+.paginationDots {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.paginationDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #ccc;
+  margin: 0 5px;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.3s ease;
+}
+
+.activeDot {
+  background: var(--primary-color, #0a9396);
+  transform: scale(1.2);
+}
+
+.scrollIndicator {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  animation: pulseRight 1.5s infinite;
+  opacity: 0.7;
+  color: var(--primary-color, #0a9396);
+  font-size: 24px;
+}
+
+@keyframes pulseRight {
+  0% { transform: translateY(-50%) translateX(0); opacity: 0.7; }
+  50% { transform: translateY(-50%) translateX(10px); opacity: 1; }
+  100% { transform: translateY(-50%) translateX(0); opacity: 0.7; }
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .carouselContainer {
+    padding: 0 30px;
+  }
+  
+  .navButton {
+    width: 30px;
+    height: 30px;
+  }
+}
+
+@media (max-width: 480px) {
+  .carouselContainer {
+    padding: 0 25px;
+  }
+  
+  .navButton {
+    width: 25px;
+    height: 25px;
+  }
+}

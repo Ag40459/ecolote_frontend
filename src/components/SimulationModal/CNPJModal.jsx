@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import styles from './SimulationModal.module.css';
 import { solarCalculator, formatCurrency } from '../../utils/calc';
 import { formatPhone, formatCep } from '../../utils/formatters';
@@ -89,7 +89,7 @@ const SimulationModal = ({ initialValue, onClose }) => {
 
   // Formatar o valor inicial
   useEffect(() => {
-    setFormattedBillValue(formatCurrency(billValue.toString()));
+    setFormattedBillValue(formatCurrency(billValue.toString(), 'display'));
   }, []);
 
   // Função para lidar com a mudança no valor da conta
@@ -97,7 +97,7 @@ const SimulationModal = ({ initialValue, onClose }) => {
     const value = e.target.value.replace(/[^\d]/g, '');
     const numericValue = value ? parseInt(value) : 0;
     setBillValue(numericValue);
-    setFormattedBillValue(formatCurrency(value));
+    setFormattedBillValue(formatCurrency(value, 'input'));
   };
 
   // Função para buscar dados do CEP
@@ -465,28 +465,28 @@ const SimulationModal = ({ initialValue, onClose }) => {
           <div className={styles.comparison}>
             <div className={`${styles.comparisonItem} ${styles.comparisonItemCurrent}`}>
               <div className={styles.comparisonLabel}>Valor Atual da Conta</div>
-              <div className={styles.comparisonValue}>R$ {formatCurrency(results.monthlyBill)}</div>
+              <div className={styles.comparisonValue}>R$ {formatCurrency(results.monthlyBill, 'display')}</div>
             </div>
             
             <div className={`${styles.comparisonItem} ${styles.comparisonItemInstallment}`}>
               <div className={styles.comparisonLabel}>Valor da Sua Parcela</div>
-              <div className={styles.comparisonValue}>R$ {formatCurrency(results.monthlyInstallment)}</div>
+              <div className={styles.comparisonValue}>R$ {formatCurrency(results.monthlyInstallment, 'display')}</div>
             </div>
           </div>
           
         <div className={styles.totalValue}>
   <span className={styles.oldValue}>
-    Valor do Total do Projeto: {formatCurrency(results.estimatedProjectCost + results.discount)}
+    Valor do Total do Projeto: {formatCurrency(results.estimatedProjectCost + results.discount, 'display')}
   </span>
   <br />
   <span className={styles.newValue}>
-    Ecolote com Desconto: {formatCurrency(results.estimatedProjectCost)}
+    Ecolote com Desconto: {formatCurrency(results.estimatedProjectCost, 'display')}
   </span>
 </div>
 <div className={styles.specificationCard2}>
   <div className={styles.specificationIcon}>💰</div>
   <div className={styles.specificationLabel}>Desconto Pré-Cadastro</div>
-  <div className={styles.specificationValue}>{formatCurrency(results.discount)}</div>
+  <div className={styles.specificationValue}>{formatCurrency(results.discount, 'display')}</div>
 </div>
 
           <div className={styles.specificationsGrid}>

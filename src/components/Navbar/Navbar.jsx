@@ -168,9 +168,7 @@ const Navbar = ({ openAuthModal }) => {
             <li><a href="#about" onClick={closeMobileMenu}>Sobre</a></li>
             <li><a href="#features" onClick={closeMobileMenu}>Diferenciais</a></li>
             <li><a href="#how-it-works" onClick={closeMobileMenu}>Funcionamento</a></li>
-            <li><a href="#environment" onClick={closeMobileMenu}>Sustentabilidade</a></li>
-            <li><a href="#comparison" onClick={closeMobileMenu}>Comparativo</a></li>
-            <li><a href="#innovation" onClick={closeMobileMenu}>Inovação</a></li>
+            <li><a href="#simulation" onClick={closeMobileMenu}>Simulação</a></li>
             <li><a href="#payment" onClick={closeMobileMenu}>Pagamento</a></li>
             <li><a href="#contact" onClick={closeMobileMenu}>Contato</a></li>
             {admin ? (

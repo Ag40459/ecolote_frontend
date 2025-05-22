@@ -1,115 +1,469 @@
 .paymentSection {
-  padding: 60px 20px;
+  padding: 5rem 0;
   background-color: var(--primary-bg-color);
-  transition: background-color 0.3s ease;
-  box-shadow: inset 0 6px 8px -6px var(--liner-division-color);
+  position: relative;
+  overflow: hidden;
 }
 
 .container {
   max-width: var(--container-max-width);
+  width: var(--container-width);
   margin: 0 auto;
-  padding: 0 1rem;
+  padding: 0 1.5rem;
+  position: relative;
+}
+
+.paymentHeader {
+  text-align: center;
+  margin-bottom: 3rem;
+  animation: fadeInUp 0.8s ease forwards;
 }
 
 .sectionTitle {
-  text-align: center;
-  font-size: 2.2rem;
-  margin-bottom: 1rem;
+  font-family: var(--font-family-sans);
+  font-weight: 700;
+  font-size: 2.5rem;
   color: var(--accent-color-green);
+  margin-bottom: 1.5rem;
+  position: relative;
+  display: inline-block;
+}
+
+.sectionTitle::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent-color-green), var(--accent-color-gold));
+  border-radius: 3px;
 }
 
 .sectionSubtitle {
-  text-align: justify;
-  font-size: 1.1rem;
-  margin-bottom: 2.5rem;
-  max-width: 800px;
-  margin-left: auto;
-  margin-right: auto;
+  font-family: var(--font-family-sans);
+  font-size: 1.2rem;
   color: var(--text-color);
+  max-width: 800px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.paymentTabs {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2.5rem;
+  border-bottom: 1px solid var(--border-color);
+  animation: fadeInUp 0.8s ease forwards 0.2s;
+  opacity: 0;
+}
+
+.paymentTab {
+  padding: 1rem 1.5rem;
+  font-family: var(--font-family-sans);
+  font-weight: 500;
+  font-size: 1rem;
+  color: var(--text-secondary);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.paymentTabIcon {
+  font-size: 1.2rem;
+  transition: transform 0.3s ease;
+}
+
+.paymentTab:hover .paymentTabIcon {
+  transform: translateY(-3px);
+}
+
+.paymentTab.active {
+  color: var(--accent-color-green);
+}
+
+.paymentTab.active::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background-color: var(--accent-color-green);
+  border-radius: 3px 3px 0 0;
+}
+
+.paymentTab:hover {
+  color: var(--accent-color-gold);
 }
 
 .paymentMethodsGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 2rem;
+  margin-bottom: 3rem;
+  animation: fadeInUp 0.8s ease forwards 0.3s;
+  opacity: 0;
 }
 
 .paymentMethodCard {
-  background-color: var(--secondary-bg-color);
-  padding: 1.5rem;
-  border-radius: 8px;
-  text-align: center;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-  transition: transform 0.3s ease;
+  background: linear-gradient(135deg, 
+    rgba(var(--primary-color-rgb), 0.05) 0%, 
+    rgba(var(--secondary-color-rgb), 0.1) 100%
+  );
+  border-radius: 16px;
+  padding: 2.5rem 2rem;
+  box-shadow: var(--shadow-md);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeInStagger 0.6s ease forwards;
+  animation-delay: calc(0.2s * var(--animation-order, 1));
+}
+
+.paymentMethodCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 5px;
+  height: 100%;
+  background-color: var(--accent-color-green);
+  opacity: 0.7;
+  transition: width 0.3s ease;
+}
+
+.paymentMethodCard:hover::before {
+  width: 8px;
 }
 
 .paymentMethodCard:hover {
-  transform: translateY(-5px);
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: var(--shadow-lg);
 }
 
+.paymentMethodCard:nth-child(1)::before { background-color: var(--accent-color-green); }
+.paymentMethodCard:nth-child(2)::before { background-color: var(--accent-color-gold); }
+
 .paymentMethodIconContainer {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(var(--primary-color-rgb), 0.1);
+  border-radius: 50%;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.paymentMethodCard:hover .paymentMethodIconContainer {
+  transform: scale(1.1) rotate(5deg);
+  background-color: rgba(var(--primary-color-rgb), 0.2);
+}
+
+.paymentMethodIcon {
   font-size: 2rem;
-  margin-bottom: 1rem;
   color: var(--accent-color-green);
+  transition: all 0.3s ease;
+}
+
+.paymentMethodCard:hover .paymentMethodIcon {
+  color: var(--accent-color-gold);
+  transform: scale(1.1);
 }
 
 .paymentMethodName {
-  font-size: 1.25rem;
+  font-family: var(--font-family-sans);
+  font-weight: 600;
+  font-size: 1.5rem;
   color: var(--accent-color-green);
-  margin-bottom: 0.5rem;
+  margin-bottom: 1rem;
+  text-align: center;
+  transition: color 0.3s ease;
+}
+
+.paymentMethodCard:hover .paymentMethodName {
+  color: var(--primary-color);
 }
 
 .paymentMethodDescription {
+  font-family: var(--font-family-sans);
   font-size: 1rem;
+  line-height: 1.6;
   color: var(--text-color);
-  text-align: justify;
+  text-align: var(--card-description-align);
+  margin-bottom: 1.5rem;
+  flex: 1;
 }
 
-.paymentInfo {
-  margin-top: 2rem;
-  text-align: center;
-  color: var(--text-color);
+.paymentMethodHighlight {
+  font-family: var(--font-family-sans);
   font-weight: 500;
-}
-
-/* CTA */
-.paymentCTA {
-  margin-top: 3rem;
-  padding: 2rem;
-  background-color: var(--secondary-bg-color);
-  border: 1px solid rgba(76, 175, 80, 0.2);
-  border-radius: 12px;
+  font-size: 1rem;
+  color: var(--accent-color-gold);
+  padding: 0.75rem;
+  background-color: rgba(var(--accent-color-gold-rgb, 255, 193, 7), 0.05);
+  border-radius: 8px;
   text-align: center;
-  color: var(--text-color);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  position: relative;
+  margin-top: auto;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.paymentCTA h3 {
-  font-size: 1.5rem;
-  margin-bottom: 0.75rem;
+.paymentMethodCard:hover .paymentMethodHighlight {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-sm);
+}
+
+.checkmark {
+  margin-right: 0.5rem;
+  font-weight: bold;
   color: var(--accent-color-green);
 }
 
-.paymentCTA p {
-  font-size: 1rem;
-  margin-bottom: 1.5rem;
+.paymentPartners {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 3rem;
+  margin: 3rem 0;
+  flex-wrap: wrap;
+  animation: fadeInUp 0.8s ease forwards 0.4s;
+  opacity: 0;
+}
+
+.partnerLogo {
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(var(--primary-color-rgb), 0.05);
+  border-radius: 50%;
+  opacity: 0.7;
+  transition: all 0.3s ease;
+  font-size: 2rem;
+  color: var(--text-secondary);
+}
+
+.partnerLogo:hover {
+  opacity: 1;
+  transform: scale(1.1);
+  background-color: rgba(var(--primary-color-rgb), 0.1);
+  color: var(--accent-color-green);
+}
+
+.paymentCTA {
+  background: linear-gradient(135deg, 
+    rgba(var(--primary-color-rgb), 0.05) 0%, 
+    rgba(var(--secondary-color-rgb), 0.1) 100%
+  );
+  border-radius: 16px;
+  padding: 3rem 2rem;
+  text-align: center;
+  margin-top: 3rem;
+  box-shadow: var(--shadow-md);
+  position: relative;
+  overflow: hidden;
+  animation: fadeInUp 0.8s ease forwards 0.5s;
+  opacity: 0;
+}
+
+.paymentCTA::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background: linear-gradient(90deg, var(--accent-color-green), var(--accent-color-gold));
+  opacity: 0.7;
+}
+
+.paymentCTATitle {
+  font-family: var(--font-family-sans);
+  font-weight: 700;
+  font-size: 1.8rem;
+  color: var(--accent-color-green);
+  margin-bottom: 1rem;
+}
+
+.paymentCTAText {
+  font-family: var(--font-family-sans);
+  font-size: 1.1rem;
   color: var(--text-color);
-  text-align: justify;
-  padding-bottom: 2rem;
+  max-width: 700px;
+  margin: 0 auto 2rem;
+  line-height: 1.6;
 }
 
 .ctaButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1rem 2rem;
   background-color: var(--accent-color-gold);
   color: var(--text-color);
-  padding: 0.75rem 1.5rem;
-  font-weight: bold;
+  font-family: var(--font-family-sans);
+  font-weight: 600;
+  font-size: 1.1rem;
+  border-radius: 50px;
   text-decoration: none;
-  border-radius: 6px;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow-md);
+  position: relative;
+  overflow: hidden;
 }
 
 .ctaButton:hover {
   background-color: var(--accent-color-green);
-  color: var(--primary-bg-color);
-  transform: translateY(-2px);
+  color: white;
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
+}
+
+.ctaButtonIcon {
+  transition: transform 0.3s ease;
+}
+
+.ctaButton:hover .ctaButtonIcon {
+  transform: translateX(5px);
+}
+
+.ctaButton::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.3) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: rotate(30deg);
+  transition: transform 0.7s ease;
+  opacity: 0;
+}
+
+.ctaButton:hover::after {
+  transform: rotate(30deg) translate(100%, 100%);
+  opacity: 1;
+}
+
+/* Animações */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInStagger {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .sectionTitle {
+    font-size: 2rem;
+  }
+  
+  .sectionSubtitle {
+    font-size: 1.1rem;
+  }
+  
+  .paymentTabs {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    border-bottom: none;
+  }
+  
+  .paymentTab {
+    width: 100%;
+    max-width: 300px;
+    justify-content: center;
+    padding: 0.75rem;
+    border-radius: 50px;
+    border: 1px solid var(--border-color);
+  }
+  
+  .paymentTab.active {
+    background-color: var(--accent-color-green);
+    color: white;
+    border-color: var(--accent-color-green);
+  }
+  
+  .paymentTab.active::after {
+    display: none;
+  }
+  
+  .paymentMethodsGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .paymentPartners {
+    gap: 1.5rem;
+  }
+  
+  .paymentCTA {
+    padding: 2rem 1.5rem;
+  }
+  
+  .paymentCTATitle {
+    font-size: 1.5rem;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .paymentMethodsGrid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+}
+
+/* Preferências de movimento reduzido */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  .animation-disabled {
+    transition: none !important;
+    animation: none !important;
+    transform: none !important;
+  }
 }

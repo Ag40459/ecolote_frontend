@@ -1,12 +1,40 @@
-export function formatCurrency(value) {
-  if (!value) return "R$ 0,00";
-  const num = typeof value === 'string' ? parseFloat(value.replace(/[^\d,.-]/g, '').replace(',', '.')) : value;
-  return new Intl.NumberFormat('pt-BR', {
+function parseToNumber(value) {
+  if (value === undefined || value === null || value === '') return 0;
+
+  if (typeof value === 'number') return value;
+
+  const cleanValue = value
+    .toString()
+    .replace(/[^0-9,.-]+/g, '')
+    .trim();
+
+  if (cleanValue.includes(',')) {
+    return parseFloat(cleanValue.replace(/\./g, '').replace(',', '.'));
+  }
+  return parseFloat(cleanValue) || 0;
+}
+
+export function formatCurrency(value, context = 'display') {
+  // Se o valor for uma string vazia, retorna uma string vazia para o input
+  if (value === '' && context === 'input') return '';
+  
+  const number = parseToNumber(value);
+
+  if (context === 'input') {
+    // Retorna sem símbolo e sem milhar para facilitar edição
+    return number.toLocaleString('pt-BR', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    });
+  }
+
+  // Formato para exibição com símbolo de moeda
+  return number.toLocaleString('pt-BR', {
     style: 'currency',
     currency: 'BRL',
     minimumFractionDigits: 2,
     maximumFractionDigits: 2
-  }).format(num);
+  });
 }
 
 export const DROPDOWN_OPTIONS = [
@@ -34,9 +62,11 @@ export function solarCalculator({
   const baseAreaLimit = 35;
   const valorMetroQuadrado = 174;
 
+  // Ajuste 1: força o mínimo de 260 em vez de 272
   let consumptionKwh = Math.ceil(monthlyBill / energyRate);
-  if (consumptionKwh < 272) consumptionKwh = 272;
+  if (consumptionKwh < 260) consumptionKwh = 260;
 
+  // Cálculo base sem adicionais (como foi solicitado)
   const requiredKwp = consumptionKwh / (solarIrradiance * daysPerMonth * performanceRatio);
   const modules = Math.ceil(requiredKwp / modulePowerKw);
   const finalPowerKwp = Math.ceil(modules * modulePowerKw * 10) / 10;
@@ -48,9 +78,13 @@ export function solarCalculator({
   const areaAdditionalCost = Math.ceil(excessArea) * valorMetroQuadrado;
   const areaUsedInLots = Number((totalAreaRequired / baseAreaLimit).toFixed(2));
 
+  // Cálculo base do sistema sem adicionais (usado para entender valor por kWp)
   const estimatedPrice = finalPowerKwp * 2686;
-  const estimatedPriceAdditionalCost = (estimatedPrice + 6000) + areaAdditionalCost;
 
+  // Ajuste 2: custo final com adicionais, sem alterar nome da variável final
+  const estimatedPriceAdditionalCost = estimatedPrice + 6000 + areaAdditionalCost;
+
+  // Modelo do inversor com base no finalPowerKwp
   let inverterModel = "";
   if (finalPowerKwp <= 5) inverterModel = "WEG SIW300H M030 Híbrido";
   else if (finalPowerKwp <= 6) inverterModel = "WEG SIW200G M050";
@@ -62,6 +96,7 @@ export function solarCalculator({
   const inverterBrand = "GROWATT";
   const inverterQuantity = 1;
 
+  // Cálculo de financiamento
   const interestRate = 0.0156;
   let totalInstallments = 60;
 
@@ -82,6 +117,7 @@ export function solarCalculator({
     }
   }
 
+  // Retorno com todos os campos preservados
   return {
     monthlyBill: Number(monthlyBill),
     energyRate: Number(energyRate),
@@ -107,4 +143,3 @@ export function solarCalculator({
     areaUsedInLots
   };
 }
-

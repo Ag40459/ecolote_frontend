@@ -5,24 +5,17 @@ import { formatPhone, formatCep } from '../../utils/formatters';
 import { fetchCepData } from '../../utils/cepService';
 import apiClient from '../../services/apiClient';
 import VerificationCodeModal from '../ContactModal/VerificationCodeModal';
-
-// Componente de animação para o canto superior esquerdo
-const EnergyPulseAnimation = () => (
-  <div className={styles.energyPulseContainer}>
-    <div className={styles.energyPulseOuter}></div>
-    <div className={styles.energyPulseMiddle}></div>
-    <div className={styles.energyPulseInner}></div>
-  </div>
-);
+import SimulationForm from './SimulationForm';
+import SimulationResults from './SimulationResults';
 
 // Componente para o modal de pretensão de pagamento
 const PaymentIntentionModal = ({ isOpen, onClose, onSelect }) => {
   if (!isOpen) return null;
 
   const options = [
-    { value: "avista", label: "À vista" },
-    { value: "financiado", label: "Financiado" },
-    { value: "consorcio", label: "Cartão" }
+    { value: "avista", label: "À vista", order: 1 },
+    { value: "financiado", label: "Financiado", order: 2 },
+    { value: "cartao", label: "Cartão", order: 3 }
   ];
 
   return (
@@ -43,6 +36,7 @@ const PaymentIntentionModal = ({ isOpen, onClose, onSelect }) => {
               key={option.value}
               className={styles.intentionOption}
               onClick={() => onSelect(option.value)}
+              style={{"--animation-order": option.order}}
             >
               {option.label}
             </button>
@@ -84,17 +78,8 @@ const SimulationModal = ({ initialValue, onClose }) => {
 
   // Formatar o valor inicial
   useEffect(() => {
-    setFormattedBillValue(formatCurrency(billValue.toString()));
+    setFormattedBillValue(formatCurrency(billValue.toString(), 'input'));
   }, [billValue]);
-
-  // Função para lidar com a mudança no valor da conta
- const handleBillValueChange = (e) => {
-  const raw = e.target.value.replace(/\D/g, '');
-  const numeric = raw ? parseInt(raw, 10) : 0;
-
-  setBillValue(numeric);
-  setFormattedBillValue(formatCurrency(numeric));
-};
 
   // Função para buscar dados do CEP
   const handleCepChange = async (e) => {
@@ -123,11 +108,9 @@ const SimulationModal = ({ initialValue, onClose }) => {
   };
 
   // Função para lidar com o envio do formulário
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    
+  const handleSubmit = (billValueFromForm) => {
     // Calcula resultados com base no valor da conta
-    const specifications = solarCalculator({ monthlyBill: billValue });
+    const specifications = solarCalculator({ monthlyBill: billValueFromForm });
     setResults(specifications);
     
     // Muda para a etapa de resultados
@@ -151,7 +134,7 @@ const SimulationModal = ({ initialValue, onClose }) => {
     try {
       // Enviar solicitação de código de verificação
       await apiClient.post('/verificacao/enviar-codigo', { email });
-      console.log(email);
+      
       
       // Abrir modal de verificação
       setIsVerificationModalOpen(true);
@@ -251,269 +234,57 @@ const SimulationModal = ({ initialValue, onClose }) => {
     }
   };
 
-  // Renderiza o formulário de simulação
-  const renderForm = () => (
-    <>
-      <div className={styles.modalHeader}>
-        <button 
-          className={styles.modalCloseButton} 
-          onClick={onClose}
-          aria-label="Fechar modal"
-        >×</button>
-        <div className={styles.modalIllustration}>
-          <EnergyPulseAnimation />
-        </div>
-      </div>
-      
-      <div className={styles.modalContent}>
-        <h2 className={`${styles.modalTitle} sectionTitle`}>Simulador</h2>
-        <p className={styles.modalSubtitle}>
-          Preencha os campos abaixo e veja agora mesmo quanto você poderia economizar investindo em energia solar.
-        </p>
-        
-        <form onSubmit={handleSubmit}>
-          <div className={styles.formGroup}>
-            <label className={styles.formLabel}>Média mensal de gasto com energia:</label>
-            <div className={styles.currencyInputWrapper}>
-              <input
-                type="text"
-                className={styles.formInput}
-                value={formattedBillValue}
-                onChange={handleBillValueChange}
-                required
-                aria-label="Valor médio mensal da conta de energia"
-              />
-            </div>
-          </div>
-          
-          <div className={styles.formGroup}>
-            <label className={styles.formLabel}>Qual o seu perfil?</label>
-            <div className={styles.radioGroup}>
-              <div className={styles.radioOption}>
-                <input
-                  type="radio"
-                  id="pessoal"
-                  name="profileType"
-                  value="pessoal"
-                  checked={profileType === 'pessoal'}
-                  onChange={() => setProfileType('pessoal')}
-                  className={styles.radioInput}
-                />
-                <label htmlFor="pessoal" className={styles.radioLabel}>Residencial</label>
-              </div>
-              
-              <div className={styles.radioOption}>
-                <input
-                  type="radio"
-                  id="empresa"
-                  name="profileType"
-                  value="empresa"
-                  checked={profileType === 'empresa'}
-                  onChange={() => setProfileType('empresa')}
-                  className={styles.radioInput}
-                />
-                <label htmlFor="empresa" className={styles.radioLabel}>Empresarial</label>
-              </div>
-              
-              <div className={styles.radioOption}>
-                <input
-                  type="radio"
-                  id="investidor"
-                  name="profileType"
-                  value="investidor"
-                  checked={profileType === 'investidor'}
-                  onChange={() => setProfileType('investidor')}
-                  className={styles.radioInput}
-                />
-                <label htmlFor="investidor" className={styles.radioLabel}>Investidor</label>
-              </div>
-            </div>
-          </div>
-          
-          <div className={styles.formGroup}>
-            <label className={styles.formLabel}>CEP</label>
-            <input
-              type="text"
-              className={styles.formInput}
-              value={cep}
-              onChange={handleCepChange}
-              placeholder="00000-000"
-              required
-              aria-label="CEP para instalação"
-            />
-            {loadingCep && <p className={styles.loadingMessage}>Buscando CEP...</p>}
-            {cepError && <p className={styles.errorMessage}>{cepError}</p>}
-          </div>
-          
-          <div className={styles.formGroup}>
-            <label className={styles.formLabel}>Nome e sobrenome</label>
-            <input
-              type="text"
-              className={styles.formInput}
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-              aria-label="Nome completo"
-            />
-          </div>
-          
-          <div className={styles.formGroup}>
-            <label className={styles.formLabel}>Email</label>
-            <input
-              type="email"
-              className={styles.formInput}
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              aria-label="Endereço de email"
-            />
-          </div>
-          
-          <div className={styles.formGroup}>
-            <label className={styles.formLabel}>Telefone ou WhatsApp</label>
-            <input
-              type="tel"
-              className={styles.formInput}
-              value={phone}
-              onChange={(e) => setPhone(formatPhone(e.target.value))}
-              placeholder="(00) 00000-0000"
-              required
-              aria-label="Número de telefone ou WhatsApp"
-            />
-          </div>
-          
-          <button type="submit" className={`${styles.submitButton} cta-button`}>
-            Ver Resultados da Simulação
-          </button>
-        </form>
-      </div>
-    </>
+  // Renderiza o modal de verificação de código
+  const renderVerificationModal = () => (
+    <VerificationCodeModal
+      isOpen={isVerificationModalOpen}
+      onClose={() => setIsVerificationModalOpen(false)}
+      onVerify={handleVerifyCode}
+      onResend={handleResendCode}
+      email={email}
+    />
   );
 
-  // Renderiza os resultados da simulação
-  const renderResults = () => (
-    <>
-      <div className={styles.modalHeader}>
-        <button 
-          className={styles.modalCloseButton} 
-          onClick={onClose}
-          aria-label="Fechar modal"
-        >×</button>
-        <div className={styles.modalIllustration}>
-          <EnergyPulseAnimation />
-        </div>
-      </div>
-      
-      <div className={styles.modalContent}>
-        <h2 className={`${styles.modalTitle} sectionTitle`}>Seu Projeto Solar</h2>
-        <p className={styles.modalSubtitle}>
-          Veja abaixo os detalhes do seu projeto e quanto você pode economizar investindo em energia solar..
-        </p>
-        
-        <div className={styles.resultsContainer}>
-          <div className={styles.comparison}>
-            <div className={`${styles.comparisonItem} ${styles.comparisonItemCurrent}`}>
-              <div className={styles.comparisonLabel}>Valor Atual da Conta</div>
-              <div className={styles.comparisonValue}>{formatCurrency(results.monthlyBill)}</div>
-            </div>
-            
-            <div className={`${styles.comparisonItem} ${styles.comparisonItemInstallment}`}>
-              <div className={styles.comparisonLabel}>Valor da Sua Parcela</div>
-              <div className={styles.comparisonValue}>{formatCurrency(results.monthlyInstallment)}</div>
-            </div>
-          </div>
-          
-        <div className={styles.totalValue}>
-  <span className={styles.oldValue}>
-    Valor do Total do Projeto: {formatCurrency(results.estimatedProjectCost + results.discount)}
-  </span>
-  <br />
-  <span className={styles.newValue}>
-    Ecolote com Desconto: {formatCurrency(results.estimatedProjectCost)}
-  </span>
-</div>
-<div className={styles.specificationCard2}>
-  <div className={styles.specificationIcon}>💰</div>
-  <div className={styles.specificationLabel}>Desconto Pré-Cadastro</div>
-  <div className={styles.specificationValue}>{formatCurrency(results.discount)}</div>
-</div>
-
-          <div className={styles.specificationsGrid}>
-
-              <div className={styles.specificationCard}>
-              <div className={styles.specificationIcon}>📅</div>
-              <div className={styles.specificationLabel}>Condição Especial:</div>
-              <div className={styles.specificationValue}>  {results.installmentCount} {'Meses'}</div>
-            </div>
-            
-            <div className={styles.specificationCard}>
-              <div className={styles.specificationIcon}>⚡</div>
-              <div className={styles.specificationLabel}>Geração Média:</div>
-              <div className={styles.specificationValue}>{results.consumptionKwh} KWh/mês</div>
-            </div>
-            
-            <div className={styles.specificationCard}>
-              <div className={styles.specificationIcon}>🔌</div>
-              <div className={styles.specificationLabel}>Potência Final:</div>
-              <div className={styles.specificationValue}>{results.finalPowerKwp} KWp</div>
-            </div>
-            
-            <div className={styles.specificationCard}>
-              <div className={styles.specificationIcon}>🔋</div>
-              <div className={styles.specificationLabel}>Módulo:</div>
-              <div className={styles.specificationValue}>{results.modules} ({results.moduleName})</div>
-            </div>
-            
-            <div className={styles.specificationCard}>
-              <div className={styles.specificationIcon}>🔄</div>
-              <div className={styles.specificationLabel}>Inversor:</div>
-              <div className={styles.specificationValue}>{results.inverterQuantity} ({results.inverterBrand})</div>
-            </div>
-            
-                      
-            <div className={styles.specificationCard}>
-              <div className={styles.specificationIcon}>📅</div>
-              <div className={styles.specificationLabel}>Condição Especial:</div>
-              <div className={styles.specificationValue}>  {results.installmentCount} {'Meses'}</div>
-            </div>
-
-            
-          </div>
-          
-          <p className={styles.installmentNote}>
-            * O valor da parcela pode variar de acordo com seu relacionamento com o banco.
-          </p>
-          
-          <button onClick={handlePreRegister} className={styles.preCadastroButton}>
-            Fazer Pré-cadastro
-          </button>
-          
-          {submitError && <p className={styles.errorMessage}>{submitError}</p>}
-        </div>
-      </div>
-    </>
+  // Renderiza o modal de pretensão de pagamento
+  const renderPaymentIntentionModal = () => (
+    <PaymentIntentionModal
+      isOpen={isPaymentIntentionModalOpen}
+      onClose={() => setIsPaymentIntentionModalOpen(false)}
+      onSelect={handlePaymentIntentionSelect}
+    />
   );
 
   return (
     <div className={styles.modalOverlay}>
       <div className={styles.modalContainer}>
-        {step === 'form' ? renderForm() : renderResults()}
-        
-        {/* Modal de pretensão de pagamento */}
-        <PaymentIntentionModal 
-          isOpen={isPaymentIntentionModalOpen}
-          onClose={() => setIsPaymentIntentionModalOpen(false)}
-          onSelect={handlePaymentIntentionSelect}
-        />
-        
-        {/* Modal de verificação de código */}
-        <VerificationCodeModal
-          isOpen={isVerificationModalOpen}
-          onClose={() => setIsVerificationModalOpen(false)}
-          onVerify={handleVerifyCode}
-          onResendCode={handleResendCode}
-          email={email}
-        />
+        {step === 'form' ? (
+          <SimulationForm 
+            initialValue={billValue}
+            profileType={profileType}
+            cep={cep}
+            name={name}
+            email={email}
+            phone={phone}
+            address={address}
+            loadingCep={loadingCep}
+            cepError={cepError}
+            onSubmit={handleSubmit}
+            onClose={onClose}
+            onProfileTypeChange={(type) => setProfileType(type)}
+            onCepChange={handleCepChange}
+            onNameChange={(e) => setName(e.target.value)}
+            onEmailChange={(e) => setEmail(e.target.value)}
+            onPhoneChange={(e) => setPhone(formatPhone(e.target.value))}
+          />
+        ) : (
+          <SimulationResults 
+            results={results}
+            onPreRegister={handlePreRegister}
+            onClose={onClose}
+          />
+        )}
+        {renderVerificationModal()}
+        {renderPaymentIntentionModal()}
       </div>
     </div>
   );

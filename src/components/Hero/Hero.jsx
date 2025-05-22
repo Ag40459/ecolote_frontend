@@ -1,42 +1,41 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import styles from './Hero.module.css';
+import { formatCurrency  } from '../../utils/calc';
+import SimulationModal from '../SimulationModal/SimulationModal';
 
 const Hero = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
-  const [touchStart, setTouchStart] = useState(0);
-  const [touchEnd, setTouchEnd] = useState(0);
+  const [touchStart, setTouchStart] = useState(null);
+  const [touchEnd, setTouchEnd] = useState(null);
   const [scrollPosition, setScrollPosition] = useState(0);
   const [billValue, setBillValue] = useState('');
   const [showSimulator, setShowSimulator] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
-  // Slides atualizados conforme recomendações
   const slides = [
     {
-      title: "Apartamento? Aluguel? O Ecolote é a SUA usina solar, mesmo assim!",
-      content: "Gere sua própria energia limpa, reduza sua conta de luz à taxa mínima e seja dono do seu futuro energético. Descubra a liberdade solar, sem obras e sem complicações."
+      title: "Energia Solar: Agora Acessível Para Todos",
+      content: "Mesmo em apartamento ou imóvel alugado, você pode ter energia solar. O Ecolote elimina a barreira do telhado próprio, democratizando o acesso à energia limpa."
     },
     {
-      title: "Sua Própria Usina Solar com Gestão Inteligente",
-      content: "No Ecolote, você é dono da sua usina individual e se beneficia da gestão associativa que otimiza custos. Propriedade real com a eficiência do coletivo."
+      title: "Sua Mini Usina Solar Remota",
+      content: "Seja proprietário de uma usina solar em um bairro planejado, com documentação em seu nome e economia de até 95% na sua conta de luz."
     },
     {
-      title: "Energia Solar Acessível para Todos",
-      content: "Mesmo sem telhado próprio, você pode ter sua usina solar registrada em seu nome. Economia garantida, sustentabilidade real e um ativo que valoriza com o tempo."
+      title: "Investimento Inteligente e Sustentável",
+      content: "Retorno financeiro em aproximadamente 5 anos, valorização do ativo ao longo do tempo e impacto ambiental positivo."
     }
   ];
 
-  // Efeito de parallax no scroll
   useEffect(() => {
     const handleScroll = () => {
       setScrollPosition(window.scrollY);
     };
-    
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Funções de navegação do carrossel
   const nextSlide = () => {
     setCurrentSlide((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
   };
@@ -49,7 +48,6 @@ const Hero = () => {
     setCurrentSlide(index);
   };
 
-  // Controle do carrossel automático
   useEffect(() => {
     if (isPaused) return;
     const interval = setInterval(() => {
@@ -58,34 +56,48 @@ const Hero = () => {
     return () => clearInterval(interval);
   }, [isPaused, currentSlide]);
 
-  // Handlers para gestos touch em dispositivos móveis
   const handleTouchStart = (e) => {
+    if (e.target.closest('button') || e.target.closest('input') || e.target.closest('form')) {
+      return; // Ignora toques em elementos interativos
+    }
     setTouchStart(e.targetTouches[0].clientX);
   };
-  
+
   const handleTouchMove = (e) => {
     setTouchEnd(e.targetTouches[0].clientX);
   };
-  
+
   const handleTouchEnd = () => {
-    if (touchStart - touchEnd > 100) {
-      // Deslize para a esquerda
-      nextSlide();
+    if (touchStart === null || touchEnd === null) return;
+    const distance = touchStart - touchEnd;
+
+    if (Math.abs(distance) > 100) {
+      if (distance > 0) {
+        nextSlide();
+      } else {
+        prevSlide();
+      }
     }
-    
-    if (touchStart - touchEnd < -100) {
-      // Deslize para a direita
-      prevSlide();
-    }
-  };
-  
-  const handleSimulatorSubmit = (e) => {
-    e.preventDefault();
-    // Implementar lógica para iniciar simulação
-    window.location.href = `#simulator?value=${billValue}`;
+
+    setTouchStart(null);
+    setTouchEnd(null);
   };
 
-  // Renderização dos elementos decorativos (raios solares)
+  const handleSimulatorToggle = () => {
+    setShowSimulator(!showSimulator);
+  };
+
+  const handleSimulatorSubmit = (e) => {
+    e.preventDefault();
+    const numericValue = billValue ? parseFloat(billValue.replace(/[^\d]/g, '')) : 0;
+    setShowModal(true);
+    setShowSimulator(false);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
   const renderSolarRays = () => {
     const rays = [];
     for (let i = 0; i < 12; i++) {
@@ -107,7 +119,6 @@ const Hero = () => {
     return rays;
   };
 
-  // Renderização das partículas solares
   const renderSolarParticles = () => {
     const particles = [];
     for (let i = 0; i < 15; i++) {
@@ -115,7 +126,7 @@ const Hero = () => {
       const posX = Math.random() * 100;
       const delay = i * 0.3;
       const duration = Math.random() * 3 + 2;
-      
+
       particles.push(
         <div 
           key={i}
@@ -144,45 +155,28 @@ const Hero = () => {
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
     >
-      {/* Background com efeito parallax */}
       <div 
         className={styles.heroBackground} 
-        style={{ 
-          transform: `translateY(${scrollPosition * 0.3}px)` 
-        }}
+        style={{ transform: `translateY(${scrollPosition * 0.3}px)` }}
       ></div>
-      
-      {/* Overlay com gradiente */}
+
       <div className={styles.heroOverlay}></div>
-      
-      {/* Sol animado no canto superior */}
       <div className={styles.sunAnimation}></div>
-      
-      {/* Elementos decorativos solares */}
-      <div className={styles.solarElements}>
-        {renderSolarRays()}
-      </div>
-      
-      {/* Partículas solares */}
-      <div className={styles.solarParticlesContainer}>
-        {renderSolarParticles()}
-      </div>
-      
-      {/* Ondas de energia */}
+      <div className={styles.solarElements}>{renderSolarRays()}</div>
+      <div className={styles.solarParticlesContainer}>{renderSolarParticles()}</div>
+
       <div className={styles.energyWaves}>
         <div className={styles.wave}></div>
         <div className={styles.wave}></div>
         <div className={styles.wave}></div>
       </div>
-      
+
       <div className={`${styles.heroContent} container`}>
-        {/* Conteúdo do slide atual com animações */}
         <div className={styles.slideContent}>
           <h1 className={styles.heroTitle}>{slides[currentSlide].title}</h1>
           <p className={styles.heroSubtitle}>{slides[currentSlide].content}</p>
         </div>
 
-        {/* Controles do carrossel */}
         <div className={styles.carouselControls}>
           <button
             className={styles.carouselArrow}
@@ -214,29 +208,22 @@ const Hero = () => {
           </button>
         </div>
 
-        {/* Botão CTA aprimorado com ícone de sol corrigido */}
         <a href="#contact" className={`${styles.ctaButton} cta-button`}>
           <svg className={styles.ctaButtonIcon} width="24" height="24" viewBox="0 0 24 24" fill="#FFD700">
             <path d="M12 17C14.7614 17 17 14.7614 17 12C17 9.23858 14.7614 7 12 7C9.23858 7 7 9.23858 7 12C7 14.7614 9.23858 17 12 17Z" />
             <path d="M12 1V3M12 21V23M23 12H21M3 12H1M20.485 3.515L19.071 4.929M4.929 19.071L3.515 20.485M20.485 20.485L19.071 19.071M4.929 4.929L3.515 3.515" strokeWidth="2" stroke="#FFD700" />
           </svg>
-          <span>Quero Minha Usina Solar</span>
+          <span>Simular Minha Economia</span>
         </a>
-        
-        {/* Simulador rápido */}
-        
-        <div className={styles.quickSimulator}>
-          <button
-  className={styles.simulatorToggle}
-  onClick={() => {
-    const el = document.getElementById('simulator');
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
-  }}
->
-  Descubra Quanto Custa Sua Usina Solar
-</button>
 
-          
+        <div className={styles.quickSimulator}>
+          <button 
+            className={styles.simulatorToggle}
+            onClick={handleSimulatorToggle}
+          >
+            {showSimulator ? 'Qual o valor da sua energia?' : 'Descubra quanto custa sua usina solar'}
+          </button>
+
           {showSimulator && (
             <form 
               className={styles.simulatorForm}
@@ -262,9 +249,14 @@ const Hero = () => {
             </form>
           )}
         </div>
-
-
       </div>
+
+      {showModal && (
+        <SimulationModal 
+          initialValue={parseFloat(billValue) || 200}
+          onClose={handleCloseModal}
+        />
+      )}
     </section>
   );
 };

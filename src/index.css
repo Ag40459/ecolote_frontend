@@ -1,3 +1,12 @@
+html {
+  scroll-behavior: smooth;
+}
+body {
+  scroll-padding-top: 80px; /* Ajuste conforme a altura do seu navbar */
+}
+html, body {
+  overflow-anchor: none;
+}
 :root {
   /* Cores primárias */
   --primary-color: #FFB400; /* Amarelo solar vibrante */
@@ -22,7 +31,7 @@
   --info-color: #00B0FF; /* Azul brilhante */
   
   /* Cores de fundo */
-  --primary-bg-color: #FFFFFF;
+  --primary-bg-color: #d5e4d2;
   --secondary-bg-color: #F9FBF7;
   --background-color: #FFFFFF;
   --card-bg: #FFFFFF;
@@ -109,7 +118,7 @@
   --info-color: #29B6F6; /* Azul claro */
   
   /* Cores de fundo */
-  --primary-bg-color: #F9FBF7; /* Branco esverdeado muito sutil */
+  --primary-bg-color: #fbf7fbb4; /* Branco esverdeado muito sutil */
   --secondary-bg-color: #F1F8E9;
   --background-color: #F9FBF7;
   --card-bg: #FFFFFF;
@@ -209,7 +218,7 @@
   --info-color: #00E5FF; /* Ciano brilhante */
   
   /* Cores de fundo */
-  --primary-bg-color: #FFFDE7; /* Amarelo muito claro */
+  --primary-bg-color: #ffe7ff; /* Amarelo muito claro */
   --secondary-bg-color: #FFF8E1;
   --background-color: #FFFDE7;
   --card-bg: #FFFFFF;
@@ -236,7 +245,7 @@
 
 body.dark-theme {
   /* Cores de fundo */
-  --primary-bg-color: #121212;
+  --primary-bg-color: #13101093;
   --secondary-bg-color: #1E1E1E;
   --background-color: #121212;
   --card-bg: var(--card-bg-dark);

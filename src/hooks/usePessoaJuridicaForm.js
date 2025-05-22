@@ -48,7 +48,7 @@ export const usePessoaJuridicaForm = () => {
       nome_responsavel: pjNomeResponsavel.trim(),
       telefone_responsavel: pjTelefoneResponsavel.trim(),
       tipo_imovel_comercial: pjModeloImovel.trim(),
-      media_conta_energia_pj: parseFloat(pjMediaContaEnergia),
+      media_conta_energia_pj: parseFloat((pjMediaContaEnergia || "0").replace(/[^\d]/g, '')) / 100,
       cep_pj: pjCep.trim(),
       rua_pj: pjRua.trim(),
       numero_pj: parseInt(pjNumero, 10),

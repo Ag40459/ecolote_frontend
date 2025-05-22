@@ -1,440 +1,225 @@
 .featuresContainer {
-  padding: 60px 24px;
-  box-shadow: inset 0 6px 8px -6px var(--liner-division-color);
+  padding: 4rem 2rem;
   position: relative;
   overflow: hidden;
+  background-color: #f9f9f9;
 }
 
 .title {
   text-align: center;
-  font-size: 2.2rem;
   margin-bottom: 1rem;
-  color: var(--accent-color-green);
+  color: var(--primary-color);
   position: relative;
   z-index: 2;
 }
 
-.featuresGrid {
-  display: grid;
-  gap: 24px;
-  position: relative;
-  z-index: 2;
-}
-
-/* Animação de folhas verdes no background */
 .leavesBackground {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
+  background-image: url('/assets/leaves-pattern.png');
+  background-size: cover;
+  opacity: 0.05;
   z-index: 1;
-  opacity: 0.1;
-  pointer-events: none;
 }
 
-.leavesBackground::before,
-.leavesBackground::after {
-  content: '';
-  position: absolute;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2300a651'%3E%3Cpath d='M17,8C8,10,5.9,16.17,3.82,21.34L5.71,22l1-2.3A4.49,4.49,0,0,0,8,20a4.67,4.67,0,0,0,4.46-6.08,14.49,14.49,0,0,0,8.47-5.18L21,8Z'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  width: 100px;
-  height: 100px;
-  animation: floatingLeaves 15s infinite linear;
+.categoriesNav {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 2;
 }
 
-.leavesBackground::before {
-  top: 10%;
-  left: 5%;
-  animation-delay: 0s;
-  transform: rotate(45deg) scale(0.6);
+.categoryButton {
+  padding: 0.75rem 1.5rem;
+  margin: 0.5rem;
+  border: none;
+  background-color: #e0e0e0;
+  border-radius: 30px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
 }
 
-.leavesBackground::after {
-  bottom: 20%;
-  right: 10%;
-  animation-delay: 7s;
-  transform: rotate(-30deg) scale(0.8);
+.categoryButton:hover {
+  background-color: #d0d0d0;
 }
 
-@keyframes floatingLeaves {
-  0% {
-    transform: translate(0, 0) rotate(0) scale(0.6);
-    opacity: 0.2;
-  }
-  25% {
-    transform: translate(50px, 20px) rotate(90deg) scale(0.8);
-    opacity: 0.3;
-  }
-  50% {
-    transform: translate(100px, -20px) rotate(180deg) scale(0.7);
-    opacity: 0.2;
-  }
-  75% {
-    transform: translate(50px, -50px) rotate(270deg) scale(0.9);
-    opacity: 0.3;
-  }
-  100% {
-    transform: translate(0, 0) rotate(360deg) scale(0.6);
-    opacity: 0.2;
-  }
+.activeCategory {
+  background-color: var(--primary-color);
+  color: white;
 }
 
-/* Estilos para o carrossel mobile */
-@media (max-width: 767px) {
-  .mobileCarousel {
-    display: flex;
-    overflow-x: hidden;
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
-    scroll-behavior: smooth;
-    gap: 0;
-    padding: 10px 0;
-    position: relative;
-  }
-  
-  .featureCard {
-    flex: 0 0 100%;
-    scroll-snap-align: center;
-    position: relative;
-    transition: transform 0.4s ease, opacity 0.3s ease;
-    margin-right: 0;
-    width: 100%;
-    box-sizing: border-box;
-  }
-  
-  .currentCard {
-    opacity: 1;
-    transform: scale(1);
-  }
-  
-  .featureCard:not(.currentCard) {
-    opacity: 0.7;
-    transform: scale(0.95);
-  }
-  
-  .activeCard {
-    z-index: 10;
-  }
-  
-  /* Indicadores de navegação lateral */
-  .navigationIndicators {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    pointer-events: none;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 10px;
-  }
-  
-  .navIndicator {
-    width: 40px;
-    height: 80px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    pointer-events: auto;
-    cursor: pointer;
-    color: var(--accent-color-green);
-    font-size: 1.8rem;
-    opacity: 0.7;
-    transition: all 0.3s ease;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 20;
-  }
-  
-  .leftIndicator {
-    left: 5px;
-    animation: pulseLeft 2s infinite;
-  }
-  
-  .rightIndicator {
-    right: 5px;
-    animation: pulseRight 2s infinite;
-  }
-  
-  @keyframes pulseLeft {
-    0% {
-      transform: translateY(-50%) translateX(0);
-      opacity: 0.7;
-    }
-    50% {
-      transform: translateY(-50%) translateX(-5px);
-      opacity: 1;
-      text-shadow: -3px 0 8px rgba(0, 166, 81, 0.5);
-    }
-    100% {
-      transform: translateY(-50%) translateX(0);
-      opacity: 0.7;
-    }
-  }
-  
-  @keyframes pulseRight {
-    0% {
-      transform: translateY(-50%) translateX(0);
-      opacity: 0.7;
-    }
-    50% {
-      transform: translateY(-50%) translateX(5px);
-      opacity: 1;
-      text-shadow: 3px 0 8px rgba(0, 166, 81, 0.5);
-    }
-    100% {
-      transform: translateY(-50%) translateX(0);
-      opacity: 0.7;
-    }
-  }
-  
-  /* Efeito de deslize vertical para indicar navegação */
-  .activeCard::after {
-    content: '';
-    position: absolute;
-    top: 30%;
-    right: 0;
-    height: 40%;
-    width: 3px;
-    background: linear-gradient(to bottom, transparent, var(--accent-color-green), transparent);
-    animation: slideVertical 2s ease-in-out infinite;
-    opacity: 0.7;
-    border-radius: 3px;
-  }
-  
-  .activeCard::before {
-    content: '';
-    position: absolute;
-    top: 30%;
-    left: 0;
-    height: 40%;
-    width: 3px;
-    background: linear-gradient(to bottom, transparent, var(--accent-color-green), transparent);
-    animation: slideVertical 2s ease-in-out infinite;
-    opacity: 0.7;
-    border-radius: 3px;
-  }
-  
-  @keyframes slideVertical {
-    0% {
-      top: 20%;
-      height: 0;
-      opacity: 0;
-    }
-    50% {
-      top: 30%;
-      height: 40%;
-      opacity: 0.7;
-    }
-    100% {
-      top: 80%;
-      height: 0;
-      opacity: 0;
-    }
-  }
-  
-  /* Impedir que o carrossel mostre partes de outros cards */
-  .mobileCarousel::-webkit-scrollbar {
-    display: none;
-  }
-  
-  .mobileCarousel {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-    scroll-snap-stop: always;
-  }
-  
-  /* Centralizar o ícone SVG no modo mobile */
-  .featureIconWrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 12px;
-  }
-}
-
-@media (min-width: 768px) {
-  .featuresGrid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  
-  .navigationIndicators {
-    display: none;
-  }
-  
-  /* Adicionar mais folhas no background para telas maiores */
-  .leavesBackground::before,
-  .leavesBackground::after {
-    content: '';
-    position: absolute;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2300a651'%3E%3Cpath d='M17,8C8,10,5.9,16.17,3.82,21.34L5.71,22l1-2.3A4.49,4.49,0,0,0,8,20a4.67,4.67,0,0,0,4.46-6.08,14.49,14.49,0,0,0,8.47-5.18L21,8Z'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    width: 100px;
-    height: 100px;
-  }
-  
-  .leavesBackground::before {
-    top: 10%;
-    left: 5%;
-    animation: floatingLeaves 20s infinite linear;
-    transform: rotate(45deg) scale(0.6);
-  }
-  
-  .leavesBackground::after {
-    bottom: 20%;
-    right: 10%;
-    animation: floatingLeaves2 25s infinite linear;
-    transform: rotate(-30deg) scale(0.8);
-  }
-  
-  @keyframes floatingLeaves2 {
-    0% {
-      transform: translate(0, 0) rotate(-30deg) scale(0.8);
-      opacity: 0.2;
-    }
-    33% {
-      transform: translate(-70px, 30px) rotate(-120deg) scale(1);
-      opacity: 0.3;
-    }
-    66% {
-      transform: translate(-30px, -50px) rotate(-240deg) scale(0.9);
-      opacity: 0.2;
-    }
-    100% {
-      transform: translate(0, 0) rotate(-390deg) scale(0.8);
-      opacity: 0.2;
-    }
-  }
-}
-
-@media (min-width: 1024px) {
-  .featuresGrid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-  
-  /* Adicionar ainda mais folhas para telas grandes */
-  .leavesBackground::before {
-    content: '';
-    position: absolute;
-    top: 15%;
-    left: 15%;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2300a651'%3E%3Cpath d='M17,8C8,10,5.9,16.17,3.82,21.34L5.71,22l1-2.3A4.49,4.49,0,0,0,8,20a4.67,4.67,0,0,0,4.46-6.08,14.49,14.49,0,0,0,8.47-5.18L21,8Z'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    width: 120px;
-    height: 120px;
-    animation: floatingLeaves3 30s infinite linear;
-    transform: rotate(120deg) scale(0.7);
-  }
-  
-  @keyframes floatingLeaves3 {
-    0% {
-      transform: translate(0, 0) rotate(120deg) scale(0.7);
-      opacity: 0.15;
-    }
-    25% {
-      transform: translate(100px, 50px) rotate(200deg) scale(0.9);
-      opacity: 0.2;
-    }
-    50% {
-      transform: translate(150px, -30px) rotate(300deg) scale(0.8);
-      opacity: 0.15;
-    }
-    75% {
-      transform: translate(50px, -80px) rotate(400deg) scale(1);
-      opacity: 0.2;
-    }
-    100% {
-      transform: translate(0, 0) rotate(480deg) scale(0.7);
-      opacity: 0.15;
-    }
-  }
+.featuresCarousel {
+  position: relative;
+  z-index: 2;
+  margin-top: 2rem;
 }
 
 .featureCard {
-  padding: 20px;
-  border-radius: 8px;
-  background-color: var(--card-bg);
-  transition: all 0.3s ease;
+  background-color: white;
+  border-radius: 10px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
+  align-items: center;
+  text-align: center;
   height: 100%;
-  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  overflow: hidden;
 }
 
 .featureCard:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.featureIconWrapper {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background-color: rgba(var(--primary-rgb), 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
 }
 
 .featureIcon {
   font-size: 2rem;
-  color: var(--accent-color-green);
+  color: var(--primary-color);
 }
 
 .featureTitle {
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: var(--accent-color-green);
-  margin-bottom: 8px;
+  font-weight: 700;
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  color: var(--primary-color);
 }
 
 .featureDescription {
-  font-size: 1rem;
-  line-height: 1.5;
-  color: var(--text-secondary);
-  margin-bottom: 16px;
-  text-align: justify;
+  color: #555;
+  margin-bottom: 1rem;
+  flex-grow: 1;
 }
 
 .featureDetails {
   max-height: 0;
   overflow: hidden;
-  transition: max-height 0.3s ease;
-  font-size: 0.95rem;
-  color: var(--text-secondary);
-  margin-top: 8px;
-  text-align: justify;
+  transition: max-height 0.5s ease;
+  color: #666;
+  font-size: 0.9rem;
 }
 
-.featureDetails.expanded {
+.expanded {
   max-height: 300px;
+  margin-bottom: 1rem;
 }
 
 .detailsButton {
-  background: transparent;
-  border: 1px solid var(--accent-color-green);
-  color: var(--accent-color-green);
-  padding: 6px 12px;
-  border-radius: 4px;
-  font-size: 0.85rem;
+  background-color: transparent;
+  border: 1px solid var(--primary-color);
+  color: var(--primary-color);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
   cursor: pointer;
-  margin-top: 12px;
-  transition: all 0.2s ease;
-  z-index: 5;
-  position: relative;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  margin-top: auto;
 }
 
 .detailsButton:hover {
-  background: var(--accent-color-green);
+  background-color: var(--primary-color);
   color: white;
 }
 
-/* Efeito de brilho no botão quando expandido em mobile */
-@media (max-width: 767px) {
-  .activeCard .detailsButton {
-    animation: glowButton 2s infinite alternate;
+.mobileFeatures {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Estilos para o carrossel em dispositivos móveis */
+.mobileCarousel {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+  padding: 1rem 0;
+}
+
+.mobileCarousel::-webkit-scrollbar {
+  display: none; /* Chrome/Safari/Opera */
+}
+
+.mobileCarousel .featureCard {
+  flex: 0 0 85%;
+  scroll-snap-align: center;
+  margin-right: 1rem;
+}
+
+.currentCard {
+  border: 2px solid var(--primary-color);
+}
+
+.navigationIndicators {
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.navIndicator {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.leftIndicator {
+  margin-left: -20px;
+}
+
+.rightIndicator {
+  margin-right: -20px;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .featuresContainer {
+    padding: 3rem 1rem;
   }
   
-  @keyframes glowButton {
-    0% {
-      box-shadow: 0 0 5px rgba(0, 166, 81, 0.3);
-    }
-    100% {
-      box-shadow: 0 0 15px rgba(0, 166, 81, 0.6);
-    }
+  .categoriesNav {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .categoryButton {
+    width: 80%;
+    margin: 0.25rem;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .featuresGrid {
+    grid-template-columns: repeat(2, 1fr);
   }
 }

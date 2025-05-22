@@ -1,255 +1,152 @@
 import { useState, useEffect, useRef } from 'react';
 import styles from './InitialSimulator.module.css';
-import { formatCurrency, DROPDOWN_OPTIONS  } from '../../utils/calc';
+import { formatCurrency } from '../../utils/calc';
 
 const InitialSimulator = ({ onSimulate }) => {
   const [billValue, setBillValue] = useState(200);
-  const [showDropdown, setShowDropdown] = useState(false);
-  const [sliderValue, setSliderValue] = useState(0); // Valor inicial do slider (0-100)
-  const [tooltipVisible, setTooltipVisible] = useState(false);
-  const [tooltipPosition, setTooltipPosition] = useState(0);
-  const [isUserInteracting, setIsUserInteracting] = useState(false); // Flag para controlar interação do usuário
-  const [inputValue, setInputValue] = useState('200,00');
-  const [inputSource, setInputSource] = useState('initial'); // 'slider', 'dropdown', 'manual', 'initial'
-  const inputRef = useRef(null);
-  const dropdownRef = useRef(null);
-  const sliderRef = useRef(null);
-  const arrowRef = useRef(null);
+  const [formattedBillValue, setFormattedBillValue] = useState('');
+  const [sliderValue, setSliderValue] = useState(20); // Valor inicial do slider (%)
+  const isUserTyping = useRef(false);
 
-  // Mapeia o valor do slider para o valor da conta (200-100000)
+  // Formatar o valor inicial
   useEffect(() => {
-    if (isUserInteracting && inputSource === 'slider') {
-      const mappedValue = 200 + (sliderValue / 100) * 1800;
-      setBillValue(Math.round(mappedValue));
+    if (!isUserTyping.current) {
+      setFormattedBillValue(formatCurrency(billValue.toString(), 'input'));
     }
-  }, [sliderValue, isUserInteracting, inputSource]);
-
-  // Atualiza o valor formatado quando o billValue muda
-  useEffect(() => {
-    // Formata o valor para o padrão brasileiro
-    const formatted = new Intl.NumberFormat('pt-BR', {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2
-    }).format(billValue);
-    
-    setInputValue(formatted);
   }, [billValue]);
 
-  // Mapeia o valor da conta para o valor do slider (0-100)
+  // Mapear o valor do slider para o valor da conta (de 100 a 2000)
   useEffect(() => {
-    if (!sliderRef.current || isUserInteracting) return;
-    
-    const mappedSlider = ((billValue - 200) / 1800) * 100;
-    const clampedValue = Math.min(Math.max(mappedSlider, 0), 100);
-    
-    setSliderValue(clampedValue);
-  }, [billValue]);
-
-  // Fecha o dropdown ao clicar fora
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target) &&
-          inputRef.current && !inputRef.current.contains(event.target) &&
-          arrowRef.current && !arrowRef.current.contains(event.target)) {
-        setShowDropdown(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
-
-  const handleSliderChange = (e) => {
-    setIsUserInteracting(true);
-    setInputSource('slider');
-    setSliderValue(Number(e.target.value));
-    updateTooltipPosition(e);
-    
-    // Resetar a flag após um curto período
-    setTimeout(() => setIsUserInteracting(false), 100);
-  };
-
-  const handleSliderMouseDown = () => {
-    setIsUserInteracting(true);
-    setInputSource('slider');
-    setTooltipVisible(true);
-  };
-
-  const handleSliderMouseUp = () => {
-    setTooltipVisible(false);
-    // Resetar a flag após um curto período
-    setTimeout(() => setIsUserInteracting(false), 100);
-  };
-
-  const handleSliderMouseMove = (e) => {
-    if (tooltipVisible) {
-      updateTooltipPosition(e);
+    if (!isUserTyping.current) {
+      const mappedValue = Math.round((sliderValue / 100) * 1900 + 100);
+      setBillValue(mappedValue);
     }
+  }, [sliderValue]);
+
+  // Função para lidar com a mudança no valor da conta
+  const handleBillValueChange = (e) => {
+    isUserTyping.current = true;
+    
+    // Obtém o valor atual do input
+    const inputValue = e.target.value;
+    
+    // Remove tudo que não for dígito ou vírgula
+    const cleanValue = inputValue.replace(/[^\d,]/g, '');
+    
+    // Formata o valor para exibição
+    setFormattedBillValue(cleanValue);
+    
+    // Converte para número para uso interno
+    const numericValue = parseFloat(cleanValue.replace(/\./g, '').replace(',', '.')) || 0;
+    
+    // Atualiza o valor interno
+    setBillValue(numericValue);
+    
+    // Atualiza o slider apenas se o valor estiver dentro dos limites
+    if (numericValue >= 100 && numericValue <= 2000) {
+      const newSliderValue = ((numericValue - 100) / 1900) * 100;
+      setSliderValue(newSliderValue);
+    }
+    
+    // Reseta a flag após um pequeno delay para permitir que o usuário continue digitando
+    setTimeout(() => {
+      isUserTyping.current = false;
+    }, 500);
   };
 
-  const updateTooltipPosition = (e) => {
-    if (!sliderRef.current) return;
+  // Função para formatar o valor quando o input perde o foco
+  const handleBlur = () => {
+    isUserTyping.current = false;
     
-    const sliderRect = sliderRef.current.getBoundingClientRect();
-    const thumbPosition = ((sliderValue / 100) * sliderRect.width);
-    setTooltipPosition(thumbPosition);
-  };
-
-  const handleInputChange = (e) => {
-    setIsUserInteracting(true);
-    setInputSource('manual');
+    // Limitar entre 0 e 2000
+    const limitedValue = Math.min(Math.max(billValue, 0), 2000);
     
-    // Obtém apenas os dígitos do valor digitado
-    const inputText = e.target.value.replace(/\D/g, '');
+    // Atualiza com o valor formatado
+    setBillValue(limitedValue);
+    setFormattedBillValue(formatCurrency(limitedValue, 'input'));
     
-    if (inputText === '') {
-      setBillValue(0);
-      setInputValue('0,00');
+    // Atualiza o slider
+    if (limitedValue >= 100) {
+      const newSliderValue = ((limitedValue - 100) / 1900) * 100;
+      setSliderValue(newSliderValue);
     } else {
-      // Converte para número (considerando que os dois últimos dígitos são centavos)
-      const numericValue = parseInt(inputText, 10);
-      
-      // Se o valor for menor que 100, consideramos como centavos
-      const valueInReais = inputText.length <= 2 
-        ? numericValue / 100 
-        : numericValue / Math.pow(10, 2);
-      
-      // Limita o valor máximo
-      const limitedValue = Math.min(valueInReais, 100000);
-      
-      setBillValue(limitedValue);
+      setSliderValue(0);
     }
+  };
+
+  // Função para lidar com a mudança no slider
+  const handleSliderChange = (e) => {
+    setSliderValue(parseInt(e.target.value, 10));
+  };
+
+  // Função para lidar com o envio do formulário
+  const handleSubmit = (e) => {
+    e.preventDefault();
     
-    // Resetar a flag após um curto período
-    setTimeout(() => setIsUserInteracting(false), 100);
-  };
-
-  const handleInputFocus = () => {
-    setShowDropdown(true);
-  };
-
-  const handleDropdownItemClick = (value) => {
-    setIsUserInteracting(true);
-    setInputSource('dropdown');
-    setBillValue(value);
-    setShowDropdown(false);
+    // Garante que o valor esteja dentro dos limites antes de enviar
+    const finalValue = Math.min(Math.max(billValue, 100), 2000);
     
-    // Resetar a flag após um curto período
-    setTimeout(() => setIsUserInteracting(false), 100);
-  };
-
-  const handleArrowClick = (e) => {
-    e.stopPropagation();
-    setShowDropdown(!showDropdown);
-  };
-
-  const handleSimulateClick = () => {
     if (onSimulate) {
-      onSimulate(billValue);
+      onSimulate(finalValue);
     }
-  };
-
-  // Calcula a porcentagem do slider para colorir a trilha
-  const sliderTrackStyle = {
-    background: `linear-gradient(to right, #00a651 0%, #00a651 ${sliderValue}%, #e0e0e0 ${sliderValue}%, #e0e0e0 100%)`
   };
 
   return (
-    <section className={styles.simulatorContainer}>
-      <div id="simulator" className={styles.simulatorContent}>
-        <h2 className={styles.simulatorTitle}>
-          Faça Sua Simulação
-        </h2>
-        
-        <p className={styles.simulatorSubtitle}>
-          Preencha o formulário abaixo e receba um orçamento da unidade mais próxima:
-        </p>
-        
-        <div className={styles.simulatorCard}>
-          <div className={styles.simulatorForm}>
-            <label className={styles.formLabel}>Média mensal de gasto com energia:</label>
-            
-            <div className={styles.sliderContainer}>
-              <div className={styles.sliderWrapper}>
-                <div className={styles.sliderTrack} style={sliderTrackStyle}></div>
+    <section id='simulation' className={styles.simulationSection}>
+      <div className={styles.simulationContainer}>
+        <div className={styles.simulationContent}>
+          <div className={styles.energyPulseContainer}>
+            <div className={styles.energyPulseOuter}></div>
+            <div className={styles.energyPulseMiddle}></div>
+            <div className={styles.energyPulseInner}></div>
+          </div>
+          
+          <h2 className={styles.simulationTitle}>Calcule Sua Economia Solar</h2>
+          <p className={styles.simulationSubtitle}>
+            Descubra em segundos quanto você economizará com seu Ecolote
+          </p>
+          
+          <form onSubmit={handleSubmit} className={styles.simulationForm}>
+            <div className={styles.formGroup}>
+              <label className={styles.formLabel}>
+                Média mensal de gasto com energia:
+              </label>
+              
+              <div className={styles.sliderContainer}>
                 <input
-                  ref={sliderRef}
                   type="range"
                   min="0"
                   max="100"
                   value={sliderValue}
                   onChange={handleSliderChange}
-                  onMouseDown={handleSliderMouseDown}
-                  onMouseUp={handleSliderMouseUp}
-                  onMouseMove={handleSliderMouseMove}
-                  onTouchStart={handleSliderMouseDown}
-                  onTouchEnd={handleSliderMouseUp}
-                  onTouchMove={handleSliderMouseMove}
                   className={styles.slider}
-                  aria-label="Selecione o valor da conta de energia"
-                  aria-valuemin="200"
-                  aria-valuemax="100000"
-                  aria-valuenow={billValue}
+                  aria-label="Ajustar valor da conta de energia"
                 />
-                {tooltipVisible && (
-                  <div 
-                    className={styles.sliderTooltip} 
-                    style={{ left: `${tooltipPosition}px` }}
-                  >
-                    {formatCurrency(billValue)}
-                  </div>
-                )}
+                <div 
+                  className={styles.sliderProgress} 
+                  style={{ width: `${sliderValue}%` }}
+                ></div>
+              </div>
+              
+              <div className={styles.currencyInputWrapper}>
+                <span className={styles.currencyPrefix}>R$</span>
+                <input
+                  type="text"
+                  className={styles.formInput}
+                  value={formattedBillValue}
+                  onChange={handleBillValueChange}
+                  onBlur={handleBlur}
+                  required
+                  aria-label="Valor médio mensal da conta de energia"
+                />
               </div>
             </div>
             
-            <div className={styles.formRow}>
-              <div className={styles.valueContainer}>
-                <div className={styles.valueInputWrapper}>
-                  <span className={styles.valuePrefix}>R$</span>
-                  <input
-                    ref={inputRef}
-                    type="text"
-                    value={inputValue}
-                    onChange={handleInputChange}
-                    onFocus={handleInputFocus}
-                    className={styles.valueInput}
-                    aria-label="Valor da conta de energia"
-                  />
-                  <span 
-                    ref={arrowRef}
-                    className={`${styles.dropdownArrow} ${showDropdown ? styles.dropdownArrowOpen : ''}`}
-                    onClick={handleArrowClick}
-                  >
-                    ▼
-                  </span>
-                </div>
-                
-                {showDropdown && (
-                  <div className={styles.valueDropdown} ref={dropdownRef}>
-                    {DROPDOWN_OPTIONS.map((option, index) => (
-                      <div
-                        key={index}
-                        className={styles.dropdownItem}
-                        onClick={() => handleDropdownItemClick(option.value)}
-                      >
-                        {option.text}
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-              
-              <button 
-                className={styles.simulateButton} 
-                onClick={handleSimulateClick}
-                aria-label="Simular economia de energia"
-              >
-                Simular Economia
-              </button>
-            </div>
-          </div>
+            <button type="submit" className={styles.simulateButton}>
+              <span className={styles.buttonText}>Simular Economia</span>
+              <span className={styles.buttonIcon}>→</span>
+            </button>
+          </form>
         </div>
       </div>
     </section>

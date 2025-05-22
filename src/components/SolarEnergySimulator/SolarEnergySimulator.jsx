@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState} from 'react';
 import styles from './SolarEnergySimulator.module.css';
 import InitialSimulator from '../InitialSimulator/InitialSimulator';
 import SimulationModal from '../SimulationModal/SimulationModal';

@@ -121,6 +121,7 @@ const About = () => {
                 <li>Casas alugadas</li>
                 <li>Imóveis sem espaço</li>
                 <li>Residências com telhados inadequados</li>
+                <li>+ Tradicional</li>
               </ul>
             </div>
             <div className={styles.profileCard}>

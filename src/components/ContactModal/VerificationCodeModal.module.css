@@ -12,6 +12,8 @@
   z-index: 1000;
   padding: 20px;
   transition: opacity 0.3s ease;
+  /* Impede interação com elementos de fundo */
+  pointer-events: all;
 }
 
 .modalContainer {
@@ -25,6 +27,45 @@
   transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   overflow: hidden;
   animation: modalFadeIn 0.3s ease;
+  /* Adicionado para conter o conteúdo com scroll */
+  display: flex;
+  flex-direction: column;
+  max-height: 90vh;
+}
+
+.modalContent {
+  overflow-y: auto;
+  /* Classe para barra de rolagem personalizada */
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary-color) rgba(0, 0, 0, 0.05);
+  /* Impede que o scroll do modal afete a página */
+  overscroll-behavior: contain;
+}
+
+/* Estilização da barra de rolagem para navegadores baseados em WebKit */
+.modalContent::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.modalContent::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 4px;
+}
+
+.modalContent::-webkit-scrollbar-thumb {
+  background: var(--primary-color, #00a651);
+  border-radius: 4px;
+  transition: background 0.3s ease;
+}
+
+.modalContent::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-color-dark, #008c44);
+}
+
+/* Versão para tema escuro */
+[data-theme="dark"] .modalContent::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
 }
 
 .modalContainer::before {
@@ -247,11 +288,16 @@
   to { opacity: 0; }
 }
 
+/* Classe para bloquear o scroll do body quando modal estiver aberto */
+.bodyScrollLock {
+  overflow: hidden !important;
+  touch-action: none !important;
+}
+
 /* Responsividade */
 @media (max-width: 768px) {
   .modalContainer {
     width: 95%;
-    padding: 20px;
   }
   
   .modalTitle {

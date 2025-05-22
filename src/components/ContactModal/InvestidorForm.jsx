@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import styles from './ContactModal.module.css';
 import { valorInvestimentoOptions } from '../../config/formConfig';
 import { fetchEstados, fetchCidades } from '../../utils/cepService';
