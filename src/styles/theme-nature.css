@@ -1,0 +1,72 @@
+
+
+/* Theme: Natureza Viva */
+.theme-nature {
+  /* Cores primárias */
+  --primary-color: #4CAF50; /* Verde vibrante */
+  --primary-color-rgb: 76, 175, 80;
+  --primary-color-dark: #388E3C; /* Verde escuro */
+  --primary-color-light: #81C784; /* Verde claro */
+
+  /* Cores secundárias */
+  --secondary-color: #8BC34A; /* Verde-limão */
+  --secondary-color-rgb: 139, 195, 74;
+  --secondary-color-dark: #689F38; /* Verde-limão escuro */
+  --secondary-color-light: #AED581; /* Verde-limão claro */
+
+  /* Cores de acento */
+  --accent-color: #FF9800; /* Laranja */
+  --accent-color-rgb: 255, 152, 0;
+
+  /* Cores de feedback */
+  --success-color: #00C853; /* Verde brilhante */
+  --error-color: #F44336; /* Vermelho */
+  --warning-color: #FFC107; /* Amarelo */
+  --info-color: #29B6F6; /* Azul claro */
+
+  /* Cores de fundo */
+  --primary-bg-color: #fbf7fbb4; /* Branco esverdeado muito sutil */
+  --secondary-bg-color: #F1F8E9;
+  --background-color: #F9FBF7;
+  --card-bg: #FFFFFF;
+  --modal-bg: #FFFFFF;
+
+  /* Cores de texto */
+  --text-color: #33691E; /* Verde escuro para texto (Contraste 6.34:1 OK) */
+  --text-secondary: #4B7F2A; /* Ajustado de #558B2F para contraste 4.53:1 */
+  --text-light: #AED581; /* Verde claro para texto terciário */
+
+  /* Cores de borda e divisores */
+  --border-color: #DCEDC8; /* Verde muito claro */
+  --divider-color: #F1F8E9; /* Verde quase branco */
+
+  /* Cores de entrada */
+  --input-bg: #F9FBF7;
+  --input-border: #C5E1A5;
+
+  /* Cores específicas */
+  --link-color: #33691E; /* Ajustado de #1976D2 para contraste 6.34:1 e tema */
+  --submit-button-bg: #388E3C; /* Usando primary-dark */
+  --submit-button-text: #FFFFFF; /* Contraste 4.08:1 - OK para large text, ajustar se necessário */
+  --resend-button-color: #33691E; /* Usando text-color */
+  --resend-button-hover: #254A15; /* Escurecido */
+  --resend-link-color: #33691E;
+  --resend-link-hover: #254A15;
+
+  /* Sombras */
+  --shadow-sm: 0 2px 5px rgba(76, 175, 80, 0.1);
+  --shadow-md: 0 5px 15px rgba(76, 175, 80, 0.1);
+  --shadow-lg: 0 10px 25px rgba(76, 175, 80, 0.1);
+
+  /* Variáveis dependentes do tema */
+  --card-bg: var(--card-bg-light); /* Herda de light por padrão, pode ser sobrescrito */
+  --text-secondary: #4B7F2A; /* Sobrescreve padrão */
+  --card-icon-fill: var(--text-color);
+  --card-description-align: justify;
+}
+
+body.nature-theme {
+  --dot-color-expanded: rgba(139, 195, 74, 0.6); /* Verde limão mais intenso */
+  --dot-color-contracted: rgba(139, 195, 74, 0.2); /* Verde limão mais suave */
+  --shadow-color: rgba(0, 100, 0, 0.3);
+}

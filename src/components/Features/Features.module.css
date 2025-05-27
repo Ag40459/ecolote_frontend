@@ -1,44 +1,38 @@
+/* Base styles from original Features.module.css, adapted */
 .featuresContainer {
   padding: 4rem 2rem;
   position: relative;
-  overflow: hidden;
-  background-color: #f9f9f9;
+  overflow: hidden; /* Keep hidden to contain potential absolute elements */
+  background-color: var(--secondary-bg-color, #f9f9f9); /* Use theme variable */
+  color: var(--text-color); /* Use theme variable */
 }
 
 .title {
   text-align: center;
-  margin-bottom: 1rem;
+  margin-bottom: 2rem; /* Increased margin */
   color: var(--primary-color);
+  font-size: 2.2rem; /* Match global sectionTitle */
   position: relative;
   z-index: 2;
 }
 
-.leavesBackground {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-image: url('/assets/leaves-pattern.png');
-  background-size: cover;
-  opacity: 0.05;
-  z-index: 1;
-}
+/* Removed leavesBackground as it wasn't requested to be kept */
 
 .categoriesNav {
   display: flex;
   justify-content: center;
-  margin-bottom: 2rem;
+  margin-bottom: 3rem; /* Increased margin */
   flex-wrap: wrap;
   position: relative;
   z-index: 2;
+  gap: 0.5rem; /* Added gap */
 }
 
 .categoryButton {
   padding: 0.75rem 1.5rem;
-  margin: 0.5rem;
-  border: none;
-  background-color: #e0e0e0;
+  border: 1px solid var(--border-color, #e0e0e0); /* Use theme variable */
+  background-color: transparent; /* Changed background */
+  color: var(--text-secondary, #555); /* Use theme variable */
   border-radius: 30px;
   cursor: pointer;
   font-weight: 500;
@@ -46,106 +40,158 @@
 }
 
 .categoryButton:hover {
-  background-color: #d0d0d0;
+  /* Keep hover subtle, maybe just change border and text color */
+  border-color: var(--primary-color-light, #FF8A65);
+  color: var(--primary-color, #FF5722);
+  background-color: transparent; /* Ensure no background on hover */
 }
 
 .activeCategory {
-  background-color: var(--primary-color);
-  color: white;
+  background-color: var(--primary-color, #FF5722); /* Reverted to solid background */
+  color: white; /* Reverted to white text for contrast on primary color */
+  border: 1px solid var(--primary-color, #FF5722); /* Keep border consistent */
+  /* Ensure padding is consistent */
+  padding: 0.75rem 1.5rem;
 }
 
-.featuresCarousel {
-  position: relative;
+/* --- Desktop Layout Fixes & Styles --- */
+.featuresLayout {
+  position: relative; /* Needed for absolute positioned arrows if reusing for desktop */
   z-index: 2;
   margin-top: 2rem;
+  display: flex; /* Use flexbox for alignment */
+  justify-content: center; /* Center items by default */
+  gap: 1.5rem; /* Spacing between cards */
+  flex-wrap: wrap; /* Allow wrapping if needed, though carousel handles overflow */
+  padding: 0 1rem; /* Add some padding */
 }
 
+/* Ensure HorizontalCarousel container allows centering */
+/* Assuming HorizontalCarousel renders its own container, target that if needed */
+/* If HorizontalCarousel is just the items, .featuresLayout handles it */
+
+/* --- Card Styles (Shared) --- */
 .featureCard {
-  background-color: white;
-  border-radius: 10px;
-  padding: 1.5rem;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  background-color: var(--card-bg, white); /* Use theme variable */
+  border-radius: 15px; /* Slightly larger radius */
+  padding: 2rem; /* Increased padding */
+  box-shadow: var(--shadow-md); /* Use theme variable */
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  height: 100%;
+  height: auto; /* Let content define height */
+  min-height: 350px; /* Ensure minimum height */
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   position: relative;
   overflow: hidden;
+  width: 320px; /* Fixed width for consistency in flex/grid */
+  flex-shrink: 0; /* Prevent shrinking in flex container */
+  opacity: 0; /* For animation */
+  animation: fadeInCard 0.5s ease forwards; /* Animation */
 }
 
+/* Stagger animation */
+.featureCard:nth-child(1) { animation-delay: 0.1s; }
+.featureCard:nth-child(2) { animation-delay: 0.2s; }
+.featureCard:nth-child(3) { animation-delay: 0.3s; }
+/* Add more if needed */
+
+@keyframes fadeInCard {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
 .featureCard:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  transform: translateY(-8px); /* Slightly more lift */
+  box-shadow: var(--shadow-lg); /* Use theme variable */
 }
 
 .featureIconWrapper {
-  width: 70px;
-  height: 70px;
+  width: 60px; /* Adjusted size */
+  height: 60px;
   border-radius: 50%;
   background-color: rgba(var(--primary-rgb), 0.1);
   display: flex;
   align-items: center;
   justify-content: center;
   margin-bottom: 1rem;
+  flex-shrink: 0; /* Prevent shrinking */
 }
 
 .featureIcon {
-  font-size: 2rem;
+  font-size: 1.8rem; /* Adjusted size */
   color: var(--primary-color);
 }
 
 .featureTitle {
   font-weight: 700;
-  font-size: 1.2rem;
-  margin-bottom: 0.5rem;
+  font-size: 1.25rem; /* Slightly larger */
+  margin-bottom: 0.75rem;
   color: var(--primary-color);
+  min-height: 2.5em; /* Ensure space even for short titles */
 }
 
 .featureDescription {
-  color: #555;
-  margin-bottom: 1rem;
-  flex-grow: 1;
+  color: var(--text-secondary, #555); /* Use theme variable */
+  margin-bottom: 1.5rem; /* Increased margin */
+  flex-grow: 1; /* Allow description to take space */
+  font-size: 0.95rem;
+  text-align: justify;
+  line-height: 1.5;
 }
 
 .featureDetails {
   max-height: 0;
   overflow: hidden;
-  transition: max-height 0.5s ease;
-  color: #666;
+  transition: max-height 0.5s ease, margin-top 0.5s ease; /* Added margin transition */
+  color: var(--text-color, #666); /* Use theme variable */
   font-size: 0.9rem;
+  text-align: justify;
+  line-height: 1.5;
+  width: 100%; 
 }
 
 .expanded {
-  max-height: 300px;
+  max-height: 300px; /* Adjust as needed */
+  margin-top: 1rem; /* Add space when expanded */
   margin-bottom: 1rem;
 }
 
 .detailsButton {
   background-color: transparent;
-  border: 1px solid var(--primary-color);
+  border: 2px solid var(--primary-color); /* Thicker border */
   color: var(--primary-color);
-  padding: 0.5rem 1rem;
-  border-radius: 20px;
+  padding: 0.6rem 1.2rem; /* Adjusted padding */
+  border-radius: 25px; /* Match category buttons */
   cursor: pointer;
-  font-weight: 500;
+  font-weight: 600; /* Bolder */
   transition: all 0.3s ease;
-  margin-top: auto;
+  margin-top: auto; /* Push to bottom */
+  align-self: center; /* Center button */
 }
 
 .detailsButton:hover {
   background-color: var(--primary-color);
   color: white;
+  transform: scale(1.05); /* Add subtle scale effect */
 }
 
-.mobileFeatures {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
+/* --- Mobile Carousel Styles --- */
+.mobileCarouselContainer {
+  position: relative; /* For arrow positioning */
+  width: 100%;
+  overflow: hidden; /* Hide overflow */
+  margin-top: 2rem;
 }
 
-/* Estilos para o carrossel em dispositivos móveis */
 .mobileCarousel {
   display: flex;
   overflow-x: auto;
@@ -153,73 +199,136 @@
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE/Edge */
-  padding: 1rem 0;
+  padding: 1rem 0; /* Add padding for shadow/hover effects */
+  margin: 0 -2rem; /* Counteract container padding to allow full bleed */
+  padding-left: 2rem; /* Restore padding for first item */
 }
 
 .mobileCarousel::-webkit-scrollbar {
   display: none; /* Chrome/Safari/Opera */
 }
 
+/* Adjust card styles specifically for mobile carousel */
 .mobileCarousel .featureCard {
-  flex: 0 0 85%;
-  scroll-snap-align: center;
-  margin-right: 1rem;
+  flex: 0 0 85%; /* Each card takes 85% of viewport width */
+  scroll-snap-align: center; /* Snap cards to center */
+  margin-right: 1rem; /* Space between cards */
+  width: 85%; /* Explicit width */
+  margin-left: 0; /* Reset margin */
+  animation: none; /* Disable fade-in animation for carousel items */
+  opacity: 1;
 }
 
-.currentCard {
-  border: 2px solid var(--primary-color);
+.mobileCarousel .featureCard:last-child {
+  margin-right: 0; /* No margin on the last item */
 }
 
-.navigationIndicators {
+/* Mobile Navigation Arrows */
+.carouselArrow {
   position: absolute;
   top: 50%;
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
   transform: translateY(-50%);
-  pointer-events: none;
-}
-
-.navIndicator {
-  width: 40px;
-  height: 40px;
+  z-index: 10;
+  background-color: var(--primary-color, #FF5722); /* Use theme color */
+  color: white;
+  border: none;
   border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0.8);
+  width: 45px; /* Slightly larger */
+  height: 45px;
+  font-size: 1.5rem; /* Adjust icon size */
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  cursor: pointer;
-  pointer-events: auto;
+  box-shadow: var(--shadow-sm);
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.leftIndicator {
-  margin-left: -20px;
+.carouselArrow:hover {
+  background-color: var(--primary-color-dark, #E64A19); /* Use theme color */
+  transform: translateY(-50%) scale(1.1); /* Scale on hover */
 }
 
-.rightIndicator {
-  margin-right: -20px;
+.carouselArrow:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background-color: var(--border-color, #ccc); /* Use theme color */
 }
 
-/* Responsividade */
-@media (max-width: 768px) {
+.carouselArrowLeft {
+  left: -10px; /* Adjust position */
+}
+
+.carouselArrowRight {
+  right: -10px; /* Adjust position */
+}
+
+
+/* --- Responsividade --- */
+@media (max-width: 767px) { /* Mobile breakpoint */
   .featuresContainer {
-    padding: 3rem 1rem;
+    padding: 3rem 1rem; /* Adjust padding */
   }
-  
+
   .categoriesNav {
-    flex-direction: column;
-    align-items: center;
+    flex-direction: row; /* Keep as row but allow wrap */
+    justify-content: center; /* Center buttons */
+    margin-bottom: 2rem;
   }
-  
+
   .categoryButton {
-    width: 80%;
-    margin: 0.25rem;
+    padding: 0.6rem 1.2rem; /* Adjust padding */
+    font-size: 0.9rem;
+  }
+
+  .featuresLayout {
+     display: none; /* Hide desktop layout */
+  }
+
+  /* Show mobile carousel container */
+  .mobileCarouselContainer {
+     display: block;
+  }
+
+   /* Adjust arrow position for smaller screens */
+  .carouselArrowLeft {
+    left: 5px;
+  }
+  .carouselArrowRight {
+    right: 5px;
   }
 }
 
-@media (min-width: 769px) and (max-width: 1024px) {
-  .featuresGrid {
-    grid-template-columns: repeat(2, 1fr);
+@media (min-width: 768px) {
+   /* Hide mobile carousel container on desktop */
+  .mobileCarouselContainer {
+     display: none;
+  }
+}
+
+/* Adjustments for tablets if needed */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .featuresLayout {
+    gap: 1rem; /* Reduce gap */
+    justify-content: center; /* Ensure centering */
+  }
+  .featureCard {
+    width: calc(50% - 1rem); /* Two cards per row */
+    min-width: 300px; /* Prevent cards from becoming too small */
+  }
+}
+
+@media (min-width: 1025px) {
+  .featuresLayout {
+    justify-content: center; /* Ensure centering */
+  }
+   /* Handle case with 2 cards specifically on larger desktops */
+  .featuresLayout[data-items-count="2"] {
+      justify-content: center;
+      /* Optionally set max-width for the container */
+      /* max-width: calc(320px * 2 + 1.5rem); */
+  }
+  .featureCard {
+     width: 320px; /* Maintain fixed width */
   }
 }

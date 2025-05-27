@@ -1,316 +1,493 @@
 .navbar {
-  background-color: var(--navbar-bg-color);
-  padding: 1rem 0;
+  background-color: rgba(var(--navbar-bg-rgb, 34, 34, 34), 0.85); /* Example: Dark semi-transparent */
+  padding: 0.8rem 0;
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  z-index: 1000;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
-}
+  z-index: 1100;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.4s ease, box-shadow 0.4s ease, padding 0.4s ease;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  }
 
 .navbar.scrolled {
-  background-color: var(--secondary-bg-color);
+  /* Use rgba for semi-transparent background */
+  background-color: rgba(var(--secondary-bg-rgb, 51, 51, 51), 0.9); /* Example: Slightly more opaque on scroll */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  padding: 0.5rem 0;
+  /* Keep blur effect consistent or remove if desired */
+  /* backdrop-filter: none; */
+  /* -webkit-backdrop-filter: none; */
 }
 
-.container { 
-  display: flex;
-  justify-content: space-between;
+/* Container using Grid for centering */
+.container {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr; /* Left space, Logo+Msg, Right space (for button) */
   align-items: center;
-  padding-left: 10px;  
-  padding-right: 25px; 
-  width: 100%; 
-  margin-left: auto; 
-  margin-right: auto; 
+  padding-left: 1rem;
+  padding-right: 1rem;
+  width: 100%;
+  max-width: var(--container-max-width, 1200px);
+  margin-left: auto;
+  margin-right: auto;
   box-sizing: border-box;
 }
 
+/* Logo and Theme Message Container */
+.logoContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem; /* Space between logo and message */
+  grid-column: 2 / 3; /* Ensure it stays centered in the grid */
+  justify-self: center;
+}
+
 .logo {
+  /* grid-column: 2 / 3; */ /* Moved grid positioning to logoContainer */
+  /* justify-self: center; */
   font-size: 1.8rem;
   font-weight: bold;
-  color: var(--accent-color-green);
+  color: var(--accent-color-green, #4CAF50);
   text-decoration: none;
   transition: color 0.3s ease;
 }
 
 .logo:hover {
-  color: var(--accent-color-gold);
+  color: var(--accent-color-gold, #FFC107);
 }
 
-/* Overlay para fechar o menu ao clicar fora */
+.themeChangeMessage {
+  font-size: 0.8rem;
+  color: var(--accent-color-green, #4CAF50);
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+  animation: fadeInOut 2.5s ease-in-out forwards;
+  white-space: nowrap; /* Prevent wrapping */
+  margin-left: 5px; /* Add some space from the logo */
+}
+
+@keyframes fadeInOut {
+  0% { opacity: 0; }
+  20% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* Menu Toggle Button (Hamburger) - Always visible */
+.menuToggle {
+  grid-column: 3 / 4; /* Place button in the right column */
+  justify-self: end; /* Align button to the end (right) */
+  display: flex; /* Use flex to center icon */
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  color: var(--navbar-text-color);
+  cursor: pointer;
+  z-index: 1101; /* Above nav container */
+  padding: 0.5rem;
+  margin: 0;
+  width: 40px;
+  height: 40px;
+  position: relative;
+}
+
+.hamburgerIcon {
+  width: 24px;
+  height: 18px;
+  position: relative;
+  margin: auto;
+}
+
+.hamburgerIcon span {
+  display: block;
+  position: absolute;
+  height: 2px;
+  width: 100%;
+  background: var(--navbar-text-color);
+  border-radius: 1px;
+  opacity: 1;
+  left: 0;
+  transform: rotate(0deg);
+  transition: .25s ease-in-out;
+}
+
+.hamburgerIcon span:nth-child(1) {
+  top: 0px;
+}
+
+.hamburgerIcon span:nth-child(2) {
+  top: 8px;
+}
+
+.hamburgerIcon span:nth-child(3) {
+  top: 16px;
+}
+
+.hamburgerIcon.open span:nth-child(1) {
+  top: 8px;
+  transform: rotate(135deg);
+}
+
+.hamburgerIcon.open span:nth-child(2) {
+  opacity: 0;
+  left: -60px;
+}
+
+.hamburgerIcon.open span:nth-child(3) {
+  top: 8px;
+  transform: rotate(-135deg);
+}
+
+/* Navigation Links Container (Desktop Horizontal Bar / Mobile Sidebar) */
+.navLinksContainer {
+  /* Desktop Styles (default, overridden by media query) */
+  position: absolute;
+  top: 100%; /* Position below the navbar */
+  left: 0;
+  width: 100%;
+  /* Use rgba for semi-transparent background - matching navbar */
+  background-color: rgba(var(--secondary-bg-rgb, 51, 51, 51), 0.9);
+  box-shadow: var(--shadow-md);
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease-out, padding 0.4s ease-out; /* Added padding transition */
+  z-index: 1099; /* Below navbar but above content */
+  padding: 0; /* Remove padding when closed */
+  box-sizing: border-box;
+}
+
+.navLinksContainer.active {
+  /* Adjust max-height to fit one row of links */
+  max-height: 100px; /* Example height, adjust as needed */
+  overflow: visible; /* Allow potential dropdowns like theme menu to show */
+  padding: 0.5rem 0; /* Add padding when open */
+}
+
+.navLinks {
+  /* Desktop Styles (default, overridden by media query) */
+  list-style: none;
+  display: flex;
+  flex-direction: row; /* Horizontal layout */
+  justify-content: center; /* Center items horizontally */
+  align-items: center; /* Align items vertically */
+  flex-wrap: wrap; /* Allow wrapping if space is tight */
+  margin: 0 auto; /* Center the list within the container */
+  padding: 0 1rem; /* Padding inside the list */
+  width: auto; /* Let it size based on content */
+  max-width: var(--container-max-width, 1200px); /* Optional: Limit width */
+}
+
+.navLinks li {
+  /* Desktop Styles (default, overridden by media query) */
+  margin: 0 0.5rem; /* Spacing between items */
+  width: auto; /* Let item size based on content */
+  text-align: left; /* Reset text align */
+}
+
+.navLinks a,
+.navButtonLogout,
+.themeMenuToggle {
+  /* Desktop Styles (default, overridden by media query) */
+  color: var(--navbar-text-color);
+  text-decoration: none;
+  font-weight: 400;
+  transition: color 0.2s ease-in-out, background-color 0.2s ease;
+  padding: 0.5rem 1rem; /* Adjust padding for horizontal layout */
+  display: inline-block; /* Change from block */
+  width: auto; /* Reset width */
+  box-sizing: border-box;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: inherit;
+  font-family: inherit;
+  border-radius: 4px; /* Optional: slightly rounded corners for links */
+}
+
+.navLinks a:hover,
+.navButtonLogout:hover,
+.themeMenuToggle:hover {
+  color: var(--accent-color-gold, #FFC107);
+  background-color: rgba(255, 255, 255, 0.1); /* Subtle hover background */
+}
+
+/* Theme Menu (Desktop Adjustment) */
+.themeMenuContainer {
+  /* Desktop Styles (default, overridden by media query) */
+  position: relative;
+  width: auto; /* Reset width */
+}
+
+.themeMenuToggle {
+  /* Desktop Styles (default, overridden by media query) */
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Center text and arrow */
+  width: auto; /* Reset width */
+}
+
+.arrowIcon {
+  display: inline-block;
+  margin-left: 0.5rem;
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid currentColor;
+  transition: transform 0.3s ease;
+}
+
+.themeMenuContainer.open .arrowIcon {
+  transform: rotate(180deg);
+}
+
+.themeSubmenu {
+  /* Desktop Styles (default, overridden by media query) */
+  list-style: none;
+  padding: 0.5rem 0; /* Add padding */
+  margin: 0;
+  background-color: var(--background-color); /* Use a more solid background for dropdown */
+  border-radius: 4px; /* Round corners */
+  box-shadow: var(--shadow-lg); /* Add more distinct shadow */
+  width: max-content; /* Fit content width */
+  min-width: 150px; /* Minimum width */
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
+  position: absolute; /* Position absolutely below the toggle */
+  top: 100%; /* Position below the theme toggle */
+  left: 50%; /* Center horizontally */
+  transform: translateX(-50%); /* Adjust centering */
+  z-index: 1102; /* Above nav links container */
+  opacity: 0; /* Start hidden */
+}
+
+.themeMenuContainer.open .themeSubmenu {
+  max-height: 300px; /* Adjust as needed */
+  opacity: 1; /* Fade in */
+}
+
+.themeSubmenu li button {
+  background: none;
+  border: none;
+  color: var(--text-color);
+  padding: 0.75rem 1.5rem;
+  display: block;
+  width: 100%;
+  text-align: left; /* Align text left in dropdown */
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.themeSubmenu li button:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.themeSubmenu li button.activeTheme {
+  font-weight: bold;
+  color: var(--accent-color-green, #4CAF50);
+}
+
+/* Mobile Menu Overlay */
 .menuOverlay {
-  display: none;
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 999;
-  transition: opacity 0.3s ease;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 10998; /* Below sidebar, above content */
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.4s ease, visibility 0.4s ease;
 }
 
 .menuOverlay.active {
-  display: block;
-  animation: fadeIn 0.3s forwards;
+  opacity: 1;
+  visibility: visible;
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-/* Estilo base para o container de links da navbar */
-.navLinksContainer {
-  display: flex;
-}
-
-.navLinks {
-  list-style: none;
-  display: flex;
-  margin: 0;
-  padding: 0;
-}
-
-.navLinks li {
-  margin-left: 25px;
-}
-
-.navLinks a {
-  color: var(--navbar-text-color);
-  text-decoration: none;
-  font-weight: 200;
-  transition: color 0.2s ease-in-out;
-  padding: 0.5rem 0;
-  position: relative;
-}
-
-.navLinks a::after {
-  content: '';
-  position: absolute;
-  width: 0;
-  height: 2px;
-  bottom: 0;
-  left: 0;
-  background-color: var(--accent-color-gold);
-  transition: width 0.3s ease;
-}
-
-.navLinks a:hover,
-.navLinks a.active {
-  color: var(--accent-color-gold);
-}
-
-.navLinks a:hover::after,
-.navLinks a.active::after {
-  width: 100%;
-}
-
-.navLinks a.active::after {
-  animation: pulseUnderline 2s infinite;
-}
-
-@keyframes pulseUnderline {
-  0% { opacity: 0.6; }
-  50% { opacity: 1; }
-  100% { opacity: 0.6; }
-}
-
-/* Botão de alternância de tema */
-.themeToggleButton {
-  background: none;
-  border: none;
-  color: var(--navbar-text-color);
-  font-size: 1.5rem;
-  cursor: pointer;
-  margin-left: 20px;
-  z-index: 1001;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 5px;
-  border-radius: 50%;
-  transition: background-color 0.3s ease, transform 0.3s ease;
-}
-
-.themeToggleButton:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-  transform: rotate(30deg);
-}
-
-.themeToggleButton svg {
-  transition: transform 0.3s ease;
-}
-
-.themeToggleButton:hover svg {
-  transform: scale(1.1);
-}
-
-/* Botão do menu mobile (três pontinhos) */
-.menuToggle {
-  display: none;
-  background: none;
-  border: none;
-  color: var(--navbar-text-color);
-  font-size: 1.8rem;
-  cursor: pointer;
-  z-index: 1001;
-  padding: 5px;
-  border-radius: 50%;
-  transition: background-color 0.3s ease, transform 0.3s ease;
-}
-
-.menuToggle:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-}
-
-/* Cabeçalho do menu mobile */
+/* Mobile Menu Header (Inside Sidebar) */
 .mobileMenuHeader {
-  display: none;
+  display: none; /* Hidden by default, shown in mobile */
 }
 
-/* Botão de logout */
-.navButtonLogout {
-  background: none;
-  border: none;
-  color: var(--navbar-text-color);
-  font-weight: 200;
-  cursor: pointer;
-  padding: 0.5rem 0;
-  transition: color 0.2s ease-in-out;
-  text-align: left;
-}
-
-.navButtonLogout:hover {
-  color: var(--accent-color-gold);
-}
-
-/* Estilos de foco para acessibilidade */
-.navLinks a:focus,
-.menuToggle:focus,
-.themeToggleButton:focus,
-.closeMenuButton:focus,
-.navButtonLogout:focus {
-  outline: 2px solid var(--accent-color-gold);
+/* Focus Styles */
+.navLinks a:focus-visible,
+.menuToggle:focus-visible,
+.themeMenuToggle:focus-visible,
+.themeSubmenu li button:focus-visible,
+.navButtonLogout:focus-visible {
+  outline: 2px solid var(--accent-color-gold, #FFC107);
   outline-offset: 2px;
+  border-radius: 2px;
 }
 
-/* Responsividade para o menu mobile */
+*:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* --- Responsive Styles (Mobile Sidebar) --- */
 @media (max-width: 992px) {
+  /* Hide desktop menu container, show mobile toggle */
+  .menuToggle {
+      display: flex; /* Ensure hamburger is visible */
+  }
+
+  /* Override desktop styles for mobile sidebar */
   .navLinksContainer {
-    display: block;
     position: fixed;
     top: 0;
-    right: -280px; /* Começa fora da tela */
-    width: 280px;
+    right: -100%; /* Start off-screen */
+    left: auto; /* Override desktop left: 0 */
+    width: min(75vw, 280px); /* Sidebar width */
     height: 100vh;
-    background-color: var(--secondary-bg-color);
+    /* Use rgba for semi-transparent background */
+    background-color: rgba(var(--secondary-bg-rgb, 51, 51, 51), 0.95); /* Slightly more opaque sidebar */
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     box-shadow: -5px 0 15px rgba(0, 0, 0, 0.2);
-    transition: right 0.3s ease-in-out;
-    z-index: 10000;
-    padding-top: 60px; /* Espaço para o cabeçalho */
+    transition: right 0.4s cubic-bezier(0.23, 1, 0.32, 1); /* Animate right property */
+    z-index: 10999; /* Above overlay */
+    padding-top: 60px; /* Space for header */
+    max-height: 100vh; /* Override desktop max-height */
     overflow-y: auto;
+    /* display: block; */ /* Already block by default */
+    padding: 60px 0 0 0; /* Reset padding for sidebar */
   }
-  
+
   .navLinksContainer.active {
-    right: 0; /* Desliza para dentro da tela */
-    animation: slideIn 0.3s forwards;
+    right: 0; /* Slide in */
+    max-height: 100vh; /* Ensure full height when active */
+    padding: 60px 0 0 0; /* Ensure padding is correct when active */
   }
-  
-  @keyframes slideIn {
-    from { right: -280px; opacity: 0.8; }
-    to { right: 0; opacity: 1; }
-  }
-  
+
   .mobileMenuHeader {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 20px;
-    border-bottom: 1px solid var(--primary-bg-color);
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--divider-color, rgba(255, 255, 255, 0.1));
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     box-sizing: border-box;
+    background-color: transparent; /* Header is part of the transparent panel */
   }
-  
+
   .mobileMenuTitle {
     font-weight: bold;
-    color: var(--accent-color-gold);
+    color: var(--accent-color-gold, #FFC107);
+    font-size: 1.1rem;
   }
-  
-  .closeMenuButton {
-    background: none;
-    border: none;
-    color: var(--navbar-text-color);
-    font-size: 1.5rem;
-    cursor: pointer;
-    padding: 5px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-  }
-  
-  .closeMenuButton:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-    transform: rotate(90deg);
-  }
-  
+
+  /* Links layout in mobile sidebar */
   .navLinks {
-    flex-direction: column;
+    flex-direction: column; /* Stack items vertically */
+    align-items: flex-start; /* Align items left */
     width: 100%;
+    padding: 0; /* Reset padding */
+    margin: 0; /* Reset margin */
+    max-width: none; /* Reset max-width */
   }
-  
+
   .navLinks li {
-    margin: 0;
+    margin: 0; /* Reset margin */
     width: 100%;
+    text-align: left; /* Align text left */
   }
-  
+
   .navLinks a,
-  .navButtonLogout {
+  .navButtonLogout,
+  .themeMenuToggle {
     display: block;
     padding: 1rem 1.5rem;
     text-align: left;
-    border-bottom: 1px solid var(--primary-bg-color);
-    transition: background-color 0.2s ease;
+    border-bottom: 1px solid var(--divider-color, rgba(255, 255, 255, 0.1));
+    width: 100%;
+    box-sizing: border-box;
+    border-radius: 0; /* Reset border-radius */
   }
-  
+
+  .navLinks li:last-child a,
+  .navLinks li:last-child button {
+      /* Optional: remove border from last item if needed */
+      /* border-bottom: none; */
+  }
+
   .navLinks a:hover,
-  .navButtonLogout:hover {
-    background-color: rgba(255, 255, 255, 0.05);
+  .navButtonLogout:hover,
+  .themeMenuToggle:hover {
+    background-color: rgba(255, 255, 255, 0.1); /* Adjust hover for transparent bg */
+  }
+
+  /* Theme submenu in mobile */
+  .themeMenuContainer {
+    width: 100%;
   }
   
-  .navLinks a::after {
-    display: none; /* Remove o underline em dispositivos móveis */
+  .themeMenuToggle {
+     justify-content: space-between; /* Align text left, arrow right */
+     width: 100%; /* Ensure full width */
   }
-  
-  .menuToggle {
-    display: block; /* Mostra o botão de toggle */
+
+  .themeSubmenu {
+    position: static; /* Static positioning within the flow */
+    box-shadow: none;
+    background-color: transparent;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease-out;
+    padding-left: 1.5rem; /* Indent submenu items */
+    border-radius: 0;
+    width: 100%; /* Full width */
+    opacity: 1; /* Ensure visible when open */
+    transform: none; /* Reset transform */
+    padding: 0 0 0 1.5rem; /* Adjust padding */
+    margin: 0;
   }
-  
-  /* Ajuste para o botão de tema em mobile */
-  .themeToggleButton {
-    margin-right: 15px;
+
+  .themeMenuContainer.open .themeSubmenu {
+    max-height: 300px;
+  }
+
+  .themeSubmenu li button {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.9rem;
+    text-align: left;
+    border-bottom: 1px solid var(--divider-color, rgba(255, 255, 255, 0.1));
+    width: 100%;
+  }
+
+  .themeSubmenu li:last-child button {
+      border-bottom: none;
+  }
+
+  .themeSubmenu li button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
   }
 }
 
-/* Garantir que a navbar fique sempre visível, mesmo com modais abertos */
-.navbar {
-  position: fixed;
-  z-index: 1100; /* Valor maior que outros elementos */
-}
-
-/* Estilo específico para o link Admin */
+/* Admin Link Specific Style */
 .navLinkAdmin {
-  color: var(--navbar-text-color);
-  position: relative;
+  /* No specific styles needed currently */
 }
 
-.navLinkAdmin:hover {
-  color: var(--accent-color-gold);
-}
+/* Fix for content overlap (Add padding to body or main content area) */
+/* This should ideally be in a global CSS file or layout component */
+/* Example (if you can target body): */
+/* body {
+  padding-top: 80px; /* Adjust based on navbar height */
+/* } */
+
+/* Alternative: Add margin to the element immediately following the header */
+/* .mainContent {
+  margin-top: 80px; /* Adjust based on navbar height */
+/* } */
+

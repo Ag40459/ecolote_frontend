@@ -37,6 +37,31 @@ export function formatCurrency(value, context = 'display') {
   });
 }
 
+// Função para formatar input como moeda brasileira em tempo real (máscara)
+export function formatCurrencyInput(value) {
+  if (!value) return '';
+  // 1. Remove tudo que não for dígito
+  let digits = value.replace(/\D/g, '');
+
+  if (!digits) return '';
+
+  // Remove zeros à esquerda (exceto se for o único dígito)
+  digits = digits.replace(/^0+(?!$)/, '');
+
+  // 2. Adiciona zeros à esquerda se necessário para ter pelo menos 3 dígitos (para centavos)
+  digits = digits.padStart(3, '0');
+
+  // 3. Separa parte inteira e decimal
+  const integerPart = digits.slice(0, -2);
+  const decimalPart = digits.slice(-2);
+
+  // 4. Adiciona pontos como separador de milhar na parte inteira
+  const formattedInteger = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+
+  // 5. Retorna o valor formatado com vírgula
+  return `${formattedInteger},${decimalPart}`;
+};
+
 export const DROPDOWN_OPTIONS = [
   { value: 200, text: 'Até R$200' },
   { value: 400, text: 'De R$200 até R$400' },

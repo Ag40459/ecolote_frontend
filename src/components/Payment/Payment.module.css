@@ -106,7 +106,8 @@
 .paymentMethodsGrid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
+  box-shadow: 0 15px 35px var(--shadow-color-light, rgba(0, 0, 0, 0.1));
+    gap: 2rem;
   margin-bottom: 3rem;
   animation: fadeInUp 0.8s ease forwards 0.3s;
   opacity: 0;
@@ -235,140 +236,7 @@
   color: var(--accent-color-green);
 }
 
-.paymentPartners {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 3rem;
-  margin: 3rem 0;
-  flex-wrap: wrap;
-  animation: fadeInUp 0.8s ease forwards 0.4s;
-  opacity: 0;
-}
 
-.partnerLogo {
-  width: 60px;
-  height: 60px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: rgba(var(--primary-color-rgb), 0.05);
-  border-radius: 50%;
-  opacity: 0.7;
-  transition: all 0.3s ease;
-  font-size: 2rem;
-  color: var(--text-secondary);
-}
-
-.partnerLogo:hover {
-  opacity: 1;
-  transform: scale(1.1);
-  background-color: rgba(var(--primary-color-rgb), 0.1);
-  color: var(--accent-color-green);
-}
-
-.paymentCTA {
-  background: linear-gradient(135deg, 
-    rgba(var(--primary-color-rgb), 0.05) 0%, 
-    rgba(var(--secondary-color-rgb), 0.1) 100%
-  );
-  border-radius: 16px;
-  padding: 3rem 2rem;
-  text-align: center;
-  margin-top: 3rem;
-  box-shadow: var(--shadow-md);
-  position: relative;
-  overflow: hidden;
-  animation: fadeInUp 0.8s ease forwards 0.5s;
-  opacity: 0;
-}
-
-.paymentCTA::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 5px;
-  background: linear-gradient(90deg, var(--accent-color-green), var(--accent-color-gold));
-  opacity: 0.7;
-}
-
-.paymentCTATitle {
-  font-family: var(--font-family-sans);
-  font-weight: 700;
-  font-size: 1.8rem;
-  color: var(--accent-color-green);
-  margin-bottom: 1rem;
-}
-
-.paymentCTAText {
-  font-family: var(--font-family-sans);
-  font-size: 1.1rem;
-  color: var(--text-color);
-  max-width: 700px;
-  margin: 0 auto 2rem;
-  line-height: 1.6;
-}
-
-.ctaButton {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.75rem;
-  padding: 1rem 2rem;
-  background-color: var(--accent-color-gold);
-  color: var(--text-color);
-  font-family: var(--font-family-sans);
-  font-weight: 600;
-  font-size: 1.1rem;
-  border-radius: 50px;
-  text-decoration: none;
-  transition: all 0.3s ease;
-  box-shadow: var(--shadow-md);
-  position: relative;
-  overflow: hidden;
-}
-
-.ctaButton:hover {
-  background-color: var(--accent-color-green);
-  color: white;
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-lg);
-}
-
-.ctaButtonIcon {
-  transition: transform 0.3s ease;
-}
-
-.ctaButton:hover .ctaButtonIcon {
-  transform: translateX(5px);
-}
-
-.ctaButton::after {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: linear-gradient(
-    to right,
-    rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0.3) 50%,
-    rgba(255, 255, 255, 0) 100%
-  );
-  transform: rotate(30deg);
-  transition: transform 0.7s ease;
-  opacity: 0;
-}
-
-.ctaButton:hover::after {
-  transform: rotate(30deg) translate(100%, 100%);
-  opacity: 1;
-}
-
-/* Animações */
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -429,12 +297,9 @@
   
   .paymentMethodsGrid {
     grid-template-columns: 1fr;
+    
   }
-  
-  .paymentPartners {
-    gap: 1.5rem;
-  }
-  
+   
   .paymentCTA {
     padding: 2rem 1.5rem;
   }

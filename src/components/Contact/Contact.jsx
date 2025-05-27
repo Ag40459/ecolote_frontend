@@ -1,16 +1,22 @@
 import { useState, useEffect, useRef } from 'react';
-import styles from './Contact.module.css';
+import styles from './Contact.module.css'; // Certifique-se que este é o Contact_corrected.module.css
 import ContactModal from '../ContactModal/ContactModal.jsx';
+
+// --- Ícones Placeholder --- 
+// Substitua por seus SVGs reais ou componentes de ícones
+const PropertyIcon = () => <span style={{ fontSize: '2rem' }}>🔑</span>; 
+const SecurityIcon = () => <span style={{ fontSize: '2rem' }}>🛡️</span>;
+const SustainabilityIcon = () => <span style={{ fontSize: '2rem' }}>🌱</span>;
+// --- Fim Ícones Placeholder ---
 
 const ContactSection = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef(null);
-  
+
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
-  
-  // Detectar quando a seção entra na viewport para animar
+
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -19,13 +25,13 @@ const ContactSection = () => {
           observer.unobserve(entry.target);
         }
       },
-      { threshold: 0.2 }
+      { threshold: 0.1 }
     );
-    
+
     if (sectionRef.current) {
       observer.observe(sectionRef.current);
     }
-    
+
     return () => {
       if (sectionRef.current) {
         observer.unobserve(sectionRef.current);
@@ -33,13 +39,13 @@ const ContactSection = () => {
     };
   }, []);
 
-  // Renderizar partículas solares
   const renderSolarParticles = () => {
+    // Função mantida como no original
     const particles = [];
     for (let i = 0; i < 10; i++) {
       particles.push(
-        <div 
-          key={i} 
+        <div
+          key={i}
           className={styles.particle}
           style={{
             left: `${Math.random() * 100}%`,
@@ -51,14 +57,13 @@ const ContactSection = () => {
     }
     return particles;
   };
-  
+
   return (
-    <section 
-      id="contact" 
+    <section
+      id="contact"
       ref={sectionRef}
       className={`${styles.contactSection} ${isVisible ? styles.visible : ''} content-section`}
     >
-      {/* Fundo dinâmico com ondas e partículas */}
       <div className={styles.contactBackground}>
         <div className={styles.energyWaves}>
           <div className={styles.wave}></div>
@@ -69,29 +74,48 @@ const ContactSection = () => {
           {renderSolarParticles()}
         </div>
       </div>
-      
+
       <div className={`${styles.contactContainer} container`}>
-                        <div className={styles.contactContent}>
-                    <div className={styles.contactInfo}>
-                       
-        </div>
-          <h2 className={styles.sectionTitle}>
-          <span className={styles.titleHighlight}>Faça Seu</span> Pré-Cadastro
-        </h2>
+         <h2 className={styles.sectionTitle}>
+            <span className={styles.titleHighlight}>Fale Conosco</span> e Faça Seu Pré-Cadastro
+         </h2>
+
+        <div className={styles.contactContent}>
+          {/* Coluna Esquerda: Conteúdo Exclusivo para Desktop */}
+          <div className={styles.contactInfoDesktopOnly}>
+            {/* Card/Seção 1: Propriedade Real */}
+            <div className={styles.desktopInfoCard}>
+              <div className={styles.desktopInfoIcon}> <PropertyIcon /> </div>
+              <div className={styles.desktopInfoText}>
+                <h3>Sua Usina, Sua Propriedade</h3>
+                <p>Diferente de aluguel de cotas, no Ecolote a mini usina é sua, com escritura registrada em seu nome. Um ativo real que valoriza.</p>
+              </div>
+            </div>
+
+            {/* Card/Seção 2: Segurança e Garantia */}
+            <div className={styles.desktopInfoCard}>
+              <div className={styles.desktopInfoIcon}> <SecurityIcon /> </div>
+              <div className={styles.desktopInfoText}>
+                <h3>Investimento Seguro e Garantido</h3>
+                <p>Conte com 25 anos de garantia nos equipamentos, monitoramento 24/7 e seguro. Nossa associação garante a gestão e manutenção.</p>
+              </div>
+            </div>
+
+            </div>
+
+          {/* Coluna Direita: Ação de Pré-Cadastro (Mantida como antes) */}
           <div className={styles.contactAction}>
             <div className={styles.actionCard}>
-              
               <div className={styles.cardContent}>
-                
                 <h3 className={styles.cardTitle}>
-                  <span className={styles.typingText}>Pronto para Investir no Seu Futuro Energético?</span>
+                  Pronto para Investir no Seu Futuro Energético?
                 </h3>
                 <p className={styles.cardText}>
                   Faça seu pré-cadastro agora mesmo e garanta:
                 </p>
-                
                 <div className={styles.benefitsList}>
-                  <div className={styles.benefitItem}>
+                   {/* Itens de benefício mantidos */}
+                   <div className={styles.benefitItem}>
                     <div className={styles.benefitCheck}>✓</div>
                     <span>Preço especial de pré-venda</span>
                   </div>
@@ -108,9 +132,8 @@ const ContactSection = () => {
                     <span>Sem compromisso de compra</span>
                   </div>
                 </div>
-                
-                <button 
-                  onClick={openModal} 
+                <button
+                  onClick={openModal}
                   className={`${styles.reserveButton} ${styles.energyButton}`}
                 >
                   <span className={styles.buttonText}>Faça Sua Reserva</span>
@@ -121,7 +144,7 @@ const ContactSection = () => {
             </div>
           </div>
         </div>
-        
+
         <div className={styles.contactFooter}>
           <div className={styles.tagline}>
             <strong>Ecolote: Energia limpa para todos – um novo Brasil começa aqui</strong>
@@ -129,10 +152,11 @@ const ContactSection = () => {
           </div>
         </div>
       </div>
-      
+
       <ContactModal isOpen={isModalOpen} onClose={closeModal} />
     </section>
   );
 };
 
 export default ContactSection;
+

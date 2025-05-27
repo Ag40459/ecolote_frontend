@@ -1,0 +1,65 @@
+
+
+/* Theme: Dark */
+body.dark-theme {
+  /* Cores de fundo */
+  --primary-bg-color: #13101093; /* Mantido, verificar uso */
+  --secondary-bg-color: #1E1E1E;
+  --background-color: #121212;
+  --card-bg: var(--card-bg-dark); /* Usa variável específica dark */
+  --modal-bg: #1E1E1E;
+
+  /* Cores de texto */
+  --text-color: #E0E0E0; /* Cinza claro (Contraste 14.19:1 OK) */
+  --text-secondary: #BDBDBD; /* Ajustado de #9E9E9E para contraste 7.05:1 */
+  --text-light: #757575; /* Cinza médio (Contraste 4.61:1 OK) */
+
+  /* Cores específicas do tema escuro */
+  --accent-color-green: #66BB6A;
+  --accent-color-gold: #FFB300;
+  --link-color: #90CAF9; /* Azul claro (Contraste 7.61:1 OK) */
+  --navbar-bg-color: #1E1E1E;
+  --navbar-text-color: #E0E0E0;
+  --footer-bg-color: #121212;
+  --footer-text-color: #E0E0E0;
+  --liner-division-color: rgba(239, 231, 231, 0.991);
+
+  /* Cores de botões */
+  --submit-button-bg: #66bb6a; /* Verde claro (Contraste 3.01:1 com texto #121212 - OK para large text) */
+  --submit-button-text: #121212; /* Texto escuro para botão claro */
+  --resend-button-color: #90caf9; /* Azul claro (Contraste 7.61:1 OK) */
+  --resend-button-hover: #64b5f6; /* Azul mais claro */
+  --resend-link-color: #90caf9;
+  --resend-link-hover: #64b5f6;
+
+  /* Cores de borda e divisores */
+  --border-color: #333333;
+  --divider-color: #2C2C2C;
+
+  /* Cores de entrada */
+  --input-bg: #2C2C2C;
+  --input-border: #424242;
+
+  /* Sombras */
+  --shadow-sm: 0 2px 5px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 5px 15px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.3);
+
+  /* Variáveis específicas */
+  --card-icon-fill: var(--text-color);
+  --card-description-align: justify;
+
+  /* Variáveis de tema escuro (definidas aqui para uso em --card-bg) */
+  --card-bg-dark: rgba(255, 255, 255, 0.05);
+  --text-secondary-dark: rgba(255, 255, 255, 0.85); /* #D9D9D9 - Contraste 13.14:1 OK */
+
+  /* Variáveis dependentes do tema - Sobrescrita Dark */
+  --card-bg: var(--card-bg-dark);
+  --text-secondary: var(--text-secondary-dark);
+}
+
+body.dark-theme {
+  --dot-color-expanded: rgba(255, 179, 0, 0.6); /* Amarelo dourado mais intenso */
+  --dot-color-contracted: rgba(255, 179, 0, 0.2); /* Amarelo dourado mais suave */
+  --shadow-color: rgba(0, 0, 0, 0.4);
+}

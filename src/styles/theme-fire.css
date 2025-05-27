@@ -1,0 +1,72 @@
+
+
+/* Theme: Fogo Solar */
+.theme-fire {
+  /* Cores primárias */
+  --primary-color: #FF5722; /* Laranja profundo */
+  --primary-color-rgb: 255, 87, 34;
+  --primary-color-dark: #E64A19; /* Laranja escuro */
+  --primary-color-light: #FF8A65; /* Laranja claro */
+
+  /* Cores secundárias */
+  --secondary-color: #FF9800; /* Laranja âmbar */
+  --secondary-color-rgb: 255, 152, 0;
+  --secondary-color-dark: #F57C00; /* Laranja âmbar escuro */
+  --secondary-color-light: #FFB74D; /* Laranja âmbar claro */
+
+  /* Cores de acento */
+  --accent-color: #FFEB3B; /* Amarelo vibrante */
+  --accent-color-rgb: 255, 235, 59;
+
+  /* Cores de feedback */
+  --success-color: #76FF03; /* Verde-limão brilhante */
+  --error-color: #FF1744; /* Vermelho brilhante */
+  --warning-color: #FFD600; /* Amarelo brilhante */
+  --info-color: #00E5FF; /* Ciano brilhante */
+
+  /* Cores de fundo */
+  --primary-bg-color: #ffe7ff; /* Amarelo muito claro */
+  --secondary-bg-color: #FFF8E1;
+  --background-color: #FFFDE7;
+  --card-bg: #FFFFFF;
+  --modal-bg: #FFFFFF;
+
+  /* Cores de texto */
+  --text-color: #BF360C; /* Laranja escuro para texto (Contraste 5.46:1 OK) */
+  --text-secondary: #B93B12; /* Ajustado de #D84315 para contraste 4.51:1 */
+  --text-light: #FF8A65; /* Laranja claro para texto terciário */
+
+  /* Cores de borda e divisores */
+  --border-color: #FFECB3; /* Amarelo muito claro */
+  --divider-color: #FFF8E1; /* Amarelo quase branco */
+
+  /* Cores de entrada */
+  --input-bg: #FFFDE7;
+  --input-border: #FFE082;
+
+  /* Cores específicas */
+  --link-color: #BF360C; /* Ajustado de #1976D2 para contraste 5.46:1 e tema */
+  --submit-button-bg: #E64A19; /* Usando primary-dark */
+  --submit-button-text: #FFFFFF; /* Contraste 3.56:1 - OK para large text, ajustar se necessário */
+  --resend-button-color: #BF360C; /* Usando text-color */
+  --resend-button-hover: #872608; /* Escurecido */
+  --resend-link-color: #BF360C;
+  --resend-link-hover: #872608;
+
+  /* Sombras */
+  --shadow-sm: 0 2px 5px rgba(255, 87, 34, 0.1);
+  --shadow-md: 0 5px 15px rgba(255, 87, 34, 0.1);
+  --shadow-lg: 0 10px 25px rgba(255, 87, 34, 0.1);
+
+  /* Variáveis dependentes do tema */
+  --card-bg: var(--card-bg-light); /* Herda de light por padrão, pode ser sobrescrito */
+  --text-secondary: #B93B12; /* Sobrescreve padrão */
+  --card-icon-fill: var(--text-color);
+  --card-description-align: justify;
+}
+
+body.fire-theme {
+  --dot-color-expanded: rgba(255, 87, 34, 0.6); /* Laranja avermelhado mais intenso */
+  --dot-color-contracted: rgba(255, 87, 34, 0.2); /* Laranja avermelhado mais suave */
+  --shadow-color: rgba(139, 0, 0, 0.3);
+}

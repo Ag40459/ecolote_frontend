@@ -1,0 +1,75 @@
+
+
+/* Theme: Light (Default) */
+:root {
+  /* Cores primárias */
+  --primary-color: #FFB400; /* Amarelo solar vibrante */
+  --primary-color-rgb: 255, 180, 0;
+  --primary-color-dark: #FF9500; /* Laranja dourado */
+  --primary-color-light: #FFD54F; /* Amarelo claro */
+
+  /* Cores secundárias */
+  --secondary-color: #00BFA5; /* Verde-água vibrante */
+  --secondary-color-rgb: 0, 191, 165;
+  --secondary-color-dark: #00897B; /* Verde-água escuro */
+  --secondary-color-light: #64FFDA; /* Verde-água claro */
+
+  /* Cores de acento */
+  --accent-color: #FF5252; /* Vermelho coral */
+  --accent-color-rgb: 255, 82, 82;
+
+  /* Cores de feedback */
+  --success-color: #00E676; /* Verde brilhante */
+  --error-color: #FF1744; /* Vermelho vibrante */
+  --warning-color: #FFAB00; /* Âmbar */
+  --info-color: #00B0FF; /* Azul brilhante */
+
+  /* Cores de fundo */
+  --primary-bg-color: #d5e4d2;
+  --secondary-bg-color: #F9FBF7;
+  --background-color: #FFFFFF;
+  --card-bg: #FFFFFF; /* Mantido, mas pode ser sobrescrito por temas */
+  --modal-bg: #FFFFFF;
+
+  /* Cores de texto */
+  --text-color: #212121;
+  --text-secondary: #757575; /* Contraste 4.61:1 OK */
+  --text-light: #BDBDBD;
+
+  /* Cores de borda e divisores */
+  --border-color: #E0E0E0;
+  --divider-color: #EEEEEE;
+  --liner-division-color: rgba(178, 207, 186, 0.991);
+
+  /* Cores de entrada */
+  --input-bg: #F5F5F5;
+  --input-border: #E0E0E0;
+
+  /* Cores específicas do tema atual */
+  --accent-color-green: #43A047;
+  --accent-color-gold: #FFC107;
+  --link-color: #1a73e8; /* Ajustado de #1976D2 para contraste 4.51:1 */
+  --navbar-bg-color: #FFFFFF;
+  --navbar-text-color: #212121;
+  --footer-bg-color: #333333;
+  --footer-text-color: #F5F5F5;
+
+  /* Cores de botões */
+  --submit-button-bg: #1f7d34; /* Ajustado de #28a745 para contraste 4.55:1 com texto branco */
+  --submit-button-text: white;
+  --resend-button-color: #1a73e8; /* Ajustado de #4a90e2 para contraste 4.51:1 */
+  --resend-button-hover: #1565C0; /* Ajustado proporcionalmente */
+  --resend-link-color: #1a73e8; /* Ajustado de #4a90e2 para contraste 4.51:1 */
+  --resend-link-hover: #1565C0; /* Ajustado proporcionalmente */
+
+  /* Variáveis de tema claro */
+  --card-bg-light: rgba(76, 175, 80, 0.05);
+  --text-secondary-light: rgba(0, 0, 0, 0.75); /* #404040 - Contraste 8.05:1 OK */
+
+  /* Variáveis dependentes do tema - Padrão Claro */
+  --card-bg: var(--card-bg-light);
+  --text-secondary: var(--text-secondary-light); /* Usa a versão light por padrão */
+  --card-icon-fill: black;
+  --card-description-align: center;
+}
+

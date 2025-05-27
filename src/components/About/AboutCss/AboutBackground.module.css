@@ -1,0 +1,43 @@
+/* AboutBackground.module.css */
+
+/* Fundo com padrão solar e partículas */
+.aboutBackground {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.solarPattern {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'60\' height=\'60\' viewBox=\'0 0 60 60\'%3E%3Cpath d=\'M30 5L35 10L30 15L25 10L30 5ZM5 30L10 25L15 30L10 35L5 30ZM30 45L25 50L30 55L35 50L30 45ZM45 30L50 35L55 30L50 25L45 30ZM10 10L20 15L15 20L10 10ZM40 15L50 10L45 20L40 15ZM50 50L40 45L45 40L50 50ZM20 45L10 50L15 40L20 45Z\' fill=\'%2328a745\'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  opacity: 0.05;
+  animation: rotateSolarPattern 120s linear infinite; /* Animation defined in AboutAnimations.module.css */
+}
+
+.solarParticles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.particle {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: radial-gradient(circle, rgba(40, 167, 69, 0.8) 0%, rgba(40, 167, 69, 0) 70%);
+  border-radius: 50%;
+  bottom: 0;
+  animation: floatParticle 8s ease-out infinite; /* Animation defined in AboutAnimations.module.css */
+}
+

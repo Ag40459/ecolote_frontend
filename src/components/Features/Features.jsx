@@ -1,17 +1,16 @@
 import { useState, useRef, useEffect } from 'react';
-import styles from './Features.module.css';
-import { FaLeaf, FaMoneyBillWave, FaKey, FaCoins, FaMicrochip, FaUsers, FaChartLine, FaShieldAlt, FaNetworkWired } from 'react-icons/fa';
-import HorizontalCarousel from '../UI/HorizontalCarousel/HorizontalCarousel';
+import styles from './Features.module.css'; // Use the modified CSS file
+import { FaLeaf, FaMoneyBillWave, FaKey, FaCoins, FaMicrochip, FaUsers, FaChartLine, FaShieldAlt, FaNetworkWired, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 
-// Categorias de features
+// Categorias de features (mantido)
 const categories = [
-  { id: 'economia', name: 'Economia e Investimento' },
+  { id: 'economia', name: 'Economia' },
   { id: 'sustentabilidade', name: 'Sustentabilidade' },
   { id: 'tecnologia', name: 'Tecnologia' },
-  { id: 'acesso', name: 'Flexibilidade e Acesso' }
+  { id: 'acesso', name: 'Flexibilidade' }
 ];
 
-// Features organizadas por categoria
+// Features organizadas por categoria (mantido)
 const featuresByCategory = {
   economia: [
     {
@@ -93,35 +92,42 @@ export default function Features() {
   const [selectedCategory, setSelectedCategory] = useState('economia');
   const [expandedIndices, setExpandedIndices] = useState([]);
   const [isMobile, setIsMobile] = useState(false);
-  
+  const [currentMobileIndex, setCurrentMobileIndex] = useState(0);
+  const mobileCarouselRef = useRef(null);
+
   // Verificar se é mobile
   useEffect(() => {
     const checkIfMobile = () => {
       setIsMobile(window.innerWidth < 768);
     };
-    
+
     checkIfMobile();
     window.addEventListener('resize', checkIfMobile);
-    
+
     return () => {
       window.removeEventListener('resize', checkIfMobile);
     };
   }, []);
 
-  // Função para expandir/recolher detalhes
+  useEffect(() => {
+    setCurrentMobileIndex(0);
+    if (mobileCarouselRef.current) {
+      mobileCarouselRef.current.scrollTo({ left: 0, behavior: 'smooth' });
+    }
+  }, [selectedCategory]);
+
   const toggleExpand = (index) => {
     setExpandedIndices(prev => {
       if (prev.includes(index)) {
         return prev.filter(i => i !== index);
       } else {
-        return [...prev, index];
+        return [...prev, index]; 
       }
     });
   };
 
-  // Renderizar card de feature
-  const renderFeatureCard = (feature, index) => (
-    <div className={styles.featureCard}>
+  const renderFeatureCard = (feature, index, isMobileCard = false) => (
+    <div key={`${selectedCategory}-${index}`} className={`${styles.featureCard} ${isMobileCard ? styles.mobileCard : ''}`}>
       <div className={styles.featureIconWrapper}>
         <div className={styles.featureIcon}>{feature.icon}</div>
       </div>
@@ -141,12 +147,55 @@ export default function Features() {
     </div>
   );
 
+  const currentFeatures = featuresByCategory[selectedCategory] || [];
+
+  // Funções de navegação do carrossel móvel
+  const handleNextMobile = () => {
+    const nextIndex = currentMobileIndex + 1;
+    if (nextIndex < currentFeatures.length && mobileCarouselRef.current) {
+      const cardWidth = mobileCarouselRef.current.scrollWidth / currentFeatures.length;
+      mobileCarouselRef.current.scrollTo({ left: cardWidth * nextIndex, behavior: 'smooth' });
+      setCurrentMobileIndex(nextIndex);
+    }
+  };
+
+  const handlePrevMobile = () => {
+    const prevIndex = currentMobileIndex - 1;
+    if (prevIndex >= 0 && mobileCarouselRef.current) {
+      const cardWidth = mobileCarouselRef.current.scrollWidth / currentFeatures.length;
+      mobileCarouselRef.current.scrollTo({ left: cardWidth * prevIndex, behavior: 'smooth' });
+      setCurrentMobileIndex(prevIndex);
+    }
+  };
+
+  // Atualizar índice baseado no scroll (opcional, mas melhora UX)
+  useEffect(() => {
+    const carousel = mobileCarouselRef.current;
+    if (!carousel || !isMobile) return;
+
+    let scrollTimeout;
+    const handleScroll = () => {
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(() => {
+        const cardWidth = carousel.scrollWidth / currentFeatures.length;
+        const newIndex = Math.round(carousel.scrollLeft / cardWidth);
+        if (newIndex !== currentMobileIndex) {
+          setCurrentMobileIndex(newIndex);
+        }
+      }, 150); // Debounce scroll event
+    };
+
+    carousel.addEventListener('scroll', handleScroll);
+    return () => carousel.removeEventListener('scroll', handleScroll);
+
+  }, [isMobile, currentFeatures.length, currentMobileIndex]);
+
+
   return (
     <section id="features" className={styles.featuresContainer}>
       <h2 className={styles.title}>Diferenciais</h2>
-      
-      <div className={styles.leavesBackground}></div>
-      
+
+      {/* Navegação por categorias (mantida) */}
       <div className={styles.categoriesNav}>
         {categories.map(category => (
           <button
@@ -158,24 +207,40 @@ export default function Features() {
           </button>
         ))}
       </div>
-      
-      <div className={styles.featuresCarousel}>
-        {isMobile ? (
-          <div className={styles.mobileFeatures}>
-            {featuresByCategory[selectedCategory].map((feature, index) => 
-              renderFeatureCard(feature, index)
+
+      {/* Renderização condicional: Desktop vs Mobile */}
+      {isMobile ? (
+        <div className={styles.mobileCarouselContainer}>
+          <button
+            className={`${styles.carouselArrow} ${styles.carouselArrowLeft}`}
+            onClick={handlePrevMobile}
+            disabled={currentMobileIndex === 0}
+            aria-label="Card anterior"
+          >
+            <FaChevronLeft />
+          </button>
+          <div className={styles.mobileCarousel} ref={mobileCarouselRef}>
+            {currentFeatures.map((feature, index) =>
+              renderFeatureCard(feature, index, true) // Pass true for isMobileCard
             )}
           </div>
-        ) : (
-          <HorizontalCarousel
-            items={featuresByCategory[selectedCategory]}
-            renderItem={(feature, index) => renderFeatureCard(feature, index)}
-            itemWidth={320}
-            gap={20}
-            itemsPerView={3}
-          />
-        )}
-      </div>
+          <button
+            className={`${styles.carouselArrow} ${styles.carouselArrowRight}`}
+            onClick={handleNextMobile}
+            disabled={currentMobileIndex === currentFeatures.length - 1}
+            aria-label="Próximo card"
+          >
+            <FaChevronRight />
+          </button>
+        </div>
+      ) : (
+        <div className={styles.featuresLayout} data-items-count={currentFeatures.length}>
+          {currentFeatures.map((feature, index) =>
+            renderFeatureCard(feature, index)
+          )}
+        </div>
+      )}
     </section>
   );
 }
+

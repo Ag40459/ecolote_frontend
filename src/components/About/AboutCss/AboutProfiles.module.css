@@ -1,0 +1,90 @@
+/* AboutProfiles.module.css */
+
+/* Estilos para a aba 'Para Quem' com expansão */
+
+/* Container dos perfis (substitui .profilesContainer antigo e .profileCard) */
+.profilesContainer {
+  display: flex;
+  flex-direction: column; /* Itens ficam um abaixo do outro */
+  gap: 0; /* Removido gap anterior se houver */
+  margin-bottom: 20px;
+  text-align: left; /* Garante alinhamento do texto à esquerda */
+}
+
+.profileItem {
+  margin-bottom: 15px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  padding-bottom: 15px;
+}
+
+.profileItem:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.profileTitleButton {
+  background: none;
+  border: none;
+  padding: 10px 0;
+  width: 100%;
+  text-align: left;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-color, #333);
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: color 0.3s ease;
+}
+
+.profileTitleButton:hover {
+  color: var(--accent-color-green, #28a745);
+}
+
+.profileTitleButton.expanded {
+  color: var(--accent-color-green, #28a745);
+}
+
+.expandIcon {
+  font-size: 1.2rem;
+  font-weight: bold;
+  transition: transform 0.3s ease;
+}
+
+.profileTitleButton.expanded .expandIcon {
+  transform: rotate(45deg); /* Opcional: animação do ícone +/- */
+}
+
+.profileDetails {
+  padding: 10px 0 10px 20px; /* Adiciona indentação à esquerda */
+  animation: fadeIn 0.5s ease; /* Animation defined in AboutAnimations.module.css */
+  overflow: hidden;
+}
+
+.profileList {
+  list-style: none;
+  padding-left: 0; /* Removido padding padrão da ul */
+  margin: 0;
+}
+
+.profileList li {
+  padding: 5px 0; /* Espaçamento vertical */
+  position: relative;
+  padding-left: 20px; /* Espaço para o marcador */
+  color: var(--text-secondary, #666);
+  font-size: 1rem;
+}
+
+.profileList li::before {
+  content: '•'; /* Usando um bullet point como marcador */
+  position: absolute;
+  left: 0;
+  color: var(--accent-color-green, #28a745);
+}
+
+/* --- Responsive adjustments for Profiles --- */
+
+/* @media (max-width: 768px) - .profilesContainer já é column por padrão */
+

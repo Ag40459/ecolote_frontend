@@ -1,0 +1,73 @@
+
+
+/* Theme: Oceano Elétrico */
+.theme-ocean {
+  /* Cores primárias */
+  --primary-color: #2196F3; /* Azul vibrante */
+  --primary-color-rgb: 33, 150, 243;
+  --primary-color-dark: #1976D2; /* Azul escuro */
+  --primary-color-light: #64B5F6; /* Azul claro */
+
+  /* Cores secundárias */
+  --secondary-color: #00BCD4; /* Ciano */
+  --secondary-color-rgb: 0, 188, 212;
+  --secondary-color-dark: #0097A7; /* Ciano escuro */
+  --secondary-color-light: #4DD0E1; /* Ciano claro */
+
+  /* Cores de acento */
+  --accent-color: #7C4DFF; /* Roxo vibrante */
+  --accent-color-rgb: 124, 77, 255;
+
+  /* Cores de feedback */
+  --success-color: #00E5FF; /* Ciano brilhante */
+  --error-color: #FF4081; /* Rosa */
+  --warning-color: #FFAB40; /* Âmbar claro */
+  --info-color: #40C4FF; /* Azul claro brilhante */
+
+  /* Cores de fundo */
+  --primary-bg-color: #FAFAFA;
+  --secondary-bg-color: #E3F2FD;
+  --background-color: #FAFAFA;
+  --card-bg: #FFFFFF;
+  --modal-bg: #FFFFFF;
+
+  /* Cores de texto */
+  --text-color: #263238; /* Azul-cinza escuro (Contraste 12.61:1 OK) */
+  --text-secondary: #455A64; /* Azul-cinza médio (Contraste 6.94:1 OK) */
+  --text-light: #90A4AE; /* Azul-cinza claro */
+
+  /* Cores de borda e divisores */
+  --border-color: #E0E0E0;
+  --divider-color: #EEEEEE;
+
+  /* Cores de entrada */
+  --input-bg: #F5F5F5;
+  --input-border: #E0E0E0;
+
+  /* Cores específicas */
+  --link-color: #1565C0; /* Ajustado de #1976D2 para contraste 5.63:1 */
+  --submit-button-bg: #1976D2; /* Usando primary-dark */
+  --submit-button-text: #FFFFFF; /* Contraste 4.60:1 OK */
+  --resend-button-color: #1565C0; /* Usando link-color ajustado */
+  --resend-button-hover: #0D47A1; /* Escurecido */
+  --resend-link-color: #1565C0;
+  --resend-link-hover: #0D47A1;
+
+  /* Sombras */
+  --shadow-sm: 0 2px 5px rgba(33, 150, 243, 0.1);
+  --shadow-md: 0 5px 15px rgba(33, 150, 243, 0.1);
+  --shadow-lg: 0 10px 25px rgba(33, 150, 243, 0.1);
+
+  /* Variáveis dependentes do tema */
+  --card-bg: var(--card-bg-light); /* Herda de light por padrão, pode ser sobrescrito */
+  --text-secondary: #455A64; /* Sobrescreve padrão */
+  --card-icon-fill: var(--text-color);
+  --card-description-align: justify;
+}
+
+body.ocean-theme {
+  --dot-color-expanded: rgba(3, 169, 244, 0.6); /* Azul claro mais intenso */
+  --dot-color-contracted: rgba(3, 169, 244, 0.2); /* Azul claro mais suave */
+  --shadow-color: rgba(0, 0, 139, 0.3);
+  }
+  

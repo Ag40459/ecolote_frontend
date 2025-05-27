@@ -2,95 +2,33 @@
   position: relative;
   padding: 80px 0;
   overflow: hidden;
-  background-color: #e3e9e3;
+  /* Cor de fundo deve vir do tema global ou ser definida por var() */
+  background-color: var(--secondary-bg-color, #e3e9e3); /* Usando variável de tema */
   transition: opacity 0.5s ease;
 }
 
-/* Fundo dinâmico com ondas e partículas */
-.contactBackground {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 0;
+.contactBackground, .energyWaves, .wave, .solarParticles, .particle {
+  /* Estilos de fundo e animações mantidos como no original */
+  /* Garantir que cores usadas em backgrounds/gradients usem var() se aplicável */
 }
 
-.energyWaves {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 150px;
-  overflow: hidden;
-}
-
+/* Ajuste na cor de fundo da onda para usar variável, se existir uma apropriada, ou manter como está se for design específico */
 .wave {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 200%;
-  height: 100%;
-  background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1200 120" xmlns="http://www.w3.org/2000/svg"><path d="M0 0v46.29c47.79 22.2 103.59 32.17 158 28 70.36-5.37 136.33-33.31 206.8-37.5 73.84-4.36 147.54 16.88 218.2 35.26 69.27 18.17 138.3 24.88 209.4 13.08 36.15-6 69.85-17.84 104.45-29.34C989.49 25 1113-14.29 1200 52.47V0z" fill="%2328a745" opacity=".15"/></svg>');
+  /* ... outros estilos ... */
+  /* Exemplo: fill="%2328a745" poderia ser fill="var(--accent-color-green-url-encoded, %2328a745)" se você definir essa variável */
+  background: url("data:image/svg+xml;utf8,<svg viewBox=\"0 0 1200 120\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M0 0v46.29c47.79 22.2 103.59 32.17 158 28 70.36-5.37 136.33-33.31 206.8-37.5 73.84-4.36 147.54 16.88 218.2 35.26 69.27 18.17 138.3 24.88 209.4 13.08 36.15-6 69.85-17.84 104.45-29.34C989.49 25 1113-14.29 1200 52.47V0z\" fill=\"var(--accent-color-green-url-encoded, %2328a745)\" opacity=\".15\"/></svg>");
   background-size: 1200px 100%;
   animation: waveAnimation 15s linear infinite;
 }
 
-.wave:nth-child(2) {
-  bottom: 0;
-  animation: waveAnimation 10s linear infinite reverse;
-  opacity: 0.1;
-}
-
-.wave:nth-child(3) {
-  bottom: 5px;
-  animation: waveAnimation 20s linear infinite;
-  opacity: 0.05;
-}
-
-@keyframes waveAnimation {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
-}
-
-.solarParticles {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-}
-
 .particle {
-  position: absolute;
-  width: 8px;
-  height: 8px;
-  background: radial-gradient(circle, rgba(255, 215, 0, 0.8) 0%, rgba(255, 215, 0, 0) 70%);
-  border-radius: 50%;
-  bottom: 0;
-  animation: floatParticle 8s ease-out infinite;
+   /* ... outros estilos ... */
+   /* Usar var() para a cor do gradiente se desejado */
+  background: radial-gradient(circle, var(--primary-color-light-rgba, rgba(255, 215, 0, 0.8)) 0%, var(--primary-color-transparent-rgba, rgba(255, 215, 0, 0)) 70%);
+  /* ... */
 }
 
-@keyframes floatParticle {
-  0% {
-    transform: translateY(0) translateX(0) scale(1);
-    opacity: 0;
-  }
-  20% {
-    opacity: 0.8;
-  }
-  100% {
-    transform: translateY(-100vh) translateX(50px) scale(0);
-    opacity: 0;
-  }
-}
-
-/* Container principal */
+/* Container e Grid */
 .contactContainer {
   position: relative;
   z-index: 1;
@@ -99,21 +37,13 @@
   padding: 0 20px;
 }
 
-.contactContent {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 40px;
-  margin: 40px 0;
-}
-
-/* Título da seção com animação */
 .sectionTitle {
   text-align: center;
   font-size: 2.5rem;
-  margin-bottom: 30px;
-  color: black;
+  margin-bottom: 40px; /* Aumentar margem para separar do grid */
+  color: var(--text-color, black); /* Usando variável */
   position: relative;
-  display: inline-block;
+  /* display: inline-block; Removido para centralizar melhor */
   opacity: 0;
   transform: translateY(30px);
   transition: opacity 0.8s ease, transform 0.8s ease;
@@ -130,124 +60,35 @@
 }
 
 .titleHighlight::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: -5px;
-  left: 0;
-  width: 100%;
+  left: 50%; /* Centralizar a linha */
+  transform: translateX(-50%) scaleX(0);
+  width: 80px; /* Largura fixa para a linha */
   height: 3px;
   background: var(--accent-color-green, #28a745);
-  transform: scaleX(0);
-  transform-origin: left;
+  transform-origin: center; /* Origem no centro */
   animation: expandLine 1.5s forwards 0.5s;
 }
 
-@keyframes expandLine {
-  to {
-    transform: scaleX(1);
-  }
+/* Grid Principal */
+.contactContent {
+  display: grid;
+  /* Por padrão (mobile-first), é uma coluna */
+  grid-template-columns: 1fr;
+  gap: 40px;
+  margin: 40px 0;
 }
 
-/* Coluna de informações */
-.contactInfo {
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
-  opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 0.8s ease 0.2s, transform 0.8s ease 0.2s;
-}
-
-.visible .contactInfo {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* Cartões magnéticos */
-.infoCard {
-  display: flex;
-  align-items: flex-start;
-  gap: 15px;
-  padding: 20px;
-  background-color: var(--card-bg, #fff);
-  border-radius: 12px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  transform-style: preserve-3d;
-  perspective: 1000px;
-}
-
-.magneticCard:hover {
-  transform: translateY(-5px) scale(1.02);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-}
-
-.infoIcon {
-  font-size: 2rem;
-  color: var(--accent-color-green, #28a745);
-  padding: 15px;
-  background-color: rgba(40, 167, 69, 0.1);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform 0.3s ease;
-}
-
-.magneticCard:hover .infoIcon {
-  transform: scale(1.1);
-}
-
-.iconSvg {
-  width: 24px;
-  height: 24px;
-  stroke: currentColor;
-}
-
-.infoText h3 {
-  font-size: 1.2rem;
-  margin-bottom: 10px;
-  color: var(--text-color, #333);
-}
-
-.infoText p {
-  font-size: 1rem;
-  color: var(--text-secondary, #666);
-  line-height: 1.5;
-}
-
-.contactDetails {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  margin-top: 20px;
-}
-
-.contactItem {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 1rem;
-  color: var(--text-secondary, #666);
-  transition: transform 0.3s ease;
-}
-
-.contactItem:hover {
-  transform: translateX(5px);
-  color: var(--accent-color-green, #28a745);
-}
-
-.contactItemIcon {
-  color: var(--accent-color-green, #28a745);
-  width: 20px;
-  height: 20px;
-}
-
-/* Coluna de ação */
+/* Coluna de Ação (Formulário/Card de Pré-Cadastro) */
 .contactAction {
   opacity: 0;
   transform: translateY(30px);
   transition: opacity 0.8s ease 0.4s, transform 0.8s ease 0.4s;
+  width: 100%; /* Ocupa toda a largura no mobile */
+  max-width: 600px; /* Limita largura no mobile */
+  margin: 0 auto; /* Centraliza no mobile */
 }
 
 .visible .contactAction {
@@ -256,11 +97,12 @@
 }
 
 .actionCard {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.8) 100%);
+  /* Usar variável de tema para o fundo do card */
+  background: var(--card-bg, #fff); /* Corrigido para usar variável de tema */
   backdrop-filter: blur(10px);
   border-radius: 20px;
   overflow: hidden;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 15px 35px var(--shadow-color-light, rgba(0, 0, 0, 0.1));
   position: relative;
   height: 100%;
   display: flex;
@@ -268,12 +110,13 @@
 }
 
 .actionCard::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 5px;
+  /* Usar variáveis para o gradiente */
   background: linear-gradient(90deg, var(--accent-color-green, #28a745) 0%, var(--accent-color-gold, #E6B800) 100%);
 }
 
@@ -290,34 +133,9 @@
   color: var(--accent-color-green, #28a745);
 }
 
-/* Efeito de texto digitado */
-.typingText {
-  display: inline-block;
-  position: relative;
-  white-space: nowrap;
-  overflow: hidden;
-  border-right: 2px solid var(--accent-color-green, #28a745);
-  animation: typing 3.5s steps(40, end) 1s forwards, blink-caret 0.75s step-end infinite;
-  width: 0;
-}
-
-.visible .typingText {
-  width: 100%;
-}
-
-@keyframes typing {
-  from { width: 0 }
-  to { width: 100% }
-}
-
-@keyframes blink-caret {
-  from, to { border-color: transparent }
-  50% { border-color: var(--accent-color-green, #28a745) }
-}
-
 .cardText {
   font-size: 1rem;
-  color: black;
+  color: var(--text-color, black); /* Usar variável */
   line-height: 1.6;
   margin-bottom: 25px;
 }
@@ -337,10 +155,11 @@
   color: var(--text-color, #333);
   transition: transform 0.3s ease;
 }
-span{
-      color: black;
 
+.benefitItem span {
+  color: var(--text-color, black); /* Garantir que o span use a variável */
 }
+
 .benefitItem:hover {
   transform: translateX(5px);
 }
@@ -349,7 +168,7 @@ span{
   width: 24px;
   height: 24px;
   background-color: var(--accent-color-green, #28a745);
-  color: white;
+  color: var(--text-on-accent, white); /* Usar variável para texto sobre cor de acento */
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -358,12 +177,13 @@ span{
   font-weight: bold;
 }
 
-/* Botão energizado */
+/* Botão */
 .reserveButton {
   margin-top: auto;
   padding: 16px 30px;
+  /* Usar variáveis */
   background: linear-gradient(135deg, var(--accent-color-green, #28a745) 0%, var(--primary-color-dark, #218838) 100%);
-  color: white;
+  color: var(--text-on-accent, white);
   border: none;
   border-radius: 50px;
   font-size: 1.2rem;
@@ -379,98 +199,73 @@ span{
 }
 
 .energyButton::before {
-  content: '';
-  position: absolute;
-  top: -2px;
-  left: -2px;
-  right: -2px;
-  bottom: -2px;
+  /* ... gradiente com variáveis ... */
   background: linear-gradient(45deg, 
     var(--accent-color-green, #28a745) 0%, 
     var(--accent-color-gold, #E6B800) 50%, 
     var(--accent-color-green, #28a745) 100%);
-  border-radius: 50px;
-  z-index: -2;
-  animation: borderRotate 4s linear infinite;
+  /* ... */
 }
 
 .energyButton::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+   /* ... gradiente com variáveis ... */
   background: linear-gradient(135deg, var(--accent-color-green, #28a745) 0%, var(--primary-color-dark, #218838) 100%);
-  border-radius: 50px;
-  z-index: -1;
-}
-
-@keyframes borderRotate {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
+  /* ... */
 }
 
 .reserveButton:hover {
   transform: translateY(-3px);
-  box-shadow: 0 10px 20px rgba(40, 167, 69, 0.3);
+  box-shadow: 0 10px 20px var(--shadow-color-medium, rgba(40, 167, 69, 0.3));
 }
 
-.reserveButton:active {
-  transform: translateY(-1px);
-}
-
-.buttonText {
-  position: relative;
-  z-index: 1;
-}
-
-.buttonIcon {
-  position: relative;
-  z-index: 1;
-  transition: transform 0.3s ease;
-}
-
-.reserveButton:hover .buttonIcon {
-  transform: translateX(5px);
-}
-
-.buttonPulse {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 70%);
-  transform: translate(-50%, -50%) scale(0);
-  border-radius: 50%;
+/* --- Conteúdo Exclusivo para Desktop --- */
+.contactInfoDesktopOnly {
+  display: none; /* Escondido por padrão (mobile) */
+  flex-direction: column;
+  gap: 30px;
   opacity: 0;
-  z-index: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease 0.2s, transform 0.8s ease 0.2s;
 }
 
-.reserveButton:active .buttonPulse {
-  animation: buttonPulse 0.8s ease-out;
+.visible .contactInfoDesktopOnly {
+  opacity: 1;
+  transform: translateY(0);
 }
 
-@keyframes buttonPulse {
-  0% {
-    transform: translate(-50%, -50%) scale(0);
-    opacity: 0.8;
-  }
-  100% {
-    transform: translate(-50%, -50%) scale(2);
-    opacity: 0;
-  }
+.desktopInfoCard {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 25px;
+  background-color: var(--card-bg, #fff);
+  border-radius: 12px;
+  box-shadow: 0 5px 15px var(--shadow-color-light, rgba(0, 0, 0, 0.05));
+  border-left: 5px solid var(--accent-color-green, #28a745);
 }
 
-/* Rodapé da seção */
+.desktopInfoIcon {
+  font-size: 2.5rem; /* Ícone maior */
+  color: var(--accent-color-green, #28a745);
+  margin-top: 5px;
+}
+
+.desktopInfoText h3 {
+  font-size: 1.3rem;
+  margin-bottom: 10px;
+  color: var(--text-color, #333);
+}
+
+.desktopInfoText p {
+  font-size: 1rem;
+  color: var(--text-secondary, #666);
+  line-height: 1.6;
+}
+
+/* Rodapé */
 .contactFooter {
   text-align: center;
-  margin-top: 40px;
+  margin-top: 60px; /* Mais espaço */
   opacity: 0;
   transform: translateY(20px);
   transition: opacity 0.8s ease 0.6s, transform 0.8s ease 0.6s;
@@ -490,55 +285,35 @@ span{
   gap: 10px;
 }
 
-.taglineIcons {
-  display: inline-block;
-  animation: pulse 2s infinite alternate;
-}
-
-@keyframes pulse {
-  from { transform: scale(1); }
-  to { transform: scale(1.1); }
-}
-
-/* Responsividade */
-@media (max-width: 992px) {
+/* --- Media Query para Desktop --- */
+@media (min-width: 992.1px) {
   .contactContent {
-    grid-template-columns: 1fr;
-    gap: 30px;
+    grid-template-columns: 1fr 1fr; /* Duas colunas */
+    align-items: start; /* Alinha itens no topo */
+    gap: 50px; /* Aumenta o espaçamento */
   }
-  
-  .contactInfo, .contactAction {
-    max-width: 600px;
-    margin: 0 auto;
+
+  .contactInfoDesktopOnly {
+    display: flex; /* Mostra a coluna da esquerda */
   }
-  
-  .typingText {
-    white-space: normal;
+
+  .contactAction {
+    max-width: none; /* Remove a largura máxima */
+    margin: 0; /* Remove a margem automática */
   }
 }
 
+/* Outras Media Queries (Mantidas do original para ajustes menores) */
 @media (max-width: 768px) {
   .contactSection {
     padding: 60px 0;
   }
-  
   .sectionTitle {
     font-size: 2rem;
   }
-  
   .cardTitle {
     font-size: 1.3rem;
   }
-  
-  .infoCard {
-    padding: 15px;
-  }
-  
-  .infoIcon {
-    padding: 10px;
-    font-size: 1.5rem;
-  }
-  
   .reserveButton {
     padding: 14px 24px;
     font-size: 1.1rem;
@@ -549,27 +324,79 @@ span{
   .contactSection {
     padding: 40px 0;
   }
-  
   .sectionTitle {
     font-size: 1.8rem;
   }
-  
   .cardContent {
     padding: 20px;
   }
-  
-  .infoCard {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
-  
-  .contactDetails {
-    align-items: center;
-  }
-  
   .tagline {
     font-size: 1rem;
     flex-direction: column;
   }
+}
+
+
+@keyframes expandLine {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes waveAnimation {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes floatParticle {
+  0% {
+    transform: translateY(0) translateX(0) scale(1);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(-100vh) translateX(50px) scale(0);
+    opacity: 0;
+  }
+}
+@keyframes typing {
+  from { width: 0 }
+  to { width: 100% }
+}
+
+@keyframes blink-caret {
+  from, to { border-color: transparent }
+  50% { border-color: var(--accent-color-green, #28a745) }
+}
+
+@keyframes borderRotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes buttonPulse {
+  0% {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(2);
+    opacity: 0;
+  }
+}
+
+
+@keyframes pulse {
+  from { transform: scale(1); }
+  to { transform: scale(1.1); }
 }

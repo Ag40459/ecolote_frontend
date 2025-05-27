@@ -1,27 +1,117 @@
+
 .heroSection {
   position: relative;
-  height: 100vh;
+  height: 100vh; /* Garante altura total da viewport */
   min-height: 600px;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
   color: white;
-  padding: 0 20px;
+  /* padding: 0 20px; /* Removido para permitir largura total */
   overflow: hidden;
+  width: 100%; /* Garante largura total */
 }
 
+/* Fundo estático com bolinhas e sombra circular */
 .heroBackground {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url('../../assets/hero-bg.jpg');
-  background-size: cover;
-  background-position: center;
+  background-color: var(--background-color, #121212);
+
+  /* Criação das bolinhas base (estáticas) */
+  background-image: radial-gradient(
+    circle at center,
+    var(--dot-color-contracted, rgba(255, 255, 255, 0.9)) var(--dot-size, 2px),
+    transparent var(--dot-size, 2px)
+  );
+  background-size: var(--dot-spacing, 20px) var(--dot-spacing, 20px);
+  background-position: 0 0; /* Posição estática */
+
   z-index: 0;
-  transition: transform 0.3s ease-out;
+}
+
+/* Camada para animação suave de cor das bolinhas */
+.heroBackground::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  /* Criação das bolinhas com cor diferente para o efeito de fade */
+  background-image: radial-gradient(
+    circle at center,
+    var(--dot-color-expanded, rgba(255, 255, 255, 1.2)) var(--dot-size, 2px), /* Cor mais clara/intensa */
+    transparent var(--dot-size, 2px)
+  );
+  background-size: var(--dot-spacing, 20px) var(--dot-spacing, 20px);
+  background-position: 0 0; /* Posição estática */
+
+  /* Animação suave de fade in/out para simular mudança de cor */
+  animation: fade-color-dots 5s ease-in-out infinite alternate; /* Nova animação */
+
+  opacity: 0; /* Começa transparente */
+  z-index: 0;
+}
+
+/* Animação para fade suave da cor das bolinhas (via opacidade da camada ::after) */
+@keyframes fade-color-dots {
+  0% {
+    opacity: 0; /* Mostra cor base (dot-color-contracted) */
+  }
+  50% {
+    opacity: 1; /* Mostra cor mais clara (dot-color-expanded) */
+  }
+  100% {
+    opacity: 2; /* Volta para cor base */
+  }
+}
+
+
+.heroBackground::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+
+  /* Criação da sombra circular móvel (suavizada) */
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(0, 0, 0, 0) 0%, /* Start fully transparent */
+    rgba(0, 0, 0, 0.1) calc(var(--shadow-radius, 150px) * 0.5), /* Start fading in shadow gently */
+    var(--shadow-color, rgba(0, 0, 0, 0.3)) var(--shadow-radius, 150px), /* Reach full shadow color */
+    var(--shadow-color, rgba(0, 0, 0, 0.3)) 100% /* Maintain shadow color */
+  );
+
+  /* Animação de movimento da sombra (mantida) */
+  animation: move-shadow 15s ease-in-out infinite alternate;
+}
+
+/* Animação para mover a sombra circular (focando na posição) */
+@keyframes move-shadow {
+  0% {
+    background-position: 20% 30%;
+  }
+  25% {
+    background-position: 80% 70%;
+  }
+  50% {
+    background-position: 50% 20%;
+  }
+  75% {
+     background-position: 30% 80%;
+  }
+  100% {
+    background-position: 70% 40%;
+  }
 }
 
 .heroOverlay {
@@ -30,7 +120,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(135deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.5) 100%);
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.4) 100%);
   z-index: 1;
 }
 
@@ -38,130 +128,8 @@
   position: relative;
   z-index: 2;
   max-width: 900px;
-}
-
-/* Sol animado no canto superior */
-.sunAnimation {
-  position: absolute;
-  top: 40px;
-  right: 40px;
-  width: 80px;
-  height: 80px;
-  background: radial-gradient(circle, rgba(255, 215, 0, 0.9) 0%, rgba(255, 215, 0, 0) 70%);
-  border-radius: 50%;
-  z-index: 1;
-  animation: sunPulse 4s ease-in-out infinite;
-}
-
-@keyframes sunPulse {
-  0% { transform: scale(1); opacity: 0.8; }
-  50% { transform: scale(1.2); opacity: 1; }
-  100% { transform: scale(1); opacity: 0.8; }
-}
-
-/* Elementos decorativos solares */
-.solarElements {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-  overflow: hidden;
-}
-
-.solarRay {
-  position: absolute;
-  background: linear-gradient(to right, rgba(230, 184, 0, 0), rgba(230, 184, 0, 0.3), rgba(230, 184, 0, 0));
-  height: 2px;
-  width: 100px;
-  transform-origin: left center;
-  animation: rotateRay 20s linear infinite;
-}
-
-@keyframes rotateRay {
-  0% { transform: rotate(0deg) translateX(-50%); opacity: 0; }
-  20% { opacity: 0.7; }
-  80% { opacity: 0.7; }
-  100% { transform: rotate(360deg) translateX(-50%); opacity: 0; }
-}
-
-/* Partículas solares */
-.solarParticlesContainer {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  pointer-events: none;
-  z-index: 1;
-}
-
-.solarParticle {
-  position: absolute;
-  background: radial-gradient(circle, rgba(255, 215, 0, 0.8) 0%, rgba(255, 215, 0, 0) 70%);
-  border-radius: 50%;
-  opacity: 0;
-  z-index: 1;
-  animation: floatParticle 4s ease-out forwards;
-}
-
-@keyframes floatParticle {
-  0% {
-    transform: translateY(0) translateX(0) scale(1);
-    opacity: 0;
-  }
-  20% {
-    opacity: 0.8;
-  }
-  100% {
-    transform: translateY(-100px) translateX(50px) scale(0);
-    opacity: 0;
-  }
-}
-
-/* Ondas de energia */
-.energyWaves {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 100px;
-  overflow: hidden;
-  z-index: 1;
-}
-
-.wave {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 200%;
-  height: 100%;
-  background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1200 120" xmlns="http://www.w3.org/2000/svg"><path d="M0 0v46.29c47.79 22.2 103.59 32.17 158 28 70.36-5.37 136.33-33.31 206.8-37.5 73.84-4.36 147.54 16.88 218.2 35.26 69.27 18.17 138.3 24.88 209.4 13.08 36.15-6 69.85-17.84 104.45-29.34C989.49 25 1113-14.29 1200 52.47V0z" fill="%23FFB400" opacity=".25"/></svg>');
-  background-size: 1200px 100%;
-  animation: waveAnimation 15s linear infinite;
-}
-
-.wave:nth-child(2) {
-  bottom: 0;
-  animation: waveAnimation 10s linear infinite reverse;
-  opacity: 0.5;
-}
-
-.wave:nth-child(3) {
-  bottom: 0;
-  animation: waveAnimation 20s linear infinite;
-  opacity: 0.2;
-}
-
-@keyframes waveAnimation {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
+  width: 100%; /* Garante que o conteúdo use a largura disponível */
+  padding: 0 20px; /* Adiciona padding interno ao conteúdo */
 }
 
 /* Animações para textos */
@@ -177,7 +145,6 @@
 }
 
 .slideContent {
-  animation: fadeIn 0.5s ease forwards;
 }
 
 @keyframes fadeIn {
@@ -186,11 +153,10 @@
 }
 
 .heroTitle {
-  font-size: 3rem;
+  font-size: clamp(2rem, 5vw, 3rem);
   font-weight: 700;
   margin-bottom: 1.5rem;
-  color: #E6B800;
-  animation: fadeInUp 0.8s ease forwards;
+  color: var(--accent-color-gold, #E6B800);
   position: relative;
   display: inline-block;
 }
@@ -202,9 +168,9 @@
   left: -5px;
   right: -5px;
   bottom: 0;
-  background: linear-gradient(90deg, 
-    rgba(230, 184, 0, 0) 0%, 
-    rgba(230, 184, 0, 0.2) 50%, 
+  background: linear-gradient(90deg,
+    rgba(230, 184, 0, 0) 0%,
+    rgba(230, 184, 0, 0.2) 50%,
     rgba(230, 184, 0, 0) 100%);
   z-index: -1;
   transform: scaleX(0);
@@ -219,69 +185,52 @@
 }
 
 .heroSubtitle {
-  font-size: 1.125rem;
+  font-size: clamp(1rem, 3vw, 1.125rem);
   line-height: 1.6;
   margin-bottom: 2rem;
   max-width: 800px;
   margin-left: auto;
   margin-right: auto;
-  animation: fadeInUp 0.8s ease 0.3s forwards;
-  opacity: 0; /* Começa invisível */
+  /* opacity: 0; /* Começa invisível - REMOVIDO */
+  white-space: pre-wrap;
+  min-height: 4.8em; /* Altura para 3 linhas aproximadamente */
 }
 
-/* Botão CTA aprimorado */
+/* Botão CTA redesenhado */
 .ctaButton {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
-  padding: 16px 32px;
-  font-size: 1.125rem;
+  padding: 14px 30px; /* Ajuste no padding */
+  font-size: clamp(1rem, 2vw, 1.125rem);
   font-weight: 600;
   text-decoration: none;
-  border-radius: 50px;
-  background: linear-gradient(135deg, #28a745 0%, #218838 100%);
-  color: white;
+  border-radius: 30px; /* Raio ligeiramente menor */
+  background: var(--accent-color-gold, #E6B800); /* Cor de fundo dourada */
+  color: #1a1a1a; /* Cor do texto escura para contraste */
+  border: none; /* Sem borda */
   transition: all 0.3s ease;
   margin-top: 1.5rem;
-  box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Sombra sutil */
   position: relative;
   overflow: hidden;
-  animation: fadeInUp 0.8s ease 0.6s forwards;
-  opacity: 0; /* Começa invisível */
 }
 
 .ctaButton:hover {
-  background-color: #218838;
-  box-shadow: 0 10px 20px rgba(40, 167, 69, 0.4);
-  transform: translateY(-3px);
+  background: var(--accent-color-gold, #E6B800); /* Mantém a cor */
+  filter: brightness(0.9); /* Escurece ligeiramente no hover */
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3); /* Sombra mais pronunciada */
+  transform: translateY(-2px); /* Leve elevação */
+}
+
+/* Remove o efeito de pulso do ícone antigo e o after */
+.ctaButtonIcon { 
+  /* animation: pulse 2s infinite; /* Removido */
 }
 
 .ctaButton::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 150%;
-  height: 150%;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 50%;
-  transform: translate(-50%, -50%) scale(0);
-  transition: transform 0.6s ease-out;
-}
-
-.ctaButton:hover::after {
-  transform: translate(-50%, -50%) scale(1);
-}
-
-.ctaButtonIcon {
-  animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.1); }
-  100% { transform: scale(1); }
+  /* content: ''; /* Removido */
 }
 
 /* Controles do carrossel */
@@ -290,6 +239,7 @@
   align-items: center;
   justify-content: center;
   margin-bottom: 1.5rem;
+padding-bottom: 2rem;  
   gap: 20px;
 }
 
@@ -335,13 +285,13 @@
 }
 
 .carouselDot.active {
-  background-color: #E6B800;
+  background-color: var(--accent-color-gold, #E6B800);
   transform: scale(1.2);
 }
 
-/* Simulador rápido */
+/* Simulador rápido - Ajuste de layout */
 .quickSimulator {
-  margin-top: 2rem;
+  margin-top: 1.5rem; /* Margem menor acima do link */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -350,12 +300,13 @@
 .simulatorToggle {
   background: none;
   border: none;
-  color: #E6B800;
+  color: var(--accent-color-gold, #E6B800);
   font-size: 1rem;
   cursor: pointer;
   text-decoration: underline;
   padding: 5px 10px;
   transition: color 0.3s ease;
+  margin-top: 0.5rem; /* Espaço entre botão e link */
 }
 
 .simulatorToggle:hover {
@@ -383,7 +334,7 @@
 }
 
 .currencySymbol {
-  color: #E6B800;
+  color: var(--accent-color-gold, #E6B800);
   font-weight: bold;
   padding-right: 5px;
 }
@@ -402,7 +353,7 @@
 }
 
 .simulatorButton {
-  background: #E6B800;
+  background: var(--accent-color-gold, #E6B800);
   color: black;
   border: none;
   padding: 10px;
@@ -413,69 +364,50 @@
 }
 
 .simulatorButton:hover {
-  background: #ffcc00;
+  background: var(--primary-color-light, #ffcc00);
 }
 
 /* Responsividade */
 @media (max-width: 768px) {
   .heroSection {
-    height: 90vh; /* Altura menor em dispositivos móveis */
+    min-height: 90vh; /* Usa min-height para mobile */
+    height: auto; /* Altura automática para conteúdo */
   }
-  
+
   .heroTitle {
-    font-size: 2.2rem;
     margin-bottom: 1rem;
   }
-  
+
   .heroSubtitle {
-    font-size: 1rem;
     margin-bottom: 1.5rem;
   }
-  
+
   .carouselControls {
     margin-bottom: 1rem;
   }
-  
+
   .ctaButton {
     padding: 14px 28px;
-    font-size: 1.05rem;
-  }
-  
-  .sunAnimation {
-    top: 20px;
-    right: 20px;
-    width: 60px;
-    height: 60px;
   }
 }
 
 @media (max-width: 480px) {
   .heroSection {
-    height: 85vh;
-    padding: 0 15px;
+    min-height: 85vh;
   }
-  
-  .heroTitle {
-    font-size: 1.8rem;
-  }
-  
+
   .heroContent {
     padding-top: 60px; /* Espaço para a navbar */
+    padding-left: 15px;
+    padding-right: 15px;
   }
-  
+
   .ctaButton {
-    width: 100%; /* Botão de largura total em telas muito pequenas */
+    width: 90%; /* Botão com largura quase total */
     padding: 14px 20px;
   }
-  
+
   .simulatorForm {
     width: 100%;
-  }
-  
-  .sunAnimation {
-    top: 10px;
-    right: 10px;
-    width: 50px;
-    height: 50px;
   }
 }

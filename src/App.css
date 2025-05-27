@@ -1,10 +1,14 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-}
+@import url('./styles/global.css');
+@import url('./styles/theme-light.css');
+@import url('./styles/theme-nature.css');
+@import url('./styles/theme-fire.css');
+@import url('./styles/theme-dark.css');
+@import url('./styles/theme-ocean.css');
 
+ #root {
+    padding: 0;
+    margin: 0;
+  }
 .logo {
   height: 6em;
   padding: 1.5em;
@@ -32,12 +36,3 @@
     animation: logo-spin infinite 20s linear;
   }
 }
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
-}
-

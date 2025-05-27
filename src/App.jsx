@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import './index.css'; 
+import './App.css'; 
 
 import { AuthProvider } from './contexts/AuthContext';
 
