@@ -1,65 +1,65 @@
-
-
-/* Theme: Dark */
 body.dark-theme {
-  /* Cores de fundo */
-  --primary-bg-color: #13101093; /* Mantido, verificar uso */
+  --primary-bg-color: #13101093; 
   --secondary-bg-color: #1E1E1E;
+  --secondary-bg-color-rgb: 30, 30, 30;
   --background-color: #121212;
-  --card-bg: var(--card-bg-dark); /* Usa variável específica dark */
+  --background-color-rgb: 18, 18, 18;
+  --card-bg: var(--card-bg-dark); 
   --modal-bg: #1E1E1E;
-
-  /* Cores de texto */
-  --text-color: #E0E0E0; /* Cinza claro (Contraste 14.19:1 OK) */
-  --text-secondary: #BDBDBD; /* Ajustado de #9E9E9E para contraste 7.05:1 */
-  --text-light: #757575; /* Cinza médio (Contraste 4.61:1 OK) */
-
-  /* Cores específicas do tema escuro */
+  --modal-bg-rgb: 30, 30, 30;
+  --text-color: #E0E0E0; 
+  --text-color-rgb: 224, 224, 224;
+  --text-secondary: #BDBDBD; 
+  --text-secondary-rgb: 189, 189, 189;
+  --text-light: #757575; 
+  --text-light-rgb: 117, 117, 117;
   --accent-color-green: #66BB6A;
+  --accent-color-green-rgb: 102, 187, 106;
   --accent-color-gold: #FFB300;
-  --link-color: #90CAF9; /* Azul claro (Contraste 7.61:1 OK) */
+  --accent-color-gold-rgb: 255, 179, 0;
+  --link-color: #90CAF9; 
+  --link-color-rgb: 144, 202, 249;
   --navbar-bg-color: #1E1E1E;
+  --navbar-bg-color-rgb: 30, 30, 30;
   --navbar-text-color: #E0E0E0;
+  --navbar-text-color-rgb: 224, 224, 224;
   --footer-bg-color: #121212;
+  --footer-bg-color-rgb: 18, 18, 18;
   --footer-text-color: #E0E0E0;
+  --footer-text-color-rgb: 224, 224, 224;
   --liner-division-color: rgba(239, 231, 231, 0.991);
-
-  /* Cores de botões */
-  --submit-button-bg: #66bb6a; /* Verde claro (Contraste 3.01:1 com texto #121212 - OK para large text) */
-  --submit-button-text: #121212; /* Texto escuro para botão claro */
-  --resend-button-color: #90caf9; /* Azul claro (Contraste 7.61:1 OK) */
-  --resend-button-hover: #64b5f6; /* Azul mais claro */
+  --submit-button-bg: #66bb6a; 
+  --submit-button-bg-rgb: 102, 187, 106;
+  --submit-button-text: #121212; 
+  --submit-button-text-rgb: 18, 18, 18;
+  --resend-button-color: #90caf9; 
+  --resend-button-color-rgb: 144, 202, 249;
+  --resend-button-hover: #64b5f6; 
+  --resend-button-hover-rgb: 100, 181, 246;
   --resend-link-color: #90caf9;
+  --resend-link-color-rgb: 144, 202, 249;
   --resend-link-hover: #64b5f6;
-
-  /* Cores de borda e divisores */
+  --resend-link-hover-rgb: 100, 181, 246;
   --border-color: #333333;
+  --border-color-rgb: 51, 51, 51;
   --divider-color: #2C2C2C;
-
-  /* Cores de entrada */
+  --divider-color-rgb: 44, 44, 44;
   --input-bg: #2C2C2C;
+  --input-bg-rgb: 44, 44, 44;
   --input-border: #424242;
-
-  /* Sombras */
+  --input-border-rgb: 66, 66, 66;
   --shadow-sm: 0 2px 5px rgba(0, 0, 0, 0.3);
   --shadow-md: 0 5px 15px rgba(0, 0, 0, 0.3);
   --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.3);
-
-  /* Variáveis específicas */
   --card-icon-fill: var(--text-color);
   --card-description-align: justify;
-
-  /* Variáveis de tema escuro (definidas aqui para uso em --card-bg) */
   --card-bg-dark: rgba(255, 255, 255, 0.05);
-  --text-secondary-dark: rgba(255, 255, 255, 0.85); /* #D9D9D9 - Contraste 13.14:1 OK */
-
-  /* Variáveis dependentes do tema - Sobrescrita Dark */
+  --text-secondary-dark: rgba(255, 255, 255, 0.85); 
   --card-bg: var(--card-bg-dark);
   --text-secondary: var(--text-secondary-dark);
 }
-
 body.dark-theme {
-  --dot-color-expanded: rgba(255, 179, 0, 0.6); /* Amarelo dourado mais intenso */
-  --dot-color-contracted: rgba(255, 179, 0, 0.2); /* Amarelo dourado mais suave */
+  --dot-color-expanded: rgba(255, 179, 0, 0.6); 
+  --dot-color-contracted: rgba(255, 179, 0, 0.2); 
   --shadow-color: rgba(0, 0, 0, 0.4);
 }

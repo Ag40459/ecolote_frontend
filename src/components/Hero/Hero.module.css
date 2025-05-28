@@ -1,3 +1,4 @@
+/* Hero.module.css - Updated with Animated Blobs and Dots integrated with Theme Variables */
 
 .heroSection {
   position: relative;
@@ -7,132 +8,137 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  color: white;
-  /* padding: 0 20px; /* Removido para permitir largura total */
+  color: var(--text-color, white); /* Use theme variable */
+  background-color: var(--background-color, #121212); /* Use theme variable */
   overflow: hidden;
-  width: 100%; /* Garante largura total */
+  width: 100%;
 }
 
-/* Fundo estático com bolinhas e sombra circular */
-.heroBackground {
+/* Container for the animated blobs */
+.blobContainer {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: var(--background-color, #121212);
-
-  /* Criação das bolinhas base (estáticas) */
-  background-image: radial-gradient(
-    circle at center,
-    var(--dot-color-contracted, rgba(255, 255, 255, 0.9)) var(--dot-size, 2px),
-    transparent var(--dot-size, 2px)
-  );
-  background-size: var(--dot-spacing, 20px) var(--dot-spacing, 20px);
-  background-position: 0 0; /* Posição estática */
-
-  z-index: 0;
+  overflow: hidden;
+  z-index: 0; /* Behind dots and content */
+  filter: blur(80px); /* Soften the blobs */
+  opacity: var(--blob-opacity, 0.6); /* Control blob visibility via theme */
 }
 
-/* Camada para animação suave de cor das bolinhas */
-.heroBackground::after {
-  content: '';
+.blob {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-
-  /* Criação das bolinhas com cor diferente para o efeito de fade */
-  background-image: radial-gradient(
-    circle at center,
-    var(--dot-color-expanded, rgba(255, 255, 255, 1.2)) var(--dot-size, 2px), /* Cor mais clara/intensa */
-    transparent var(--dot-size, 2px)
-  );
-  background-size: var(--dot-spacing, 20px) var(--dot-spacing, 20px);
-  background-position: 0 0; /* Posição estática */
-
-  /* Animação suave de fade in/out para simular mudança de cor */
-  animation: fade-color-dots 5s ease-in-out infinite alternate; /* Nova animação */
-
-  opacity: 0; /* Começa transparente */
-  z-index: 0;
+  border-radius: 50%; /* Start as circles */
+  mix-blend-mode: screen; /* Blend blobs for interesting color mixing, adjust as needed */
+  will-change: transform, border-radius; /* Optimize animation */
 }
 
-/* Animação para fade suave da cor das bolinhas (via opacidade da camada ::after) */
-@keyframes fade-color-dots {
+/* Define individual blob styles and animations */
+.blob1 {
+  width: 400px;
+  height: 400px;
+  background: var(--blob-color-1, radial-gradient(circle, #ff7e5f, #feb47b)); /* Theme variable */
+  top: 10%;
+  left: 10%;
+  animation: moveBlob1 25s infinite alternate ease-in-out;
+}
+
+.blob2 {
+  width: 300px;
+  height: 300px;
+  background: var(--blob-color-2, radial-gradient(circle, #6a11cb, #2575fc)); /* Theme variable */
+  top: 60%;
+  left: 70%;
+  animation: moveBlob2 30s infinite alternate ease-in-out;
+  animation-delay: -5s; /* Offset animation start */
+}
+
+.blob3 {
+  width: 350px;
+  height: 350px;
+  background: var(--blob-color-3, radial-gradient(circle, #30cfd0, #330867)); /* Theme variable */
+  top: 40%;
+  left: 40%;
+  animation: moveBlob3 20s infinite alternate ease-in-out;
+  animation-delay: -10s; /* Offset animation start */
+}
+
+/* Keyframes for blob movement and morphing */
+@keyframes moveBlob1 {
   0% {
-    opacity: 0; /* Mostra cor base (dot-color-contracted) */
+    transform: translate(0, 0) scale(1);
+    border-radius: 50% 60% 70% 40% / 60% 50% 40% 70%;
   }
   50% {
-    opacity: 1; /* Mostra cor mais clara (dot-color-expanded) */
+    transform: translate(100px, 150px) scale(1.2);
+    border-radius: 40% 70% 50% 60% / 70% 40% 60% 50%;
   }
   100% {
-    opacity: 2; /* Volta para cor base */
+    transform: translate(-50px, 50px) scale(0.9);
+    border-radius: 60% 50% 70% 40% / 50% 60% 40% 70%;
   }
 }
 
-
-.heroBackground::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-
-  /* Criação da sombra circular móvel (suavizada) */
-  background: radial-gradient(
-    circle at 50% 50%,
-    rgba(0, 0, 0, 0) 0%, /* Start fully transparent */
-    rgba(0, 0, 0, 0.1) calc(var(--shadow-radius, 150px) * 0.5), /* Start fading in shadow gently */
-    var(--shadow-color, rgba(0, 0, 0, 0.3)) var(--shadow-radius, 150px), /* Reach full shadow color */
-    var(--shadow-color, rgba(0, 0, 0, 0.3)) 100% /* Maintain shadow color */
-  );
-
-  /* Animação de movimento da sombra (mantida) */
-  animation: move-shadow 15s ease-in-out infinite alternate;
-}
-
-/* Animação para mover a sombra circular (focando na posição) */
-@keyframes move-shadow {
+@keyframes moveBlob2 {
   0% {
-    background-position: 20% 30%;
-  }
-  25% {
-    background-position: 80% 70%;
+    transform: translate(0, 0) scale(1);
+    border-radius: 65% 35% 45% 55% / 55% 65% 35% 45%;
   }
   50% {
-    background-position: 50% 20%;
-  }
-  75% {
-     background-position: 30% 80%;
+    transform: translate(-150px, -100px) scale(1.1);
+    border-radius: 55% 45% 65% 35% / 45% 55% 35% 65%;
   }
   100% {
-    background-position: 70% 40%;
+    transform: translate(50px, -50px) scale(1);
+    border-radius: 35% 65% 55% 45% / 65% 35% 45% 55%;
   }
 }
 
-.heroOverlay {
+@keyframes moveBlob3 {
+  0% {
+    transform: translate(0, 0) scale(1);
+    border-radius: 40% 60% 50% 50% / 60% 40% 50% 50%;
+  }
+  50% {
+    transform: translate(80px, -120px) scale(0.9);
+    border-radius: 50% 50% 40% 60% / 50% 50% 60% 40%;
+  }
+  100% {
+    transform: translate(-80px, 100px) scale(1.1);
+    border-radius: 60% 40% 50% 50% / 40% 60% 50% 50%;
+  }
+}
+
+/* Overlay for the subtle dot pattern */
+.dotsOverlay {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(135deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.4) 100%);
-  z-index: 1;
+  background-color: transparent;
+  background-image: radial-gradient(
+    var(--dot-color, rgba(255, 255, 255, 0.1)) var(--dot-size, 1px), /* Use theme variables */
+    transparent var(--dot-size, 1px)
+  );
+  background-size: var(--dot-spacing, 15px) var(--dot-spacing, 15px); /* Use theme variables */
+  z-index: 1; /* Above blobs, below content */
+  pointer-events: none; /* Allow clicks through */
 }
 
+/* Content styling - Ensure it uses theme variables */
 .heroContent {
   position: relative;
-  z-index: 2;
+  z-index: 2; /* Above blobs and dots */
   max-width: 900px;
-  width: 100%; /* Garante que o conteúdo use a largura disponível */
-  padding: 0 20px; /* Adiciona padding interno ao conteúdo */
+  width: 100%;
+  padding: 0 20px;
 }
 
-/* Animações para textos */
+/* --- Existing Styles (Ensure Theme Variables are Used) --- */
+
+/* Animações para textos (mantidas) */
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -145,6 +151,7 @@
 }
 
 .slideContent {
+  /* Estilos para o conteúdo do slide */
 }
 
 @keyframes fadeIn {
@@ -156,13 +163,15 @@
   font-size: clamp(2rem, 5vw, 3rem);
   font-weight: 700;
   margin-bottom: 1.5rem;
-  color: var(--accent-color-gold, #E6B800);
+  color: var(--accent-color-gold, #E6B800); /* Use theme variable */
   position: relative;
   display: inline-block;
+  /* animation: fadeInUp 0.8s ease forwards; */ /* Consider removing if causing issues with carousel */
 }
 
+/* Title Glow Effect (Optional - adjust color based on theme if needed) */
 .heroTitle::before {
-  content: '';
+  content: \'\';
   position: absolute;
   top: 0;
   left: -5px;
@@ -171,7 +180,7 @@
   background: linear-gradient(90deg,
     rgba(230, 184, 0, 0) 0%,
     rgba(230, 184, 0, 0.2) 50%,
-    rgba(230, 184, 0, 0) 100%);
+    rgba(230, 184, 0, 0) 100%); /* Consider using theme accent color variable */
   z-index: -1;
   transform: scaleX(0);
   transform-origin: left;
@@ -191,62 +200,26 @@
   max-width: 800px;
   margin-left: auto;
   margin-right: auto;
-  /* opacity: 0; /* Começa invisível - REMOVIDO */
+  color: var(--text-secondary-color, var(--text-color, white)); /* Use theme variable */
   white-space: pre-wrap;
   min-height: 4.8em; /* Altura para 3 linhas aproximadamente */
+  /* animation: fadeInUp 0.8s ease forwards 0.2s; */ /* Consider removing if causing issues with carousel */
 }
 
-/* Botão CTA redesenhado */
-.ctaButton {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  padding: 14px 30px; /* Ajuste no padding */
-  font-size: clamp(1rem, 2vw, 1.125rem);
-  font-weight: 600;
-  text-decoration: none;
-  border-radius: 30px; /* Raio ligeiramente menor */
-  background: var(--accent-color-gold, #E6B800); /* Cor de fundo dourada */
-  color: #1a1a1a; /* Cor do texto escura para contraste */
-  border: none; /* Sem borda */
-  transition: all 0.3s ease;
-  margin-top: 1.5rem;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Sombra sutil */
-  position: relative;
-  overflow: hidden;
-}
-
-.ctaButton:hover {
-  background: var(--accent-color-gold, #E6B800); /* Mantém a cor */
-  filter: brightness(0.9); /* Escurece ligeiramente no hover */
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3); /* Sombra mais pronunciada */
-  transform: translateY(-2px); /* Leve elevação */
-}
-
-/* Remove o efeito de pulso do ícone antigo e o after */
-.ctaButtonIcon { 
-  /* animation: pulse 2s infinite; /* Removido */
-}
-
-.ctaButton::after {
-  /* content: ''; /* Removido */
-}
-
-/* Controles do carrossel */
+/* Carousel Controls - Use theme variables */
 .carouselControls {
   display: flex;
   align-items: center;
   justify-content: center;
   margin-bottom: 1.5rem;
-padding-bottom: 2rem;  
+  padding-bottom: 2rem;
   gap: 20px;
 }
 
 .carouselArrow {
   background: none;
   border: none;
-  color: white;
+  color: var(--text-color, white);
   font-size: 2rem;
   cursor: pointer;
   width: 44px;
@@ -264,7 +237,7 @@ padding-bottom: 2rem;
 }
 
 .carouselDotsWrapper {
-  height: 44px; /* Mesma altura das setas */
+  height: 44px;
   display: flex;
   align-items: center;
 }
@@ -278,20 +251,20 @@ padding-bottom: 2rem;
   width: 14px;
   height: 14px;
   border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: var(--dot-inactive-color, rgba(255, 255, 255, 0.5)); /* Theme variable */
   border: none;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .carouselDot.active {
-  background-color: var(--accent-color-gold, #E6B800);
+  background-color: var(--accent-color-gold, #E6B800); /* Theme variable */
   transform: scale(1.2);
 }
 
-/* Simulador rápido - Ajuste de layout */
+/* Quick Simulator - Use theme variables */
 .quickSimulator {
-  margin-top: 1.5rem; /* Margem menor acima do link */
+  margin-top: 1.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -306,11 +279,11 @@ padding-bottom: 2rem;
   text-decoration: underline;
   padding: 5px 10px;
   transition: color 0.3s ease;
-  margin-top: 0.5rem; /* Espaço entre botão e link */
+  margin-top: 0.5rem;
 }
 
 .simulatorToggle:hover {
-  color: white;
+  color: var(--text-color, white);
 }
 
 .simulatorForm {
@@ -318,7 +291,7 @@ padding-bottom: 2rem;
   display: flex;
   flex-direction: column;
   gap: 10px;
-  background: rgba(0, 0, 0, 0.3);
+  background: var(--simulator-bg-color, rgba(0, 0, 0, 0.3)); /* Theme variable */
   padding: 15px;
   border-radius: 10px;
   backdrop-filter: blur(5px);
@@ -328,7 +301,7 @@ padding-bottom: 2rem;
 .inputGroup {
   display: flex;
   align-items: center;
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--input-group-bg, rgba(255, 255, 255, 0.1)); /* Theme variable */
   border-radius: 5px;
   padding: 0 10px;
 }
@@ -342,19 +315,19 @@ padding-bottom: 2rem;
 .simulatorInput {
   background: transparent;
   border: none;
-  color: white;
+  color: var(--text-color, white);
   padding: 10px;
   width: 100%;
   outline: none;
 }
 
 .simulatorInput::placeholder {
-  color: rgba(255, 255, 255, 0.7);
+  color: var(--placeholder-color, rgba(255, 255, 255, 0.7)); /* Theme variable */
 }
 
 .simulatorButton {
   background: var(--accent-color-gold, #E6B800);
-  color: black;
+  color: var(--button-text-color, black); /* Theme variable */
   border: none;
   padding: 10px;
   border-radius: 5px;
@@ -364,14 +337,14 @@ padding-bottom: 2rem;
 }
 
 .simulatorButton:hover {
-  background: var(--primary-color-light, #ffcc00);
+  background: var(--accent-color-gold-hover, var(--primary-color-light, #ffcc00)); /* Theme variable */
 }
 
-/* Responsividade */
+/* Responsividade (mantida) */
 @media (max-width: 768px) {
   .heroSection {
-    min-height: 90vh; /* Usa min-height para mobile */
-    height: auto; /* Altura automática para conteúdo */
+    min-height: 90vh;
+    height: auto;
   }
 
   .heroTitle {
@@ -386,9 +359,14 @@ padding-bottom: 2rem;
     margin-bottom: 1rem;
   }
 
-  .ctaButton {
-    padding: 14px 28px;
+  .blobContainer {
+     filter: blur(60px); /* Less blur on smaller screens */
+     opacity: var(--blob-opacity-mobile, 0.5);
   }
+
+  .blob1 { width: 300px; height: 300px; }
+  .blob2 { width: 200px; height: 200px; }
+  .blob3 { width: 250px; height: 250px; }
 }
 
 @media (max-width: 480px) {
@@ -397,17 +375,20 @@ padding-bottom: 2rem;
   }
 
   .heroContent {
-    padding-top: 60px; /* Espaço para a navbar */
+    padding-top: 60px;
     padding-left: 15px;
     padding-right: 15px;
-  }
-
-  .ctaButton {
-    width: 90%; /* Botão com largura quase total */
-    padding: 14px 20px;
   }
 
   .simulatorForm {
     width: 100%;
   }
+
+  .blobContainer {
+     filter: blur(40px);
+  }
+
+  .blob1 { width: 250px; height: 250px; }
+  .blob2 { width: 150px; height: 150px; }
+  .blob3 { width: 200px; height: 200px; }
 }

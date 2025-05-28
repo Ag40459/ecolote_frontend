@@ -1,75 +1,80 @@
-
-
-/* Theme: Light (Default) */
 :root {
-  /* Cores primárias */
-  --primary-color: #FFB400; /* Amarelo solar vibrante */
+  --primary-color: #FFB400; 
   --primary-color-rgb: 255, 180, 0;
-  --primary-color-dark: #FF9500; /* Laranja dourado */
-  --primary-color-light: #FFD54F; /* Amarelo claro */
-
-  /* Cores secundárias */
-  --secondary-color: #00BFA5; /* Verde-água vibrante */
+  --primary-color-dark: #FF9500; 
+  --primary-color-dark-rgb: 255, 149, 0;
+  --primary-color-light: #FFD54F; 
+  --primary-color-light-rgb: 255, 213, 79;
+  --secondary-color: #00BFA5; 
   --secondary-color-rgb: 0, 191, 165;
-  --secondary-color-dark: #00897B; /* Verde-água escuro */
-  --secondary-color-light: #64FFDA; /* Verde-água claro */
-
-  /* Cores de acento */
-  --accent-color: #FF5252; /* Vermelho coral */
+  --secondary-color-dark: #00897B; 
+  --secondary-color-dark-rgb: 0, 137, 123;
+  --secondary-color-light: #64FFDA; 
+  --secondary-color-light-rgb: 100, 255, 218;
+  --accent-color: #FF5252; 
   --accent-color-rgb: 255, 82, 82;
-
-  /* Cores de feedback */
-  --success-color: #00E676; /* Verde brilhante */
-  --error-color: #FF1744; /* Vermelho vibrante */
-  --warning-color: #FFAB00; /* Âmbar */
-  --info-color: #00B0FF; /* Azul brilhante */
-
-  /* Cores de fundo */
+  --success-color: #00E676; 
+  --success-color-rgb: 0, 230, 118;
+  --error-color: #FF1744; 
+  --error-color-rgb: 255, 23, 68;
+  --warning-color: #FFAB00; 
+  --warning-color-rgb: 255, 171, 0;
+  --info-color: #00B0FF; 
+  --info-color-rgb: 0, 176, 255;
   --primary-bg-color: #d5e4d2;
+  --primary-bg-color-rgb: 213, 228, 210;
   --secondary-bg-color: #F9FBF7;
+  --secondary-bg-color-rgb: 249, 251, 247;
   --background-color: #FFFFFF;
-  --card-bg: #FFFFFF; /* Mantido, mas pode ser sobrescrito por temas */
+  --background-color-rgb: 255, 255, 255;
+  --card-bg: #FFFFFF; 
+  --card-bg-rgb: 255, 255, 255;
   --modal-bg: #FFFFFF;
-
-  /* Cores de texto */
+  --modal-bg-rgb: 255, 255, 255;
   --text-color: #212121;
-  --text-secondary: #757575; /* Contraste 4.61:1 OK */
+  --text-color-rgb: 33, 33, 33;
+  --text-secondary: #757575; 
+  --text-secondary-rgb: 117, 117, 117;
   --text-light: #BDBDBD;
-
-  /* Cores de borda e divisores */
+  --text-light-rgb: 189, 189, 189;
   --border-color: #E0E0E0;
+  --border-color-rgb: 224, 224, 224;
   --divider-color: #EEEEEE;
+  --divider-color-rgb: 238, 238, 238;
   --liner-division-color: rgba(178, 207, 186, 0.991);
-
-  /* Cores de entrada */
   --input-bg: #F5F5F5;
+  --input-bg-rgb: 245, 245, 245;
   --input-border: #E0E0E0;
-
-  /* Cores específicas do tema atual */
+  --input-border-rgb: 224, 224, 224;
   --accent-color-green: #43A047;
+  --accent-color-green-rgb: 67, 160, 71;
   --accent-color-gold: #FFC107;
-  --link-color: #1a73e8; /* Ajustado de #1976D2 para contraste 4.51:1 */
+  --accent-color-gold-rgb: 255, 193, 7;
+  --link-color: #1a73e8; 
+  --link-color-rgb: 26, 115, 232;
   --navbar-bg-color: #FFFFFF;
+  --navbar-bg-color-rgb: 255, 255, 255;
   --navbar-text-color: #212121;
+  --navbar-text-color-rgb: 33, 33, 33;
   --footer-bg-color: #333333;
+  --footer-bg-color-rgb: 51, 51, 51;
   --footer-text-color: #F5F5F5;
-
-  /* Cores de botões */
-  --submit-button-bg: #1f7d34; /* Ajustado de #28a745 para contraste 4.55:1 com texto branco */
+  --footer-text-color-rgb: 245, 245, 245;
+  --submit-button-bg: #1f7d34; 
+  --submit-button-bg-rgb: 31, 125, 52;
   --submit-button-text: white;
-  --resend-button-color: #1a73e8; /* Ajustado de #4a90e2 para contraste 4.51:1 */
-  --resend-button-hover: #1565C0; /* Ajustado proporcionalmente */
-  --resend-link-color: #1a73e8; /* Ajustado de #4a90e2 para contraste 4.51:1 */
-  --resend-link-hover: #1565C0; /* Ajustado proporcionalmente */
-
-  /* Variáveis de tema claro */
+  --resend-button-color: #1a73e8; 
+  --resend-button-color-rgb: 26, 115, 232;
+  --resend-button-hover: #1565C0; 
+  --resend-button-hover-rgb: 21, 101, 192;
+  --resend-link-color: #1a73e8; 
+  --resend-link-color-rgb: 26, 115, 232;
+  --resend-link-hover: #1565C0; 
+  --resend-link-hover-rgb: 21, 101, 192;
   --card-bg-light: rgba(76, 175, 80, 0.05);
-  --text-secondary-light: rgba(0, 0, 0, 0.75); /* #404040 - Contraste 8.05:1 OK */
-
-  /* Variáveis dependentes do tema - Padrão Claro */
+  --text-secondary-light: rgba(0, 0, 0, 0.75); 
   --card-bg: var(--card-bg-light);
-  --text-secondary: var(--text-secondary-light); /* Usa a versão light por padrão */
+  --text-secondary: var(--text-secondary-light); 
   --card-icon-fill: black;
   --card-description-align: center;
 }
-

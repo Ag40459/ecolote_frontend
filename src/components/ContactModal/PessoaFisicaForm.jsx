@@ -4,7 +4,7 @@ import { formatPhone, formatCep,onlyNumbers  } from '../../utils/formatters';
 import { formatCurrency } from '../../utils/calc';
 
 const modelosImovelPF = [
-  { value: "", label: "Selecione o modeloo" },
+  { value: "", label: "Selecione o modelo" },
   { value: "Casa", label: "Casa" },
   { value: "Apartamento", label: "Apartamento" },
   { value: "Comercial", label: "Comercial" },
@@ -15,7 +15,8 @@ const modelosImovelPF = [
 const pretensaoPagamentoOptions = [
   { value: "", label: "Selecione a pretensão" },
   { value: "avista", label: "À vista" },
-  { value: "financiado", label: "Financiado" },
+  { value: "cartao", label: "Cartão" },
+  { value: "financiado", label: "Financiamento" },
 ];
 
 const PessoaFisicaForm = ({ formData, loadingCep, cepError }) => {

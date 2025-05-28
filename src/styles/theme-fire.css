@@ -1,72 +1,74 @@
-
-
-/* Theme: Fogo Solar */
 .theme-fire {
-  /* Cores primárias */
-  --primary-color: #FF5722; /* Laranja profundo */
+  --primary-color: #FF5722; 
   --primary-color-rgb: 255, 87, 34;
-  --primary-color-dark: #E64A19; /* Laranja escuro */
-  --primary-color-light: #FF8A65; /* Laranja claro */
-
-  /* Cores secundárias */
-  --secondary-color: #FF9800; /* Laranja âmbar */
+  --primary-color-dark: #E64A19; 
+  --primary-color-dark-rgb: 230, 74, 25;
+  --primary-color-light: #FF8A65; 
+  --primary-color-light-rgb: 255, 138, 101;
+  --secondary-color: #FF9800; 
   --secondary-color-rgb: 255, 152, 0;
-  --secondary-color-dark: #F57C00; /* Laranja âmbar escuro */
-  --secondary-color-light: #FFB74D; /* Laranja âmbar claro */
-
-  /* Cores de acento */
-  --accent-color: #FFEB3B; /* Amarelo vibrante */
+  --secondary-color-dark: #F57C00; 
+  --secondary-color-dark-rgb: 245, 124, 0;
+  --secondary-color-light: #FFB74D; 
+  --secondary-color-light-rgb: 255, 183, 77;
+  --accent-color: #FFEB3B; 
   --accent-color-rgb: 255, 235, 59;
-
-  /* Cores de feedback */
-  --success-color: #76FF03; /* Verde-limão brilhante */
-  --error-color: #FF1744; /* Vermelho brilhante */
-  --warning-color: #FFD600; /* Amarelo brilhante */
-  --info-color: #00E5FF; /* Ciano brilhante */
-
-  /* Cores de fundo */
-  --primary-bg-color: #ffe7ff; /* Amarelo muito claro */
+  --success-color: #76FF03; 
+  --success-color-rgb: 118, 255, 3;
+  --error-color: #FF1744; 
+  --error-color-rgb: 255, 23, 68;
+  --warning-color: #FFD600; 
+  --warning-color-rgb: 255, 214, 0;
+  --info-color: #00E5FF; 
+  --info-color-rgb: 0, 229, 255;
+  --primary-bg-color: #ffe7ff; 
+  --primary-bg-color-rgb: 255, 231, 255;
   --secondary-bg-color: #FFF8E1;
+  --secondary-bg-color-rgb: 255, 248, 225;
   --background-color: #FFFDE7;
+  --background-color-rgb: 255, 253, 231;
   --card-bg: #FFFFFF;
+  --card-bg-rgb: 255, 255, 255;
   --modal-bg: #FFFFFF;
-
-  /* Cores de texto */
-  --text-color: #BF360C; /* Laranja escuro para texto (Contraste 5.46:1 OK) */
-  --text-secondary: #B93B12; /* Ajustado de #D84315 para contraste 4.51:1 */
-  --text-light: #FF8A65; /* Laranja claro para texto terciário */
-
-  /* Cores de borda e divisores */
-  --border-color: #FFECB3; /* Amarelo muito claro */
-  --divider-color: #FFF8E1; /* Amarelo quase branco */
-
-  /* Cores de entrada */
+  --modal-bg-rgb: 255, 255, 255;
+  --text-color: #BF360C; 
+  --text-color-rgb: 191, 54, 12;
+  --text-secondary: #B93B12; 
+  --text-secondary-rgb: 185, 59, 18;
+  --text-light: #FF8A65; 
+  --text-light-rgb: 255, 138, 101;
+  --border-color: #FFECB3; 
+  --border-color-rgb: 255, 236, 179;
+  --divider-color: #FFF8E1; 
+  --divider-color-rgb: 255, 248, 225;
   --input-bg: #FFFDE7;
+  --input-bg-rgb: 255, 253, 231;
   --input-border: #FFE082;
-
-  /* Cores específicas */
-  --link-color: #BF360C; /* Ajustado de #1976D2 para contraste 5.46:1 e tema */
-  --submit-button-bg: #E64A19; /* Usando primary-dark */
-  --submit-button-text: #FFFFFF; /* Contraste 3.56:1 - OK para large text, ajustar se necessário */
-  --resend-button-color: #BF360C; /* Usando text-color */
-  --resend-button-hover: #872608; /* Escurecido */
+  --input-border-rgb: 255, 224, 130;
+  --link-color: #BF360C; 
+  --link-color-rgb: 191, 54, 12;
+  --submit-button-bg: #E64A19; 
+  --submit-button-bg-rgb: 230, 74, 25;
+  --submit-button-text: #FFFFFF; 
+  --submit-button-text-rgb: 255, 255, 255;
+  --resend-button-color: #BF360C; 
+  --resend-button-color-rgb: 191, 54, 12;
+  --resend-button-hover: #872608; 
+  --resend-button-hover-rgb: 135, 38, 8;
   --resend-link-color: #BF360C;
+  --resend-link-color-rgb: 191, 54, 12;
   --resend-link-hover: #872608;
-
-  /* Sombras */
+  --resend-link-hover-rgb: 135, 38, 8;
   --shadow-sm: 0 2px 5px rgba(255, 87, 34, 0.1);
   --shadow-md: 0 5px 15px rgba(255, 87, 34, 0.1);
   --shadow-lg: 0 10px 25px rgba(255, 87, 34, 0.1);
-
-  /* Variáveis dependentes do tema */
-  --card-bg: var(--card-bg-light); /* Herda de light por padrão, pode ser sobrescrito */
-  --text-secondary: #B93B12; /* Sobrescreve padrão */
+  --card-bg: var(--card-bg-light); 
+  --text-secondary: #B93B12; 
   --card-icon-fill: var(--text-color);
   --card-description-align: justify;
 }
-
 body.fire-theme {
-  --dot-color-expanded: rgba(255, 87, 34, 0.6); /* Laranja avermelhado mais intenso */
-  --dot-color-contracted: rgba(255, 87, 34, 0.2); /* Laranja avermelhado mais suave */
+  --dot-color-expanded: rgba(255, 87, 34, 0.6); 
+  --dot-color-contracted: rgba(255, 87, 34, 0.2); 
   --shadow-color: rgba(139, 0, 0, 0.3);
 }

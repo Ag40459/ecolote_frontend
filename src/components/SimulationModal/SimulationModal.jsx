@@ -67,6 +67,11 @@ const SimulationModal = ({ initialValue, onClose }) => {
   const [cepError, setCepError] = useState('');
   const [paymentIntention, setPaymentIntention] = useState('');
   
+  // Novos estados para PJ (Adicionados)
+  const [cnpj, setCnpj] = useState("");
+  const [nomeResponsavel, setNomeResponsavel] = useState("");
+  const [telefoneResponsavel, setTelefoneResponsavel] = useState("");
+
   // Estados para modais
   const [isPaymentIntentionModalOpen, setIsPaymentIntentionModalOpen] = useState(false);
   const [isVerificationModalOpen, setIsVerificationModalOpen] = useState(false);
@@ -86,7 +91,6 @@ const SimulationModal = ({ initialValue, onClose }) => {
     const formattedCep = formatCep(e.target.value);
     setCep(formattedCep);
     
-    // Buscar dados do CEP quando tiver 8 dígitos
     if (formattedCep.replace(/\D/g, '').length === 8) {
       setLoadingCep(true);
       setCepError('');
@@ -107,13 +111,10 @@ const SimulationModal = ({ initialValue, onClose }) => {
     }
   };
 
-  // Função para lidar com o envio do formulário
+  // Função para lidar com o envio do formulário (cálculo)
   const handleSubmit = (billValueFromForm) => {
-    // Calcula resultados com base no valor da conta
     const specifications = solarCalculator({ monthlyBill: billValueFromForm });
     setResults(specifications);
-    
-    // Muda para a etapa de resultados
     setStep('results');
   };
 
@@ -126,17 +127,11 @@ const SimulationModal = ({ initialValue, onClose }) => {
   const handlePaymentIntentionSelect = async (intention) => {
     setPaymentIntention(intention);
     setIsPaymentIntentionModalOpen(false);
-    
-    // Iniciar processo de verificação de email
     setIsSubmitting(true);
     setSubmitError('');
     
     try {
-      // Enviar solicitação de código de verificação
       await apiClient.post('/verificacao/enviar-codigo', { email });
-      
-      
-      // Abrir modal de verificação
       setIsVerificationModalOpen(true);
     } catch (error) {
       console.error("Erro ao iniciar verificação:", error);
@@ -146,31 +141,28 @@ const SimulationModal = ({ initialValue, onClose }) => {
     }
   };
 
-  // Função para verificar o código
+  // Função para verificar o código e enviar dados
   const handleVerifyCode = async (code) => {
     try {
-      // Verifica o código
       await apiClient.post('/verificacao/validar-codigo', {
         email: email,
         codigo: code
       });
       
-      // Se o código for válido, prepara os dados para envio
       let endpoint = '';
       let payload = {};
       
-      // Prepara os dados de acordo com o tipo de perfil
       if (profileType === 'pessoal') {
         endpoint = '/pessoas-fisicas';
         payload = {
           nome_completo: name,
           telefone: phone,
           email: email,
-          modelo_imovel: 'Casa', // Valor padrão, pode ser ajustado
+          modelo_imovel: 'Casa', // Valor padrão
           media_conta_energia: billValue.toString(),
           cep: cep,
           rua: address.logradouro,
-          numero: '', // Precisa ser preenchido pelo usuário em etapa posterior
+          numero: 'S/N', // Correção aplicada
           bairro: address.bairro,
           cidade: address.cidade,
           estado: address.estado,
@@ -179,19 +171,24 @@ const SimulationModal = ({ initialValue, onClose }) => {
       } else if (profileType === 'empresa') {
         endpoint = '/pessoas-juridicas';
         payload = {
-          razao_social: name,
-          telefone_comercial: phone,
+          razao_social: name, 
+          cnpj: cnpj, // Incluído
+          telefone_comercial: phone, 
           email_comercial: email,
+          nome_responsavel: nomeResponsavel, // Incluído
+          telefone_responsavel: telefoneResponsavel, // Incluído
           tipo_imovel_comercial: 'Comercial', // Valor padrão
-          media_conta_energia_pj: billValue,
+          media_conta_energia_pj: billValue.toString(), // Garantir string
           cep_pj: cep,
           rua_pj: address.logradouro,
+          numero_pj: 'S/N', // Incluído valor fixo
           bairro_pj: address.bairro,
           cidade_pj: address.cidade,
           estado_pj: address.estado,
           pretensao_pagamento_pj: paymentIntention
         };
       } else if (profileType === 'investidor') {
+        // Payload do Investidor restaurado ao original do arquivo lido
         endpoint = '/investidores';
         payload = {
           nome: name,
@@ -200,27 +197,19 @@ const SimulationModal = ({ initialValue, onClose }) => {
           cidade: address.cidade,
           estado: address.estado,
           valor_investimento: billValue.toString(),
-          tipo_investidor: 'Pessoa Física' // Valor padrão
+          tipo_investidor: 'Pessoa Física' // Valor padrão original
         };
       }
       
-      // Envia os dados para o backend
       const response = await apiClient.post(endpoint, payload);
-      
-      // Fecha o modal de verificação
       setIsVerificationModalOpen(false);
-      
-      // Fecha o modal principal
       onClose();
-      
-      // Exibe mensagem de sucesso (pode ser implementado de outra forma)
       alert('Pré-cadastro realizado com sucesso!');
       
     } catch (error) {
-      console.error("Erro na verificação:", error);
-      throw new Error(
-        error.response?.data?.message || "Código inválido. Por favor, tente novamente."
-      );
+      console.error("Erro na verificação ou envio:", error);
+      const errorMessage = error.response?.data?.message || "Código inválido ou erro ao salvar os dados. Por favor, tente novamente.";
+      throw new Error(errorMessage);
     }
   };
 
@@ -228,7 +217,7 @@ const SimulationModal = ({ initialValue, onClose }) => {
   const handleResendCode = async () => {
     try {
       await apiClient.post('/verificacao/enviar-codigo', { email });
-      console.log(email);
+      console.log("Código reenviado para:", email);
     } catch (error) {
       console.error("Erro ao reenviar código:", error);
     }
@@ -268,13 +257,22 @@ const SimulationModal = ({ initialValue, onClose }) => {
             address={address}
             loadingCep={loadingCep}
             cepError={cepError}
-            onSubmit={handleSubmit}
+            onSubmit={handleSubmit} 
             onClose={onClose}
             onProfileTypeChange={(type) => setProfileType(type)}
             onCepChange={handleCepChange}
             onNameChange={(e) => setName(e.target.value)}
             onEmailChange={(e) => setEmail(e.target.value)}
-            onPhoneChange={(e) => setPhone(formatPhone(e.target.value))}
+            onPhoneChange={(e) => setPhone(formatPhone(e.target.value))} 
+            // Passa novos estados e setters para PJ (Adicionado)
+            cnpj={cnpj}
+            nomeResponsavel={nomeResponsavel}
+            telefoneResponsavel={telefoneResponsavel}
+            onCnpjChange={(e) => setCnpj(e.target.value)} 
+            onNomeResponsavelChange={(e) => setNomeResponsavel(e.target.value)}
+            onTelefoneResponsavelChange={(e) => setTelefoneResponsavel(formatPhone(e.target.value))} 
+            // Passa o setter para o valor da conta
+            onBillValueChange={setBillValue} 
           />
         ) : (
           <SimulationResults 
@@ -285,9 +283,11 @@ const SimulationModal = ({ initialValue, onClose }) => {
         )}
         {renderVerificationModal()}
         {renderPaymentIntentionModal()}
+        {submitError && <p className={styles.errorMessage}>{submitError}</p>}
       </div>
     </div>
   );
 };
 
 export default SimulationModal;
+

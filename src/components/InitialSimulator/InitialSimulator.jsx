@@ -101,9 +101,9 @@ const InitialSimulator = ({ onSimulate }) => {
             <div className={styles.energyPulseInner}></div>
           </div>
           
-          <h2 className={styles.simulationTitle}>Calcule Sua Economia Solar</h2>
+          <h2 className={styles.simulationTitle}>Valor Do Seu Ecolote</h2>
           <p className={styles.simulationSubtitle}>
-            Descubra em segundos quanto você economizará com seu Ecolote
+            Descubra em segundos a médias de quanto custará seu Ecolote
           </p>
           
           <form onSubmit={handleSubmit} className={styles.simulationForm}>

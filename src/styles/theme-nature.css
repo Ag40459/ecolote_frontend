@@ -1,72 +1,73 @@
-
-
-/* Theme: Natureza Viva */
 .theme-nature {
-  /* Cores primárias */
-  --primary-color: #4CAF50; /* Verde vibrante */
+  --primary-color: #4CAF50; 
   --primary-color-rgb: 76, 175, 80;
-  --primary-color-dark: #388E3C; /* Verde escuro */
-  --primary-color-light: #81C784; /* Verde claro */
-
-  /* Cores secundárias */
-  --secondary-color: #8BC34A; /* Verde-limão */
+  --primary-color-dark: #388E3C; 
+  --primary-color-dark-rgb: 56, 142, 60;
+  --primary-color-light: #81C784; 
+  --primary-color-light-rgb: 129, 199, 132;
+  --secondary-color: #8BC34A; 
   --secondary-color-rgb: 139, 195, 74;
-  --secondary-color-dark: #689F38; /* Verde-limão escuro */
-  --secondary-color-light: #AED581; /* Verde-limão claro */
-
-  /* Cores de acento */
-  --accent-color: #FF9800; /* Laranja */
+  --secondary-color-dark: #689F38; 
+  --secondary-color-dark-rgb: 104, 159, 56;
+  --secondary-color-light: #AED581; 
+  --secondary-color-light-rgb: 174, 213, 129;
+  --accent-color: #FF9800; 
   --accent-color-rgb: 255, 152, 0;
-
-  /* Cores de feedback */
-  --success-color: #00C853; /* Verde brilhante */
-  --error-color: #F44336; /* Vermelho */
-  --warning-color: #FFC107; /* Amarelo */
-  --info-color: #29B6F6; /* Azul claro */
-
-  /* Cores de fundo */
-  --primary-bg-color: #fbf7fbb4; /* Branco esverdeado muito sutil */
+  --success-color: #00C853; 
+  --success-color-rgb: 0, 200, 83;
+  --error-color: #F44336; 
+  --error-color-rgb: 244, 67, 54;
+  --warning-color: #FFC107; 
+  --warning-color-rgb: 255, 193, 7;
+  --info-color: #29B6F6; 
+  --info-color-rgb: 41, 182, 246;
+  --primary-bg-color: #fbf7fbb4; 
   --secondary-bg-color: #F1F8E9;
+  --secondary-bg-color-rgb: 241, 248, 233;
   --background-color: #F9FBF7;
+  --background-color-rgb: 249, 251, 247;
   --card-bg: #FFFFFF;
+  --card-bg-rgb: 255, 255, 255;
   --modal-bg: #FFFFFF;
-
-  /* Cores de texto */
-  --text-color: #33691E; /* Verde escuro para texto (Contraste 6.34:1 OK) */
-  --text-secondary: #4B7F2A; /* Ajustado de #558B2F para contraste 4.53:1 */
-  --text-light: #AED581; /* Verde claro para texto terciário */
-
-  /* Cores de borda e divisores */
-  --border-color: #DCEDC8; /* Verde muito claro */
-  --divider-color: #F1F8E9; /* Verde quase branco */
-
-  /* Cores de entrada */
+  --modal-bg-rgb: 255, 255, 255;
+  --text-color: #33691E; 
+  --text-color-rgb: 51, 105, 30;
+  --text-secondary: #4B7F2A; 
+  --text-secondary-rgb: 75, 127, 42;
+  --text-light: #AED581; 
+  --text-light-rgb: 174, 213, 129;
+  --border-color: #DCEDC8; 
+  --border-color-rgb: 220, 237, 200;
+  --divider-color: #F1F8E9; 
+  --divider-color-rgb: 241, 248, 233;
   --input-bg: #F9FBF7;
+  --input-bg-rgb: 249, 251, 247;
   --input-border: #C5E1A5;
-
-  /* Cores específicas */
-  --link-color: #33691E; /* Ajustado de #1976D2 para contraste 6.34:1 e tema */
-  --submit-button-bg: #388E3C; /* Usando primary-dark */
-  --submit-button-text: #FFFFFF; /* Contraste 4.08:1 - OK para large text, ajustar se necessário */
-  --resend-button-color: #33691E; /* Usando text-color */
-  --resend-button-hover: #254A15; /* Escurecido */
+  --input-border-rgb: 197, 225, 165;
+  --link-color: #33691E; 
+  --link-color-rgb: 51, 105, 30;
+  --submit-button-bg: #388E3C; 
+  --submit-button-bg-rgb: 56, 142, 60;
+  --submit-button-text: #FFFFFF; 
+  --submit-button-text-rgb: 255, 255, 255;
+  --resend-button-color: #33691E; 
+  --resend-button-color-rgb: 51, 105, 30;
+  --resend-button-hover: #254A15; 
+  --resend-button-hover-rgb: 37, 74, 21;
   --resend-link-color: #33691E;
+  --resend-link-color-rgb: 51, 105, 30;
   --resend-link-hover: #254A15;
-
-  /* Sombras */
+  --resend-link-hover-rgb: 37, 74, 21;
   --shadow-sm: 0 2px 5px rgba(76, 175, 80, 0.1);
   --shadow-md: 0 5px 15px rgba(76, 175, 80, 0.1);
   --shadow-lg: 0 10px 25px rgba(76, 175, 80, 0.1);
-
-  /* Variáveis dependentes do tema */
-  --card-bg: var(--card-bg-light); /* Herda de light por padrão, pode ser sobrescrito */
-  --text-secondary: #4B7F2A; /* Sobrescreve padrão */
+  --card-bg: var(--card-bg-light); 
+  --text-secondary: #4B7F2A; 
   --card-icon-fill: var(--text-color);
   --card-description-align: justify;
 }
-
 body.nature-theme {
-  --dot-color-expanded: rgba(139, 195, 74, 0.6); /* Verde limão mais intenso */
-  --dot-color-contracted: rgba(139, 195, 74, 0.2); /* Verde limão mais suave */
+  --dot-color-expanded: rgba(139, 195, 74, 0.6); 
+  --dot-color-contracted: rgba(139, 195, 74, 0.2); 
   --shadow-color: rgba(0, 100, 0, 0.3);
 }

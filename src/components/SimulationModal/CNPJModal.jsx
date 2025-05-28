@@ -397,7 +397,7 @@ const SimulationModal = ({ initialValue, onClose }) => {
           </div>
           
           <div className={styles.formGroup}>
-            <label className={styles.formLabel}>Nome e sobrenome</label>
+            <label className={styles.formLabel}>Nome e Sobrenome</label>
             <input
               type="text"
               className={styles.formInput}

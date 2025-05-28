@@ -16,7 +16,6 @@ const Hero = () => {
   const [numericBillValue, setNumericBillValue] = useState(0);
 
    const slides =  [ {
-  
       title: "Energia Solar: Agora Acessível Para Todos",
       content: " Mora de aluguel ou em apartamento? Sem problemas! O Ecolote leva a energia solar até você, eliminando a necessidade de telhado próprio e democratizando o acesso à energia limpa e barata."
     },
@@ -112,16 +111,24 @@ const Hero = () => {
   return (
     <section
       id="hero"
-      className={styles.heroSection}
+      className={styles.heroSection} // A classe principal que pode receber variáveis de tema
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
     >
-      <div className={styles.heroBackground}></div>
-      <div className={styles.heroOverlay}></div>
+      {/* Container para os blobs animados */}
+      <div className={styles.blobContainer}>
+        <div className={`${styles.blob} ${styles.blob1}`}></div>
+        <div className={`${styles.blob} ${styles.blob2}`}></div>
+        <div className={`${styles.blob} ${styles.blob3}`}></div>
+      </div>
 
+      {/* Overlay com padrão de pontos (usando pseudo-elemento) */}
+      <div className={styles.dotsOverlay}></div>
+
+      {/* Conteúdo principal */}
       <div className={`${styles.heroContent} container`}>
         <div className={styles.slideContent}>
           <h1 className={styles.heroTitle}>{slides[currentSlide].title}</h1>
@@ -179,12 +186,11 @@ const Hero = () => {
               <div className={styles.inputGroup}>
                 <span className={styles.currencySymbol}>R$</span>
                 <input
-                  // Mude o type para "text" ou "tel"
                   type="text" 
-                  inputMode="decimal" // Sugere teclado numérico
-                  value={billValue} // Vincula ao estado formatado
-                  onChange={handleBillValueChange} // Usa o novo manipulador
-                  placeholder="0,00" // Placeholder formatado
+                  inputMode="decimal"
+                  value={billValue}
+                  onChange={handleBillValueChange}
+                  placeholder="0,00"
                   className={styles.simulatorInput}
                   required
                 />
@@ -202,7 +208,6 @@ const Hero = () => {
 
       {showModal && (
         <SimulationModal 
-          // Passa o valor numérico puro para o modal
           initialValue={numericBillValue || 200} 
           onClose={handleCloseModal}
         />
@@ -212,4 +217,3 @@ const Hero = () => {
 };
 
 export default Hero;
-

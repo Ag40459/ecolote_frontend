@@ -1,31 +1,31 @@
+/* /home/ubuntu/Navbar_rewritten.module.css */
+/* Base styles from original, with modifications */
 .navbar {
-  background-color: rgba(var(--navbar-bg-rgb, 34, 34, 34), 0.85); /* Example: Dark semi-transparent */
+  /* Use theme variable for background, with fallback */
+  background-color: var(--navbar-bg-color, rgba(34, 34, 34, 0.85));
   padding: 0.8rem 0;
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   z-index: 1100;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-sm, 0 1px 3px rgba(0, 0, 0, 0.1)); /* Use theme shadow or fallback */
   transition: background-color 0.4s ease, box-shadow 0.4s ease, padding 0.4s ease;
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
-  }
+}
 
 .navbar.scrolled {
-  /* Use rgba for semi-transparent background */
-  background-color: rgba(var(--secondary-bg-rgb, 51, 51, 51), 0.9); /* Example: Slightly more opaque on scroll */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  /* Use theme variable for scrolled background, with fallback */
+  background-color: var(--navbar-bg-scrolled-color, var(--secondary-bg-color, rgba(51, 51, 51, 0.9))); /* Added specific scrolled var, fallback to secondary, then default */
+  box-shadow: var(--shadow-md, 0 4px 8px rgba(0, 0, 0, 0.15)); /* Use theme shadow or fallback */
   padding: 0.5rem 0;
-  /* Keep blur effect consistent or remove if desired */
-  /* backdrop-filter: none; */
-  /* -webkit-backdrop-filter: none; */
 }
 
 /* Container using Grid for centering */
 .container {
   display: grid;
-  grid-template-columns: 1fr auto 1fr; /* Left space, Logo+Msg, Right space (for button) */
+  grid-template-columns: 1fr auto 1fr; /* Left space, LogoArea, Right space (button) */
   align-items: center;
   padding-left: 1rem;
   padding-right: 1rem;
@@ -36,58 +36,62 @@
   box-sizing: border-box;
 }
 
-/* Logo and Theme Message Container */
-.logoContainer {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem; /* Space between logo and message */
-  grid-column: 2 / 3; /* Ensure it stays centered in the grid */
+/* Logo Area Container (Logo + Theme Message below) */
+.logoAreaContainer {
+  grid-column: 2 / 3; /* Center in the grid */
   justify-self: center;
+  display: flex;
+  flex-direction: column; /* Stack logo and message vertically */
+  align-items: center; /* Center items horizontally */
+  position: relative; /* Needed for absolute positioning of message if used */
 }
 
 .logo {
-  /* grid-column: 2 / 3; */ /* Moved grid positioning to logoContainer */
-  /* justify-self: center; */
   font-size: 1.8rem;
   font-weight: bold;
-  color: var(--accent-color-green, #4CAF50);
+  color: var(--logo-color, var(--accent-color-green, #4CAF50)); /* Use specific logo color var, fallback to accent, then default */
   text-decoration: none;
   transition: color 0.3s ease;
+  display: block; /* Ensure it takes block space for message positioning */
+  margin-bottom: 2px; /* Add small space before message */
 }
 
 .logo:hover {
-  color: var(--accent-color-gold, #FFC107);
+  color: var(--logo-hover-color, var(--accent-color-gold, #FFC107)); /* Use specific logo hover var, fallback */
 }
 
 .themeChangeMessage {
-  font-size: 0.8rem;
-  color: var(--accent-color-green, #4CAF50);
+  font-size: 0.75rem; /* Slightly smaller */
+  color: var(--theme-message-color, var(--text-secondary, #BDBDBD)); /* Use specific message color var, fallback */
   opacity: 0;
   transition: opacity 0.5s ease-in-out;
   animation: fadeInOut 2.5s ease-in-out forwards;
   white-space: nowrap; /* Prevent wrapping */
-  margin-left: 5px; /* Add some space from the logo */
+  /* Positioned naturally below due to flex-direction: column */
+  text-align: center;
+  width: 100%; /* Take full width of container */
+  /* Removed margin-left */
 }
 
 @keyframes fadeInOut {
-  0% { opacity: 0; }
-  20% { opacity: 1; }
-  80% { opacity: 1; }
-  100% { opacity: 0; }
+  0% { opacity: 0; transform: translateY(-5px); } /* Start slightly up */
+  20% { opacity: 1; transform: translateY(0); }
+  80% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(5px); } /* End slightly down */
 }
 
 /* Menu Toggle Button (Hamburger) - Always visible */
 .menuToggle {
   grid-column: 3 / 4; /* Place button in the right column */
   justify-self: end; /* Align button to the end (right) */
-  display: flex; /* Use flex to center icon */
+  display: flex;
   align-items: center;
   justify-content: center;
   background: none;
   border: none;
-  color: var(--navbar-text-color);
+  color: var(--navbar-text-color, #E0E0E0); /* Use theme var or fallback */
   cursor: pointer;
-  z-index: 1101; /* Above nav container */
+  z-index: 1101;
   padding: 0.5rem;
   margin: 0;
   width: 40px;
@@ -107,7 +111,7 @@
   position: absolute;
   height: 2px;
   width: 100%;
-  background: var(--navbar-text-color);
+  background: var(--navbar-text-color, #E0E0E0); /* Use theme var */
   border-radius: 1px;
   opacity: 1;
   left: 0;
@@ -115,119 +119,92 @@
   transition: .25s ease-in-out;
 }
 
-.hamburgerIcon span:nth-child(1) {
-  top: 0px;
-}
+.hamburgerIcon span:nth-child(1) { top: 0px; }
+.hamburgerIcon span:nth-child(2) { top: 8px; }
+.hamburgerIcon span:nth-child(3) { top: 16px; }
+.hamburgerIcon.open span:nth-child(1) { top: 8px; transform: rotate(135deg); }
+.hamburgerIcon.open span:nth-child(2) { opacity: 0; left: -60px; }
+.hamburgerIcon.open span:nth-child(3) { top: 8px; transform: rotate(-135deg); }
 
-.hamburgerIcon span:nth-child(2) {
-  top: 8px;
-}
-
-.hamburgerIcon span:nth-child(3) {
-  top: 16px;
-}
-
-.hamburgerIcon.open span:nth-child(1) {
-  top: 8px;
-  transform: rotate(135deg);
-}
-
-.hamburgerIcon.open span:nth-child(2) {
-  opacity: 0;
-  left: -60px;
-}
-
-.hamburgerIcon.open span:nth-child(3) {
-  top: 8px;
-  transform: rotate(-135deg);
-}
-
-/* Navigation Links Container (Desktop Horizontal Bar / Mobile Sidebar) */
+/* Navigation Links Container */
 .navLinksContainer {
-  /* Desktop Styles (default, overridden by media query) */
   position: absolute;
-  top: 100%; /* Position below the navbar */
+  top: 100%;
   left: 0;
   width: 100%;
-  /* Use rgba for semi-transparent background - matching navbar */
-  background-color: rgba(var(--secondary-bg-rgb, 51, 51, 51), 0.9);
+  /* Use theme variable for dropdown background */
+  background-color: var(--navbar-dropdown-bg-color, var(--secondary-bg-color, rgba(51, 51, 51, 0.9)));
   box-shadow: var(--shadow-md);
   max-height: 0;
   overflow: hidden;
-  transition: max-height 0.4s ease-out, padding 0.4s ease-out; /* Added padding transition */
-  z-index: 1099; /* Below navbar but above content */
-  padding: 0; /* Remove padding when closed */
+  transition: max-height 0.4s ease-out, padding 0.4s ease-out, background-color 0.4s ease; /* Added bg transition */
+  z-index: 1099;
+  padding: 0;
   box-sizing: border-box;
 }
 
 .navLinksContainer.active {
-  /* Adjust max-height to fit one row of links */
-  max-height: 100px; /* Example height, adjust as needed */
-  overflow: visible; /* Allow potential dropdowns like theme menu to show */
-  padding: 0.5rem 0; /* Add padding when open */
+  max-height: 100px;
+  overflow: visible;
+  padding: 0.5rem 0;
 }
 
 .navLinks {
-  /* Desktop Styles (default, overridden by media query) */
   list-style: none;
   display: flex;
-  flex-direction: row; /* Horizontal layout */
-  justify-content: center; /* Center items horizontally */
-  align-items: center; /* Align items vertically */
-  flex-wrap: wrap; /* Allow wrapping if space is tight */
-  margin: 0 auto; /* Center the list within the container */
-  padding: 0 1rem; /* Padding inside the list */
-  width: auto; /* Let it size based on content */
-  max-width: var(--container-max-width, 1200px); /* Optional: Limit width */
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  margin: 0 auto;
+  padding: 0 1rem;
+  width: auto;
+  max-width: var(--container-max-width, 1200px);
 }
 
 .navLinks li {
-  /* Desktop Styles (default, overridden by media query) */
-  margin: 0 0.5rem; /* Spacing between items */
-  width: auto; /* Let item size based on content */
-  text-align: left; /* Reset text align */
+  margin: 0 0.5rem;
+  width: auto;
+  text-align: left;
 }
 
 .navLinks a,
 .navButtonLogout,
 .themeMenuToggle {
-  /* Desktop Styles (default, overridden by media query) */
-  color: var(--navbar-text-color);
+  color: var(--navbar-text-color, #E0E0E0); /* Use theme var */
   text-decoration: none;
   font-weight: 400;
   transition: color 0.2s ease-in-out, background-color 0.2s ease;
-  padding: 0.5rem 1rem; /* Adjust padding for horizontal layout */
-  display: inline-block; /* Change from block */
-  width: auto; /* Reset width */
+  padding: 0.5rem 1rem;
+  display: inline-block;
+  width: auto;
   box-sizing: border-box;
   background: none;
   border: none;
   cursor: pointer;
   font-size: inherit;
   font-family: inherit;
-  border-radius: 4px; /* Optional: slightly rounded corners for links */
+  border-radius: 4px;
 }
 
 .navLinks a:hover,
 .navButtonLogout:hover,
 .themeMenuToggle:hover {
-  color: var(--accent-color-gold, #FFC107);
-  background-color: rgba(255, 255, 255, 0.1); /* Subtle hover background */
+  color: var(--navbar-link-hover-color, var(--accent-color-gold, #FFC107)); /* Use theme var */
+  background-color: var(--navbar-link-hover-bg, rgba(255, 255, 255, 0.1)); /* Use theme var */
 }
 
-/* Theme Menu (Desktop Adjustment) */
+/* Theme Menu */
 .themeMenuContainer {
-  /* Desktop Styles (default, overridden by media query) */
   position: relative;
-  width: auto; /* Reset width */
+  width: auto;
 }
 
 .themeMenuToggle {
-  /* Desktop Styles (default, overridden by media query) */
   display: flex;
   align-items: center;
-  justify-content: center; /* Center text and arrow */
-  width: auto; /* Reset width */
+  justify-content: center;
+  width: auto;
 }
 
 .arrowIcon {
@@ -237,7 +214,7 @@
   height: 0;
   border-left: 5px solid transparent;
   border-right: 5px solid transparent;
-  border-top: 5px solid currentColor;
+  border-top: 5px solid currentColor; /* Inherits color from button */
   transition: transform 0.3s ease;
 }
 
@@ -246,51 +223,51 @@
 }
 
 .themeSubmenu {
-  /* Desktop Styles (default, overridden by media query) */
   list-style: none;
-  padding: 0.5rem 0; /* Add padding */
+  padding: 0.5rem 0;
   margin: 0;
-  background-color: var(--background-color); /* Use a more solid background for dropdown */
-  border-radius: 4px; /* Round corners */
-  box-shadow: var(--shadow-lg); /* Add more distinct shadow */
-  width: max-content; /* Fit content width */
-  min-width: 150px; /* Minimum width */
+  background-color: var(--theme-submenu-bg, var(--background-color, #FFF)); /* Use theme var */
+  border-radius: 4px;
+  box-shadow: var(--shadow-lg);
+  width: max-content;
+  min-width: 150px;
   max-height: 0;
   overflow: hidden;
-  transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
-  position: absolute; /* Position absolutely below the toggle */
-  top: 100%; /* Position below the theme toggle */
-  left: 50%; /* Center horizontally */
-  transform: translateX(-50%); /* Adjust centering */
-  z-index: 1102; /* Above nav links container */
-  opacity: 0; /* Start hidden */
+  transition: max-height 0.3s ease-out, opacity 0.3s ease-out, background-color 0.3s ease; /* Added bg transition */
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1102;
+  opacity: 0;
 }
 
 .themeMenuContainer.open .themeSubmenu {
-  max-height: 300px; /* Adjust as needed */
-  opacity: 1; /* Fade in */
+  max-height: 300px;
+  opacity: 1;
 }
 
 .themeSubmenu li button {
   background: none;
   border: none;
-  color: var(--text-color);
+  color: var(--theme-submenu-text-color, var(--text-color, #333)); /* Use theme var */
   padding: 0.75rem 1.5rem;
   display: block;
   width: 100%;
-  text-align: left; /* Align text left in dropdown */
+  text-align: left;
   cursor: pointer;
   font-size: 0.9rem;
   transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .themeSubmenu li button:hover {
-  background-color: rgba(0, 0, 0, 0.05);
+  background-color: var(--theme-submenu-hover-bg, rgba(0, 0, 0, 0.05)); /* Use theme var */
+  color: var(--theme-submenu-hover-text-color, var(--text-color)); /* Use theme var */
 }
 
 .themeSubmenu li button.activeTheme {
   font-weight: bold;
-  color: var(--accent-color-green, #4CAF50);
+  color: var(--theme-submenu-active-color, var(--accent-color-green, #4CAF50)); /* Use theme var */
 }
 
 /* Mobile Menu Overlay */
@@ -300,11 +277,11 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.6);
-  z-index: 10998; /* Below sidebar, above content */
+  background-color: var(--menu-overlay-bg, rgba(0, 0, 0, 0.6)); /* Use theme var */
+  z-index: 10998;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.4s ease, visibility 0.4s ease;
+  transition: opacity 0.4s ease, visibility 0.4s ease, background-color 0.4s ease; /* Added bg transition */
 }
 
 .menuOverlay.active {
@@ -312,9 +289,9 @@
   visibility: visible;
 }
 
-/* Mobile Menu Header (Inside Sidebar) */
+/* Mobile Menu Header */
 .mobileMenuHeader {
-  display: none; /* Hidden by default, shown in mobile */
+  display: none;
 }
 
 /* Focus Styles */
@@ -323,7 +300,7 @@
 .themeMenuToggle:focus-visible,
 .themeSubmenu li button:focus-visible,
 .navButtonLogout:focus-visible {
-  outline: 2px solid var(--accent-color-gold, #FFC107);
+  outline: 2px solid var(--focus-outline-color, var(--accent-color-gold, #FFC107)); /* Use theme var */
   outline-offset: 2px;
   border-radius: 2px;
 }
@@ -334,37 +311,34 @@
 
 /* --- Responsive Styles (Mobile Sidebar) --- */
 @media (max-width: 992px) {
-  /* Hide desktop menu container, show mobile toggle */
   .menuToggle {
-      display: flex; /* Ensure hamburger is visible */
+      display: flex;
   }
 
-  /* Override desktop styles for mobile sidebar */
   .navLinksContainer {
     position: fixed;
     top: 0;
-    right: -100%; /* Start off-screen */
-    left: auto; /* Override desktop left: 0 */
-    width: min(75vw, 280px); /* Sidebar width */
+    right: -100%;
+    left: auto;
+    width: min(75vw, 280px);
     height: 100vh;
-    /* Use rgba for semi-transparent background */
-    background-color: rgba(var(--secondary-bg-rgb, 51, 51, 51), 0.95); /* Slightly more opaque sidebar */
+    /* Use theme variable for sidebar background */
+    background-color: var(--mobile-sidebar-bg, var(--secondary-bg-color, rgba(51, 51, 51, 0.95)));
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.2);
-    transition: right 0.4s cubic-bezier(0.23, 1, 0.32, 1); /* Animate right property */
-    z-index: 10999; /* Above overlay */
-    padding-top: 60px; /* Space for header */
-    max-height: 100vh; /* Override desktop max-height */
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.2); /* Consider making shadow themeable */
+    transition: right 0.4s cubic-bezier(0.23, 1, 0.32, 1), background-color 0.4s ease; /* Added bg transition */
+    z-index: 10999;
+    padding-top: 60px;
+    max-height: 100vh;
     overflow-y: auto;
-    /* display: block; */ /* Already block by default */
-    padding: 60px 0 0 0; /* Reset padding for sidebar */
+    padding: 60px 0 0 0;
   }
 
   .navLinksContainer.active {
-    right: 0; /* Slide in */
-    max-height: 100vh; /* Ensure full height when active */
-    padding: 60px 0 0 0; /* Ensure padding is correct when active */
+    right: 0;
+    max-height: 100vh;
+    padding: 60px 0 0 0;
   }
 
   .mobileMenuHeader {
@@ -372,35 +346,34 @@
     justify-content: space-between;
     align-items: center;
     padding: 1rem 1.5rem;
-    border-bottom: 1px solid var(--divider-color, rgba(255, 255, 255, 0.1));
+    border-bottom: 1px solid var(--divider-color, rgba(255, 255, 255, 0.1)); /* Use theme var */
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     box-sizing: border-box;
-    background-color: transparent; /* Header is part of the transparent panel */
+    background-color: transparent; /* Inherits from container */
   }
 
   .mobileMenuTitle {
     font-weight: bold;
-    color: var(--accent-color-gold, #FFC107);
+    color: var(--mobile-menu-title-color, var(--accent-color-gold, #FFC107)); /* Use theme var */
     font-size: 1.1rem;
   }
 
-  /* Links layout in mobile sidebar */
   .navLinks {
-    flex-direction: column; /* Stack items vertically */
-    align-items: flex-start; /* Align items left */
+    flex-direction: column;
+    align-items: flex-start;
     width: 100%;
-    padding: 0; /* Reset padding */
-    margin: 0; /* Reset margin */
-    max-width: none; /* Reset max-width */
+    padding: 0;
+    margin: 0;
+    max-width: none;
   }
 
   .navLinks li {
-    margin: 0; /* Reset margin */
+    margin: 0;
     width: 100%;
-    text-align: left; /* Align text left */
+    text-align: left;
   }
 
   .navLinks a,
@@ -409,48 +382,50 @@
     display: block;
     padding: 1rem 1.5rem;
     text-align: left;
-    border-bottom: 1px solid var(--divider-color, rgba(255, 255, 255, 0.1));
+    border-bottom: 1px solid var(--divider-color, rgba(255, 255, 255, 0.1)); /* Use theme var */
     width: 100%;
     box-sizing: border-box;
-    border-radius: 0; /* Reset border-radius */
+    border-radius: 0;
+    /* Inherit color from desktop rules: var(--navbar-text-color) */
   }
 
   .navLinks li:last-child a,
   .navLinks li:last-child button {
-      /* Optional: remove border from last item if needed */
-      /* border-bottom: none; */
+      /* border-bottom: none; */ /* Keep border for consistency or remove */
   }
 
   .navLinks a:hover,
   .navButtonLogout:hover,
   .themeMenuToggle:hover {
-    background-color: rgba(255, 255, 255, 0.1); /* Adjust hover for transparent bg */
+    /* Inherit hover colors from desktop rules */
+    background-color: var(--navbar-link-hover-bg, rgba(255, 255, 255, 0.1));
   }
 
   /* Theme submenu in mobile */
   .themeMenuContainer {
     width: 100%;
   }
-  
+
   .themeMenuToggle {
-     justify-content: space-between; /* Align text left, arrow right */
-     width: 100%; /* Ensure full width */
+     justify-content: space-between;
+     width: 100%;
   }
 
   .themeSubmenu {
-    position: static; /* Static positioning within the flow */
+    position: static;
     box-shadow: none;
-    background-color: transparent;
+    background-color: transparent; /* Submenu blends into sidebar */
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.4s ease-out;
     padding-left: 1.5rem; /* Indent submenu items */
     border-radius: 0;
-    width: 100%; /* Full width */
-    opacity: 1; /* Ensure visible when open */
-    transform: none; /* Reset transform */
-    padding: 0 0 0 1.5rem; /* Adjust padding */
+    width: 100%;
+    opacity: 1;
+    transform: none;
+    padding: 0 0 0 1.5rem;
     margin: 0;
+    /* Inherit text color from parent button? No, defined below */
   }
 
   .themeMenuContainer.open .themeSubmenu {
@@ -461,8 +436,9 @@
     padding: 0.75rem 1.5rem;
     font-size: 0.9rem;
     text-align: left;
-    border-bottom: 1px solid var(--divider-color, rgba(255, 255, 255, 0.1));
+    border-bottom: 1px solid var(--divider-color, rgba(255, 255, 255, 0.1)); /* Use theme var */
     width: 100%;
+    /* Inherit text color from desktop rules: var(--theme-submenu-text-color) */
   }
 
   .themeSubmenu li:last-child button {
@@ -470,7 +446,8 @@
   }
 
   .themeSubmenu li button:hover {
-    background-color: rgba(255, 255, 255, 0.1);
+    /* Inherit hover background from desktop rules: var(--theme-submenu-hover-bg) */
+    /* Inherit hover text color from desktop rules: var(--theme-submenu-hover-text-color) */
   }
 }
 
@@ -478,16 +455,4 @@
 .navLinkAdmin {
   /* No specific styles needed currently */
 }
-
-/* Fix for content overlap (Add padding to body or main content area) */
-/* This should ideally be in a global CSS file or layout component */
-/* Example (if you can target body): */
-/* body {
-  padding-top: 80px; /* Adjust based on navbar height */
-/* } */
-
-/* Alternative: Add margin to the element immediately following the header */
-/* .mainContent {
-  margin-top: 80px; /* Adjust based on navbar height */
-/* } */
 
