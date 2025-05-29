@@ -1,10 +1,9 @@
-/* Hero.module.css - Updated with Animated Blobs and Dots integrated with Theme Variables */
-
 .heroSection {
   position: relative;
-  height: 100vh; /* Garante altura total da viewport */
+  height: 100%; /* Garante altura total da viewport */
   min-height: 600px;
   display: flex;
+  padding-top: 100px;
   align-items: center;
   justify-content: center;
   text-align: center;
@@ -345,6 +344,7 @@
   .heroSection {
     min-height: 90vh;
     height: auto;
+  padding-top: 0;
   }
 
   .heroTitle {
@@ -372,6 +372,7 @@
 @media (max-width: 480px) {
   .heroSection {
     min-height: 85vh;
+  padding-top: 0;
   }
 
   .heroContent {

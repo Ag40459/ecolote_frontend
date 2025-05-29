@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from 'react';
-import Button3DRotate from '../UI/ComponentsAnimation/Button3DRotate';
 import styles from './About.module.css';
 import imageAbout from '../../assets/imageAbout.png';
 
@@ -265,9 +264,7 @@ const About = () => {
               </div>
             </div>
 
-            <div className={styles.ctaContainer}>
-              <Button3DRotate text="Faça Seu Pré-Cadastro" link="#contact" />
-            </div>
+           
           </div>
         </div>
       </div>

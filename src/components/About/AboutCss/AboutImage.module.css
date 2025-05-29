@@ -71,7 +71,6 @@
   color: var(--text-secondary, #666);
   font-style: italic;
   text-align: center;
-  /* text-align: justify; moved to AboutLayout.module.css */
 }
 
 /* Cards de fatos com animação */

@@ -1,4 +1,3 @@
-import React from 'react';
 import styles from '../SimulationModal/SimulationModal.module.css';
 import { formatCurrency } from '../../utils/calc';
 import EnergyPulseAnimation from '../UI/EnergyPulseAnimation';

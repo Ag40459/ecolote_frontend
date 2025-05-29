@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import styles from '../SimulationModal/SimulationModal.module.css';
 import EnergyPulseAnimation from '../UI/EnergyPulseAnimation';
-import { formatCurrency } from '../../utils/calc';
-import { formatPhone } from '../../utils/formatters'; // Ensure formatPhone is imported if used for responsavel
+// Removida a importação da função formatCurrencyInput que não está mais sendo usada
+// import { formatCurrencyInput } from '../../utils/calc';
 
 const SimulationForm = ({ 
   initialValue, 
@@ -31,30 +31,58 @@ const SimulationForm = ({
   // Prop para atualizar valor da conta no modal pai
   onBillValueChange 
 }) => {
-  // Estado local apenas para o valor formatado da conta
-  const [formattedBillValue, setFormattedBillValue] = useState('');
+  // Estado local para o valor formatado da conta
+  const [billValue, setBillValue] = useState('');
+  // Estado adicional para armazenar o valor numérico puro
+  const [numericBillValue, setNumericBillValue] = useState(0);
 
-  // Formatar o valor inicial ou quando initialValue mudar
+  // Inicializa o valor do input com o valor inicial
   useEffect(() => {
-    setFormattedBillValue(formatCurrency(initialValue.toString(), 'input'));
+    if (initialValue) {
+      // Formatar o valor inicial para exibição
+      const formattedValue = initialValue.toLocaleString('pt-BR', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      });
+      setBillValue(formattedValue);
+      setNumericBillValue(initialValue);
+    }
   }, [initialValue]);
 
   // Função para lidar com a mudança no valor da conta
   const handleBillValueChange = (e) => {
-    const raw = e.target.value.replace(/\D/g, '');
-    const numeric = raw ? parseInt(raw, 10) : 0;
-    // Atualiza o estado no componente pai (SimulationModal)
-    onBillValueChange(numeric);
-    // Atualiza o estado local para exibição formatada
-    setFormattedBillValue(formatCurrency(numeric.toString(), 'input'));
+    const rawValue = e.target.value;
+    
+    // Limpar caracteres não numéricos, mantendo apenas dígitos
+    const digits = rawValue.replace(/\D/g, '');
+    
+    // Formatar o valor para exibição (X,XX)
+    let formattedValue = '';
+    if (digits) {
+      // Converter para número e formatar como moeda
+      const numericValue = parseFloat(digits) / 100;
+      formattedValue = numericValue.toLocaleString('pt-BR', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      });
+    }
+    
+    // Atualizar o estado local com o valor formatado
+    setBillValue(formattedValue);
+    
+    // Atualizar o valor numérico puro
+    const numericValue = digits ? parseFloat(digits) / 100 : 0;
+    setNumericBillValue(numericValue);
+    
+    // Atualizar o estado pai com o valor numérico
+    onBillValueChange(numericValue);
   };
 
   // Função para lidar com o envio do formulário
   const handleSubmitInternal = (e) => {
     e.preventDefault();
-    // Chama a função onSubmit passada pelo pai (SimulationModal)
-    // passando o valor numérico atual da conta (initialValue reflete o estado do pai)
-    onSubmit(initialValue);
+    // Usa o valor numérico atualizado
+    onSubmit(numericBillValue); 
   };
 
   return (
@@ -72,20 +100,23 @@ const SimulationForm = ({
       </div>
       
       <div className={styles.modalContent}>
-        <h2 className={`${styles.modalTitle} sectionTitle`}>Calcule Sua Economia Solar</h2>
+        <h2 className={`${styles.modalTitle} sectionTitle`}>Custo Do Seu Ecolote</h2>
         <p className={styles.modalSubtitle}>
-          Descubra em segundos quanto você economizará com seu Ecolote e como ele se pagará ao longo do tempo.
+          Descubra em segundos quanto será o custo do seu Ecolote.
         </p>
         
         <form onSubmit={handleSubmitInternal}>
           <div className={styles.formGroup} style={{"--animation-order": 1}}>
             <label className={styles.formLabel}>Valor médio da sua conta de luz:</label>
-            <div className={styles.currencyInputWrapper}>
+            <div className={styles.inputGroup}>
+              <span className={styles.currencySymbol}>R$</span>
               <input
-                type="text" // Use text para permitir formatação
-                className={styles.formInput}
-                value={formattedBillValue} // Exibe valor formatado
-                onChange={handleBillValueChange} // Usa handler local
+                type="text"
+                inputMode="decimal"
+                value={billValue}
+                onChange={handleBillValueChange}
+                placeholder="0,00"
+                className={styles.simulatorInput}
                 required
                 aria-label="Valor médio mensal da conta de energia"
               />
@@ -137,7 +168,6 @@ const SimulationForm = ({
           </div>
           
           <div className={styles.formGroup} style={{"--animation-order": 3}}>
-            {/* Ajustar label condicionalmente se necessário */}
             <label className={styles.formLabel}>{profileType === 'empresa' ? 'CEP da Empresa' : 'CEP'}</label>
             <input
               type="text"
@@ -153,7 +183,6 @@ const SimulationForm = ({
           </div>
           
           <div className={styles.formGroup} style={{"--animation-order": 4}}>
-             {/* Ajustar label condicionalmente */}
             <label className={styles.formLabel}>{profileType === 'empresa' ? 'Razão Social' : 'Nome e Sobrenome'}</label>
             <input
               type="text"
@@ -190,7 +219,6 @@ const SimulationForm = ({
             />
           </div>
 
-          {/* Campos adicionais para PJ */}
           {profileType === 'empresa' && (
             <>
               <div className={styles.formGroup} style={{"--animation-order": 7}}>
@@ -199,8 +227,8 @@ const SimulationForm = ({
                   type="text"
                   className={styles.formInput}
                   value={cnpj}
-                  onChange={onCnpjChange} // Usa a prop passada
-                  placeholder="00.000.000/0000-00" // Adicionar máscara se desejar
+                  onChange={onCnpjChange}
+                  placeholder="00.000.000/0000-00"
                   required
                   aria-label="CNPJ da empresa"
                 />
@@ -212,7 +240,7 @@ const SimulationForm = ({
                   type="text"
                   className={styles.formInput}
                   value={nomeResponsavel}
-                  onChange={onNomeResponsavelChange} // Usa a prop passada
+                  onChange={onNomeResponsavelChange}
                   required
                   aria-label="Nome do responsável pela empresa"
                 />
@@ -224,7 +252,7 @@ const SimulationForm = ({
                   type="tel"
                   className={styles.formInput}
                   value={telefoneResponsavel}
-                  onChange={onTelefoneResponsavelChange} // Usa a prop passada
+                  onChange={onTelefoneResponsavelChange}
                   placeholder="(00) 00000-0000"
                   required
                   aria-label="Telefone do responsável pela empresa"
@@ -234,7 +262,7 @@ const SimulationForm = ({
           )}
           
           <button type="submit" className={`${styles.submitButton} cta-button`}>
-            Calcular Minha Economia
+            Valor do meu Ecolote
           </button>
         </form>
       </div>

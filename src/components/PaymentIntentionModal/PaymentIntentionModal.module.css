@@ -1,4 +1,4 @@
-.modalOverlay {
+.intentionModalOverlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -11,272 +11,55 @@
   align-items: center;
   z-index: 1100;
   padding: 20px;
-  transition: opacity 0.3s ease;
-  /* Impede interação com elementos de fundo */
-  pointer-events: all;
 }
 
-.modalContent {
-  background-color: var(--modal-bg, #ffffff);
+.intentionModalContainer {
+  background-color: var(--modal-bg);
   border-radius: 20px;
-  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.25), 0 5px 15px rgba(0, 0, 0, 0.1);
-  width: 90%;
-  max-width: 600px;
-  max-height: 85vh;
+  box-shadow: var(--shadow-lg);
+  width: 100%;
+  max-width: 500px;
+  padding: 30px;
   position: relative;
-  transform: translateY(0);
-  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  animation: modalFadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.intentionModalTitle {
+  font-size: 1.8rem;
+  color: var(--accent-color-green);
+  text-align: center;
+  margin-bottom: 15px;
+  font-weight: 700;
+}
+
+.intentionModalSubtitle {
+  font-size: 1.1rem;
+  color: var(--text-color);
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.intentionOptions {
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  gap: 15px;
 }
 
-.modalHeader {
-  background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-color-dark) 100%);
-  padding: 20px 25px;
-  color: white;
-  position: relative;
-}
-
-.modalBody {
-  padding: 25px;
-  overflow-y: auto;
-  /* Estilização da barra de rolagem para Firefox */
-  scrollbar-width: thin;
-  scrollbar-color: var(--primary-color) rgba(0, 0, 0, 0.05);
-  /* Impede que o scroll do modal afete a página */
-  overscroll-behavior: contain;
-}
-
-/* Estilização da barra de rolagem para navegadores baseados em WebKit */
-.modalBody::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-.modalBody::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.05);
-  border-radius: 4px;
-}
-
-.modalBody::-webkit-scrollbar-thumb {
-  background: var(--primary-color, #00a651);
-  border-radius: 4px;
-  transition: background 0.3s ease;
-}
-
-.modalBody::-webkit-scrollbar-thumb:hover {
-  background: var(--primary-color-dark, #008c44);
-}
-
-/* Versão para tema escuro */
-[data-theme="dark"] .modalBody::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.05);
-}
-
-/* Classe para bloquear o scroll do body quando modal estiver aberto */
-.bodyScrollLock {
-  overflow: hidden !important;
-  touch-action: none !important;
-}
-
-.closeButton {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  background: rgba(255, 255, 255, 0.2);
-  border: none;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.2rem;
-  color: white;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.closeButton:hover {
-  background: rgba(255, 255, 255, 0.3);
-  transform: rotate(90deg);
-}
-
-/* Animações para modais */
-@keyframes modalFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(30px) scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-@keyframes modalFadeOut {
-  from {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-  to {
-    opacity: 0;
-    transform: translateY(30px) scale(0.95);
-  }
-}
-
-.modalOverlay.entering {
-  animation: modalBackdropIn 0.3s forwards;
-}
-
-.modalOverlay.exiting {
-  animation: modalBackdropOut 0.3s forwards;
-}
-
-.modalContent.entering {
-  animation: modalFadeIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-}
-
-.modalContent.exiting {
-  animation: modalFadeOut 0.3s ease forwards;
-}
-
-@keyframes modalBackdropIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes modalBackdropOut {
-  from { opacity: 1; }
-  to { opacity: 0; }
-}
-
-/* Animações para elementos internos */
-.modalHeader.entering {
-  animation: slideDown 0.5s ease forwards;
-}
-
-.formGroup.entering {
-  opacity: 0;
-  transform: translateY(20px);
-  animation: fadeInUp 0.5s ease forwards;
-  animation-delay: calc(var(--index) * 0.1s);
-}
-
-@keyframes slideDown {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.formGroup {
-  position: relative;
-  margin-bottom: 25px;
-}
-
-.formLabel {
-  display: block;
-  margin-bottom: 10px;
-  color: var(--text-color);
-  font-weight: 500;
-  font-size: 1rem;
-}
-
-.formInput {
-  width: 100%;
-  padding: 15px 20px;
-  border: 2px solid var(--border-color, #e0e0e0);
+.intentionOption {
+  padding: 15px;
   border-radius: 12px;
-  font-size: 1rem;
-  color: var(--text-color);
-  background-color: var(--input-bg, #f8f9fa);
-  transition: all 0.3s ease;
-}
-
-.formInput:focus {
-  outline: none;
-  border-color: var(--primary-color);
-  box-shadow: 0 0 0 4px rgba(var(--primary-color-rgb), 0.1);
-}
-
-.submitButton {
-  background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-color-dark) 100%);
-  color: white;
-  padding: 14px 24px;
-  border: none;
-  border-radius: 50px;
+  background-color: var(--input-bg);
+  border: 2px solid var(--border-color);
   font-size: 1.1rem;
-  font-weight: 600;
+  font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
-  box-shadow: 0 4px 15px rgba(var(--primary-color-rgb), 0.3);
-  width: 100%;
+  animation: fadeInUp 0.6s ease forwards;
+  animation-delay: calc(0.1s * var(--animation-order, 1));
 }
 
-.submitButton:hover {
+.intentionOption:hover {
   transform: translateY(-3px);
-  box-shadow: 0 8px 25px rgba(var(--primary-color-rgb), 0.4);
-}
-
-.submitButton:active {
-  transform: translateY(-1px);
-}
-
-.submitButton:disabled {
-  background: #cccccc;
-  cursor: not-allowed;
-  transform: none;
-  box-shadow: none;
-}
-
-.errorMessage {
-  margin-top: 5px;
-  color: var(--error-color);
-  font-size: 0.9rem;
-}
-
-.successMessage {
-  margin-top: 5px;
-  color: var(--success-color);
-  font-size: 0.9rem;
-  padding: 10px;
-  background-color: rgba(var(--success-color), 0.1);
-  border-radius: 8px;
-  text-align: center;
-}
-
-/* Responsividade */
-@media (max-width: 768px) {
-  .modalContent {
-    width: 95%;
-  }
-  
-  .modalHeader,
-  .modalBody {
-    padding: 20px;
-  }
-  
-  .submitButton {
-    padding: 12px;
-    font-size: 1rem;
-  }
+  border-color: var(--primary-color);
+  box-shadow: 0 5px 15px rgba(var(--primary-color-rgb), 0.2);
 }

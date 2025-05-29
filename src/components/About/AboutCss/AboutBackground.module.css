@@ -35,9 +35,9 @@
   position: absolute;
   width: 8px;
   height: 8px;
-  background: radial-gradient(circle, rgba(40, 167, 69, 0.8) 0%, rgba(40, 167, 69, 0) 70%);
+  background: var(--text-light);
   border-radius: 50%;
   bottom: 0;
-  animation: floatParticle 8s ease-out infinite; /* Animation defined in AboutAnimations.module.css */
+  animation: floatParticle 8s ease-out infinite; 
 }
 

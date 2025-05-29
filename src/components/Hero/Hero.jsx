@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import styles from './Hero.module.css';
 import { formatCurrencyInput } from '../../utils/calc';
 import SimulationModal from '../SimulationModal/SimulationModal';
