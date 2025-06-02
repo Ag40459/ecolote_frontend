@@ -19,6 +19,8 @@ import ScrollToTopButton from './components/UI/ScrollToTopButton';
 import ScrollToTop from './components/UI/ScrollToTop';
 import FAQ from './components/Faq/FAQ';
 import AnimatedBackground from './components/UI/AnimatedBackground/AnimatedBackground';
+import Button3DRotate from './components/UI/ComponentsAnimation/Button3DRotate';
+
 
 
 const MainLayout = ({ isAuthModalOpen, setIsAuthModalOpen }) => {
@@ -45,6 +47,7 @@ const MainLayout = ({ isAuthModalOpen, setIsAuthModalOpen }) => {
         isOpen={isAuthModalOpen} 
         onClose={() => setIsAuthModalOpen(false)} 
       />
+        <Button3DRotate text="Quero Fazer Parte" link="#contact"  />
 
       <a href="https://wa.me/5581985967343" target="_blank" rel="noopener noreferrer" className="whatsapp-float" aria-label="Contato via WhatsApp">
         <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 448 512" fill="white">

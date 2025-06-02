@@ -158,7 +158,6 @@ const Hero = () => {
           </button>
         </div>
 
-        <Button3DRotate text="Quero Fazer Parte" link="#contact"  />
 
         <div className={styles.quickSimulator}>
           <button 
