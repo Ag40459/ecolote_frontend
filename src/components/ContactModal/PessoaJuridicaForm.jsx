@@ -1,125 +1,198 @@
 import { useEffect } from 'react';
 import styles from './ContactModal.module.css';
-import { modelosImovelPJ, pretensaoPagamentoOptions } from '../../config/formConfig';
+import { useForm, Controller } from 'react-hook-form';
+import { NumericFormat } from 'react-number-format';
 import { formatCNPJ, formatPhone, onlyNumbers } from '../../utils/formatters';
-import { formatCurrency } from '../../utils/calc';
 import { fetchCNPJData } from '../../utils/cnpjService';
+import { modelosImovelPJ, pretensaoPagamentoOptions } from '../../config/formConfig';
 
 const setIfEmpty = (currentValue, newValue, setFunction) => {
-  if (newValue && !currentValue) {
+  if (newValue !== undefined && newValue !== null && newValue !== '' && !currentValue) {
     setFunction(newValue);
   }
 };
 
-const validateEmail = (email) => /\S+@\S+\.\S+/.test(email);
-const validatePhone = (phone) => /^\(\d{2}\)\s?\d{4,5}-\d{4}$/.test(phone);
-const validateCNPJ = (cnpj) => /^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/.test(cnpj);
-const validateCep = (cep) => /^\d{8}$/.test(cep);
-
 const PessoaJuridicaForm = ({ formData, loadingCep, cepError }) => {
-  useEffect(() => {
-    if (!formData.pjNumero) {
-      formData.setPjNumero("0002");
+  const {
+    control,
+    register,
+    setValue,
+    watch,
+    formState: { errors }
+  } = useForm({
+    defaultValues: {
+      pjCnpj: formData.pjCnpj || '',
+      pjNomeEmpresa: formData.pjNomeEmpresa || '',
+      pjNomeResponsavel: formData.pjNomeResponsavel || '',
+      pjTelefone: formData.pjTelefone || '',
+      pjEmailComercial: formData.pjEmailComercial || '',
+      pjModeloImovel: formData.pjModeloImovel || '',
+      pjOutroModeloImovel: formData.pjOutroModeloImovel || '',
+      pjMediaContaEnergia: formData.pjMediaContaEnergia || null,
+      pjCep: formData.pjCep || '',
+      pjPretensaoPagamento: formData.pjPretensaoPagamento || '',
+      pjRua: formData.pjRua || '',
+      pjNumero: formData.pjNumero || '0002',
+      pjComplemento: formData.pjComplemento || '',
+      pjBairro: formData.pjBairro || '',
+      pjCidade: formData.pjCidade || '',
+      pjEstado: formData.pjEstado || '',
+      pjTelefoneResponsavel: formData.pjTelefoneResponsavel || formData.pjTelefone || '' // Initialize with pjTelefone if empty
     }
-  }, []);
+  });
 
+  const watchedValues = watch();
+
+  // Effect 1: Update external formData state when RHF values change
+  useEffect(() => {
+    formData.setPjCnpj(watchedValues.pjCnpj);
+    formData.setPjNomeEmpresa(watchedValues.pjNomeEmpresa);
+    formData.setPjNomeResponsavel(watchedValues.pjNomeResponsavel);
+    formData.setPjTelefone(watchedValues.pjTelefone);
+    formData.setPjEmailComercial(watchedValues.pjEmailComercial);
+    formData.setPjModeloImovel(watchedValues.pjModeloImovel);
+    formData.setPjOutroModeloImovel(watchedValues.pjOutroModeloImovel);
+    formData.setPjMediaContaEnergia(watchedValues.pjMediaContaEnergia);
+    formData.setPjCep(watchedValues.pjCep);
+    formData.setPjPretensaoPagamento(watchedValues.pjPretensaoPagamento);
+    formData.setPjRua(watchedValues.pjRua);
+    formData.setPjNumero(watchedValues.pjNumero);
+    formData.setPjComplemento(watchedValues.pjComplemento);
+    formData.setPjBairro(watchedValues.pjBairro);
+    formData.setPjCidade(watchedValues.pjCidade);
+    formData.setPjEstado(watchedValues.pjEstado);
+    formData.setPjTelefoneResponsavel(watchedValues.pjTelefoneResponsavel);
+  }, [watchedValues, formData]); // Keep formData in dependencies as its methods are used
+
+  // Effect 2: Fetch CNPJ data and update RHF state if fields are empty
   useEffect(() => {
     const fetchData = async () => {
-      const cleanCnpj = formData.pjCnpj?.replace(/\D/g, '');
+      const cleanCnpj = watchedValues.pjCnpj?.replace(/\D/g, '');
       if (cleanCnpj?.length === 14) {
         const data = await fetchCNPJData(cleanCnpj);
         if (data) {
-          setIfEmpty(formData.pjNomeEmpresa, data.razao_social, formData.setPjNomeEmpresa);
-          setIfEmpty(formData.pjEmailComercial, data.email, formData.setPjEmailComercial);
-          setIfEmpty(formData.pjTelefone, formatPhone(`${data.ddd}${data.telefone}`), formData.setPjTelefone);
-          setIfEmpty(formData.pjRua, data.logradouro, formData.setPjRua);
-          setIfEmpty(formData.pjComplemento, data.complemento, formData.setPjComplemento);
-          setIfEmpty(formData.pjBairro, data.bairro, formData.setPjBairro);
-          setIfEmpty(formData.pjCidade, data.municipio, formData.setPjCidade);
-          setIfEmpty(formData.pjEstado, data.uf, formData.setPjEstado);
-          setIfEmpty(formData.pjCep, data.cep?.replace(/\D/g, ''), formData.setPjCep);
+          setIfEmpty(watchedValues.pjNomeEmpresa, data.razao_social, (val) => setValue('pjNomeEmpresa', val));
+          setIfEmpty(watchedValues.pjEmailComercial, data.email, (val) => setValue('pjEmailComercial', val));
+          setIfEmpty(watchedValues.pjTelefone, formatPhone(`${data.ddd}${data.telefone}`), (val) => {
+             setValue('pjTelefone', val);
+             // Also update responsible phone if it was empty or same as commercial
+             if (!watchedValues.pjTelefoneResponsavel || watchedValues.pjTelefoneResponsavel === watchedValues.pjTelefone) {
+                setValue('pjTelefoneResponsavel', val);
+             }
+          });
+          setIfEmpty(watchedValues.pjRua, data.logradouro, (val) => setValue('pjRua', val));
+          setIfEmpty(watchedValues.pjComplemento, data.complemento, (val) => setValue('pjComplemento', val));
+          setIfEmpty(watchedValues.pjBairro, data.bairro, (val) => setValue('pjBairro', val));
+          setIfEmpty(watchedValues.pjCidade, data.municipio, (val) => setValue('pjCidade', val));
+          setIfEmpty(watchedValues.pjEstado, data.uf, (val) => setValue('pjEstado', val));
+          // Update CEP from CNPJ fetch only if the RHF CEP field is currently empty
+          const fetchedCep = data.cep?.replace(/\D/g, '');
+          setIfEmpty(watchedValues.pjCep, fetchedCep, (val) => setValue('pjCep', val));
         }
       }
     };
+    // Only run fetch if CNPJ is valid length
+    if (watchedValues.pjCnpj?.replace(/\D/g, '').length === 14) {
+        fetchData();
+    }
+  }, [watchedValues.pjCnpj, setValue]); // Rerun only when CNPJ changes
 
-    fetchData();
-  }, [formData.pjCnpj]);
+  // REMOVED Effect 3: Sync external formData.pjCep back to RHF - This caused the loop
+  // useEffect(() => {
+  //   if (formData.pjCep !== watchedValues.pjCep) {
+  //       setValue('pjCep', formData.pjCep || '');
+  //   }
+  // }, [formData.pjCep, setValue, watchedValues.pjCep]);
 
-  const isNomeEmpresaFromApi = formData.pjCnpj?.replace(/\D/g, '').length === 14 && formData.pjNomeEmpresa;
+  const isNomeEmpresaFromApi = watchedValues.pjCnpj?.replace(/\D/g, '').length === 14 && watchedValues.pjNomeEmpresa;
 
   return (
     <>
       <div className={styles.formGroup}>
-        <label htmlFor="pjCnpj">CNPJ:</label>
         <input
-          type="text"
           id="pjCnpj"
-          value={formData.pjCnpj || ''}
-          onChange={(e) => formData.setPjCnpj(formatCNPJ(e.target.value))}
-          required
-          pattern="\d{2}\.\d{3}\.\d{3}/\d{4}-\d{2}"
-          title="CNPJ inválido"
+          type="text"
+          className={styles.formInput}
+          maxLength={18}
+          placeholder="CNPJ - 00.000.000/0000-00"
+          {...register('pjCnpj', {
+            required: 'CNPJ é obrigatório',
+            pattern: { value: /^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/, message: 'CNPJ inválido' },
+            onChange: (e) => {
+              const formatted = formatCNPJ(e.target.value);
+              setValue('pjCnpj', formatted, { shouldValidate: true });
+            }
+          })}
         />
+        {errors.pjCnpj && <p className={styles.errorMessage}>{errors.pjCnpj.message}</p>}
       </div>
 
       <div className={styles.formGroup}>
-        <label htmlFor="pjNomeEmpresa">Razão Social:</label>
         <input
-          type="text"
           id="pjNomeEmpresa"
-          value={formData.pjNomeEmpresa || ''}
-          onChange={(e) => formData.setPjNomeEmpresa(e.target.value)}
-          readOnly={isNomeEmpresaFromApi}
-          required
-        />
-      </div>
-
-      <div className={styles.formGroup}>
-        <label htmlFor="pjNomeResponsavel">Nome do Responsável:</label>
-        <input
           type="text"
+          className={styles.formInput}
+          placeholder="Razão Social"
+          readOnly={isNomeEmpresaFromApi}
+          {...register('pjNomeEmpresa', { required: 'Razão Social é obrigatória' })}
+        />
+        {errors.pjNomeEmpresa && <p className={styles.errorMessage}>{errors.pjNomeEmpresa.message}</p>}
+      </div>
+
+      <div className={styles.formGroup}>
+        <input
           id="pjNomeResponsavel"
-          value={formData.pjNomeResponsavel || ''}
-          onChange={(e) => formData.setPjNomeResponsavel(e.target.value)}
-          required
+          type="text"
+          className={styles.formInput}
+          placeholder="Nome"
+
+          {...register('pjNomeResponsavel', { required: 'Nome do Responsável é obrigatório' })}
         />
+        {errors.pjNomeResponsavel && <p className={styles.errorMessage}>{errors.pjNomeResponsavel.message}</p>}
       </div>
 
       <div className={styles.formGroup}>
-        <label htmlFor="pjTelefone">Telefone Comercial:</label>
         <input
-          type="tel"
           id="pjTelefone"
-          value={formData.pjTelefone || ''}
-          onChange={(e) => {
-            const formatted = formatPhone(e.target.value);
-            formData.setPjTelefone(formatted);
-            formData.setPjTelefoneResponsavel(formatted);
-          }}
-          required
-          pattern="\(\d{2}\)\s?\d{4,5}-\d{4}"
-          placeholder="(00) 00000-0000"
+          type="tel"
+          className={styles.formInput}
+          maxLength={15}
+          placeholder="Telefone - (00) 00000-0000"
+          {...register('pjTelefone', {
+            required: 'Telefone é obrigatório',
+            pattern: { value: /^\(\d{2}\)\s?\d{4,5}-\d{4}$/, message: 'Telefone inválido' },
+            onChange: (e) => {
+              const formatted = formatPhone(e.target.value);
+              setValue('pjTelefone', formatted, { shouldValidate: true });
+              // Update responsible phone only if it was empty or same as previous commercial phone
+              if (!watchedValues.pjTelefoneResponsavel || watchedValues.pjTelefoneResponsavel === watchedValues.pjTelefone) {
+                 setValue('pjTelefoneResponsavel', formatted);
+              }
+            }
+          })}
         />
+        {errors.pjTelefone && <p className={styles.errorMessage}>{errors.pjTelefone.message}</p>}
       </div>
 
       <div className={styles.formGroup}>
-        <label htmlFor="pjEmailComercial">Email Comercial:</label>
         <input
-          type="email"
           id="pjEmailComercial"
-          value={formData.pjEmailComercial || ''}
-          onChange={(e) => formData.setPjEmailComercial(e.target.value)}
-          required
+          type="email"
+          className={styles.formInput}
+          placeholder="email@empresa.com"
+          {...register('pjEmailComercial', {
+            required: 'Email Comercial é obrigatório',
+            pattern: { value: /\S+@\S+\.\S+/, message: 'Email inválido' }
+          })}
         />
+        {errors.pjEmailComercial && <p className={styles.errorMessage}>{errors.pjEmailComercial.message}</p>}
       </div>
 
       <div className={styles.formGroup}>
-        <label htmlFor="pjModeloImovel">Tipo do Imóvel Comercial:</label>
         <select
           id="pjModeloImovel"
-          value={formData.pjModeloImovel || ''}
-          onChange={(e) => formData.setPjModeloImovel(e.target.value)}
-          required
+          className={styles.formInput}
+          {...register('pjModeloImovel', { required: 'Selecione o tipo do imóvel' })}
         >
           {modelosImovelPJ.map(option => (
             <option key={option.value} value={option.value}>
@@ -127,55 +200,85 @@ const PessoaJuridicaForm = ({ formData, loadingCep, cepError }) => {
             </option>
           ))}
         </select>
+        {errors.pjModeloImovel && <p className={styles.errorMessage}>{errors.pjModeloImovel.message}</p>}
       </div>
 
-      {formData.pjModeloImovel === 'Outro' && (
+      {watch('pjModeloImovel') === 'Outro' && (
         <div className={styles.formGroup}>
           <label htmlFor="pjOutroModeloImovel">Outro tipo de imóvel:</label>
           <input
-            type="text"
             id="pjOutroModeloImovel"
-            value={formData.pjOutroModeloImovel || ''}
-            onChange={(e) => formData.setPjOutroModeloImovel(e.target.value)}
-            required
+            type="text"
+            className={styles.formInput}
+            {...register('pjOutroModeloImovel', {
+              required: watch('pjModeloImovel') === 'Outro' ? 'Especifique o tipo' : false
+            })}
           />
+          {errors.pjOutroModeloImovel && <p className={styles.errorMessage}>{errors.pjOutroModeloImovel.message}</p>}
         </div>
       )}
 
       <div className={styles.formGroup}>
-        <label htmlFor="pjMediaContaEnergia">Média da Conta de Energia:</label>
-        <input
-          type="text"
-          id="pjMediaContaEnergia"
-          value={formData.pjMediaContaEnergia || ''}
-          onChange={(e) => formData.setPjMediaContaEnergia(formatCurrency(e.target.value, 'input'))}
-          required
+        <Controller
+          name="pjMediaContaEnergia"
+          control={control}
+          rules={{
+            required: 'Valor é obrigatório',
+            min: { value: 0.01, message: 'Valor deve ser maior que zero' }
+          }}
+          render={({ field: { onChange, onBlur, value, name, ref } }) => (
+            <NumericFormat
+              id="pjMediaContaEnergia"
+              name={name}
+              getInputRef={ref}
+              className={styles.formInput}
+              value={value}
+              onValueChange={(values) => {
+                onChange(values.floatValue === undefined ? null : values.floatValue);
+              }}
+              onBlur={onBlur}
+              thousandSeparator="."
+              decimalSeparator=","
+              prefix="R$ "
+              decimalScale={2}
+              fixedDecimalScale={true}
+              allowNegative={false}
+              placeholder="Valor da Sua Conta de Energia - R$ 0,00"
+              inputMode="decimal"
+              required
+            />
+          )}
         />
+        {errors.pjMediaContaEnergia && <p className={styles.errorMessage}>{errors.pjMediaContaEnergia.message}</p>}
       </div>
 
       <div className={styles.formGroup}>
-        <label htmlFor="pjCep">CEP:</label>
         <input
-          type="tel"
           id="pjCep"
-          value={formData.pjCep || ''}
-          onChange={(e) => formData.setPjCep(onlyNumbers(e.target.value))}
-          maxLength="8"
-          placeholder="00000000"
-          required
-          pattern="\d{8}"
+          type="tel"
+          className={styles.formInput}
+          maxLength={8} // Keep maxLength to limit input length
+          placeholder="CEP"
+          {...register('pjCep', {
+            required: 'CEP é obrigatório',
+            pattern: { value: /^\d{8}$/, message: 'CEP inválido (somente números)' },
+            onChange: (e) => {
+              // Allow only numbers and update RHF value
+              const formatted = onlyNumbers(e.target.value);
+              setValue('pjCep', formatted, { shouldValidate: true });
+            }
+          })}
         />
         {loadingCep && <p className={styles.loadingMessage}>Buscando CEP...</p>}
         {cepError && <p className={styles.errorMessage}>{cepError}</p>}
+        {errors.pjCep && <p className={styles.errorMessage}>{errors.pjCep.message}</p>}
       </div>
 
       <div className={styles.formGroup}>
-        <label htmlFor="pjPretensaoPagamento">Pretensão de Pagamento:</label>
         <select
           id="pjPretensaoPagamento"
-          value={formData.pjPretensaoPagamento || ''}
-          onChange={(e) => formData.setPjPretensaoPagamento(e.target.value)}
-          required
+          className={styles.formInput}
+          {...register('pjPretensaoPagamento', { required: 'Selecione a pretensão' })}
         >
           {pretensaoPagamentoOptions.map(option => (
             <option key={option.value} value={option.value}>
@@ -183,16 +286,17 @@ const PessoaJuridicaForm = ({ formData, loadingCep, cepError }) => {
             </option>
           ))}
         </select>
+        {errors.pjPretensaoPagamento && <p className={styles.errorMessage}>{errors.pjPretensaoPagamento.message}</p>}
       </div>
 
-      {/* Campos ocultos para integração com backend */}
-      <input type="hidden" id="pjRua" value={formData.pjRua || ''} onChange={(e) => formData.setPjRua(e.target.value)} />
-      <input type="hidden" id="pjNumero" value={formData.pjNumero || '0002'} onChange={(e) => formData.setPjNumero(e.target.value)} />
-      <input type="hidden" id="pjComplemento" value={formData.pjComplemento || ''} onChange={(e) => formData.setPjComplemento(e.target.value)} />
-      <input type="hidden" id="pjBairro" value={formData.pjBairro || ''} onChange={(e) => formData.setPjBairro(e.target.value)} />
-      <input type="hidden" id="pjCidade" value={formData.pjCidade || ''} onChange={(e) => formData.setPjCidade(e.target.value)} />
-      <input type="hidden" id="pjEstado" value={formData.pjEstado || ''} onChange={(e) => formData.setPjEstado(e.target.value)} />
-      <input type="hidden" id="pjTelefoneResponsavel" value={formData.pjTelefoneResponsavel || formData.pjTelefone || ''} onChange={(e) => formData.setPjTelefoneResponsavel(e.target.value)} />
+      {/* Hidden fields managed by RHF */}
+      <input type="hidden" {...register('pjRua')} />
+      <input type="hidden" {...register('pjNumero')} />
+      <input type="hidden" {...register('pjComplemento')} />
+      <input type="hidden" {...register('pjBairro')} />
+      <input type="hidden" {...register('pjCidade')} />
+      <input type="hidden" {...register('pjEstado')} />
+      <input type="hidden" {...register('pjTelefoneResponsavel')} />
     </>
   );
 };

@@ -1,38 +1,35 @@
-/* Base styles from original Features.module.css, adapted */
 .featuresContainer {
   padding: 4rem 2rem;
   position: relative;
-  overflow: hidden; /* Keep hidden to contain potential absolute elements */
-  background-color: var(--secondary-bg-color, #f9f9f9); /* Use theme variable */
-  color: var(--text-color); /* Use theme variable */
+  overflow: hidden;
+  background-color: var(--background-color, #1a1a1a); /* Ajuste a cor de fundo conforme necessário */
+  color: var(--text-color, #f0f0f0);
 }
 
 .title {
   text-align: center;
-  margin-bottom: 2rem; /* Increased margin */
-  color: var(--primary-color);
-  font-size: 2.2rem; /* Match global sectionTitle */
+  margin-bottom: 2rem;
+  color: var(--primary-color, #00aaff);
+  font-size: 2.2rem;
   position: relative;
   z-index: 2;
 }
-
-/* Removed leavesBackground as it wasn't requested to be kept */
 
 .categoriesNav {
   display: flex;
   justify-content: center;
-  margin-bottom: 3rem; /* Increased margin */
+  margin-bottom: 3rem;
   flex-wrap: wrap;
   position: relative;
   z-index: 2;
-  gap: 0.5rem; /* Added gap */
+  gap: 0.5rem;
 }
 
 .categoryButton {
   padding: 0.75rem 1.5rem;
-  border: 1px solid var(--border-color, #e0e0e0); /* Use theme variable */
-  background-color: transparent; /* Changed background */
-  color: var(--text-secondary, #555); /* Use theme variable */
+  border: 1px solid var(--border-color, #444);
+  background-color: transparent;
+  color: var(--text-secondary, #ccc);
   border-radius: 30px;
   cursor: pointer;
   font-weight: 500;
@@ -40,62 +37,68 @@
 }
 
 .categoryButton:hover {
-  /* Keep hover subtle, maybe just change border and text color */
-  border-color: var(--primary-color-light, #FF8A65);
-  color: var(--primary-color, #FF5722);
-  background-color: transparent; /* Ensure no background on hover */
+  border-color: var(--primary-color-light, #66ccff);
+  color: var(--primary-color, #00aaff);
+  background-color: rgba(var(--primary-rgb, 0, 170, 255), 0.1);
 }
 
 .activeCategory {
-  background-color: var(--primary-color, #FF5722); /* Reverted to solid background */
-  color: white; /* Reverted to white text for contrast on primary color */
-  border: 1px solid var(--primary-color, #FF5722); /* Keep border consistent */
-  /* Ensure padding is consistent */
-  padding: 0.75rem 1.5rem;
+  background-color: var(--primary-color, #00aaff);
+  color: white;
+  border: 1px solid var(--primary-color, #00aaff);
 }
 
-/* --- Desktop Layout Fixes & Styles --- */
-.featuresLayout {
-  position: relative; /* Needed for absolute positioned arrows if reusing for desktop */
-  z-index: 2;
+/* --- Estilos do Carrossel --- */
+.carouselContainer {
+  position: relative;
+  width: 100%;
   margin-top: 2rem;
-  display: flex; /* Use flexbox for alignment */
-  justify-content: center; /* Center items by default */
-  gap: 1.5rem; /* Spacing between cards */
-  flex-wrap: wrap; /* Allow wrapping if needed, though carousel handles overflow */
-  padding: 0 1rem; /* Add some padding */
 }
 
-/* Ensure HorizontalCarousel container allows centering */
-/* Assuming HorizontalCarousel renders its own container, target that if needed */
-/* If HorizontalCarousel is just the items, .featuresLayout handles it */
+.carousel {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;  /* IE 10+ */
+  padding: 1rem 0; /* Add some padding for shadow visibility */
+  gap: 1.5rem; /* Espaçamento entre os cards */
+  /* Ajuste as margens laterais para centralizar ou alinhar */
+  margin: 0 auto;
+  max-width: calc(100% - 80px); /* Deixa espaço para as setas no desktop */
+}
 
-/* --- Card Styles (Shared) --- */
+.carousel::-webkit-scrollbar {
+  display: none; /* Safari and Chrome */
+}
+
 .featureCard {
-  background-color: var(--card-bg, white); /* Use theme variable */
-  border-radius: 15px; /* Slightly larger radius */
-  padding: 2rem; /* Increased padding */
-  box-shadow: var(--shadow-md); /* Use theme variable */
+  background-color: var(--card-bg, #2a2a2a);
+  border-radius: 15px;
+  padding: 2rem;
+  box-shadow: var(--shadow-md, 0 4px 6px rgba(0, 0, 0, 0.1));
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  height: auto; /* Let content define height */
-  min-height: 350px; /* Ensure minimum height */
+  height: auto; /* Altura automática para acomodar conteúdo */
+  min-height: 380px; /* Altura mínima para consistência */
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   position: relative;
   overflow: hidden;
-  width: 320px; /* Fixed width for consistency in flex/grid */
-  flex-shrink: 0; /* Prevent shrinking in flex container */
-  opacity: 0; /* For animation */
-  animation: fadeInCard 0.5s ease forwards; /* Animation */
+  flex: 0 0 auto; /* Impede que os cards encolham/esticam */
+  scroll-snap-align: center; /* Centraliza o card no snap */
+  width: 320px; /* Largura padrão do card */
+  opacity: 0;
+  animation: fadeInCard 0.5s ease forwards;
 }
 
-/* Stagger animation */
+/* Animação de entrada (mantida) */
 .featureCard:nth-child(1) { animation-delay: 0.1s; }
 .featureCard:nth-child(2) { animation-delay: 0.2s; }
 .featureCard:nth-child(3) { animation-delay: 0.3s; }
-/* Add more if needed */
+/* Adicione mais delays se necessário */
 
 @keyframes fadeInCard {
   from {
@@ -108,227 +111,192 @@
   }
 }
 
-
 .featureCard:hover {
-  transform: translateY(-8px); /* Slightly more lift */
-  box-shadow: var(--shadow-lg); /* Use theme variable */
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-lg, 0 10px 15px rgba(0, 0, 0, 0.2));
 }
 
 .featureIconWrapper {
-  width: 60px; /* Adjusted size */
+  width: 60px;
   height: 60px;
   border-radius: 50%;
-  background-color: rgba(var(--primary-rgb), 0.1);
+  background-color: rgba(var(--primary-rgb, 0, 170, 255), 0.1);
   display: flex;
   align-items: center;
   justify-content: center;
   margin-bottom: 1rem;
-  flex-shrink: 0; /* Prevent shrinking */
+  flex-shrink: 0;
 }
 
 .featureIcon {
-  font-size: 1.8rem; /* Adjusted size */
-  color: var(--primary-color);
+  font-size: 1.8rem;
+  color: var(--primary-color, #00aaff);
 }
 
 .featureTitle {
   font-weight: 700;
-  font-size: 1.25rem; /* Slightly larger */
+  font-size: 1.25rem;
   margin-bottom: 0.75rem;
-  color: var(--primary-color);
-  min-height: 2.5em; /* Ensure space even for short titles */
+  color: var(--primary-color, #00aaff);
+  min-height: 2.5em; /* Garante espaço para títulos de duas linhas */
+  line-height: 1.25;
 }
 
 .featureDescription {
-  color: var(--text-secondary, #555); /* Use theme variable */
-  margin-bottom: 1.5rem; /* Increased margin */
-  flex-grow: 1; /* Allow description to take space */
+  color: var(--text-secondary, #ccc);
+  margin-bottom: 1.5rem;
+  flex-grow: 1; /* Permite que a descrição ocupe espaço */
   font-size: 0.95rem;
   text-align: justify;
   line-height: 1.5;
+  width: 100%;
+  /* Padronização de Texto com reticências */
+  display: -webkit-box;
+  -webkit-line-clamp: 4; /* Limita a 4 linhas */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-height: calc(4 * 1.5 * 0.95rem); /* Altura mínima baseada nas linhas */
 }
 
 .featureDetails {
   max-height: 0;
   overflow: hidden;
-  transition: max-height 0.5s ease, margin-top 0.5s ease; /* Added margin transition */
-  color: var(--text-color, #666); /* Use theme variable */
+  transition: max-height 0.5s ease-out, margin-top 0.5s ease-out, opacity 0.5s ease-out;
+  color: var(--text-color, #ddd);
   font-size: 0.9rem;
   text-align: justify;
   line-height: 1.5;
-  width: 100%; 
+  width: 100%;
+  opacity: 0;
 }
 
 .expanded {
-  max-height: 300px; /* Adjust as needed */
-  margin-top: 1rem; /* Add space when expanded */
+  max-height: 300px; /* Ajuste conforme necessário */
+  margin-top: 1rem;
   margin-bottom: 1rem;
+  opacity: 1;
 }
 
 .detailsButton {
   background-color: transparent;
-  border: 2px solid var(--primary-color); /* Thicker border */
-  color: var(--primary-color);
-  padding: 0.6rem 1.2rem; /* Adjusted padding */
-  border-radius: 25px; /* Match category buttons */
+  border: 2px solid var(--primary-color, #00aaff);
+  color: var(--primary-color, #00aaff);
+  padding: 0.6rem 1.2rem;
+  border-radius: 25px;
   cursor: pointer;
-  font-weight: 600; /* Bolder */
+  font-weight: 600;
   transition: all 0.3s ease;
-  margin-top: auto; /* Push to bottom */
-  align-self: center; /* Center button */
+  margin-top: auto; /* Empurra o botão para baixo */
+  align-self: center;
 }
 
 .detailsButton:hover {
-  background-color: var(--primary-color);
+  background-color: var(--primary-color, #00aaff);
   color: white;
-  transform: scale(1.05); /* Add subtle scale effect */
+  transform: scale(1.05);
 }
 
-/* --- Mobile Carousel Styles --- */
-.mobileCarouselContainer {
-  position: relative; /* For arrow positioning */
-  width: 100%;
-  overflow: hidden; /* Hide overflow */
-  margin-top: 2rem;
-}
-
-.mobileCarousel {
-  display: flex;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE/Edge */
-  padding: 1rem 0; /* Add padding for shadow/hover effects */
-  margin: 0 -2rem; /* Counteract container padding to allow full bleed */
-  padding-left: 2rem; /* Restore padding for first item */
-}
-
-.mobileCarousel::-webkit-scrollbar {
-  display: none; /* Chrome/Safari/Opera */
-}
-
-/* Adjust card styles specifically for mobile carousel */
-.mobileCarousel .featureCard {
-  flex: 0 0 85%; /* Each card takes 85% of viewport width */
-  scroll-snap-align: center; /* Snap cards to center */
-  margin-right: 1rem; /* Space between cards */
-  width: 85%; /* Explicit width */
-  margin-left: 0; /* Reset margin */
-  animation: none; /* Disable fade-in animation for carousel items */
-  opacity: 1;
-}
-
-.mobileCarousel .featureCard:last-child {
-  margin-right: 0; /* No margin on the last item */
-}
-
-/* Mobile Navigation Arrows */
+/* Setas de Navegação */
 .carouselArrow {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
   z-index: 10;
-  background-color: var(--primary-color, #FF5722); /* Use theme color */
+  background-color: rgba(var(--primary-rgb, 0, 170, 255), 0.8);
   color: white;
   border: none;
   border-radius: 50%;
-  width: 45px; /* Slightly larger */
+  width: 45px;
   height: 45px;
-  font-size: 1.5rem; /* Adjust icon size */
+  font-size: 1.5rem;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: var(--shadow-sm);
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: var(--shadow-sm, 0 2px 4px rgba(0,0,0,0.2));
+  transition: background-color 0.3s ease, transform 0.2s ease, opacity 0.3s ease;
 }
 
 .carouselArrow:hover {
-  background-color: var(--primary-color-dark, #E64A19); /* Use theme color */
-  transform: translateY(-50%) scale(1.1); /* Scale on hover */
+  background-color: var(--primary-color, #00aaff);
+  transform: translateY(-50%) scale(1.1);
 }
 
 .carouselArrow:disabled {
-  opacity: 0.5;
+  opacity: 0.3;
   cursor: not-allowed;
-  background-color: var(--border-color, #ccc); /* Use theme color */
+  background-color: var(--border-color, #555);
+  transform: translateY(-50%) scale(1);
 }
 
 .carouselArrowLeft {
-  left: -10px; /* Adjust position */
+  left: 10px;
 }
 
 .carouselArrowRight {
-  right: -10px; /* Adjust position */
+  right: 10px;
 }
 
-
 /* --- Responsividade --- */
-@media (max-width: 767px) { /* Mobile breakpoint */
+
+/* Telas menores (Mobile) */
+@media (max-width: 767px) {
   .featuresContainer {
-    padding: 3rem 1rem; /* Adjust padding */
+    padding: 3rem 1rem;
   }
 
   .categoriesNav {
-    flex-direction: row; /* Keep as row but allow wrap */
-    justify-content: center; /* Center buttons */
     margin-bottom: 2rem;
   }
 
   .categoryButton {
-    padding: 0.6rem 1.2rem; /* Adjust padding */
+    padding: 0.6rem 1.2rem;
     font-size: 0.9rem;
   }
 
-  .featuresLayout {
-     display: none; /* Hide desktop layout */
+  .carousel {
+    max-width: 100%; /* Ocupa toda a largura */
+    padding-left: 1rem; /* Ajuste para alinhar o primeiro card */
+    padding-right: 1rem; /* Ajuste para alinhar o último card */
+    gap: 1rem;
   }
 
-  /* Show mobile carousel container */
-  .mobileCarouselContainer {
-     display: block;
+  .featureCard {
+    width: 85%; /* Um card visível por vez */
+    min-width: 280px;
+    scroll-snap-align: center;
   }
 
-   /* Adjust arrow position for smaller screens */
-  .carouselArrowLeft {
-    left: 5px;
-  }
-  .carouselArrowRight {
-    right: 5px;
+  /* Esconder setas no mobile (scroll por toque é o padrão) */
+  .carouselArrow {
+    display: none;
   }
 }
 
-@media (min-width: 768px) {
-   /* Hide mobile carousel container on desktop */
-  .mobileCarouselContainer {
-     display: none;
-  }
-}
-
-/* Adjustments for tablets if needed */
+/* Telas médias (Tablet) */
 @media (min-width: 768px) and (max-width: 1024px) {
-  .featuresLayout {
-    gap: 1rem; /* Reduce gap */
-    justify-content: center; /* Ensure centering */
+  .carousel {
+    max-width: calc(100% - 90px); /* Espaço para setas */
   }
+
   .featureCard {
-    width: calc(50% - 1rem); /* Two cards per row */
-    min-width: 300px; /* Prevent cards from becoming too small */
+    width: calc(50% - 0.75rem); /* Dois cards visíveis */
+    min-width: 300px;
+    scroll-snap-align: start; /* Alinha pelo início */
   }
 }
 
+/* Telas grandes (Desktop) */
 @media (min-width: 1025px) {
-  .featuresLayout {
-    justify-content: center; /* Ensure centering */
+  .carousel {
+    max-width: 1100px; /* Limite máximo para o carrossel */
+    /* Ajuste a max-width conforme o número de cards desejado */
   }
-   /* Handle case with 2 cards specifically on larger desktops */
-  .featuresLayout[data-items-count="2"] {
-      justify-content: center;
-      /* Optionally set max-width for the container */
-      /* max-width: calc(320px * 2 + 1.5rem); */
-  }
+
   .featureCard {
-     width: 320px; /* Maintain fixed width */
+    width: 320px; /* Largura fixa para 3+ cards */
+    scroll-snap-align: start;
   }
 }
+

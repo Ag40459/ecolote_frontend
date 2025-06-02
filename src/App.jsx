@@ -10,7 +10,6 @@ import About from './components/About/About';
 import Features from './components/Features/Features';
 import HowItWorks from './components/HowItWorks/HowItWorks';
 import SolarEnergySimulator from './components/SolarEnergySimulator/SolarEnergySimulator';
-import Payment from './components/Payment/Payment';
 import Contact from './components/Contact/Contact';
 import Footer from './components/Footer/Footer';
 import AdminDashboardPage from './components/Admin/AdminDashboardPage'; 
@@ -18,7 +17,9 @@ import ProtectedRoute from './components/Admin/ProtectedRoute';
 import AuthModal from './components/AuthModal/AuthModal';
 import ScrollToTopButton from './components/UI/ScrollToTopButton'; 
 import ScrollToTop from './components/UI/ScrollToTop';
-import FAQ from './components/Faq/FAQ'
+import FAQ from './components/Faq/FAQ';
+import AnimatedBackground from './components/UI/AnimatedBackground/AnimatedBackground';
+
 
 const MainLayout = ({ isAuthModalOpen, setIsAuthModalOpen }) => {
   // Adicionar useEffect para garantir que a página inicie no topo
@@ -28,6 +29,7 @@ const MainLayout = ({ isAuthModalOpen, setIsAuthModalOpen }) => {
 
   return (
     <>
+      <AnimatedBackground />
       <Navbar openAuthModal={() => setIsAuthModalOpen(true)} />
       <main>
         <Hero />
@@ -35,7 +37,6 @@ const MainLayout = ({ isAuthModalOpen, setIsAuthModalOpen }) => {
         <Features />
         <HowItWorks />
         <SolarEnergySimulator />
-        <Payment />
         <Contact />
       </main>
       <Footer />

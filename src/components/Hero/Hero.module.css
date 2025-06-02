@@ -7,126 +7,11 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  color: var(--text-color, white); /* Use theme variable */
-  background-color: var(--background-color, #121212); /* Use theme variable */
+  background-color: color-mix(in srgb, var(--background-color), transparent 50%);
   overflow: hidden;
   width: 100%;
 }
 
-/* Container for the animated blobs */
-.blobContainer {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  z-index: 0; /* Behind dots and content */
-  filter: blur(80px); /* Soften the blobs */
-  opacity: var(--blob-opacity, 0.6); /* Control blob visibility via theme */
-}
-
-.blob {
-  position: absolute;
-  border-radius: 50%; /* Start as circles */
-  mix-blend-mode: screen; /* Blend blobs for interesting color mixing, adjust as needed */
-  will-change: transform, border-radius; /* Optimize animation */
-}
-
-/* Define individual blob styles and animations */
-.blob1 {
-  width: 400px;
-  height: 400px;
-  background: var(--blob-color-1, radial-gradient(circle, #ff7e5f, #feb47b)); /* Theme variable */
-  top: 10%;
-  left: 10%;
-  animation: moveBlob1 25s infinite alternate ease-in-out;
-}
-
-.blob2 {
-  width: 300px;
-  height: 300px;
-  background: var(--blob-color-2, radial-gradient(circle, #6a11cb, #2575fc)); /* Theme variable */
-  top: 60%;
-  left: 70%;
-  animation: moveBlob2 30s infinite alternate ease-in-out;
-  animation-delay: -5s; /* Offset animation start */
-}
-
-.blob3 {
-  width: 350px;
-  height: 350px;
-  background: var(--blob-color-3, radial-gradient(circle, #30cfd0, #330867)); /* Theme variable */
-  top: 40%;
-  left: 40%;
-  animation: moveBlob3 20s infinite alternate ease-in-out;
-  animation-delay: -10s; /* Offset animation start */
-}
-
-/* Keyframes for blob movement and morphing */
-@keyframes moveBlob1 {
-  0% {
-    transform: translate(0, 0) scale(1);
-    border-radius: 50% 60% 70% 40% / 60% 50% 40% 70%;
-  }
-  50% {
-    transform: translate(100px, 150px) scale(1.2);
-    border-radius: 40% 70% 50% 60% / 70% 40% 60% 50%;
-  }
-  100% {
-    transform: translate(-50px, 50px) scale(0.9);
-    border-radius: 60% 50% 70% 40% / 50% 60% 40% 70%;
-  }
-}
-
-@keyframes moveBlob2 {
-  0% {
-    transform: translate(0, 0) scale(1);
-    border-radius: 65% 35% 45% 55% / 55% 65% 35% 45%;
-  }
-  50% {
-    transform: translate(-150px, -100px) scale(1.1);
-    border-radius: 55% 45% 65% 35% / 45% 55% 35% 65%;
-  }
-  100% {
-    transform: translate(50px, -50px) scale(1);
-    border-radius: 35% 65% 55% 45% / 65% 35% 45% 55%;
-  }
-}
-
-@keyframes moveBlob3 {
-  0% {
-    transform: translate(0, 0) scale(1);
-    border-radius: 40% 60% 50% 50% / 60% 40% 50% 50%;
-  }
-  50% {
-    transform: translate(80px, -120px) scale(0.9);
-    border-radius: 50% 50% 40% 60% / 50% 50% 60% 40%;
-  }
-  100% {
-    transform: translate(-80px, 100px) scale(1.1);
-    border-radius: 60% 40% 50% 50% / 40% 60% 50% 50%;
-  }
-}
-
-/* Overlay for the subtle dot pattern */
-.dotsOverlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: transparent;
-  background-image: radial-gradient(
-    var(--dot-color, rgba(255, 255, 255, 0.1)) var(--dot-size, 1px), /* Use theme variables */
-    transparent var(--dot-size, 1px)
-  );
-  background-size: var(--dot-spacing, 15px) var(--dot-spacing, 15px); /* Use theme variables */
-  z-index: 1; /* Above blobs, below content */
-  pointer-events: none; /* Allow clicks through */
-}
-
-/* Content styling - Ensure it uses theme variables */
 .heroContent {
   position: relative;
   z-index: 2; /* Above blobs and dots */
@@ -135,9 +20,6 @@
   padding: 0 20px;
 }
 
-/* --- Existing Styles (Ensure Theme Variables are Used) --- */
-
-/* Animações para textos (mantidas) */
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -193,8 +75,9 @@
 }
 
 .heroSubtitle {
-  font-size: clamp(1rem, 3vw, 1.125rem);
+  font-size: clamp(1.2rem, 3vw, 5rem);
   line-height: 1.6;
+  text-align: justify;
   margin-bottom: 2rem;
   max-width: 800px;
   margin-left: auto;
@@ -202,7 +85,6 @@
   color: var(--text-secondary-color, var(--text-color, white)); /* Use theme variable */
   white-space: pre-wrap;
   min-height: 4.8em; /* Altura para 3 linhas aproximadamente */
-  /* animation: fadeInUp 0.8s ease forwards 0.2s; */ /* Consider removing if causing issues with carousel */
 }
 
 /* Carousel Controls - Use theme variables */

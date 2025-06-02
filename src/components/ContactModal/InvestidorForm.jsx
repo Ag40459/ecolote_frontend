@@ -1,117 +1,146 @@
-import { useState, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
 import styles from './ContactModal.module.css';
 import { valorInvestimentoOptions } from '../../config/formConfig';
-import { fetchEstados, fetchCidades } from '../../utils/cepService';
-import { formatPhone } from '../../utils/formatters';
+import { fetchCNPJData } from '../../utils/cnpjService';
+import { formatPhone, formatCep } from '../../utils/formatters';
+import { useEffect } from 'react';
 
-const InvestidorForm = ({ formData }) => {
-  const [estados, setEstados] = useState([]);
-  const [cidades, setCidades] = useState([]);
+const InvestidorForm = ({ onSubmitTrigger }) => {
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    watch,
+    formState: { errors },
+    setError,
+    clearErrors,
+    trigger
+  } = useForm({
+    defaultValues: {
+      invNome: '',
+      invEmail: '',
+      invTelefone: '',
+      invCep: '',
+      invCidade: '',
+      invEstado: '',
+      invValorInvestimento: '',
+    }
+  });
+
+  const handleFormSubmit = (data) => {
+    console.log('Dados do formulário Investidor:', data);
+  };
 
   useEffect(() => {
-    const carregarEstados = async () => {
-      const estadosData = await fetchEstados();
-      setEstados(estadosData);
-    };
-    carregarEstados();
-  }, []);
+    if (onSubmitTrigger) {
+      onSubmitTrigger(() => handleSubmit(handleFormSubmit)());
+    }
+  }, [onSubmitTrigger, handleSubmit]);
 
-  useEffect(() => {
-    const carregarCidades = async () => {
-      if (formData.invEstado) {
-        const cidadesData = await fetchCidades(formData.invEstado);
-        setCidades(cidadesData);
-      } else {
-        setCidades([]);
+  const handleCepBlur = async (e) => {
+    const cepRaw = e.target.value;
+    const cep = cepRaw.replace(/\D/g, '');
+
+    if (cep.length === 8) {
+      clearErrors('invCep');
+      try {
+        const address = await fetchCNPJData(cep);
+        if (address && !address.erro) {
+          setValue('invCidade', address.localidade, { shouldDirty: true, shouldValidate: false });
+          setValue('invEstado', address.uf, { shouldDirty: true, shouldValidate: false });
+        } else {
+          setError('invCep', {
+            type: 'manual',
+            message: 'CEP não encontrado ou inválido',
+          });
+          setValue('invCidade', '', { shouldDirty: true });
+          setValue('invEstado', '', { shouldDirty: true });
+        }
+      } catch (error) {
+        console.error('Erro ao buscar CEP:', error);
+        setError('invCep', {
+          type: 'manual',
+          message: 'Erro ao buscar CEP. Tente novamente.',
+        });
+         setValue('invCidade', '', { shouldDirty: true });
+         setValue('invEstado', '', { shouldDirty: true });
       }
-    };
-    carregarCidades();
-  }, [formData.invEstado]);
+    } else if (cepRaw.length > 0) {
+        setValue('invCidade', '', { shouldDirty: true });
+        setValue('invEstado', '', { shouldDirty: true });
+    }
+  };
 
   return (
     <>
       <div className={styles.formGroup}>
-        <label htmlFor="invNome">Nome Completo:</label>
         <input
-          type="text"
           id="invNome"
-          value={formData.invNome || ''}
-          onChange={(e) => formData.setInvNome(e.target.value)}
-          required
+          type="text"
+          className={styles.formInput}
+          placeholder="Seu Nome"
+          {...register('invNome', { required: 'Nome é obrigatório' })}
         />
+        {errors.invNome && <span className={styles.error}>{errors.invNome.message}</span>}
       </div>
 
       <div className={styles.formGroup}>
-        <label htmlFor="invEmail">Email:</label>
         <input
-          type="email"
           id="invEmail"
-          value={formData.invEmail || ''}
-          onChange={(e) => formData.setInvEmail(e.target.value)}
-          required
+          type="email"
+          className={styles.formInput}
+          placeholder="Email"
+          {...register('invEmail', {
+            required: 'Email é obrigatório',
+            pattern: { value: /^\S+@\S+$/i, message: 'Formato de email inválido' },
+          })}
         />
+        {errors.invEmail && <span className={styles.error}>{errors.invEmail.message}</span>}
       </div>
 
       <div className={styles.formGroup}>
-        <label htmlFor="invTelefone">Telefone:</label>
         <input
-          type="tel"
           id="invTelefone"
-          name="invTelefone"
-          value={formData.invTelefone || ''}
-          onChange={(e) => formData.setInvTelefone(formatPhone(e.target.value))}
-          required
+          type="tel"
+          className={styles.formInput}
+          maxLength={15}
+          placeholder="(00) 00000-0000 - Telefone"
+          {...register('invTelefone', {
+            required: 'Telefone é obrigatório',
+            onChange: (e) => {
+              const formatted = formatPhone(e.target.value);
+              setValue('invTelefone', formatted, { shouldValidate: false, shouldDirty: true });
+            },
+          })}
         />
+        {errors.invTelefone && <span className={styles.error}>{errors.invTelefone.message}</span>}
       </div>
 
       <div className={styles.formGroup}>
-        <label htmlFor="invEstado">Estado (UF):</label>
-        <select
-          id="invEstado"
-          value={formData.invEstado || ''}
-          onChange={async (e) => {
-            const uf = e.target.value;
-            formData.setInvEstado(uf);
-            formData.setInvCidade('');
-            const cidadesData = await fetchCidades(uf);
-            setCidades(cidadesData);
-          }}
-          required
-        >
-          <option value="">Selecione o estado</option>
-          {estados.map((estado) => (
-            <option key={estado.sigla} value={estado.sigla}>
-              {estado.nome}
-            </option>
-          ))}
-        </select>
+        <input
+          id="invCep"
+          type="tel"
+          className={styles.formInput}
+          maxLength={9}
+          placeholder="00000-000"
+          {...register('invCep', {
+            required: 'CEP é obrigatório',
+            pattern: { value: /^\d{5}-\d{3}$/, message: 'Formato de CEP inválido (00000-000)' },
+            onChange: (e) => {
+              const formatted = formatCep(e.target.value);
+              setValue('invCep', formatted, { shouldValidate: false, shouldDirty: true });
+            },
+            onBlur: handleCepBlur,
+          })}
+        />
+        {errors.invCep && <span className={styles.error}>{errors.invCep.message}</span>}
       </div>
 
       <div className={styles.formGroup}>
-        <label htmlFor="invCidade">Cidade:</label>
-        <select
-          id="invCidade"
-          value={formData.invCidade || ''}
-          onChange={(e) => formData.setInvCidade(e.target.value)}
-          required
-          disabled={!formData.invEstado}
-        >
-          <option value="">Selecione a cidade</option>
-          {cidades.map((cidade) => (
-            <option key={cidade} value={cidade}>
-              {cidade}
-            </option>
-          ))}
-        </select>
-      </div>
-
-      <div className={styles.formGroup}>
-        <label htmlFor="invValorInvestimento">Valor desejado para investimento:</label>
         <select
           id="invValorInvestimento"
-          value={formData.invValorInvestimento || ''}
-          onChange={(e) => formData.setInvValorInvestimento(e.target.value)}
-          required
+          className={styles.formInput}
+          {...register('invValorInvestimento', { required: 'Selecione um valor de investimento' })}
         >
           {valorInvestimentoOptions.map(option => (
             <option key={option.value} value={option.value}>
@@ -119,9 +148,13 @@ const InvestidorForm = ({ formData }) => {
             </option>
           ))}
         </select>
+        {errors.invValorInvestimento && <span className={styles.error}>{errors.invValorInvestimento.message}</span>}
       </div>
+
+      {/* O botão de submit deve estar no formulário pai (ContactModal) */}
     </>
   );
 };
 
 export default InvestidorForm;
+

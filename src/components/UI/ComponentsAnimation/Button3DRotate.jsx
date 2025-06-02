@@ -1,4 +1,3 @@
-import React from 'react';
 import styles from './Button3DRotate.module.css';
 
 const Button3DRotate = ({ text = "Quero Fazer Parte", link = "#contact" }) => {

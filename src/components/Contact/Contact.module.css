@@ -2,33 +2,20 @@
   position: relative;
   padding: 80px 0;
   overflow: hidden;
-  /* Cor de fundo deve vir do tema global ou ser definida por var() */
-  background-color: var(--secondary-bg-color, #e3e9e3); /* Usando variável de tema */
+    background-color: color-mix(in srgb, var(--background-color), transparent 50%);
   transition: opacity 0.5s ease;
 }
 
-.contactBackground, .energyWaves, .wave, .solarParticles, .particle {
-  /* Estilos de fundo e animações mantidos como no original */
-  /* Garantir que cores usadas em backgrounds/gradients usem var() se aplicável */
-}
-
-/* Ajuste na cor de fundo da onda para usar variável, se existir uma apropriada, ou manter como está se for design específico */
 .wave {
-  /* ... outros estilos ... */
-  /* Exemplo: fill="%2328a745" poderia ser fill="var(--accent-color-green-url-encoded, %2328a745)" se você definir essa variável */
   background: url("data:image/svg+xml;utf8,<svg viewBox=\"0 0 1200 120\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M0 0v46.29c47.79 22.2 103.59 32.17 158 28 70.36-5.37 136.33-33.31 206.8-37.5 73.84-4.36 147.54 16.88 218.2 35.26 69.27 18.17 138.3 24.88 209.4 13.08 36.15-6 69.85-17.84 104.45-29.34C989.49 25 1113-14.29 1200 52.47V0z\" fill=\"var(--accent-color-green-url-encoded, %2328a745)\" opacity=\".15\"/></svg>");
   background-size: 1200px 100%;
   animation: waveAnimation 15s linear infinite;
 }
 
 .particle {
-   /* ... outros estilos ... */
-   /* Usar var() para a cor do gradiente se desejado */
   background: radial-gradient(circle, var(--primary-color-light-rgba, rgba(255, 215, 0, 0.8)) 0%, var(--primary-color-transparent-rgba, rgba(255, 215, 0, 0)) 70%);
-  /* ... */
 }
 
-/* Container e Grid */
 .contactContainer {
   position: relative;
   z-index: 1;
@@ -278,7 +265,7 @@
 
 .tagline {
   font-size: 1.2rem;
-  color: var(--accent-color-green, #28a745);
+      color: var(--text-color, black);
   display: flex;
   align-items: center;
   justify-content: center;

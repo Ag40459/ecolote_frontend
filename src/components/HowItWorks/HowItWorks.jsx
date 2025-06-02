@@ -103,7 +103,7 @@ const HowItWorks = () => {
   return (
     <section
       id="how-it-works"
-      className={`${styles.container} ${styles.animatedGradientBackground}`}
+      className={`${styles.container}`}
       onMouseEnter={() => setIsPaused(true)} // Pause on hover over the whole section
       onMouseLeave={() => setIsPaused(false)}
     >

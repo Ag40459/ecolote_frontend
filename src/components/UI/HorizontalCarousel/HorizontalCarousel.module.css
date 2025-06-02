@@ -1,18 +1,19 @@
 .carouselContainer {
   position: relative;
   width: 100%;
-  padding: 0 40px;
   margin: 20px 0;
+  overflow: hidden; /* Hide overflow on the container */
 }
 
 .carouselTrack {
-  display: grid;
-  grid-auto-flow: column;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
+  display: flex; /* Use flexbox */
+  overflow-x: auto; /* Enable horizontal scrolling */
+  scroll-snap-type: x mandatory; /* Enable snapping */
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE/Edge */
-  padding: 10px 0;
+  padding: 10px 0; /* Add some vertical padding if needed */
+  margin: 0;
+  list-style: none;
 }
 
 .carouselTrack::-webkit-scrollbar {
@@ -20,12 +21,10 @@
 }
 
 .carouselItem {
-  scroll-snap-align: start;
-  transition: transform 0.3s ease;
-}
-
-.carouselItem:hover {
-  transform: translateY(-5px);
+  flex: 0 0 100%; /* Make item take full width of the container */
+  scroll-snap-align: center; /* Snap to center */
+  box-sizing: border-box;
+  padding: 0 10px; /* Add some horizontal padding around the item */
 }
 
 .navButton {
@@ -33,10 +32,10 @@
   top: 50%;
   transform: translateY(-50%);
   z-index: 2;
-  width: 40px;
-  height: 40px;
+  width: 35px; /* Slightly smaller */
+  height: 35px;
   border-radius: 50%;
-  background: var(--primary-color, #0a9396);
+  background: rgba(var(--primary-rgb, 10, 147, 150), 0.7); /* Use theme color with transparency */
   color: white;
   border: none;
   cursor: pointer;
@@ -48,7 +47,7 @@
 }
 
 .navButton:hover {
-  background: var(--secondary-color, #005f73);
+  background: rgba(var(--secondary-rgb, 0, 95, 115), 0.9);
   transform: translateY(-50%) scale(1.1);
 }
 
@@ -59,25 +58,25 @@
 }
 
 .prevButton {
-  left: 0;
+  left: 5px; /* Adjusted position */
 }
 
 .nextButton {
-  right: 0;
+  right: 5px; /* Adjusted position */
 }
 
 .paginationDots {
   display: flex;
   justify-content: center;
-  margin-top: 20px;
+  margin-top: 15px; /* Reduced margin */
 }
 
 .paginationDot {
-  width: 10px;
-  height: 10px;
+  width: 8px; /* Slightly smaller */
+  height: 8px;
   border-radius: 50%;
   background: #ccc;
-  margin: 0 5px;
+  margin: 0 4px;
   border: none;
   cursor: pointer;
   padding: 0;
@@ -89,29 +88,14 @@
   transform: scale(1.2);
 }
 
+/* Hide scroll indicator as it's less useful for 1-item view */
 .scrollIndicator {
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  animation: pulseRight 1.5s infinite;
-  opacity: 0.7;
-  color: var(--primary-color, #0a9396);
-  font-size: 24px;
+ display: none;
 }
 
-@keyframes pulseRight {
-  0% { transform: translateY(-50%) translateX(0); opacity: 0.7; }
-  50% { transform: translateY(-50%) translateX(10px); opacity: 1; }
-  100% { transform: translateY(-50%) translateX(0); opacity: 0.7; }
-}
-
-/* Responsividade */
+/* No specific responsive adjustments needed for container padding anymore */
+/* Media queries for button size can remain if desired */
 @media (max-width: 768px) {
-  .carouselContainer {
-    padding: 0 30px;
-  }
-  
   .navButton {
     width: 30px;
     height: 30px;
@@ -119,12 +103,12 @@
 }
 
 @media (max-width: 480px) {
-  .carouselContainer {
-    padding: 0 25px;
-  }
-  
   .navButton {
     width: 25px;
     height: 25px;
   }
+  .carouselItem {
+     padding: 0 5px; /* Reduce padding on very small screens */
+  }
 }
+

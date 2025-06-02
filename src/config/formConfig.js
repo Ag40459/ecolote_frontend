@@ -10,21 +10,21 @@ export const modelosImovelPF = [
 
 export const mediaContaEnergiaOptions = [
   { value: "", label: "Selecione..." },
-  { value: "até R$300", label: "Até R$300" },
-  { value: "até R$450", label: "Até R$450" },
-  { value: "até R$750", label: "Até R$750" },
-  { value: "acima de R$750", label: "Acima de R$750" },
+  { value: "até R$300", label: "Até R$ 300" },
+  { value: "até R$450", label: "Até R$ 450" },
+  { value: "até R$750", label: "Até R$ 750" },
+  { value: "acima de R$750", label: "Acima de R$ 750" },
 ];
 
 export const pretensaoPagamentoOptions = [
-  { value: "", label: "Selecione..." },
+  { value: "", label: "Pretenção de Pagamento" },
   { value: "à vista", label: "À vista" },
   { value: "cartão", label: "Cartão" },
   { value: "financiamento", label: "Financiamento" },
 ];
 
 export const modelosImovelPJ = [
-  { value: "", label: "Selecione..." },
+  { value: "", label: "Selecione Tipo de Estrutura" },
   { value: "Casa / Residência adaptada", label: "Casa / Residência adaptada" },
   { value: "Apartamento / Sala comercial", label: "Apartamento / Sala comercial" },
   { value: "Sala / Loja em galeria ou rua", label: "Sala / Loja em galeria ou rua" },
@@ -35,10 +35,10 @@ export const modelosImovelPJ = [
 ];
 
 export const valorInvestimentoOptions = [
-  { value: "", label: "Selecione..." },
-  { value: "até 5.000", label: "Até R$5.000" },
-  { value: "até 10.000", label: "Até R$10.000" },
-  { value: "até 25.000", label: "Até R$25.000" },
-  { value: "acima de 25.000", label: "Acima de R$25.000" },
+  { value: "", label: "Valor que Deseja Investir" },
+  { value: "até 14.000", label: "Até R$ 14.000" },
+  { value: "até 28.000", label: "Até R$ 28.000" },
+  { value: "até 40.000", label: "Até R$ 40.000" },
+  { value: "acima de 40.000", label: "Acima de R$ 40.000" },
 ];
 

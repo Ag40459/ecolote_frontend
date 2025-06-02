@@ -21,7 +21,7 @@ const Hero = () => {
     },
     {
       title: "Sua Usina Solar Sem Custo Adicional? Sim!",
-      content: " É simples: troque o gasto mensal da sua conta de luz pela parcela da sua própria usina solar. Energia limpa e economia real, sem precisar tirar R$1 do bolso para começar."
+      content: " É simples: Não tem entrada, não tem gasto inicial. Troque o gasto mensal da sua conta de luz pela parcela da sua própria usina solar."
     },
     {
       title: " Sua Mini Usina Solar Remota",
@@ -118,17 +118,7 @@ const Hero = () => {
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
     >
-      {/* Container para os blobs animados */}
-      <div className={styles.blobContainer}>
-        <div className={`${styles.blob} ${styles.blob1}`}></div>
-        <div className={`${styles.blob} ${styles.blob2}`}></div>
-        <div className={`${styles.blob} ${styles.blob3}`}></div>
-      </div>
-
-      {/* Overlay com padrão de pontos (usando pseudo-elemento) */}
-      <div className={styles.dotsOverlay}></div>
-
-      {/* Conteúdo principal */}
+               {/* Conteúdo principal */}
       <div className={`${styles.heroContent} container`}>
         <div className={styles.slideContent}>
           <h1 className={styles.heroTitle}>{slides[currentSlide].title}</h1>
@@ -168,7 +158,7 @@ const Hero = () => {
           </button>
         </div>
 
-        <Button3DRotate text="Quero Fazer Parte" link="#contact" />
+        <Button3DRotate text="Quero Fazer Parte" link="#contact"  />
 
         <div className={styles.quickSimulator}>
           <button 

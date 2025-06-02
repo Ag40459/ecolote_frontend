@@ -2,18 +2,17 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 // Use the rewritten CSS module
-import styles from './Navbar.module.css'; // IMPORTANT: Update import path if needed
+import styles from './Navbar.module.css'; 
 
-// Define themes with display names and potentially logo names
 const themes = [
-  { name: 'light', displayName: 'Claro', logoName: 'Ecolote Sol' }, // Example logo names
+  { name: 'light', displayName: 'Claro', logoName: 'Ecolote Sol' }, 
   { name: 'dark', displayName: 'Escuro', logoName: 'Ecolote Noite' },
   { name: 'nature', displayName: 'Natureza', logoName: 'Ecolote Flora' },
   { name: 'ocean', displayName: 'Oceano', logoName: 'Ecolote Mar' },
   { name: 'fire', displayName: 'Fogo', logoName: 'Ecolote Chama' },
 ];
 
-// Function to apply theme class to body
+// Function to apply theme class to body 
 const applyTheme = (themeName) => {
   // Clear existing theme classes more robustly
   document.body.className = document.body.className

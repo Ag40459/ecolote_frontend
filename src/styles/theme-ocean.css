@@ -1,90 +1,87 @@
 .theme-ocean {
-  --accent-color: #7C4DFF;
-  --accent-color-gold: #FFB300;
-  --accent-color-gold-rgb: 255, 179, 0;
-  --accent-color-green: #66BB6A;
-  --accent-color-green-rgb: 102, 187, 106;
-  --accent-color-rgb: 124, 77, 255;
-  --background-color: #B3E5FC;
-  --background-color-rgb: 250, 250, 250;
-  --border-color: #E0E0E0;
-  --border-color-rgb: 224, 224, 224;
-  --card-bg: var(--card-bg-light);
-  --card-bg-dark: rgba(255, 255, 255, 0.05);
-  --card-bg-light: rgba(76, 175, 80, 0.05);
-  --card-bg-rgb: 255, 255, 255;
-  --card-description-align: justify;
-  --card-icon-fill: var(--text-color);
-  --divider-color: #EEEEEE;
-  --divider-color-rgb: 238, 238, 238;
-  --error-color: #FF4081;
-  --error-color-rgb: 255, 64, 129;
-  --footer-bg-color: #121212;
-  --footer-bg-color-rgb: 18, 18, 18;
-  --footer-text-color: #E0E0E0;
-  --footer-text-color-rgb: 224, 224, 224;
-  --info-color: #40C4FF;
-  --info-color-rgb: 64, 196, 255;
-  --input-bg: #F5F5F5;
-  --input-bg-rgb: 245, 245, 245;
-  --input-border: #E0E0E0;
-  --input-border-rgb: 224, 224, 224;
-  --liner-division-color: rgba(239, 231, 231, 0.991);
-  --link-color: #1565C0;
-  --link-color-rgb: 21, 101, 192;
-  --modal-bg: #FFFFFF;
-  --modal-bg-rgb: 255, 255, 255;
-  --navbar-bg-color: #1E1E1E;
-  --navbar-bg-color-rgb: 30, 30, 30;
-  --navbar-text-color: #E0E0E0;
-  --navbar-text-color-rgb: 224, 224, 224;
-  --primary-bg-color: #FAFAFA;
-  --primary-bg-color-rgb: 250, 250, 250;
-  --primary-color: #2196F3;
-  --primary-color-dark: #1976D2;
-  --primary-color-dark-rgb: 25, 118, 210;
-  --primary-color-light: #64B5F6;
-  --primary-color-light-rgb: 100, 181, 246;
-  --primary-color-rgb: 33, 150, 243;
-  --resend-button-color: #1565C0;
-  --resend-button-color-rgb: 21, 101, 192;
-  --resend-button-hover: #0D47A1;
-  --resend-button-hover-rgb: 13, 71, 161;
-  --resend-link-color: #1565C0;
-  --resend-link-color-rgb: 21, 101, 192;
-  --resend-link-hover: #0D47A1;
-  --resend-link-hover-rgb: 13, 71, 161;
-  --secondary-bg-color: #E3F2FD;
-  --secondary-bg-color-rgb: 227, 242, 253;
-  --secondary-color: #00BCD4;
-  --secondary-color-dark: #0097A7;
-  --secondary-color-dark-rgb: 0, 151, 167;
-  --secondary-color-light: #4DD0E1;
-  --secondary-color-light-rgb: 77, 208, 225;
-  --secondary-color-rgb: 0, 188, 212;
-  --shadow-lg: 0 10px 25px rgba(33, 150, 243, 0.1);
-  --shadow-md: 0 5px 15px rgba(33, 150, 243, 0.1);
-  --shadow-sm: 0 2px 5px rgba(33, 150, 243, 0.1);
-  --submit-button-bg: #1976D2;
-  --submit-button-bg-rgb: 25, 118, 210;
-  --submit-button-text: #FFFFFF;
-  --submit-button-text-rgb: 255, 255, 255;
-  --success-color: #00E5FF;
-  --success-color-rgb: 0, 229, 255;
-  --text-color: #263238;
-  --text-color-rgb: 38, 50, 56;
-  --text-light: #90A4AE;
-  --text-light-rgb: 144, 164, 174;
-  --text-secondary: #455A64;
-  --text-secondary-dark: rgba(255, 255, 255, 0.85);
-  --text-secondary-light: rgba(0, 0, 0, 0.75);
-  --text-secondary-rgb: 69, 90, 100;
-  --warning-color: #FFAB40;
-  --warning-color-rgb: 255, 171, 64;
+   /* Backgrounds */
+  --primary-bg-color: #003366; /* Azul Marinho Profundo */
+  --secondary-bg-color: #00507A; /* Azul um pouco mais claro */
+  --background-color: #001F3F; /* Azul Noite (base mais escura) */
+  --card-bg: #004070; /* Fundo dos cards (azul escuro) */
+  --modal-bg: #00507A;
+  --footer-bg-color: #001020; /* Footer quase preto */
+  --navbar-bg-color: #00254D;
+  --input-bg: #005580;
+
+  /* Text Colors */
+  --text-color: #E0F7FA; /* Texto principal (ciano muito claro) */
+  --text-secondary: #B2EBF2; /* Texto secundário (ciano claro) */
+  --text-light: #80DEEA; /* Texto mais sutil (ciano médio) */
+  --footer-text-color: #B2EBF2;
+  --navbar-text-color: #E0F7FA;
+  --submit-button-text: #001F3F; /* Texto escuro para botões claros */
+  --button-text-color: #001F3F;
+  --placeholder-color: #80DEEA;
+
+  /* Primary & Secondary (Vibrantes) */
+  --primary-color: #00FFFF; /* Ciano Elétrico */
+  --primary-color-dark: #00E5EE; /* Turquesa Escuro */
+  --primary-color-light: #A7FFEB; /* Verde Água Claro */
+  --secondary-color: #FF7F50; /* Coral Vibrante */
+  --secondary-color-dark: #FF6347; /* Tomate */
+  --secondary-color-light: #FFA07A; /* Salmão Claro */
+
+  /* Accent Colors */
+  --accent-color: var(--primary-color); /* Ciano como acento principal */
+  --accent-color-gold: #FFD700; /* Amarelo Brilhante */
+  --accent-color-green: #7FFFD4; /* Verde Água */
+  --link-color: #A7FFEB; /* Link verde água claro */
+
+  /* Borders & Dividers */
+  --border-color: #0077A0; /* Azul médio para bordas */
+  --input-border: #0090C0;
+  --divider-color: #00608A;
+  --liner-division-color: #00608A;
+
+  /* Status Colors */
+  --error-color: #FF8A80; /* Vermelho coral claro para erro */
+  --success-color: #B9F6CA; /* Verde menta claro para sucesso */
+  --warning-color: #FFD700; /* Amarelo brilhante para aviso */
+  --info-color: #80DEEA; /* Ciano médio para info */
+
+  /* Shadows (Sutis em fundo escuro) */
+  --shadow-sm: 0 2px 5px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 5px 15px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.4);
+
+  /* Specific Component Colors */
+  --submit-button-bg: var(--primary-color); /* Botão de submit ciano */
+  --resend-button-color: var(--secondary-color); /* Botão reenviar coral */
+  --resend-button-hover: var(--secondary-color-dark);
+  --resend-link-color: var(--secondary-color-light);
+  --resend-link-hover: var(--secondary-color);
+
+  /* Variables for animated background (if used) */
+  --dot-color: rgba(0, 255, 255, 0.08); /* Pontos ciano bem sutis */
+  --dot-size: 1px;
+  --dot-spacing: 20px;
+  --blob-color-1: radial-gradient(circle, #00FFFF, #FF7F50);
+  --blob-color-2: radial-gradient(circle, #00E5EE, #FF6347);
+  --blob-color-3: radial-gradient(circle, #FFD700, #7FFFD4);
+  --blob-opacity: 0.4;
+  --blob-filter: blur(60px);
+  --pattern-color: rgba(0, 255, 255, 0.1); /* Padrão ciano sutil */
+  --pattern-opacity: 0.05;
+  --particle-color: rgba(127, 255, 212, 0.5); /* Partículas verde água */
+
+  /* Outras variáveis (manter estrutura) */
+  --card-bg-dark: rgba(0, 31, 63, 0.1);
+  --card-bg-light: rgba(0, 255, 255, 0.05);
+  --card-bg-color: var(--card-bg);
+  --card-description-align: left;
+  --card-icon-fill: var(--primary-color);
+  --text-secondary-dark: rgba(224, 247, 250, 0.85);
+  --text-secondary-light: rgba(178, 235, 242, 0.75);
 }
 
 body.ocean-theme {
   --dot-color-expanded: rgba(3, 169, 244, 0.6); 
   --dot-color-contracted: rgba(3, 169, 244, 0.2); 
   --shadow-color: rgba(0, 0, 139, 0.3);
-  }
+}

@@ -1,11 +1,2 @@
-/* About.module.css (Novo - Ponto de Entrada) */
-
-@import './AboutCss/AboutLayout.module.css';
-@import './AboutCss/AboutBackground.module.css';
-@import './AboutCss/AboutImage.module.css';
-@import './AboutCss/AboutTabs.module.css';
-@import './AboutCss/AboutCarousel.module.css';
-@import './AboutCss/AboutProfiles.module.css';
-@import './AboutCss/AboutAnimations.module.css';
-@import './AboutCss/AboutResponsive.module.css';
-
+@import './AboutLayout.module.css';
+@import './AboutComponents.module.css';

@@ -52,7 +52,7 @@ const AdminRegisterPageContent = ({ switchToLogin, onClose }) => {
             <h2>Cadastrar Novo Administrador</h2>
             <form onSubmit={handleSubmit}>
                 <div className={modalStyles.formGroup}>
-                    <label htmlFor="reg-nomeCompleto">Nome Completo:</label>
+                    <label htmlFor="reg-nomeCompleto">Nome:</label>
                     <input
                         type="text"
                         id="reg-nomeCompleto"

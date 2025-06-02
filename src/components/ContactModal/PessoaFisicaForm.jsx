@@ -1,10 +1,11 @@
 import { useEffect } from 'react';
 import styles from './ContactModal.module.css';
-import { formatPhone, formatCep,onlyNumbers  } from '../../utils/formatters';
-import { formatCurrency } from '../../utils/calc';
+import { useForm, Controller } from 'react-hook-form';
+import { NumericFormat } from 'react-number-format';
+import { formatPhone, formatCep } from '../../utils/formatters';
 
 const modelosImovelPF = [
-  { value: "", label: "Selecione o modelo" },
+  { value: "", label: "Tipo de Moradia" },
   { value: "Casa", label: "Casa" },
   { value: "Apartamento", label: "Apartamento" },
   { value: "Comercial", label: "Comercial" },
@@ -13,122 +14,224 @@ const modelosImovelPF = [
 ];
 
 const pretensaoPagamentoOptions = [
-  { value: "", label: "Selecione a pretensão" },
+  { value: "", label: "Selecione a pretensão de pagamento" },
   { value: "avista", label: "À vista" },
   { value: "cartao", label: "Cartão" },
   { value: "financiado", label: "Financiamento" },
 ];
 
-const PessoaFisicaForm = ({ formData, loadingCep, cepError }) => {
-  useEffect(() => {
-    if (!formData.pfNumero) {
-      formData.setPfNumero("0001");
+const PessoaFisicaForm = ({ formData, loadingCep, cepError, onSubmitTrigger }) => {
+  const {
+    control,
+    register,
+    setValue,
+    watch,
+    handleSubmit,
+    formState: { errors }
+  } = useForm({
+    defaultValues: {
+      pfName: formData?.pfName || '',
+      pfTelefone: formData?.pfTelefone || '',
+      pfEmail: formData?.pfEmail || '',
+      pfModeloImovel: formData?.pfModeloImovel || '',
+      pfOutroModeloImovel: formData?.pfOutroModeloImovel || '',
+      pfMediaContaEnergia: formData?.pfMediaContaEnergia || null,
+      pfCep: formData?.pfCep || '',
+      pfPretensaoPagamento: formData?.pfPretensaoPagamento || '',
+      pfRua: formData?.pfRua || '',
+      pfNumero: formData?.pfNumero || '0001',
+      pfComplemento: formData?.pfComplemento || '',
+      pfBairro: formData?.pfBairro || '',
+      pfCidade: formData?.pfCidade || '',
+      pfEstado: formData?.pfEstado || ''
     }
-  }, [formData]);
+  });
 
+  const handleFormSubmit = (data) => {
+    console.log('Dados do formulário Pessoa Física:', data);
+  };
+
+  useEffect(() => {
+    if (onSubmitTrigger) {
+      onSubmitTrigger(() => handleSubmit(handleFormSubmit)());
+    }
+  }, [onSubmitTrigger, handleSubmit]);
+
+  const watchedCep = watch('pfCep');
+  const watchedRua = watch('pfRua');
+  const watchedNumero = watch('pfNumero');
+  const watchedComplemento = watch('pfComplemento');
+  const watchedBairro = watch('pfBairro');
+  const watchedCidade = watch('pfCidade');
+  const watchedEstado = watch('pfEstado');
+
+  useEffect(() => {
+    if (formData?.pfRua !== watchedRua) setValue('pfRua', formData?.pfRua || '');
+    if (formData?.pfNumero !== watchedNumero) setValue('pfNumero', formData?.pfNumero || '0001');
+    if (formData?.pfComplemento !== watchedComplemento) setValue('pfComplemento', formData?.pfComplemento || '');
+    if (formData?.pfBairro !== watchedBairro) setValue('pfBairro', formData?.pfBairro || '');
+    if (formData?.pfCidade !== watchedCidade) setValue('pfCidade', formData?.pfCidade || '');
+    if (formData?.pfEstado !== watchedEstado) setValue('pfEstado', formData?.pfEstado || '');
+  }, [
+    formData?.pfRua, formData?.pfNumero, formData?.pfComplemento, 
+    formData?.pfBairro, formData?.pfCidade, formData?.pfEstado, 
+    setValue, 
+    watchedRua, watchedNumero, watchedComplemento, 
+    watchedBairro, watchedCidade, watchedEstado
+  ]);
 
   return (
     <>
       <div className={styles.formGroup}>
-        <label htmlFor="pfName">Nome Completo:</label>
-        <input type="text" id="pfName" value={formData.pfName || ''} onChange={(e) => formData.setPfName(e.target.value)} required />
+        <input
+          id="pfName"
+          type="text"
+          className={styles.formInput}
+          placeholder="Nome"
+          {...register('pfName', { required: 'Nome é obrigatório' })}
+        />
+        {errors.pfName && <p className={styles.errorMessage}>{errors.pfName.message}</p>}
       </div>
 
       <div className={styles.formGroup}>
-        <label htmlFor="pfTelefone">Telefone:</label>
         <input
-          type="tel"
           id="pfTelefone"
-          value={formData.pfTelefone || ''}
-          onChange={(e) => formData.setPfTelefone(formatPhone(e.target.value))}
-          placeholder="(00) 00000-0000"
-          required
+          type="tel"
+          className={styles.formInput}
+          placeholder="Telefone - (00) 00000-0000"
+          maxLength={15}
+          {...register('pfTelefone', {
+            required: 'Telefone é obrigatório',
+            pattern: { value: /^\(\d{2}\)\s?\d{5}-\d{4}$/, message: 'Telefone inválido' },
+            onChange: (e) => {
+              const formatted = formatPhone(e.target.value);
+              setValue('pfTelefone', formatted, { shouldValidate: true });
+            }
+          })}
         />
+        {errors.pfTelefone && <p className={styles.errorMessage}>{errors.pfTelefone.message}</p>}
       </div>
 
       <div className={styles.formGroup}>
-        <label htmlFor="pfEmail">Email:</label>
         <input
-          type="email"
           id="pfEmail"
-          value={formData.pfEmail || ''}
-          onChange={(e) => formData.setPfEmail(e.target.value)}
+          type="email"
+          className={styles.formInput}
           placeholder="exemplo@email.com"
-          required
+          {...register('pfEmail', {
+            required: 'Email é obrigatório',
+            pattern: { value: /\S+@\S+\.\S+/, message: 'Email inválido' }
+          })}
         />
+        {errors.pfEmail && <p className={styles.errorMessage}>{errors.pfEmail.message}</p>}
       </div>
 
       <div className={styles.formGroup}>
-        <label htmlFor="pfModeloImovel">Modelo do imóvel:</label>
-        <select id="pfModeloImovel" value={formData.pfModeloImovel || ''} onChange={(e) => formData.setPfModeloImovel(e.target.value)} required>
+        <select
+          id="pfModeloImovel"
+          className={styles.formInput}
+          {...register('pfModeloImovel', { required: 'Selecione o modelo' })}
+        >
           {modelosImovelPF.map(option => (
             <option key={option.value} value={option.value}>{option.label}</option>
           ))}
         </select>
+        {errors.pfModeloImovel && <p className={styles.errorMessage}>{errors.pfModeloImovel.message}</p>}
       </div>
 
-      {formData.pfModeloImovel === 'Outro' && (
+      {watch('pfModeloImovel') === 'Outro' && (
         <div className={styles.formGroup}>
-          <label htmlFor="pfOutroModeloImovel">Qual tipo de moradia?</label>
           <input
-            type="text"
             id="pfOutroModeloImovel"
-            value={formData.pfOutroModeloImovel || ''}
-            onChange={(e) => formData.setPfOutroModeloImovel(e.target.value)}
-            required
+            type="text"
+            className={styles.formInput}
+            {...register('pfOutroModeloImovel', {
+              required: watch('pfModeloImovel') === 'Outro' ? 'Especifique o tipo' : false
+            })}
           />
+          {errors.pfOutroModeloImovel && <p className={styles.errorMessage}>{errors.pfOutroModeloImovel.message}</p>}
         </div>
       )}
 
       <div className={styles.formGroup}>
-        <label htmlFor="pfMediaContaEnergia">Média da conta de energia:</label>
-        <input
-  type="text"
-  id="pfMediaContaEnergia"
-  value={formData.pfMediaContaEnergia || ''}
-  onChange={(e) => {
-    const raw = onlyNumbers(e.target.value); // remove tudo que não for número
-    const formatted = formatCurrency(raw, 'input');
-    formData.setPfMediaContaEnergia(formatted);
-  }}
-  placeholder="R$ 0,00"
-  required
-/>
+        <Controller
+          name="pfMediaContaEnergia"
+          control={control}
+          rules={{
+            required: 'Valor é obrigatório',
+            min: { value: 0.01, message: 'Valor deve ser maior que zero' }
+          }}
+          render={({ field: { onChange, onBlur, value, name, ref } }) => (
+            <NumericFormat
+              id="pfMediaContaEnergia"
+              name={name}
+              getInputRef={ref}
+              className={styles.formInput}
+              value={value}
+              onValueChange={(values) => {
+                onChange(values.floatValue === undefined ? null : values.floatValue);
+              }}
+              onBlur={onBlur}
+              thousandSeparator="."
+              decimalSeparator=","
+              prefix="R$ "
+              decimalScale={2}
+              fixedDecimalScale={true}
+              allowNegative={false}
+              placeholder="Qual o valor da sua conta de luz - R$ 0,00"
+              inputMode="decimal"
+              required
+            />
+          )}
+        />
+        {errors.pfMediaContaEnergia && <p className={styles.errorMessage}>{errors.pfMediaContaEnergia.message}</p>}
       </div>
 
       <div className={styles.formGroup}>
-        <label htmlFor="pfCep">CEP:</label>
         <input
-          type="text"
           id="pfCep"
-          value={formData.pfCep || ''}
-          onChange={(e) => formData.setPfCep(formatCep(e.target.value))}
-          maxLength="9"
+          type="tel"
+          className={styles.formInput}
+          maxLength={9}
           placeholder="00000-000"
-          required
+          {...register('pfCep', {
+            required: 'CEP é obrigatório',
+            pattern: { value: /^\d{5}-\d{3}$/, message: 'CEP inválido' },
+            onChange: (e) => {
+              const formatted = formatCep(e.target.value);
+              setValue('pfCep', formatted, { shouldValidate: true });
+              // Disparar busca de CEP no componente pai, se necessário
+              // Ex: props.onCepChange(formatted);
+            }
+          })}
         />
         {loadingCep && <p className={styles.loadingMessage}>Buscando CEP...</p>}
         {cepError && <p className={styles.errorMessage}>{cepError}</p>}
+        {errors.pfCep && <p className={styles.errorMessage}>{errors.pfCep.message}</p>}
       </div>
 
       <div className={styles.formGroup}>
-        <label htmlFor="pfPretensaoPagamento">Pretensão de Pagamento:</label>
-        <select id="pfPretensaoPagamento" value={formData.pfPretensaoPagamento || ''} onChange={(e) => formData.setPfPretensaoPagamento(e.target.value)} required>
+        <select
+          id="pfPretensaoPagamento"
+          className={styles.formInput}
+          {...register('pfPretensaoPagamento', { required: 'Selecione a pretensão' })}
+        >
           {pretensaoPagamentoOptions.map(option => (
             <option key={option.value} value={option.value}>{option.label}</option>
           ))}
         </select>
+        {errors.pfPretensaoPagamento && <p className={styles.errorMessage}>{errors.pfPretensaoPagamento.message}</p>}
       </div>
 
-      {/* Campos ocultos para manter a compatibilidade com o backend */}
-      <input type="hidden" id="pfRua" value={formData.pfRua || ''} onChange={(e) => formData.setPfRua(e.target.value)} />
-      <input type="hidden" id="pfNumero" value={formData.pfNumero || '0001'} onChange={(e) => formData.setPfNumero(e.target.value)} />
-      <input type="hidden" id="pfComplemento" value={formData.pfComplemento || ''} onChange={(e) => formData.setPfComplemento(e.target.value)} />
-      <input type="hidden" id="pfBairro" value={formData.pfBairro || ''} onChange={(e) => formData.setPfBairro(e.target.value)} />
-      <input type="hidden" id="pfCidade" value={formData.pfCidade || ''} onChange={(e) => formData.setPfCidade(e.target.value)} />
-      <input type="hidden" id="pfEstado" value={formData.pfEstado || ''} onChange={(e) => formData.setPfEstado(e.target.value)} />
+      <input type="hidden" {...register('pfRua')} />
+      <input type="hidden" {...register('pfNumero')} />
+      <input type="hidden" {...register('pfComplemento')} />
+      <input type="hidden" {...register('pfBairro')} />
+      <input type="hidden" {...register('pfCidade')} />
+      <input type="hidden" {...register('pfEstado')} />
     </>
   );
 };
 
 export default PessoaFisicaForm;
+

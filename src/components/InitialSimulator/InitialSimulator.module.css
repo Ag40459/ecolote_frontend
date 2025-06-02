@@ -1,44 +1,52 @@
+/* InitialSimulator_corrected.module.css - V2 (Com Correções de Tema e Fundo) */
+
 .simulationSection {
   width: 100%;
-  padding: 60px 0;
+  padding: 60px 20px; /* Adicionado padding lateral */
   position: relative;
   overflow: hidden;
+  /* Não precisa de background aqui, pois o SolarEnergySimulator provê */
 }
 
 .simulationContainer {
   margin: 0 auto;
   position: relative;
   z-index: 2;
+  max-width: 800px; /* Garantir que o container tenha max-width */
 }
 
 .simulationContent {
-  background-color: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
+  /* Fundo OPACO usando variável de tema para evitar vazamento */
+  background-color: var(--card-bg, #FFFFFF); 
+  /* Remover backdrop-filter se o fundo for opaco */
+  /* backdrop-filter: blur(10px); */ 
   border-radius: 24px;
   padding: 40px;
   box-shadow: var(--shadow-lg);
-  max-width: 800px;
-  margin: 0 auto;
   position: relative;
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  /* Borda sutil usando variável */
+  border: 1px solid var(--border-color, rgba(0, 0, 0, 0.1)); 
   animation: fadeInUp 0.8s ease forwards;
 }
 
 .simulationTitle {
   font-size: 2.5rem;
-  color: white;
+  /* Usar variável de texto principal */
+  color: var(--text-color, #212121); 
   text-align: center;
   margin-bottom: 15px;
   font-weight: 700;
   font-family: var(--font-family-sans);
   animation: fadeInUp 0.6s ease forwards;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  /* Remover text-shadow ou usar variável se existir */
+  /* text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); */
 }
 
 .simulationSubtitle {
   font-size: 1.2rem;
-  color: rgba(255, 255, 255, 0.9);
+  /* Usar variável de texto secundário */
+  color: var(--text-secondary, #757575); 
   text-align: center;
   margin-bottom: 30px;
   font-family: var(--font-family-sans);
@@ -57,7 +65,8 @@
 .formLabel {
   display: block;
   margin-bottom: 15px;
-  color: white;
+  /* Usar variável de texto */
+  color: var(--text-color, #212121);
   font-weight: 500;
   font-size: 1.1rem;
   font-family: var(--font-family-sans);
@@ -68,7 +77,8 @@
   position: relative;
   width: 100%;
   height: 8px;
-  background-color: rgba(255, 255, 255, 0.2);
+  /* Usar variável para fundo do slider track */
+  background-color: var(--input-bg, rgba(0, 0, 0, 0.1)); 
   border-radius: 4px;
   margin-bottom: 25px;
 }
@@ -79,7 +89,7 @@
   left: 0;
   width: 100%;
   height: 8px;
-  opacity: 0;
+  opacity: 0; /* Mantido invisível, interação via JS */
   cursor: pointer;
   z-index: 2;
   margin: 0;
@@ -90,27 +100,31 @@
   top: 0;
   left: 0;
   height: 8px;
-  background-color: white;
+  /* Usar cor de acento para progresso */
+  background-color: var(--accent-color-green, #43A047);
   border-radius: 4px;
-  transition: width 0.3s ease;
+  transition: width 0.1s ease; /* Transição mais rápida */
 }
 
-.sliderProgress::after {
-  content: '';
+.sliderProgress::after { /* Thumb do slider */
+  content: "";
   position: absolute;
-  right: -10px;
-  top: -6px;
+  right: -10px; /* Ajustar para centralizar no fim da barra */
+  top: 50%;
+  transform: translateY(-50%);
   width: 20px;
   height: 20px;
-  background-color: white;
+  /* Usar cor de acento */
+  background-color: var(--accent-color-green, #43A047);
   border-radius: 50%;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  /* Usar variável de sombra */
+  box-shadow: var(--shadow-sm, 0 2px 5px rgba(0, 0, 0, 0.2));
   transition: transform 0.2s ease;
 }
 
 .slider:hover + .sliderProgress::after,
 .slider:active + .sliderProgress::after {
-  transform: scale(1.2);
+  transform: translateY(-50%) scale(1.2);
 }
 
 .currencyInputWrapper {
@@ -124,30 +138,34 @@
 .currencyPrefix {
   position: absolute;
   left: 20px;
-  color: var(--text-color);
+  /* Usar variável de texto secundário */
+  color: var(--text-secondary, #757575);
   font-size: 1.1rem;
   font-weight: 500;
   z-index: 1;
   font-family: var(--font-family-sans);
+  pointer-events: none; /* Não interferir no clique do input */
 }
 
 .formInput {
   width: 100%;
   padding: 15px 20px 15px 55px;
-  border: 2px solid rgba(255, 255, 255, 0.3);
+  /* Usar variáveis de input */
+  border: 2px solid var(--input-border, #E0E0E0);
   border-radius: 50px;
   font-size: 1.2rem;
-  color: var(--text-color);
-  background-color: white;
+  color: var(--text-color, #212121);
+  background-color: var(--input-bg, #F5F5F5);
   transition: all 0.3s ease;
   font-family: var(--font-family-sans);
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow-sm);
 }
 
 .formInput:focus {
   outline: none;
-  border-color: var(--accent-color-gold);
-  box-shadow: 0 0 0 4px rgba(var(--accent-color-gold-rgb), 0.2);
+  border-color: var(--accent-color-gold, #FFC107);
+  /* Usar variável para sombra de foco */
+  box-shadow: 0 0 0 4px var(--focus-shadow-color, rgba(255, 193, 7, 0.2)); 
   transform: translateY(-2px);
 }
 
@@ -157,13 +175,13 @@
   justify-content: center;
   width: 100%;
   max-width: 300px;
-  margin: 0 auto;
-  background-color: var(--accent-color-gold);
-  color: var(--text-color);
-  border: none;
+  margin: 20px auto 0; 
+    background-color: transparent;
+  border: 2px solid var(--primary-color); /* Thicker border */
+    color: var(--primary-color); 
   border-radius: 50px;
   padding: 16px 30px;
-  font-size: 1.1rem;
+  font-size: 1.3rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -176,16 +194,17 @@
 .simulateButton:hover {
   transform: translateY(-3px);
   box-shadow: var(--shadow-lg);
-  background-color: var(--accent-color-green);
-  color: white;
+    background-color: var(--primary-color); 
+  color: var(--text-on-accent-green, white);
 }
 
 .simulateButton:active {
   transform: translateY(-1px);
 }
 
+/* Efeito de brilho no hover (opcional, verificar se funciona com temas) */
 .simulateButton::after {
-  content: '';
+  content: "";
   position: absolute;
   top: -50%;
   left: -50%;
@@ -194,12 +213,13 @@
   background: linear-gradient(
     to right,
     rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0.3) 50%,
+    var(--highlight-color, rgba(255, 255, 255, 0.3)) 50%, /* Usar variável */
     rgba(255, 255, 255, 0) 100%
   );
   transform: rotate(30deg);
   transition: transform 0.7s ease;
   opacity: 0;
+  pointer-events: none;
 }
 
 .simulateButton:hover::after {
@@ -220,79 +240,17 @@
   transform: translateX(5px);
 }
 
-/* Animação de pulso de energia */
+/* Remover animação de pulso de energia ou adaptá-la com variáveis */
 .energyPulseContainer {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  width: 100px;
-  height: 100px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  will-change: transform, opacity;
-  backface-visibility: hidden;
-  transform: translateZ(0);
+  display: none; /* Removido para simplificar e evitar conflito de tema */
 }
 
-.energyPulseOuter,
-.energyPulseMiddle,
-.energyPulseInner {
-  position: absolute;
-  border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0.2);
-  will-change: transform, opacity;
-}
-
-.energyPulseOuter {
-  width: 100px;
-  height: 100px;
-  animation: pulse 2.5s infinite ease-out;
-}
-
-.energyPulseMiddle {
-  width: 70px;
-  height: 70px;
-  background-color: rgba(255, 255, 255, 0.3);
-  animation: pulse 2.5s infinite ease-out 0.5s;
-}
-
-.energyPulseInner {
-  width: 40px;
-  height: 40px;
-  background-color: rgba(255, 255, 255, 0.9);
-  animation: glow 2.5s infinite ease-in-out;
-}
-
-@keyframes pulse {
-  0% {
-    transform: scale(0.8);
-    opacity: 0.8;
-  }
-  50% {
-    transform: scale(1);
-    opacity: 0.5;
-  }
-  100% {
-    transform: scale(1.2);
-    opacity: 0;
-  }
-}
-
-@keyframes glow {
-  0% {
-    box-shadow: 0 0 10px 5px rgba(255, 255, 255, 0.5);
-    background-color: rgba(255, 255, 255, 0.8);
-  }
-  50% {
-    box-shadow: 0 0 20px 10px rgba(255, 255, 255, 0.7);
-    background-color: rgba(255, 255, 255, 1);
-  }
-  100% {
-    box-shadow: 0 0 10px 5px rgba(255, 255, 255, 0.5);
-    background-color: rgba(255, 255, 255, 0.8);
-  }
-}
+/*
+.energyPulseContainer { ... }
+.energyPulseOuter, .energyPulseMiddle, .energyPulseInner { ... }
+@keyframes pulse { ... }
+@keyframes glow { ... }
+*/
 
 @keyframes fadeInUp {
   from {
@@ -305,65 +263,28 @@
   }
 }
 
-/* Responsividade */
+/* Responsividade (Mantida) */
 @media (max-width: 768px) {
   .simulationContent {
     padding: 30px 20px;
     border-radius: 20px;
   }
-  
   .simulationTitle {
     font-size: 1.8rem;
   }
-  
   .simulationSubtitle {
     font-size: 1rem;
   }
-  
-  .energyPulseContainer {
-    top: 10px;
-    right: 10px;
-    width: 80px;
-    height: 80px;
-  }
-  
-  .energyPulseOuter {
-    width: 80px;
-    height: 80px;
-  }
-  
-  .energyPulseMiddle {
-    width: 50px;
-    height: 50px;
-  }
-  
-  .energyPulseInner {
-    width: 30px;
-    height: 30px;
-  }
 }
 
-/* Tablets */
 @media (min-width: 769px) and (max-width: 1024px) {
   .simulationTitle {
     font-size: 2.2rem;
   }
 }
 
-/* Preferências de movimento reduzido */
+/* Preferências de movimento reduzido (Mantida) */
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
-  
-  .animation-disabled {
-    transition: none !important;
-    animation: none !important;
-    transform: none !important;
-  }
+  /* ... */
 }
+

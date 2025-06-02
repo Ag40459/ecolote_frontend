@@ -1,34 +1,31 @@
-function parseToNumber(value) {
-  if (value === undefined || value === null || value === '') return 0;
+export function parseToNumber(value) {
+  if (value === undefined || value === null || value === "") return 0;
 
   if (typeof value === 'number') return value;
 
   const cleanValue = value
     .toString()
-    .replace(/[^0-9,.-]+/g, '')
+    .replace(/[^0-9,.-]+/g,"")
     .trim();
 
   if (cleanValue.includes(',')) {
-    return parseFloat(cleanValue.replace(/\./g, '').replace(',', '.'));
+    return parseFloat(cleanValue.replace(/\./g, "").replace(',', '.'));
   }
   return parseFloat(cleanValue) || 0;
 }
 
 export function formatCurrency(value, context = 'display') {
-  // Se o valor for uma string vazia, retorna uma string vazia para o input
   if (value === '' && context === 'input') return '';
   
   const number = parseToNumber(value);
 
   if (context === 'input') {
-    // Retorna sem símbolo e sem milhar para facilitar edição
     return number.toLocaleString('pt-BR', {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2
     });
   }
 
-  // Formato para exibição com símbolo de moeda
   return number.toLocaleString('pt-BR', {
     style: 'currency',
     currency: 'BRL',
@@ -37,28 +34,21 @@ export function formatCurrency(value, context = 'display') {
   });
 }
 
-// Função para formatar input como moeda brasileira em tempo real (máscara)
 export function formatCurrencyInput(value) {
   if (!value) return '';
-  // 1. Remove tudo que não for dígito
   let digits = value.replace(/\D/g, '');
 
   if (!digits) return '';
 
-  // Remove zeros à esquerda (exceto se for o único dígito)
   digits = digits.replace(/^0+(?!$)/, '');
 
-  // 2. Adiciona zeros à esquerda se necessário para ter pelo menos 3 dígitos (para centavos)
   digits = digits.padStart(3, '0');
 
-  // 3. Separa parte inteira e decimal
   const integerPart = digits.slice(0, -2);
   const decimalPart = digits.slice(-2);
 
-  // 4. Adiciona pontos como separador de milhar na parte inteira
   const formattedInteger = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
 
-  // 5. Retorna o valor formatado com vírgula
   return `${formattedInteger},${decimalPart}`;
 };
 
@@ -72,6 +62,61 @@ export const DROPDOWN_OPTIONS = [
   { value: 2000, text: 'De R$1500 até R$2000' },
   { value: 3000, text: 'Acima de R$2000' }
 ];
+
+function calculateSavingsIn10Years(realGenerationKwh, energyRate, estimatedProjectCost) {
+  const annualTariffIncrease = 0.08;
+  const systemDegradation = 0.007;
+  const yearlyData = [];
+  
+  let currentRate = energyRate;
+  let currentGeneration = realGenerationKwh;
+  let totalSavings = 0;
+  let cumulativeSavings = 0;
+  
+  for (let year = 1; year <= 25; year++) {
+    const annualGeneration = currentGeneration * 12;
+    const annualSavings = annualGeneration * currentRate;
+    
+    totalSavings += annualSavings;
+    cumulativeSavings = totalSavings - estimatedProjectCost;
+    
+    yearlyData.push({
+      year,
+      generation: annualGeneration,
+      tariff: currentRate,
+      savings: annualSavings,
+      cumulativeSavings,
+      roi: (cumulativeSavings / estimatedProjectCost) * 100
+    });
+    
+    currentRate *= (1 + annualTariffIncrease);
+    currentGeneration *= (1 - systemDegradation);
+  }
+  
+  const savingsIn10Years = yearlyData
+    .filter(data => data.year <= 10)
+    .reduce((sum, data) => sum + data.savings, 0);
+  
+  let paybackTime = 25;
+  const paybackYear = yearlyData.find(data => data.cumulativeSavings >= 0);
+  
+  if (paybackYear) {
+    if (paybackYear.year === 1) {
+      paybackTime = 1;
+    } else {
+      const previousYear = yearlyData[paybackYear.year - 2];
+      const remainingToPayback = Math.abs(previousYear.cumulativeSavings);
+      const savingsInPaybackYear = paybackYear.savings;
+      const fraction = remainingToPayback / savingsInPaybackYear;
+      paybackTime = Number((previousYear.year + fraction).toFixed(1));
+    }
+  }
+  
+  return {
+    savingsIn10Years: Number(savingsIn10Years.toFixed(2)),
+    paybackTime
+  };
+}
 
 export function solarCalculator({
   monthlyBill,
@@ -87,11 +132,9 @@ export function solarCalculator({
   const baseAreaLimit = 35;
   const valorMetroQuadrado = 174;
 
-  // Ajuste 1: força o mínimo de 260 em vez de 272
   let consumptionKwh = Math.ceil(monthlyBill / energyRate);
   if (consumptionKwh < 260) consumptionKwh = 260;
 
-  // Cálculo base sem adicionais (como foi solicitado)
   const requiredKwp = consumptionKwh / (solarIrradiance * daysPerMonth * performanceRatio);
   const modules = Math.ceil(requiredKwp / modulePowerKw);
   const finalPowerKwp = Math.ceil(modules * modulePowerKw * 10) / 10;
@@ -103,13 +146,10 @@ export function solarCalculator({
   const areaAdditionalCost = Math.ceil(excessArea) * valorMetroQuadrado;
   const areaUsedInLots = Number((totalAreaRequired / baseAreaLimit).toFixed(2));
 
-  // Cálculo base do sistema sem adicionais (usado para entender valor por kWp)
   const estimatedPrice = finalPowerKwp * 2686;
 
-  // Ajuste 2: custo final com adicionais, sem alterar nome da variável final
   const estimatedPriceAdditionalCost = estimatedPrice + 6000 + areaAdditionalCost;
 
-  // Modelo do inversor com base no finalPowerKwp
   let inverterModel = "";
   if (finalPowerKwp <= 5) inverterModel = "WEG SIW300H M030 Híbrido";
   else if (finalPowerKwp <= 6) inverterModel = "WEG SIW200G M050";
@@ -121,7 +161,6 @@ export function solarCalculator({
   const inverterBrand = "GROWATT";
   const inverterQuantity = 1;
 
-  // Cálculo de financiamento
   const interestRate = 0.0156;
   let totalInstallments = 60;
 
@@ -141,8 +180,9 @@ export function solarCalculator({
       monthlyInstallment = calculateInstallment(estimatedPriceAdditionalCost, totalInstallments);
     }
   }
+  
+  const financialMetrics = calculateSavingsIn10Years(realGenerationKwh, energyRate, estimatedPriceAdditionalCost);
 
-  // Retorno com todos os campos preservados
   return {
     monthlyBill: Number(monthlyBill),
     energyRate: Number(energyRate),
@@ -165,6 +205,8 @@ export function solarCalculator({
     totalAreaRequired: Number(totalAreaRequired.toFixed(2)),
     excessArea: Number(excessArea.toFixed(2)),
     valorMetroQuadrado,
-    areaUsedInLots
+    areaUsedInLots,
+    savingsIn10Years: financialMetrics.savingsIn10Years,
+    paybackTime: financialMetrics.paybackTime
   };
 }

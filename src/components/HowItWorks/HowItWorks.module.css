@@ -2,7 +2,7 @@
   padding: 4rem 2rem; /* Use consistent padding */
   position: relative;
   overflow: hidden;
-  background-color: var(--background-color, #f0f0f0); /* Use theme background */
+    background-color: color-mix(in srgb, var(--background-color), transparent 50%); 
   color: var(--text-color);
 }
 
@@ -10,17 +10,6 @@
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
-}
-
-.animatedGradientBackground {
-  background: linear-gradient(
-    270deg,
-    var(--background-color, #f0f0f0),
-    var(--secondary-bg-color, #e0e0e0),
-    var(--background-color, #f0f0f0)
-  );
-  background-size: 200% 200%;
-  animation: subtleGradientAnimation 25s ease infinite;
 }
 
 .title {

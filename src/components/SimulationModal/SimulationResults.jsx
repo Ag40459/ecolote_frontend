@@ -17,10 +17,8 @@ const SimulationResults = ({ results, onPreRegister, onClose }) => {
       </div>
       
       <div className={styles.modalContent}>
-        <h2 className={`${styles.modalTitle} sectionTitle`}>Sua Economia Personalizada</h2>
-        <p className={styles.modalSubtitle}>
-          Veja como o Ecolote transforma sua conta de luz em investimento e quanto você pode economizar.
-        </p>
+        <h2 className={`${styles.modalTitle} sectionTitle`}>Valor do Ecolote</h2>
+       
         
         <div className={styles.resultsContainer}>
           <div className={styles.comparison}>
@@ -78,14 +76,14 @@ const SimulationResults = ({ results, onPreRegister, onClose }) => {
             
             <div className={styles.specificationCard} style={{"--animation-order": 5}}>
               <div className={styles.specificationIcon}>💹</div>
-              <div className={styles.specificationLabel}>Economia em 25 anos</div>
-              <div className={styles.specificationValue}>{formatCurrency(results.lifetimeSavings, 'display')}</div>
+              <div className={styles.specificationLabel}>Economia em 10 anos</div>
+              <div className={styles.specificationValue}>{formatCurrency(results.savingsIn10Years, 'display')}</div>
             </div>
             
             <div className={styles.specificationCard} style={{"--animation-order": 6}}>
               <div className={styles.specificationIcon}>⏱️</div>
               <div className={styles.specificationLabel}>Tempo de Retorno</div>
-              <div className={styles.specificationValue}>{results.paybackPeriod} {'anos'}</div>
+              <div className={styles.specificationValue}>{results.paybackTime} {'anos'}</div>
             </div>
           </div>
           

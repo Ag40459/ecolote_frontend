@@ -1,17 +1,19 @@
+/* SimulationResults_final_fix.module.css */
+/* Base styles (assuming variables like --primary-color, --shadow-sm etc. are defined elsewhere) */
+
 .modalHeader {
-  position: relative;
   background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-color-dark) 100%);
-  padding-bottom: 0;
   overflow: hidden;
-  border-radius: 20px 20px 0 0;
-  min-height: 180px;
+  border-radius: 16px 16px 0 0; /* Slightly reduced radius for refinement */
   display: flex;
   justify-content: center;
   align-items: center;
+  max-height: 4.5rem; /* Slightly reduced height */
+  position: relative; /* Needed for close button positioning */
 }
 
 .modalContent {
-  padding: 30px;
+  padding: 20px 25px; /* Added padding for overall spacing */
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: var(--primary-color) rgba(0, 0, 0, 0.05);
@@ -21,22 +23,22 @@
 
 .modalCloseButton {
   position: absolute;
-  top: 20px;
-  right: 20px;
-  background: rgba(255, 255, 255, 0.2);
+  top: 15px; /* Adjusted position */
+  right: 15px; /* Adjusted position */
+  background: rgba(255, 255, 255, 0.15); /* Slightly adjusted background */
   border: none;
-  width: 40px;
-  height: 40px;
+  width: 36px; /* Slightly smaller */
+  height: 36px; /* Slightly smaller */
   border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  font-size: 24px;
+  font-size: 20px; /* Adjusted size */
   color: white;
   z-index: 10;
   transition: all 0.3s ease;
-  box-shadow: var(--shadow-sm);
+  box-shadow: none; /* Removed shadow */
 }
 
 .modalCloseButton:hover {
@@ -54,231 +56,239 @@
 }
 
 .modalTitle {
-  font-size: 2.2rem;
+  font-size: clamp(1.4rem, 3.5vw, 2.2rem); /* Adjusted clamp */
   color: var(--accent-color-green);
   text-align: center;
-  margin-bottom: 15px;
-  font-weight: 700;
+  margin-bottom: 25px; /* Increased spacing */
+  font-weight: 600; /* Slightly reduced weight */
   animation: fadeInUp 0.6s ease forwards;
 }
 
-.modalSubtitle {
-  font-size: 1.1rem;
-  color: var(--text-color);
+.modalSubtitle { /* Added style for subtitle if needed */
   text-align: center;
-  margin-bottom: 30px;
+  color: var(--text-secondary);
+  margin-bottom: 30px; /* Spacing after subtitle */
+  font-size: 1rem;
   animation: fadeInUp 0.6s ease forwards 0.1s;
 }
 
+
 .resultsContainer {
-  padding: 10px 0;
+  padding: 0; /* Removed padding here, added to modalContent */
   animation: fadeInStagger 0.6s ease forwards;
 }
 
 .comparison {
   display: flex;
-  margin-bottom: 30px;
-  border-radius: 20px;
+  margin-bottom: 40px; /* Increased spacing */
+  border-radius: 16px; /* Consistent radius */
   overflow: hidden;
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow-sm); /* Subtler shadow */
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   animation: fadeInUp 0.6s ease forwards 0.1s;
 }
 
 .comparison:hover {
-  transform: translateY(-5px);
-  box-shadow: var(--shadow-lg);
+  transform: translateY(-3px); /* Reduced hover effect */
+  box-shadow: var(--shadow-md); /* Slightly stronger shadow on hover */
 }
 
 .comparisonItem {
   flex: 1;
-  padding: 25px 20px;
+  padding: 20px 15px; /* Adjusted padding */
   text-align: center;
   transition: transform 0.3s ease;
 }
 
 .comparisonItem:hover {
-  transform: scale(1.03);
+  transform: scale(1.02); /* Reduced hover scale */
 }
 
 .comparisonItemCurrent {
-  background-color: var(--error-color);
+  background-color: var(--error-color); /* Kept color for now */
   color: white;
 }
 
 .comparisonItemInstallment {
-  background-color: var(--success-color);
+  background-color: var(--success-color); /* Kept color for now */
   color: white;
 }
 
 .comparisonLabel {
-  font-size: 1rem;
-  margin-bottom: 10px;
-  font-weight: 500;
+  font-size: 0.9rem; /* Slightly smaller label */
+  margin-bottom: 8px; /* Adjusted spacing */
+  font-weight: 400; /* Lighter weight */
+  opacity: 0.9;
 }
 
 .comparisonValue {
-  font-size: 2rem;
-  font-weight: bold;
+  font-size: 1.75rem; /* Reduced font size */
+  font-weight: 600; /* Adjusted weight */
+  line-height: 1.2;
 }
 
 .totalValue {
   text-align: center;
-  margin-bottom: 30px;
-  font-size: 1.2rem;
+  margin-bottom: 40px; /* Increased spacing */
+  font-size: 1rem; /* Reduced base font size */
   color: var(--text-color);
-  font-weight: 500;
-  padding: 15px;
+  font-weight: 400; /* Adjusted weight */
+  padding: 20px; /* Increased padding */
   background-color: var(--input-bg);
-  border-radius: 15px;
+  border-radius: 16px; /* Consistent radius */
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   animation: fadeInUp 0.6s ease forwards 0.2s;
+  box-shadow: var(--shadow-xs); /* Very subtle shadow */
 }
 
 .totalValue:hover {
-  transform: translateY(-5px);
-  box-shadow: var(--shadow-md);
+  transform: translateY(-3px); /* Reduced hover effect */
+  box-shadow: var(--shadow-sm); /* Subtle shadow on hover */
 }
 
 .oldValue {
   text-decoration: line-through;
   color: var(--text-secondary);
+  font-size: 0.95rem; /* Adjusted size */
 }
 
 .newValue {
   color: var(--success-color);
-  font-weight: bold;
+  font-weight: 600; /* Adjusted weight */
+  font-size: 1.1rem; /* Reduced font size */
+  display: block; /* Ensure it takes its own line if needed */
+  margin-top: 5px; /* Space between old and new */
 }
 
 .specificationsGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 20px;
-  margin-bottom: 30px;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Adjusted minmax */
+  gap: 25px; /* Increased gap */
+  margin-bottom: 40px; /* Increased spacing */
   animation: fadeInUp 0.6s ease forwards 0.3s;
 }
 
 .specificationCard, .specificationCard2 {
   background-color: var(--input-bg);
-  border-radius: 20px;
-  padding: 20px;
+  border-radius: 16px; /* Consistent radius */
+  padding: 25px; /* Increased padding */
   text-align: center;
-  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
-  box-shadow: var(--shadow-sm);
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Simplified transition */
+  box-shadow: var(--shadow-xs); /* Very subtle shadow */
   animation: fadeInStagger 0.6s ease forwards;
   animation-delay: calc(0.1s * var(--animation-order, 1));
 }
 
 .specificationCard2 {
-  margin-bottom: 10px;
+  margin-bottom: 25px; /* Increased spacing */
   animation: fadeInUp 0.6s ease forwards 0.25s;
+  /* Specific styles for discount card if needed */
+  padding: 20px; /* Slightly different padding maybe */
 }
 
+
 .specificationCard:hover {
-  transform: translateY(-7px) scale(1.02);
-  box-shadow: var(--shadow-md);
+  transform: translateY(-5px); /* Adjusted hover effect */
+  box-shadow: var(--shadow-sm); /* Subtle shadow on hover */
 }
 
 .specificationIcon {
-  font-size: 24px;
-  margin: 0 auto 15px;
-  width: 50px;
-  height: 50px;
-  background-color: rgba(255, 255, 255, 0.769);
-  border-radius: 50%;
+  font-size: 22px; /* Slightly smaller icon */
+  margin: 0 auto 12px; /* Adjusted margin */
+  width: 45px; /* Adjusted size */
+  height: 45px; /* Adjusted size */
+  background-color: rgba(var(--primary-color-rgb), 0.1); /* Use primary color tint */
+  color: var(--primary-color); /* Icon color */
+  border-radius: 12px; /* Less rounded */
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: var(--shadow-sm);
-  transition: transform 0.5s ease;
+  box-shadow: none; /* Removed shadow */
+  transition: transform 0.3s ease;
 }
 
 .specificationCard:hover .specificationIcon {
-  transform: scale(1.15) rotate(10deg);
+  transform: scale(1.1); /* Simpler hover effect */
 }
 
 .specificationLabel {
-  font-size: 0.9rem;
+  font-size: 0.85rem; /* Smaller label */
   color: var(--text-secondary);
-  margin-bottom: 5px;
+  margin-bottom: 6px; /* Adjusted spacing */
+  font-weight: 400;
 }
 
 .specificationValue {
-  font-size: 1.2rem;
-  font-weight: bold;
+  font-size: 1.1rem; /* Reduced font size */
+  font-weight: 600; /* Adjusted weight */
   color: var(--text-color);
+  line-height: 1.3;
 }
 
+/* Specific style for discount card value */
+.specificationCard2 .specificationValue {
+  font-size: 1.3rem; /* Make discount value slightly larger */
+  color: var(--accent-color-orange); /* Use an accent color */
+  font-weight: 700;
+}
+
+
 .installmentNote {
-  font-size: 0.9rem;
+  font-size: 0.85rem; /* Adjusted size */
   color: var(--text-secondary);
-  font-style: italic;
+  font-style: normal; /* Removed italic */
   text-align: center;
-  margin: 20px 0;
+  margin: 30px 0; /* Adjusted margin */
   padding: 15px;
-  background-color: rgba(var(--primary-color-rgb), 0.1);
-  border-radius: 10px;
-  font-weight: 500;
-  border: 1px dashed var(--primary-color);
+  background-color: rgba(var(--primary-color-rgb), 0.05); /* Lighter background */
+  border-radius: 12px; /* Consistent radius */
+  font-weight: 400; /* Adjusted weight */
+  border: 1px solid rgba(var(--primary-color-rgb), 0.1); /* Subtle border */
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   animation: fadeInUp 0.6s ease forwards 0.4s;
 }
 
 .installmentNote:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-sm);
+  transform: translateY(-2px); /* Very subtle hover */
+  box-shadow: none; /* No shadow on hover */
 }
 
 .preCadastroButton {
   display: block;
   width: 100%;
   text-align: center;
-  margin-top: 30px;
+  margin-top: 40px; /* Increased spacing */
   color: white;
   background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-color-dark) 100%);
   text-decoration: none;
-  font-weight: 600;
-  font-size: 1.1rem;
-  padding: 15px 30px;
+  font-weight: 500; /* Adjusted weight */
+  font-size: 1rem; /* Adjusted size */
+  padding: 14px 30px; /* Adjusted padding */
   border: none;
-  border-radius: 50px;
+  border-radius: 12px; /* Consistent radius */
   cursor: pointer;
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
-  box-shadow: 0 4px 15px rgba(var(--primary-color-rgb), 0.3);
+  box-shadow: 0 3px 10px rgba(var(--primary-color-rgb), 0.2); /* Subtler shadow */
   animation: fadeInUp 0.6s ease forwards 0.5s;
 }
 
 .preCadastroButton:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 25px rgba(var(--primary-color-rgb), 0.4);
+  transform: translateY(-2px); /* Subtle hover */
+  box-shadow: 0 5px 15px rgba(var(--primary-color-rgb), 0.3); /* Adjusted hover shadow */
 }
 
 .preCadastroButton::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.2),
-    transparent
-  );
-  transition: left 0.7s ease;
+  /* Removed the shine effect for a cleaner look */
+  content: none;
 }
 
-.preCadastroButton:hover::after {
-  left: 100%;
-}
-
+/* Keyframes (keep as they are unless causing issues) */
 @keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(15px); /* Reduced distance */
   }
   to {
     opacity: 1;
@@ -289,10 +299,11 @@
 @keyframes fadeInStagger {
   from {
     opacity: 0;
-    transform: translateY(30px);
+    transform: translateY(20px); /* Reduced distance */
   }
   to {
     opacity: 1;
     transform: translateY(0);
   }
 }
+
