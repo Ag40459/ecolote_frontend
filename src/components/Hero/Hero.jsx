@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import styles from './Hero.module.css';
 import { formatCurrencyInput } from '../../utils/calc';
 import SimulationModal from '../SimulationModal/SimulationModal';
-import Button3DRotate from '../UI/ComponentsAnimation/Button3DRotate';
 
 const Hero = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -17,7 +16,7 @@ const Hero = () => {
 
    const slides =  [
     {
-      title: "Pernambucanos, Paguem Taxa Mínima de Energia.",
+      title: "Pague Taxa Mínima na Sua Conta de Energia.",
       content: " Se você mora em Pernambuco isso será possível com o Ecolote. Não é desconto na conta. Não é cota de energia. É sua conta de energia cobrando taxa mínima. "
     },
     {

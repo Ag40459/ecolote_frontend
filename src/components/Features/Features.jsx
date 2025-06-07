@@ -60,9 +60,9 @@ const featuresByCategory = {
       icon: <FaMicrochip />
     },
     {
-      title: 'Blockchain e Segurança',
-      description: 'Registro imutável de geração e consumo com tecnologia blockchain.',
-      details: 'Utilizamos tecnologia blockchain para garantir a segurança e transparência dos registros de geração e consumo de energia, criando um histórico imutável e auditável de toda a operação da sua usina.',
+      title: 'Compensação de Energia com Segurança',
+      description: 'Registro seguro dos créditos de energia gerada e não consumida.',
+      details: 'A energia excedente gerada pela sua usina é registrada pela distribuidora de energia e convertida em créditos válidos por até 5 anos. Esses registros seguem normas da ANEEL e garantem rastreabilidade e segurança na compensação do consumo em outras unidades.',
       icon: <FaShieldAlt />
     },
     {

@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
-import styles from './HowItWorks.module.css'; // Use the modified CSS
+import styles from './HowItWorks.module.css';
 
-// Import images (assuming paths are correct relative to this file's location after build)
 import HowItWorksImage1 from '../../assets/HowItWorksImage1.png';
 import HowItWorksImage2 from '../../assets/HowItWorksImage2.png';
 import HowItWorksImage3 from '../../assets/HowItWorksImage3.png';
@@ -50,35 +49,83 @@ const steps = [
 
 const HowItWorks = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [expandedIndex, setExpandedIndex] = useState(null); // Keep track of which card is expanded
+  const [expandedIndex, setExpandedIndex] = useState(null);
   const [isPaused, setIsPaused] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const [touchStart, setTouchStart] = useState(null);
+  const [touchEnd, setTouchEnd] = useState(null);
+  
   const totalSlides = steps.length;
   const carouselRef = useRef(null);
   const slideRefs = useRef([]);
+
+  // Detectar se é dispositivo móvel
+  useEffect(() => {
+    const checkIfMobile = () => {
+      setIsMobile(window.innerWidth <= 767);
+    };
+    
+    checkIfMobile();
+    window.addEventListener('resize', checkIfMobile);
+    
+    return () => {
+      window.removeEventListener('resize', checkIfMobile);
+    };
+  }, []);
 
   useEffect(() => {
     slideRefs.current = slideRefs.current.slice(0, steps.length);
   }, [steps]);
 
-  // Toggle expansion for a specific card index
+  // Manipuladores de eventos de toque para swipe
+  const handleTouchStart = (e) => {
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+  
+  const handleTouchMove = (e) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+  
+  const handleTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    
+    const distance = touchStart - touchEnd;
+    const isSwipe = Math.abs(distance) > 50; // Mínimo de distância para considerar um swipe
+    
+    if (isSwipe) {
+      if (distance > 0) {
+        // Swipe para a esquerda - próximo slide
+        nextSlide();
+      } else {
+        // Swipe para a direita - slide anterior
+        prevSlide();
+      }
+    }
+    
+    // Resetar valores
+    setTouchStart(null);
+    setTouchEnd(null);
+  };
+
+  // Toggle expansion para um card específico
   const toggleExpand = (index, event) => {
-    event.stopPropagation(); // Prevent carousel slide change if clicking button/card
+    event.stopPropagation();
     setExpandedIndex(prevIndex => (prevIndex === index ? null : index));
-    setIsPaused(true); // Pause auto-slide when interacting
+    setIsPaused(true);
   };
 
   const nextSlide = () => {
-    setExpandedIndex(null); // Collapse card when changing slide
+    setExpandedIndex(null);
     setCurrentSlide((prev) => (prev === totalSlides - 1 ? 0 : prev + 1));
   };
 
   const prevSlide = () => {
-    setExpandedIndex(null); // Collapse card when changing slide
+    setExpandedIndex(null);
     setCurrentSlide((prev) => (prev === 0 ? totalSlides - 1 : prev - 1));
   };
 
   const goToSlide = (index) => {
-    setExpandedIndex(null); // Collapse card when changing slide
+    setExpandedIndex(null);
     setCurrentSlide(index);
   };
 
@@ -87,7 +134,7 @@ const HowItWorks = () => {
     if (isPaused || !carouselRef.current) return;
     const interval = setInterval(nextSlide, 9000);
     return () => clearInterval(interval);
-  }, [isPaused, currentSlide]); // Rerun effect if isPaused or currentSlide changes
+  }, [isPaused, currentSlide]);
 
   // Scroll carousel to current slide
   useEffect(() => {
@@ -104,21 +151,29 @@ const HowItWorks = () => {
     <section
       id="how-it-works"
       className={`${styles.container}`}
-      onMouseEnter={() => setIsPaused(true)} // Pause on hover over the whole section
+      onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
       <h2 className={styles.title}>Sua Jornada com o EcoLote</h2>
 
       <div className={styles.carouselWrapper}>
-        <button
-          className={`${styles.carouselArrow} ${styles.prevArrow}`}
-          onClick={prevSlide}
-          aria-label="Etapa anterior"
-        >
-          &#10094; {/* Left arrow entity */}
-        </button>
+        {!isMobile && (
+          <button
+            className={`${styles.carouselArrow} ${styles.prevArrow}`}
+            onClick={prevSlide}
+            aria-label="Etapa anterior"
+          >
+            &#10094;
+          </button>
+        )}
 
-        <div className={styles.carouselContainer} ref={carouselRef}>
+        <div 
+          className={styles.carouselContainer} 
+          ref={carouselRef}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+        >
           <div className={styles.carouselTrack}>
             {steps.map((step, index) => (
               <div
@@ -126,10 +181,9 @@ const HowItWorks = () => {
                 ref={el => slideRefs.current[index] = el}
                 className={`${styles.carouselSlide} ${index === currentSlide ? styles.activeSlide : ''}`}
               >
-                {/* Apply expanded class based on state */}
                 <div
                   className={`${styles.stepCard} ${expandedIndex === index ? styles.expanded : ''}`}
-                  onClick={(e) => toggleExpand(index, e)} // Allow clicking card to toggle
+                  onClick={(e) => toggleExpand(index, e)}
                 >
                   <div className={styles.cardImageContainer}>
                     <img
@@ -145,13 +199,11 @@ const HowItWorks = () => {
                       className={styles.descriptionContainer}
                       id={`step-details-${index}`}
                     >
-                      {/* Show full description only when expanded */}
                       <p className={styles.description}>
                         {expandedIndex === index ? step.description : `${step.description.substring(0, 60)}...`}
                       </p>
                     </div>
                   </div>
-                  {/* New Toggle Button - structure is simple, styling is CSS */}
                   <button
                     className={styles.toggleButton}
                     onClick={(e) => toggleExpand(index, e)}
@@ -159,7 +211,6 @@ const HowItWorks = () => {
                     aria-controls={`step-details-${index}`}
                     aria-label={expandedIndex === index ? 'Ver menos' : 'Saiba mais'}
                   >
-                    {/* Icon is created via CSS pseudo-elements */}
                   </button>
                 </div>
               </div>
@@ -167,16 +218,17 @@ const HowItWorks = () => {
           </div>
         </div>
 
-        <button
-          className={`${styles.carouselArrow} ${styles.nextArrow}`}
-          onClick={nextSlide}
-          aria-label="Próxima etapa"
-        >
-          &#10095; {/* Right arrow entity */}
-        </button>
+        {!isMobile && (
+          <button
+            className={`${styles.carouselArrow} ${styles.nextArrow}`}
+            onClick={nextSlide}
+            aria-label="Próxima etapa"
+          >
+            &#10095;
+          </button>
+        )}
       </div>
-
-       </section>
+    </section>
   );
 };
 

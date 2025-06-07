@@ -1,5 +1,3 @@
-/* /home/ubuntu/Navbar_rewritten.module.css */
-/* Base styles from original, with modifications */
 .navbar {
   /* Use theme variable for background, with fallback */
   background-color: var(--navbar-bg-color, rgba(34, 34, 34, 0.85));
@@ -57,7 +55,8 @@
 }
 
 .logo:hover {
-  color: var(--logo-hover-color, var(--accent-color-gold, #FFC107)); /* Use specific logo hover var, fallback */
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15); 
 }
 
 .themeChangeMessage {

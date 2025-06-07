@@ -56,6 +56,14 @@ const MainLayout = ({ isAuthModalOpen, setIsAuthModalOpen }) => {
 
 function App() {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [theme, setTheme] = useState('light');
+
+  useEffect(() => {
+    const body = document.body;
+    const themeClasses = ['theme-light', 'theme-dark', 'theme-nature', 'theme-fire', 'theme-ocean'];
+    body.classList.remove(...themeClasses);
+    body.classList.add(`theme-${theme}`);
+  }, [theme]);
 
   return (
     <AuthProvider>

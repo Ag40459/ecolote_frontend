@@ -1,7 +1,7 @@
 .scrollToTopContainer {
     position: fixed;
-    bottom: 20px; 
-    left: 83%;  
+    bottom: 38%; 
+    left: 92.2%;  
     z-index: 999; 
 }
 
@@ -27,17 +27,15 @@
     opacity: 1; 
 }
 
-.scrollToTopContainer {
-    bottom: 200px; 
-}
-
 @media (max-width: 768px) {
   .scrollToTopContainer {
   left: 90%;
+    bottom: 21%; 
   }
   }
 @media (max-width: 480px) {
      .scrollToTopContainer {
   left: 83%;
+    bottom: 23%; 
   }
 }

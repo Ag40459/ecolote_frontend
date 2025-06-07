@@ -31,10 +31,6 @@
   }
 }
 
-.slideContent {
-  /* Estilos para o conteúdo do slide */
-}
-
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
@@ -44,13 +40,11 @@
   font-size: clamp(2rem, 5vw, 3rem);
   font-weight: 700;
   margin-bottom: 1.5rem;
-  color: var(--accent-color-gold, #E6B800); /* Use theme variable */
+  color: var(--accent-color-gold, #E6B800); 
   position: relative;
   display: inline-block;
-  /* animation: fadeInUp 0.8s ease forwards; */ /* Consider removing if causing issues with carousel */
 }
 
-/* Title Glow Effect (Optional - adjust color based on theme if needed) */
 .heroTitle::before {
   content: \'\';
   position: absolute;
@@ -61,7 +55,7 @@
   background: linear-gradient(90deg,
     rgba(230, 184, 0, 0) 0%,
     rgba(230, 184, 0, 0.2) 50%,
-    rgba(230, 184, 0, 0) 100%); /* Consider using theme accent color variable */
+    rgba(230, 184, 0, 0) 100%); 
   z-index: -1;
   transform: scaleX(0);
   transform-origin: left;
@@ -82,7 +76,7 @@
   max-width: 800px;
   margin-left: auto;
   margin-right: auto;
-  color: var(--text-secondary-color, var(--text-color, white)); /* Use theme variable */
+  color: var(--text-color, rgb(13, 13, 13)); 
   white-space: pre-wrap;
   min-height: 4.8em; /* Altura para 3 linhas aproximadamente */
 }
@@ -93,7 +87,6 @@
   align-items: center;
   justify-content: center;
   margin-bottom: 1.5rem;
-  padding-bottom: 2rem;
   gap: 20px;
 }
 
