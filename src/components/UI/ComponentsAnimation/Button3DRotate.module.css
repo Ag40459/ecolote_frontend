@@ -18,7 +18,7 @@
   transform: perspective(1000px) rotateX(0deg);
   cursor: pointer;
   text-decoration: none;
-  display: inline-block;
+  display: none;
   z-index: 100;
 }
 
@@ -83,7 +83,8 @@
 /* Responsividade */
 @media (max-width: 768px) {
   .button-3d {
-    position: fixed;
+  display: inline-block;
+        position: fixed;
     bottom:5rem;
     left: 14.5rem;
     width: 160px;

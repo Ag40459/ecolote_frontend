@@ -15,21 +15,34 @@ const Hero = () => {
   // Estado adicional para armazenar o valor numérico puro
   const [numericBillValue, setNumericBillValue] = useState(0);
 
-   const slides =  [ {
-      title: "Energia Solar: Agora Acessível Para Todos",
-      content: " Mora de aluguel ou em apartamento? Sem problemas! O Ecolote leva a energia solar até você, eliminando a necessidade de telhado próprio e democratizando o acesso à energia limpa e barata."
+   const slides =  [
+    {
+      title: "Pernambucanos, Paguem Taxa Mínima de Energia.",
+      content: " Se você mora em Pernambuco isso será possível com o Ecolote. Não é desconto na conta. Não é cota de energia. É sua conta de energia cobrando taxa mínima. "
     },
     {
-      title: "Sua Usina Solar Sem Custo Adicional? Sim!",
-      content: " É simples: Não tem entrada, não tem gasto inicial. Troque o gasto mensal da sua conta de luz pela parcela da sua própria usina solar."
+      title: "Não Vendemos Paineis Solares",
+      content: " Te oferecemos uma usina solar remota completa, só sua, para gerar energia e ser usada onde quiser dentro do estado."
+    },
+     {
+      title: "Mora de Aluguel ou Mora em Apartamento?",
+      content: " Sem problemas! O Ecolote leva a energia solar até você, eliminando a necessidade de telhado próprio."
     },
     {
-      title: " Sua Mini Usina Solar Remota",
-      content: " Adquira sua mini usina solar remota em seu futuro bairro rural solar, com escritura no seu nome. É seu ativo, gerando energia limpa e créditos que reduzem sua conta para taxa mínima."
+      title: "Adquira Sem Entrada. ",
+      content: " Sim, Isso Mesmo! Não tem entrada no nosso modelo de financiamento. Troque o gasto mensal da sua conta de luz pela parcela da sua usina solar."
     },
     {
-      title: "Investimento Inteligente e Sustentável",
-      content: " Veja seu investimento se pagar em cerca de 5 anos com a economia mensal. Tenha um ativo que valoriza, contribua para um planeta mais verde e garantia de 10 anos"
+      title: "Onde Fica?",
+      content: " Fica no bairro rural solar localizado em uma das cidades de maior incidência solar de Pernambuco o que garante uma maior produção de energia solar."
+    },
+    {
+      title: "Inteligente, Sustentável e Seguro",
+      content: " Encerre suas parcelas em até 5 anos. Conte com uma garantia de até 25 anos. Contamos com parcerias com a Prefeitura e empresa de segurança privada."
+    },
+    {
+      title: "Associação Ecolote",
+      content: " Você ingressará em nossa associação onde garantimos: Reposição de peças a preço de fábrica após o termino da garantia; Seguro Incluso; Administração, Manutenção e Segurança do local."
     }
   ];
 

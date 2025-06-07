@@ -87,9 +87,13 @@ const SimulationResults = ({ results, onPreRegister, onClose }) => {
             </div>
           </div>
           
-          <div className={styles.installmentNote}>
-            * As parcelas são simuladas com base em financiamento em 60 meses (5 anos). Consulte condições específicas para seu perfil.
-          </div>
+         <div className={styles.installmentNote}>
+  {results.installmentCount === 60 ? (
+    `* As parcelas foram simuladas com base em financiamento de ${results.installmentCount} meses.`
+  ) : (
+    `* As parcelas para seu financiamento segue uma condição especial, sendo de ${results.installmentCount} meses.`
+  )}
+</div>
           
           <button 
             className={styles.preCadastroButton}
