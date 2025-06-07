@@ -1,97 +1,58 @@
+@import './HowItWorks.module.carousel.css';
+@import './HowItWorks.module.responsive.css';
+
 .container {
-  padding: 4rem 2rem; /* Use consistent padding */
+  padding: 4rem 2rem;
   position: relative;
   overflow: hidden;
-    background-color: color-mix(in srgb, var(--background-color), transparent 50%); 
+  background-color: color-mix(in srgb, var(--background-color), transparent 50%); 
   color: var(--text-color);
-}
-
-@keyframes subtleGradientAnimation {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
 }
 
 .title {
   text-align: center;
   font-size: 2.2rem;
   margin-bottom: 3rem;
-  color: var(--primary-color, #0779e4); /* Use theme primary or specific accent */
+  color: var(--primary-color, #0779e4);
   position: relative;
   z-index: 2;
 }
 
-.carouselWrapper {
-  position: relative;
-  margin-bottom: 2rem;
-}
-
-.carouselContainer {
-  overflow: hidden; /* Hide scrollbar */
-  width: 100%;
-  position: relative; /* Needed for absolute arrows if they are inside */
-}
-
-.carouselTrack {
-  display: flex;
-  transition: transform 0.5s ease; /* Smooth slide transition */
-}
-
-.carouselSlide {
-  flex: 0 0 100%; /* Each slide takes full container width */
-  box-sizing: border-box;
-  display: flex; /* Use flex to center the card within the slide */
-  justify-content: center;
-  align-items: center; /* Vertically center card */
-  padding: 1rem 0; /* Add padding for card shadow/effects */
-  min-height: 250px; /* Adjusted min-height for compact view */
-  opacity: 0.6; /* Non-active slides are dimmed */
-  transform: scale(0.9); /* Non-active slides are smaller */
-  transition: opacity 0.5s ease, transform 0.5s ease, min-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.activeSlide {
-  opacity: 1;
-  transform: scale(1);
-  min-height: 450px; /* Taller when active/expanded */
-}
-
-/* Card Styles */
 .stepCard {
-  background-color: var(--card-bg, white); /* Use theme card background */
-  color: var(--text-color); /* Use theme text color */
-  border-radius: 20px; /* More rounded borders */
-  box-shadow: var(--shadow-md); /* Use theme shadow */
-  padding: 1rem; /* Base padding */
+  background-color: var(--card-bg, white);
+  color: var(--text-color);
+  border-radius: 20px;
+  box-shadow: var(--shadow-md);
+  padding: 1rem;
   display: flex;
   overflow: hidden;
   transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   width: 100%;
-  max-width: 550px; /* Max width for the card itself */
-  position: relative; /* Needed for absolute positioning of button */
-  flex-direction: row; /* Default: side-by-side compact layout */
-  align-items: flex-start; /* Align items to the top */
+  max-width: 550px;
+  position: relative;
+  flex-direction: row;
+  align-items: flex-start;
 }
 
 .stepCard.expanded {
-  padding: 1.5rem; /* Slightly more padding when expanded */
-  flex-direction: column; /* Stack elements vertically */
-  align-items: stretch; /* Stretch items to full width */
+  padding: 1.5rem;
+  flex-direction: column;
+  align-items: stretch;
 }
 
 .cardImageContainer {
   flex-shrink: 0;
   overflow: hidden;
-  border-radius: 12px; /* Rounded corners for image */
+  border-radius: 12px;
   transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-  width: 60px; /* Smaller image width for compact */
-  height: 60px; /* Smaller image height for compact */
+  width: 60px;
+  height: 60px;
   margin-right: 1rem;
 }
 
 .stepCard.expanded .cardImageContainer {
   width: 100%;
-  height: 200px; /* Taller image when expanded */
+  height: 200px;
   margin-right: 0;
   margin-bottom: 1.5rem;
 }
@@ -113,19 +74,19 @@
   flex-direction: column;
   flex-grow: 1;
   transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-  min-width: 0; /* Prevent flex item overflow */
-  padding-right: 30px; /* Add padding to avoid overlap with absolute button */
+  min-width: 0;
+  padding-right: 30px;
 }
 
 .stepCard.expanded .cardContent {
-  padding-right: 0; /* No extra padding needed when button is centered below */
+  padding-right: 0;
 }
 
 .stepTitle {
-  font-size: 1.1rem; /* Adjusted size for compact */
+  font-size: 1.1rem;
   font-weight: 700;
-  color: var(--primary-color, #0779e4); /* Use theme primary color */
-  margin: 0 0 0.25rem 0; /* Reduced bottom margin */
+  color: var(--primary-color, #0779e4);
+  margin: 0 0 0.25rem 0;
   transition: all 0.5s ease;
 }
 
@@ -138,23 +99,23 @@
 .descriptionContainer {
   overflow: hidden;
   transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-  max-height: 3.2em; /* Allow approx 2 lines in compact */
+  max-height: 3.2em;
 }
 
 .stepCard.expanded .descriptionContainer {
-  max-height: 500px; /* Allow full description */
+  max-height: 500px;
 }
 
 .description {
-  font-size: 0.9rem; /* Adjusted size */
+  font-size: 0.9rem;
   line-height: 1.6;
-  color: var(--text-secondary, #555); /* Use theme secondary text */
+  color: var(--text-secondary, #555);
   margin: 0;
   transition: color 0.3s ease;
 }
 
 .stepCard.expanded .description {
-  color: var(--text-color); /* Use theme primary text when expanded */
+  color: var(--text-color);
   text-align: justify;
   font-size: 0.95rem;
 }
@@ -163,7 +124,7 @@
   position: absolute;
   bottom: 1rem;
   right: 1rem;
-  background-color: var(--primary-color, #0779e4); /* Theme primary color */
+  background-color: var(--primary-color, #0779e4);
   color: white;
   border: none;
   border-radius: 50%;
@@ -185,12 +146,12 @@
 }
 
 .stepCard.expanded .toggleButton {
-  position: relative; /* Change from absolute */
+  position: relative;
   bottom: auto;
   right: auto;
-  align-self: center; /* Center horizontally */
-  margin-top: 1.5rem; /* Space above button */
-  width: 36px; /* Slightly larger when expanded */
+  align-self: center;
+  margin-top: 1.5rem;
+  width: 36px;
   height: 36px;
 }
 
@@ -198,12 +159,12 @@
 .toggleButton::after {
   content: "";
   position: absolute;
-  background-color: currentColor; /* Use button text color (white) */
+  background-color: currentColor;
   transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .toggleButton::before {
-  width: 50%; /* Adjust size of lines */
+  width: 50%;
   height: 2px;
   left: 25%;
   top: calc(50% - 1px);
@@ -216,169 +177,11 @@
   left: calc(50% - 1px);
 }
 
-/* Minus state (when expanded) */
 .stepCard.expanded .toggleButton::before {
-  transform: rotate(0deg); /* Horizontal line stays */
+  transform: rotate(0deg);
 }
 
 .stepCard.expanded .toggleButton::after {
-  transform: scaleY(0); /* Vertical line disappears */
-}
-
-
-/* Carousel Arrows - Keep previous theme integration */
-.carouselArrow {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background-color: var(--card-bg, white); /* Use theme card bg */
-  border: 1px solid var(--border-color, #ccc); /* Use theme border */
-  border-radius: 50%;
-  width: 45px;
-  height: 45px;
-  font-size: 1.5rem;
-  color: var(--primary-color, #0779e4); /* Use theme primary */
-  cursor: pointer;
-  z-index: 10;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: var(--shadow-sm);
-  transition: all 0.3s ease;
-}
-
-.carouselArrow:hover {
-  background-color: var(--primary-color, #0779e4);
-  color: white;
-  border-color: var(--primary-color, #0779e4);
-  transform: translateY(-50%) scale(1.1);
-}
-
-.prevArrow {
-  left: 10px; /* Position inside padding */
-}
-
-.nextArrow {
-  right: 10px; /* Position inside padding */
-}
-
-/* Carousel Dots - Keep previous theme integration */
-.carouselDots {
-  text-align: center;
-  margin-top: 1rem; /* Reduced margin */
-  position: relative; /* Ensure dots are above background */
-  z-index: 5;
-}
-
-.dot {
-  display: inline-block;
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background-color: var(--border-color, #ccc); /* Use theme border color */
-  border: 2px solid var(--background-color, white); /* Add border for contrast */
-  margin: 0 6px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.activeDot {
-  background-color: var(--primary-color, #0779e4); /* Use theme primary color */
-  transform: scale(1.1);
-}
-
-/* Responsiveness */
-@media (max-width: 767px) {
-  .container {
-    padding: 3rem 1rem;
-  }
-
-  .title {
-    font-size: 1.8rem;
-    margin-bottom: 2rem;
-  }
-
-  .carouselSlide {
-    min-height: auto; /* Adjust height for mobile */
-    padding: 0.5rem 0;
-    transform: scale(1); /* No scaling on mobile */
-    opacity: 1; /* Full opacity on mobile */
-  }
-
-  .stepCard {
-    flex-direction: column; /* Always stack on mobile */
-    align-items: stretch;
-    padding: 1rem;
-    max-width: 90%; /* Allow card to be wider */
-  }
-
-  /* Adjust compact image size for mobile if needed, or keep stacked */
-  .stepCard:not(.expanded) .cardImageContainer {
-     width: 100%; /* Full width image in mobile compact */
-     height: 120px;
-     margin-right: 0;
-     margin-bottom: 1rem;
-  }
-
-  .stepCard:not(.expanded) .cardContent {
-     padding-right: 0; /* No padding needed */
-  }
-
-  .stepCard.expanded .cardImageContainer {
-    height: 180px; /* Consistent image height */
-  }
-
-  .stepTitle {
-    font-size: 1.1rem;
-    text-align: center; /* Center title in mobile compact */
-  }
-
-  .stepCard.expanded .stepTitle {
-    font-size: 1.3rem;
-  }
-
-  .description {
-    font-size: 0.9rem;
-  }
-
-  /* Button position on mobile */
-  .toggleButton {
-     /* Keep absolute bottom right on mobile compact */
-     bottom: 0.3rem;
-     right: 1rem;
-     width: 30px;
-     height: 30px;
-  }
-
-  .stepCard.expanded .toggleButton {
-     /* Keep centered below on mobile expanded */
-     position: relative;
-     bottom: auto;
-     right: auto;
-     align-self: center;
-     margin-top: 1rem;
-     width: 32px;
-     height: 32px;
-  }
-
-  .carouselArrow {
-    width: 40px;
-    height: 40px;
-    font-size: 1.3rem;
-  }
-
-  .prevArrow {
-    left: 5px;
-  }
-
-  .nextArrow {
-    right: 5px;
-  }
-
-  .dot {
-    width: 10px;
-    height: 10px;
-    margin: 0 4px;
-  }
+  transform: scaleY(0);
 }
 

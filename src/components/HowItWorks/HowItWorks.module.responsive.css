@@ -1,0 +1,84 @@
+@media (max-width: 767px) {
+  .container {
+    padding: 3rem 1rem;
+  }
+
+  .title {
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+  }
+
+  .carouselSlide {
+    min-height: auto;
+    padding: 0.5rem 0;
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  .stepCard {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 1rem;
+    max-width: 90%;
+  }
+
+  .stepCard:not(.expanded) .cardImageContainer {
+     width: 100%;
+     height: 120px;
+     margin-right: 0;
+     margin-bottom: 1rem;
+  }
+
+  .stepCard:not(.expanded) .cardContent {
+     padding-right: 0;
+  }
+
+  .stepCard.expanded .cardImageContainer {
+    height: 180px;
+  }
+
+  .stepTitle {
+    font-size: 1.1rem;
+    text-align: center;
+  }
+
+  .stepCard.expanded .stepTitle {
+    font-size: 1.3rem;
+  }
+
+  .description {
+    font-size: 0.9rem;
+  }
+
+  .toggleButton {
+     bottom: 0.3rem;
+     right: 1rem;
+     width: 30px;
+     height: 30px;
+  }
+
+  .stepCard.expanded .toggleButton {
+     position: relative;
+     bottom: auto;
+     right: auto;
+     align-self: center;
+     margin-top: 1rem;
+     width: 32px;
+     height: 32px;
+  }
+
+  .carouselArrow {
+    width: 40px;
+    height: 40px;
+    font-size: 1.3rem;
+  }
+
+  .prevArrow {
+    left: 5px;
+  }
+
+  .nextArrow {
+    right: 5px;
+  }
+}
+

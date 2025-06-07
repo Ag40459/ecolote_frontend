@@ -117,7 +117,7 @@ const ContactSection = () => {
                    {/* Itens de benefício mantidos */}
                    <div className={styles.benefitItem}>
                     <div className={styles.benefitCheck}>✓</div>
-                    <span>Preço especial de pré-venda</span>
+                    <span>Preço especial de pré-cadastro</span>
                   </div>
                   <div className={styles.benefitItem}>
                     <div className={styles.benefitCheck}>✓</div>

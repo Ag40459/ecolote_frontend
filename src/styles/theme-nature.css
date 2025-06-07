@@ -1,84 +1,75 @@
 .theme-nature {
-   /* Backgrounds */
-  --primary-bg-color: #6B8E23; /* Verde Oliva */
-  --secondary-bg-color: #8FBC8F; /* Verde Mar Claro (para contraste suave) */
-  --background-color: #556B2F; /* Verde Musgo (base mais escura) */
-  --card-bg: #F5F5DC; /* Bege (fundo claro para cards) */
-  --modal-bg: #F5F5DC;
-  --footer-bg-color: #2F4F4F; /* Cinza Ardósia Escuro */
-  --navbar-bg-color: #3A5F0B; /* Verde Oliva Escuro */
-  --input-bg: #FFFFF0; /* Marfim para inputs */
+  --primary-bg-color: rgb(107, 142, 35);
+  --secondary-bg-color: rgb(143, 188, 143);
+  --background-color: rgb(85, 107, 47);
+  --card-bg: rgb(245, 245, 220);
+  --modal-bg: rgb(245, 245, 220);
+  --footer-bg-color: rgb(47, 79, 79);
+  --navbar-bg-color: rgb(58, 95, 11);
+  --input-bg: rgb(255, 255, 240);
 
-  /* Text Colors */
-  --text-color: #333333; /* Texto escuro nos cards/inputs */
-  --text-secondary: #555555;
-  --text-light: #777777;
-  --footer-text-color: #F5F5DC; /* Texto bege no footer escuro */
-  --navbar-text-color: #F5F5DC; /* Texto bege na navbar escura */
-  --submit-button-text: #FFFFFF; /* Texto branco em botões coloridos */
-  --button-text-color: #FFFFFF;
-  --placeholder-color: #A9A9A9; /* Cinza escuro para placeholder */
+  --text-color: rgb(51, 51, 51);
+  --text-secondary: rgb(85, 85, 85);
+  --text-light: rgb(119, 119, 119);
+  --footer-text-color: rgb(245, 245, 220);
+  --navbar-text-color: rgb(245, 245, 220);
+  --submit-button-text: rgb(255, 255, 255);
+  --button-text-color: rgb(255, 255, 255);
+  --placeholder-color: rgb(169, 169, 169);
 
-  /* Primary & Secondary (Vibrantes) */
-  --primary-color: #90EE90; /* Verde claro brilhante */
-  --primary-color-dark: #3CB371; /* Verde Mar Médio */
-  --primary-color-light: #98FB98; /* Verde Pálido */
-  --secondary-color: #E57A44; /* Laranja Terracota */
-  --secondary-color-dark: #CD5C5C; /* Vermelho Indiano */
-  --secondary-color-light: #FFA07A; /* Salmão Claro */
+  --primary-color: rgb(144, 238, 144);
+  --primary-color-dark: rgb(60, 179, 113);
+  --primary-color-light: rgb(152, 251, 152);
+  --secondary-color: rgb(229, 122, 68);
+  --secondary-color-dark: rgb(205, 92, 92);
+  --secondary-color-light: rgb(255, 160, 122);
 
-  /* Accent Colors */
-  --accent-color: var(--primary-color); /* Verde claro como acento principal */
-  --accent-color-gold: #FFDA63; /* Amarelo solar brilhante */
-  --accent-color-green: var(--primary-color); /* Redundante, mas mantém estrutura */
-  --accent-color-blue: #87CEEB; /* Azul céu */
-  --link-color: #90EE90; /* Link verde claro */
+  --accent-color: rgb(144, 238, 144);
+  --accent-color-gold: rgb(255, 218, 99);
+  --accent-color-green: rgb(144, 238, 144);
+  --accent-color-blue: rgb(135, 206, 235);
+  --link-color: rgb(144, 238, 144);
 
-  /* Borders & Dividers */
-  --border-color: #9ACD32; /* Verde Amarelado para bordas */
-  --input-border: #BDB76B; /* Caqui Escuro para borda de input */
-  --divider-color: #D2B48C; /* Tan (cor de madeira clara) */
-  --liner-division-color: #D2B48C;
+  --border-color: rgb(154, 205, 50);
+  --input-border: rgb(189, 183, 107);
+  --divider-color: rgb(210, 180, 140);
+  --liner-division-color: rgb(210, 180, 140);
 
-  /* Status Colors */
-  --error-color: #DC143C; /* Carmesim para erro */
-  --success-color: #32CD32; /* Verde Lima para sucesso */
-  --warning-color: #FFDA63; /* Amarelo solar para aviso */
-  --info-color: #87CEEB; /* Azul céu para info */
+  --error-color: rgb(220, 20, 60);
+  --success-color: rgb(50, 205, 50);
+  --warning-color: rgb(255, 218, 99);
+  --info-color: rgb(135, 206, 235);
 
-  /* Shadows (Adaptadas para fundo de card claro) */
   --shadow-sm: 0 2px 5px rgba(0, 0, 0, 0.1);
   --shadow-md: 0 5px 15px rgba(0, 0, 0, 0.15);
   --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.2);
 
-  /* Specific Component Colors */
-  --submit-button-bg: var(--primary-color-dark); /* Botão verde escuro */
-  --resend-button-color: var(--secondary-color); /* Botão reenviar terracota */
-  --resend-button-hover: var(--secondary-color-dark);
-  --resend-link-color: var(--secondary-color-light);
-  --resend-link-hover: var(--secondary-color);
+  --submit-button-bg: rgb(60, 179, 113);
+  --resend-button-color: rgb(229, 122, 68);
+  --resend-button-hover: rgb(205, 92, 92);
+  --resend-link-color: rgb(255, 160, 122);
+  --resend-link-hover: rgb(229, 122, 68);
 
-  /* Variables for animated background (if used) */
-  --dot-color: rgba(245, 245, 220, 0.1); /* Pontos bege sutis */
+  --dot-color: rgba(245, 245, 220, 0.1);
   --dot-size: 1px;
   --dot-spacing: 20px;
-  --blob-color-1: radial-gradient(circle, #90EE90, #E57A44);
-  --blob-color-2: radial-gradient(circle, #3CB371, #CD5C5C);
-  --blob-color-3: radial-gradient(circle, #FFDA63, #87CEEB);
+  --blob-color-1: radial-gradient(circle, rgb(144, 238, 144), rgb(229, 122, 68));
+  --blob-color-2: radial-gradient(circle, rgb(60, 179, 113), rgb(205, 92, 92));
+  --blob-color-3: radial-gradient(circle, rgb(255, 218, 99), rgb(135, 206, 235));
   --blob-opacity: 0.5;
   --blob-filter: blur(70px);
-  --pattern-color: rgba(144, 238, 144, 0.1); /* Padrão verde claro sutil */
+  --pattern-color: rgba(144, 238, 144, 0.1);
   --pattern-opacity: 0.06;
-  --particle-color: rgba(255, 218, 99, 0.6); /* Partículas amarelas */
+  --particle-color: rgba(255, 218, 99, 0.6);
 
-  /* Outras variáveis (manter estrutura) */
-  --card-bg-dark: rgba(85, 107, 47, 0.1); /* Verde musgo escuro sutil */
-  --card-bg-light: rgba(144, 238, 144, 0.05); /* Verde claro sutil */
-  --card-bg-color: var(--card-bg);
+  --card-bg-dark: rgba(85, 107, 47, 0.1);
+  --card-bg-light: rgba(144, 238, 144, 0.05);
+  --card-bg-color: rgb(245, 245, 220);
   --card-description-align: left;
-  --card-icon-fill: var(--primary-color-dark);
-  --text-secondary-dark: rgba(245, 245, 220, 0.85); /* Texto secundário claro em fundos escuros */
-  --text-secondary-light: rgba(51, 51, 51, 0.75); /* Texto secundário escuro em fundos claros */}
+  --card-icon-fill: rgb(60, 179, 113);
+  --text-secondary-dark: rgba(245, 245, 220, 0.85);
+  --text-secondary-light: rgba(51, 51, 51, 0.75);
+}
 
 body.nature-theme {
   --dot-color-contracted: rgba(139, 195, 74, 0.2);

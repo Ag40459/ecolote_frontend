@@ -1,6 +1,6 @@
 import styles from './Button3DRotate.module.css';
 
-const Button3DRotate = ({ text = "Quero Fazer Parte", link = "#contact" }) => {
+const Button3DRotate = ({ text = "QUERO FAZER PARTE", link = "#contact" }) => {
   return (
     <a href={link} className={styles['button-3d']}>
       <span>{text}</span>
@@ -12,3 +12,4 @@ const Button3DRotate = ({ text = "Quero Fazer Parte", link = "#contact" }) => {
 };
 
 export default Button3DRotate;
+
