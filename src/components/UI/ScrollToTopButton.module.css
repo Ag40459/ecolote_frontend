@@ -1,14 +1,12 @@
 .scrollToTopContainer {
     position: fixed;
     bottom: 20px; 
-    right: 20px;  
+    left: 83%;  
     z-index: 999; 
 }
 
 .scrollToTopButton {
     background-color: rgba(0, 123, 255, 0.7); 
-  background-color: color-mix(in srgb, var(--background-color), transparent 5%);
-
     color: white;
     border: none;
     border-radius: 50%; 
@@ -33,3 +31,13 @@
     bottom: 200px; 
 }
 
+@media (max-width: 768px) {
+  .scrollToTopContainer {
+  left: 90%;
+  }
+  }
+@media (max-width: 480px) {
+     .scrollToTopContainer {
+  left: 83%;
+  }
+}
