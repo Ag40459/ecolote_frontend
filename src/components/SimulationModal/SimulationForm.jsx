@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import styles from '../SimulationModal/SimulationModal.module.css';
-import EnergyPulseAnimation from '../UI/EnergyPulseAnimation';
+import EnergyPulseAnimation from '../UI/EnergyPulseAnimation' ;
 
 const SimulationForm = ({ 
   initialValue, 

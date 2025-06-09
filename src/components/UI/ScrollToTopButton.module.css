@@ -29,13 +29,13 @@
 
 @media (max-width: 768px) {
   .scrollToTopContainer {
-  left: 90%;
-    bottom: 21%; 
+  left: 89%;
+    bottom: 22%; 
   }
   }
 @media (max-width: 480px) {
      .scrollToTopContainer {
   left: 83%;
-    bottom: 23%; 
+    top: 10%; 
   }
 }

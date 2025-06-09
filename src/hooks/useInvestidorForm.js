@@ -10,12 +10,9 @@ export const useInvestidorForm = () => {
   const [invEstado, setInvEstado] = useState("");
   const [invValorInvestimento, setInvValorInvestimento] = useState("");
 
-  // Campos opcionais que o controller atual não espera, mas podem ser úteis no futuro
-  // const [invAreaInteresse, setInvAreaInteresse] = useState("");
-  // const [invMensagem, setInvMensagem] = useState("");
 
   const resetInvestidorForm = useCallback(() => {
-    setInvNome("");
+    setInvNome(""); 
     setInvEmail("");
     setInvTelefone("");
     setInvTipoInvestidor(""); // Adicionado

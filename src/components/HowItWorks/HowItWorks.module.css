@@ -1,9 +1,7 @@
 @import './HowItWorks.module.carousel.css';
 @import './HowItWorks.module.responsive.css';
 
-
 .container {
-  padding: 4rem 2rem;
   position: relative;
   overflow: hidden;
   background-color: color-mix(in srgb, var(--background-color), transparent 50%); 
@@ -24,7 +22,6 @@
   color: var(--text-color);
   border-radius: 20px;
   box-shadow: var(--shadow-md);
-  padding: 1.5rem;
   display: flex;
   overflow: hidden;
   transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);

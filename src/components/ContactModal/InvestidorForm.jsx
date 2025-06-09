@@ -1,11 +1,11 @@
 import { useForm } from 'react-hook-form';
 import styles from './ContactModal.module.css';
 import { valorInvestimentoOptions } from '../../config/formConfig';
-import { fetchCNPJData } from '../../utils/cnpjService';
+import { fetchCepData } from '../../utils/cepService'; // Corrected import
 import { formatPhone, formatCep } from '../../utils/formatters';
-import { useEffect } from 'react';
+import { useCallback,useEffect } from 'react';
 
-const InvestidorForm = ({ onSubmitTrigger }) => {
+const InvestidorForm = ({ onFormSubmitReady, onFormSubmitData }) => {
   const {
     register,
     handleSubmit,
@@ -27,15 +27,14 @@ const InvestidorForm = ({ onSubmitTrigger }) => {
     }
   });
 
-  const handleFormSubmit = (data) => {
-    console.log('Dados do formulário Investidor:', data);
-  };
+ const handleFormSubmit = useCallback((data) => {
+    onFormSubmitData(data);
+  }, [onFormSubmitData]);
 
-  useEffect(() => {
-    if (onSubmitTrigger) {
-      onSubmitTrigger(() => handleSubmit(handleFormSubmit)());
-    }
-  }, [onSubmitTrigger, handleSubmit]);
+ useEffect(() => {
+    const wrapped = handleSubmit(handleFormSubmit);
+    onFormSubmitReady(wrapped);
+  }, [handleFormSubmit, handleSubmit, onFormSubmitReady]);
 
   const handleCepBlur = async (e) => {
     const cepRaw = e.target.value;
@@ -44,7 +43,7 @@ const InvestidorForm = ({ onSubmitTrigger }) => {
     if (cep.length === 8) {
       clearErrors('invCep');
       try {
-        const address = await fetchCNPJData(cep);
+        const address = await fetchCepData(cep); // Corrected function call
         if (address && !address.erro) {
           setValue('invCidade', address.localidade, { shouldDirty: true, shouldValidate: false });
           setValue('invEstado', address.uf, { shouldDirty: true, shouldValidate: false });
@@ -150,11 +149,10 @@ const InvestidorForm = ({ onSubmitTrigger }) => {
         </select>
         {errors.invValorInvestimento && <span className={styles.error}>{errors.invValorInvestimento.message}</span>}
       </div>
-
-      {/* O botão de submit deve estar no formulário pai (ContactModal) */}
     </>
   );
 };
 
 export default InvestidorForm;
+
 

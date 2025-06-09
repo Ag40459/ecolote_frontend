@@ -8,12 +8,11 @@ import VerificationCodeModal from '../ContactModal/VerificationCodeModal';
 import SimulationForm from './SimulationForm';
 import SimulationResults from './SimulationResults';
 
-// Componente para o modal de pretensão de pagamento
 const PaymentIntentionModal = ({ isOpen, onClose, onSelect }) => {
   if (!isOpen) return null;
 
   const options = [
-    { value: "avista", label: "À vista", order: 1 },
+    { value: "avista", label: "À vista", order: 1  },
     { value: "financiado", label: "Financiado", order: 2 },
     { value: "cartao", label: "Cartão", order: 3 }
   ];
@@ -290,4 +289,3 @@ const SimulationModal = ({ initialValue, onClose }) => {
 };
 
 export default SimulationModal;
-

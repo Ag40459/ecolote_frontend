@@ -1,8 +1,9 @@
-import { useEffect } from 'react';
+import { useEffect, useCallback } from 'react';
 import styles from './ContactModal.module.css';
 import { useForm, Controller } from 'react-hook-form';
 import { NumericFormat } from 'react-number-format';
 import { formatPhone, formatCep } from '../../utils/formatters';
+import { fetchCepData } from '../../utils/cepService';
 
 const modelosImovelPF = [
   { value: "", label: "Tipo de Moradia" },
@@ -20,7 +21,7 @@ const pretensaoPagamentoOptions = [
   { value: "financiado", label: "Financiamento" },
 ];
 
-const PessoaFisicaForm = ({ formData, loadingCep, cepError, onSubmitTrigger }) => {
+const PessoaFisicaForm = ({ onFormSubmitReady, onFormSubmitData, loadingCep, cepError, setLoadingCep, setCepError }) => {
   const {
     control,
     register,
@@ -30,55 +31,69 @@ const PessoaFisicaForm = ({ formData, loadingCep, cepError, onSubmitTrigger }) =
     formState: { errors }
   } = useForm({
     defaultValues: {
-      pfName: formData?.pfName || '',
-      pfTelefone: formData?.pfTelefone || '',
-      pfEmail: formData?.pfEmail || '',
-      pfModeloImovel: formData?.pfModeloImovel || '',
-      pfOutroModeloImovel: formData?.pfOutroModeloImovel || '',
-      pfMediaContaEnergia: formData?.pfMediaContaEnergia || null,
-      pfCep: formData?.pfCep || '',
-      pfPretensaoPagamento: formData?.pfPretensaoPagamento || '',
-      pfRua: formData?.pfRua || '',
-      pfNumero: formData?.pfNumero || '0001',
-      pfComplemento: formData?.pfComplemento || '',
-      pfBairro: formData?.pfBairro || '',
-      pfCidade: formData?.pfCidade || '',
-      pfEstado: formData?.pfEstado || ''
+      pfName: '',
+      pfTelefone: '',
+      pfEmail: '',
+      pfModeloImovel: '',
+      pfOutroModeloImovel: '',
+      pfMediaContaEnergia: null,
+      pfCep: '',
+      pfPretensaoPagamento: '',
+      pfRua: '',
+      pfNumero: '0001',
+      pfComplemento: '',
+      pfBairro: '',
+      pfCidade: '',
+      pfEstado: ''
     }
   });
 
-  const handleFormSubmit = (data) => {
-    console.log('Dados do formulário Pessoa Física:', data);
-  };
-
-  useEffect(() => {
-    if (onSubmitTrigger) {
-      onSubmitTrigger(() => handleSubmit(handleFormSubmit)());
-    }
-  }, [onSubmitTrigger, handleSubmit]);
+   const handleFormSubmit = useCallback((data) => {
+      onFormSubmitData(data);
+    }, [onFormSubmitData]);
+  
+   useEffect(() => {
+      const wrapped = handleSubmit(handleFormSubmit);
+      onFormSubmitReady(wrapped);
+    }, [handleFormSubmit, handleSubmit, onFormSubmitReady]);
 
   const watchedCep = watch('pfCep');
-  const watchedRua = watch('pfRua');
-  const watchedNumero = watch('pfNumero');
-  const watchedComplemento = watch('pfComplemento');
-  const watchedBairro = watch('pfBairro');
-  const watchedCidade = watch('pfCidade');
-  const watchedEstado = watch('pfEstado');
 
   useEffect(() => {
-    if (formData?.pfRua !== watchedRua) setValue('pfRua', formData?.pfRua || '');
-    if (formData?.pfNumero !== watchedNumero) setValue('pfNumero', formData?.pfNumero || '0001');
-    if (formData?.pfComplemento !== watchedComplemento) setValue('pfComplemento', formData?.pfComplemento || '');
-    if (formData?.pfBairro !== watchedBairro) setValue('pfBairro', formData?.pfBairro || '');
-    if (formData?.pfCidade !== watchedCidade) setValue('pfCidade', formData?.pfCidade || '');
-    if (formData?.pfEstado !== watchedEstado) setValue('pfEstado', formData?.pfEstado || '');
-  }, [
-    formData?.pfRua, formData?.pfNumero, formData?.pfComplemento, 
-    formData?.pfBairro, formData?.pfCidade, formData?.pfEstado, 
-    setValue, 
-    watchedRua, watchedNumero, watchedComplemento, 
-    watchedBairro, watchedCidade, watchedEstado
-  ]);
+    if (watchedCep && watchedCep.replace(/[^0-9]/g, "").length === 8) {
+      const numericCep = watchedCep.replace(/[^0-9]/g, "");
+      setLoadingCep(true);
+      setCepError("");
+      fetchCepData(numericCep)
+        .then(data => {
+          setLoadingCep(false);
+          if (data.erro) {
+            setCepError("CEP não encontrado.");
+            setValue('pfRua', '');
+            setValue('pfNumero', '0001');
+            setValue('pfComplemento', '');
+            setValue('pfBairro', '');
+            setValue('pfCidade', '');
+            setValue('pfEstado', '');
+            return;
+          }
+          setValue('pfRua', data.logradouro || '');
+          setValue('pfBairro', data.bairro || '');
+          setValue('pfCidade', data.localidade || '');
+          setValue('pfEstado', data.uf || '');
+        })
+        .catch(err => {
+          setLoadingCep(false);
+          setCepError(err.message || "Erro ao buscar CEP. Tente novamente.");
+          setValue('pfRua', '');
+          setValue('pfNumero', '0001');
+          setValue('pfComplemento', '');
+          setValue('pfBairro', '');
+          setValue('pfCidade', '');
+          setValue('pfEstado', '');
+        });
+    }
+  }, [watchedCep, setValue, setLoadingCep, setCepError]);
 
   return (
     <>
@@ -200,8 +215,6 @@ const PessoaFisicaForm = ({ formData, loadingCep, cepError, onSubmitTrigger }) =
             onChange: (e) => {
               const formatted = formatCep(e.target.value);
               setValue('pfCep', formatted, { shouldValidate: true });
-              // Disparar busca de CEP no componente pai, se necessário
-              // Ex: props.onCepChange(formatted);
             }
           })}
         />
@@ -234,4 +247,5 @@ const PessoaFisicaForm = ({ formData, loadingCep, cepError, onSubmitTrigger }) =
 };
 
 export default PessoaFisicaForm;
+
 

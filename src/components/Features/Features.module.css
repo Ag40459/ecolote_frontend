@@ -2,7 +2,7 @@
   padding: 4rem 2rem;
   position: relative;
   overflow: hidden;
-  background-color: var(--background-color, #1a1a1a); 
+  background-color: var(--background-color, #1a1a1a);
   color: var(--text-color, #f0f0f0);
 }
 
@@ -48,7 +48,6 @@
   border: 1px solid var(--primary-color, #00aaff);
 }
 
-/* --- Estilos do Carrossel --- */
 .carouselContainer {
   position: relative;
   width: 100%;
@@ -59,46 +58,44 @@
   display: flex;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none;  /* IE 10+ */
-  padding: 1rem 0; /* Add some padding for shadow visibility */
-  gap: 1.5rem; /* Espaçamento entre os cards */
-  /* Ajuste as margens laterais para centralizar ou alinhar */
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding: 1rem 0;
+  gap: 1.5rem;
   margin: 0 auto;
-  max-width: calc(100% - 80px); /* Deixa espaço para as setas no desktop */
+  max-width: calc(100% - 80px);
 }
 
 .carousel::-webkit-scrollbar {
-  display: none; /* Safari and Chrome */
+  display: none;
 }
 
 .featureCard {
-  background-color: var(--card-bg, #2a2a2a);
-  border-radius: 15px;
-  padding: 2rem;
-  box-shadow: var(--shadow-md, 0 4px 6px rgba(0, 0, 0, 0.1));
+  background-color: var(--card-bg, white);
+  color: var(--text-color);
+  border-radius: 20px;
+  box-shadow: var(--shadow-md);
+  padding: 1.5rem;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  height: auto; /* Altura automática para acomodar conteúdo */
-  min-height: 380px; /* Altura mínima para consistência */
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  position: relative;
   overflow: hidden;
-  flex: 0 0 auto; /* Impede que os cards encolham/esticam */
-  scroll-snap-align: center; /* Centraliza o card no snap */
-  width: 320px; /* Largura padrão do card */
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 100%;
+  max-width: 550px;
+  position: relative;
+  flex-direction: column;
+  align-items: stretch;
+  flex: 0 0 auto;
+  scroll-snap-align: center;
   opacity: 0;
   animation: fadeInCard 0.5s ease forwards;
 }
 
-/* Animação de entrada (mantida) */
-.featureCard:nth-child(1) { animation-delay: 0.1s; }
-.featureCard:nth-child(2) { animation-delay: 0.2s; }
-.featureCard:nth-child(3) { animation-delay: 0.3s; }
-/* Adicione mais delays se necessário */
+.featureCard.expanded {
+  padding: 1.5rem;
+  flex-direction: column;
+  align-items: stretch;
+}
 
 @keyframes fadeInCard {
   from {
@@ -116,88 +113,161 @@
   box-shadow: var(--shadow-lg, 0 10px 15px rgba(0, 0, 0, 0.2));
 }
 
-.featureIconWrapper {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  background-color: rgba(var(--primary-rgb, 0, 170, 255), 0.1);
+.cardImageContainer {
+  flex-shrink: 0;
+  overflow: hidden;
+  border-radius: 12px;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 100%;
+  height: 200px;
+  margin-right: 0;
+  margin-bottom: 1.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 1rem;
-  flex-shrink: 0;
+  background-color: rgba(var(--primary-rgb, 0, 170, 255), 0.1);
 }
 
-.featureIcon {
-  font-size: 1.8rem;
+.featureCard.expanded .cardImageContainer {
+  width: 100%;
+  height: 200px;
+  margin-right: 0;
+  margin-bottom: 1.5rem;
+}
+
+.cardImagePlaceholder {
+  font-size: 4rem;
   color: var(--primary-color, #00aaff);
+}
+
+.cardContent {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  min-width: 0;
+  padding-right: 0;
+}
+
+.featureCard.expanded .cardContent {
+  padding-right: 0;
 }
 
 .featureTitle {
+  font-size: 1.5rem;
   font-weight: 700;
-  font-size: 1.25rem;
-  margin-bottom: 0.75rem;
-  color: var(--primary-color, #00aaff);
-  min-height: 2.5em; /* Garante espaço para títulos de duas linhas */
-  line-height: 1.25;
+  color: var(--primary-color, #0779e4);
+  margin: 0 0 1rem 0;
+  transition: all 0.5s ease;
+  text-align: center;
+}
+
+.featureCard.expanded .featureTitle {
+  font-size: 1.5rem;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.descriptionContainer {
+  overflow: hidden;
+  transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  max-height: 500px;
+}
+
+.featureCard.expanded .descriptionContainer {
+  max-height: 500px;
 }
 
 .featureDescription {
-  color: var(--text-secondary, #ccc);
-  margin-bottom: 1.5rem;
-  flex-grow: 1; /* Permite que a descrição ocupe espaço */
   font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--text-color);
+  margin: 0;
+  transition: color 0.3s ease;
   text-align: justify;
-  line-height: 1.5;
-  width: 100%;
-  /* Padronização de Texto com reticências */
-  display: -webkit-box;
-  -webkit-line-clamp: 4; /* Limita a 4 linhas */
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  min-height: calc(4 * 1.5 * 0.95rem); /* Altura mínima baseada nas linhas */
 }
 
-.featureDetails {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.5s ease-out, margin-top 0.5s ease-out, opacity 0.5s ease-out;
-  color: var(--text-color, #ddd);
-  font-size: 0.9rem;
+.featureCard.expanded .featureDescription {
+  color: var(--text-color);
   text-align: justify;
-  line-height: 1.5;
-  width: 100%;
-  opacity: 0;
+  font-size: 0.95rem;
 }
 
-.expanded {
-  max-height: 300px; /* Ajuste conforme necessário */
+.featureDetailsExpanded {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--text-color);
   margin-top: 1rem;
-  margin-bottom: 1rem;
-  opacity: 1;
+  text-align: justify;
 }
 
-.detailsButton {
-  background-color: transparent;
-  border: 2px solid var(--primary-color, #00aaff);
-  color: var(--primary-color, #00aaff);
-  padding: 0.6rem 1.2rem;
-  border-radius: 25px;
-  cursor: pointer;
-  font-weight: 600;
-  transition: all 0.3s ease;
-  margin-top: auto; /* Empurra o botão para baixo */
-  align-self: center;
-}
-
-.detailsButton:hover {
-  background-color: var(--primary-color, #00aaff);
+.toggleButton {
+  position: relative;
+  bottom: auto;
+  right: auto;
+  background-color: var(--primary-color, #0779e4);
   color: white;
-  transform: scale(1.05);
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.3s ease;
+  z-index: 5;
+  align-self: center;
+  margin-top: 1.5rem;
 }
 
-/* Setas de Navegação */
+.toggleButton:hover {
+  background-color: var(--primary-color-dark, #055aab);
+  transform: scale(1.1);
+}
+
+.featureCard.expanded .toggleButton {
+  position: relative;
+  bottom: auto;
+  right: auto;
+  align-self: center;
+  margin-top: 1.5rem;
+  width: 36px;
+  height: 36px;
+}
+
+.toggleButton::before,
+.toggleButton::after {
+  content: "";
+  position: absolute;
+  background-color: currentColor;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.toggleButton::before {
+  width: 50%;
+  height: 2px;
+  left: 25%;
+  top: calc(50% - 1px);
+}
+
+.toggleButton::after {
+  width: 2px;
+  height: 50%;
+  top: 25%;
+  left: calc(50% - 1px);
+}
+
+.featureCard.expanded .toggleButton::before {
+  transform: rotate(0deg);
+}
+
+.featureCard.expanded .toggleButton::after {
+  transform: scaleY(0);
+}
+
 .carouselArrow {
   position: absolute;
   top: 50%;
@@ -238,9 +308,6 @@
   right: 10px;
 }
 
-/* --- Responsividade --- */
-
-/* Telas menores (Mobile) */
 @media (max-width: 767px) {
   .featuresContainer {
     padding: 3rem 1rem;
@@ -256,47 +323,44 @@
   }
 
   .carousel {
-    max-width: 100%; /* Ocupa toda a largura */
-    padding-left: 1rem; /* Ajuste para alinhar o primeiro card */
-    padding-right: 1rem; /* Ajuste para alinhar o último card */
+    max-width: 100%;
+    padding-left: 1rem;
+    padding-right: 1rem;
     gap: 1rem;
   }
 
   .featureCard {
-    width: 85%; /* Um card visível por vez */
+    width: 85%;
     min-width: 280px;
     scroll-snap-align: center;
   }
 
-  /* Esconder setas no mobile (scroll por toque é o padrão) */
   .carouselArrow {
     display: none;
   }
 }
 
-/* Telas médias (Tablet) */
 @media (min-width: 768px) and (max-width: 1024px) {
   .carousel {
-    max-width: calc(100% - 90px); /* Espaço para setas */
+    max-width: calc(100% - 90px);
   }
 
   .featureCard {
-    width: calc(50% - 0.75rem); /* Dois cards visíveis */
+    width: calc(50% - 0.75rem);
     min-width: 300px;
-    scroll-snap-align: start; /* Alinha pelo início */
-  }
-}
-
-/* Telas grandes (Desktop) */
-@media (min-width: 1025px) {
-  .carousel {
-    max-width: 1100px; /* Limite máximo para o carrossel */
-    /* Ajuste a max-width conforme o número de cards desejado */
-  }
-
-  .featureCard {
-    width: 320px; /* Largura fixa para 3+ cards */
     scroll-snap-align: start;
   }
 }
+
+@media (min-width: 1025px) {
+  .carousel {
+    max-width: 1100px;
+  }
+
+  .featureCard {
+    width: 320px;
+    scroll-snap-align: start;
+  }
+}
+
 

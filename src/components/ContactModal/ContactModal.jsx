@@ -1,62 +1,57 @@
-import React, { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import styles from "./ContactModal.module.css";
 import { fetchCepData } from "../../utils/cepService";
 import apiClient from "../../services/apiClient";
-
-// Importando os hooks de formulário
-import { usePessoaFisicaForm } from "../../hooks/usePessoaFisicaForm";
-import { usePessoaJuridicaForm } from "../../hooks/usePessoaJuridicaForm";
-import { useInvestidorForm } from "../../hooks/useInvestidorForm";
-
-// Importando os componentes de formulário
 import PessoaFisicaForm from "./PessoaFisicaForm";
 import PessoaJuridicaForm from "./PessoaJuridicaForm";
 import InvestidorForm from "./InvestidorForm";
 import VerificationCodeModal from "./VerificationCodeModal";
+import { useInvestidorForm } from "../../hooks/useInvestidorForm";
 
 const ContactModal = ({ isOpen, onClose }) => {
-  const [modalStep, setModalStep] = useState(1); // 1 for type selection, 2 for form
+  const [modalStep, setModalStep] = useState(1);
   const [selectedType, setSelectedType] = useState("");
   const [loadingCep, setLoadingCep] = useState(false);
   const [cepError, setCepError] = useState("");
-
-  // Estados para o envio do formulário
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccessMessage, setSubmitSuccessMessage] = useState("");
   const [submitErrorMessage, setSubmitErrorMessage] = useState("");
-  
-  // Estados para verificação de código
   const [isVerificationModalOpen, setIsVerificationModalOpen] = useState(false);
   const [tempFormData, setTempFormData] = useState(null);
-  const [verificationEmail, setVerificationEmail] = useState('');
-
-  const pfForm = usePessoaFisicaForm();
-  const pjForm = usePessoaJuridicaForm();
-  const invForm = useInvestidorForm();
-
-  const resetAllFormsAndMessages = useCallback(() => {
-    pfForm.resetPessoaFisicaForm();
-    pjForm.resetPessoaJuridicaForm();
-    invForm.resetInvestidorForm();
-    setCepError("");
-    setSubmitSuccessMessage("");
-    setSubmitErrorMessage("");
-    setIsSubmitting(false);
-    setTempFormData(null);
-    setVerificationEmail('');
-  }, [pfForm, pjForm, invForm]);
+  const [verificationEmail, setVerificationEmail] = useState("");
+  const [currentFormSubmit, setCurrentFormSubmit] = useState(null);
+  const [currentFormData, setCurrentFormData] = useState(null);
+  const investidorForm = useInvestidorForm();
 
   const handleTypeSelect = (type) => {
     setSelectedType(type);
     setModalStep(2);
-    resetAllFormsAndMessages(); // Reseta tudo ao selecionar novo tipo
+    setSubmitSuccessMessage("");
+    setSubmitErrorMessage("");
+    setTempFormData(null);
+    setVerificationEmail("");
+    setCurrentFormSubmit(null);
+    setCurrentFormData(null);
   };
 
   const handleBack = () => {
+    if (selectedType === "investidor") {
+      investidorForm.resetInvestidorForm();
+    }
     setModalStep(1);
     setSubmitSuccessMessage("");
     setSubmitErrorMessage("");
+    setCurrentFormSubmit(null);
+    setCurrentFormData(null);
   };
+
+  const onFormSubmitReady = useCallback((submitFn) => {
+    setCurrentFormSubmit(() => submitFn);
+  }, []);
+
+  const onFormSubmitData = useCallback((data) => {
+    setCurrentFormData(data);
+  }, []);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -64,86 +59,93 @@ const ContactModal = ({ isOpen, onClose }) => {
     setSubmitSuccessMessage("");
     setSubmitErrorMessage("");
 
-    let endpoint = "";
-    let payload = {};
-    let email = "";
-
-    if (selectedType === "pessoa física") {
-      endpoint = "/pessoas-fisicas";
-      payload = pfForm.getValues();
-      email = payload.email;
-    } else if (selectedType === "pessoa jurídica") {
-      endpoint = "/pessoas-juridicas";
-      payload = pjForm.getValues();
-      email = payload.email_comercial;
-    } else if (selectedType === "investidor") {
-      endpoint = "/investidores";
-      payload = invForm.getValues();
-      email = payload.email;
-    }
-
-    if (endpoint) {
+    if (currentFormSubmit) {
       try {
-        // Armazena os dados temporariamente e solicita o código de verificação
-        setTempFormData({ endpoint, payload });
-        setVerificationEmail(email);
-        
-        console.log("Enviando solicitação de código para:", email);
-        
-        // Chama a API para enviar o código de verificação
-        await apiClient.post('/verificacao/enviar-codigo', { email });
-        
-        // Abre o modal de verificação
-        setIsVerificationModalOpen(true);
-        
+        await currentFormSubmit();
       } catch (error) {
-        console.error("Erro ao iniciar verificação:", error);
-        if (error.response && error.response.data && error.response.data.message) {
-          setSubmitErrorMessage(error.response.data.message);
-        } else {
-          setSubmitErrorMessage("Não foi possível iniciar a verificação. Tente novamente mais tarde.");
-        }
-      } finally {
+        console.error("Erro na validação do formulário filho:", error);
+        setSubmitErrorMessage("Erro na validação do formulário. Verifique os campos.");
         setIsSubmitting(false);
       }
+    } else {
+      setSubmitErrorMessage("Nenhum formulário pronto para ser enviado.");
+      setIsSubmitting(false);
     }
   };
 
-  // Função para verificar o código
+  useEffect(() => {
+    const processFormData = async () => {
+      if (!currentFormData) return;
+
+      let endpoint = "";
+      let email = "";
+
+      if (selectedType === "pessoa física") {
+        endpoint = "/pessoas-fisicas";
+        email = currentFormData.pfEmail;
+      } else if (selectedType === "pessoa jurídica") {
+        endpoint = "/pessoas-juridicas";
+        email = currentFormData.pjEmailComercial;
+      } else if (selectedType === "investidor") {
+        endpoint = "/investidores";
+        email = currentFormData.invEmail;
+      }
+
+      if (endpoint && email) {
+        try {
+          setTempFormData({ endpoint, payload: currentFormData });
+          setVerificationEmail(email);
+          await apiClient.post("/verificacao/enviar-codigo", { email });
+          setIsVerificationModalOpen(true);
+        } catch (error) {
+          console.error("Erro ao iniciar verificação:", error);
+          if (error.response && error.response.data && error.response.data.message) {
+            setSubmitErrorMessage(error.response.data.message);
+          } else {
+            setSubmitErrorMessage("Não foi possível iniciar a verificação. Tente novamente mais tarde.");
+          }
+          setIsSubmitting(false);
+        }
+      } else {
+        setSubmitErrorMessage("Dados do formulário incompletos para envio.");
+        setIsSubmitting(false);
+      }
+    };
+
+    if (currentFormData) {
+      processFormData();
+    }
+  }, [currentFormData, selectedType]);
+
   const handleVerifyCode = async (code) => {
     if (!tempFormData) {
       throw new Error("Dados do formulário não encontrados");
     }
     try {
-      console.log("Verificando código:", code, "para email:", verificationEmail);
-      
-      // Verifica o código
-      await apiClient.post('/verificacao/validar-codigo', {
+      await apiClient.post("/verificacao/validar-codigo", {
         email: verificationEmail,
         codigo: code
       });
 
-      console.log("Código validado com sucesso, enviando dados do formulário");
-      
-      // Se o código for válido, envia os dados do formulário
       const response = await apiClient.post(tempFormData.endpoint, tempFormData.payload);
-      
-      // Fecha o modal de verificação
+
       setIsVerificationModalOpen(false);
-      
-      // Exibe mensagem de sucesso
       setSubmitSuccessMessage(response.data.message || "Dados enviados com sucesso!");
-      
-      // Limpa os formulários
-      resetAllFormsAndMessages();
-      
-      // Fecha o modal principal após um tempo
+
+      setTempFormData(null);
+      setVerificationEmail("");
+      setCurrentFormData(null);
+      setIsSubmitting(false);
+
       setTimeout(() => {
+        if (selectedType === "investidor") {
+          investidorForm.resetInvestidorForm();
+        }
         setModalStep(1);
         onClose();
         setSelectedType("");
       }, 3000);
-      
+
     } catch (error) {
       console.error("Erro na verificação:", error);
       throw new Error(
@@ -152,70 +154,13 @@ const ContactModal = ({ isOpen, onClose }) => {
     }
   };
 
-  // Função para reenviar o código
   const handleResendCode = async () => {
     try {
-      console.log("Reenviando código para:", verificationEmail);
-      await apiClient.post('/verificacao/enviar-codigo', { email: verificationEmail });
+      await apiClient.post("/verificacao/enviar-codigo", { email: verificationEmail });
     } catch (error) {
       console.error("Erro ao reenviar código:", error);
     }
   };
-
-  // Efeito para buscar CEP 
-  const currentPfCep = pfForm.pfCep;
-  const currentPjCep = pjForm.pjCep;
-  const { setPfRua, setPfBairro, setPfCidade, setPfEstado } = pfForm;
-  const { setPjRua, setPjBairro, setPjCidade, setPjEstado } = pjForm;
-
-  useEffect(() => {
-    let cepToSearch = "";
-    let formTypeForCep = "";
-
-    if (selectedType === "pessoa física") {
-      cepToSearch = currentPfCep;
-      formTypeForCep = "pessoa física";
-    } else if (selectedType === "pessoa jurídica") {
-      cepToSearch = currentPjCep;
-      formTypeForCep = "pessoa jurídica";
-    }
-
-    if (cepToSearch && cepToSearch.replace(/[^0-9]/g, "").length === 8) {
-      const numericCep = cepToSearch.replace(/[^0-9]/g, "");
-      setLoadingCep(true);
-      setCepError("");
-      fetchCepData(numericCep)
-        .then(data => {
-          setLoadingCep(false);
-          if (data.erro) {
-            setCepError("CEP não encontrado.");
-            return;
-          }
-          if (formTypeForCep === "pessoa física") {
-            setPfRua(data.logradouro || "");
-            setPfBairro(data.bairro || "");
-            setPfCidade(data.localidade || "");
-            setPfEstado(data.uf || "");
-          } else if (formTypeForCep === "pessoa jurídica") {
-            setPjRua(data.logradouro || "");
-            setPjBairro(data.bairro || "");
-            setPjCidade(data.localidade || "");
-            setPjEstado(data.uf || "");
-          }
-        })
-        .catch(err => {
-          setLoadingCep(false);
-          setCepError(err.message || "Erro ao buscar CEP. Tente novamente.");
-          if (formTypeForCep === "pessoa física") {
-            setPfRua(""); setPfBairro(""); setPfCidade(""); setPfEstado("");
-          } else if (formTypeForCep === "pessoa jurídica") {
-            setPjRua(""); setPjBairro(""); setPjCidade(""); setPjEstado("");
-          }
-        });
-    }
-  }, [currentPfCep, currentPjCep, selectedType, 
-      setPfRua, setPfBairro, setPfCidade, setPfEstado, 
-      setPjRua, setPjBairro, setPjCidade, setPjEstado]);
 
   if (!isOpen) {
     return null;
@@ -223,13 +168,19 @@ const ContactModal = ({ isOpen, onClose }) => {
 
   const renderForm = () => {
     if (selectedType === "pessoa física") {
-      return <PessoaFisicaForm formData={pfForm} loadingCep={loadingCep} cepError={cepError} />;
+      return <PessoaFisicaForm onFormSubmitReady={onFormSubmitReady} onFormSubmitData={onFormSubmitData} loadingCep={loadingCep} cepError={cepError} setLoadingCep={setLoadingCep} setCepError={setCepError} />;
     }
     if (selectedType === "pessoa jurídica") {
-      return <PessoaJuridicaForm formData={pjForm} loadingCep={loadingCep} cepError={cepError} />;
+      return <PessoaJuridicaForm onFormSubmitReady={onFormSubmitReady} onFormSubmitData={onFormSubmitData} loadingCep={loadingCep} cepError={cepError} setLoadingCep={setLoadingCep} setCepError={setCepError} />;
     }
     if (selectedType === "investidor") {
-      return <InvestidorForm formData={invForm} />;
+      return (
+        <InvestidorForm
+          form={investidorForm}
+          onFormSubmitReady={onFormSubmitReady}
+          onFormSubmitData={onFormSubmitData}
+        />
+      );
     }
     return null;
   };
@@ -237,7 +188,21 @@ const ContactModal = ({ isOpen, onClose }) => {
   return (
     <div className={styles.modalOverlay}>
       <div className={styles.modalContent}>
-        <button className={styles.closeButton} onClick={() => { resetAllFormsAndMessages(); setModalStep(1); onClose(); }}>
+        <button
+          className={styles.closeButton}
+          onClick={() => {
+            if (selectedType === "investidor") {
+              investidorForm.resetInvestidorForm();
+            }
+            setModalStep(1);
+            onClose();
+            setSelectedType("");
+            setSubmitSuccessMessage("");
+            setSubmitErrorMessage("");
+            setCurrentFormSubmit(null);
+            setCurrentFormData(null);
+          }}
+        >
           &times;
         </button>
 
@@ -258,7 +223,9 @@ const ContactModal = ({ isOpen, onClose }) => {
 
         {modalStep === 2 && (
           <form onSubmit={handleSubmit} className={styles.contactForm}>
-            <button type="button" onClick={handleBack} className={styles.backButton} disabled={isSubmitting}>&larr; Voltar</button>
+            <button type="button" onClick={handleBack} className={styles.backButton} disabled={isSubmitting}>
+              &larr; Voltar
+            </button>
             <h2>Contato - {selectedType.charAt(0).toUpperCase() + selectedType.slice(1)}</h2>
             {renderForm()}
             {submitSuccessMessage && <p className={styles.successMessage}>{submitSuccessMessage}</p>}
@@ -269,8 +236,7 @@ const ContactModal = ({ isOpen, onClose }) => {
           </form>
         )}
       </div>
-      
-      {/* Modal de verificação */}
+
       <VerificationCodeModal
         isOpen={isVerificationModalOpen}
         onClose={() => setIsVerificationModalOpen(false)}

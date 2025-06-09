@@ -1,8 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
-import styles from './Features.module.css'; // Use the modified CSS file
+import styles from './Features.module.css';
 import { FaLeaf, FaMoneyBillWave, FaKey, FaCoins, FaMicrochip, FaUsers, FaChartLine, FaShieldAlt, FaNetworkWired, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 
-// Categorias de features (mantido)
 const categories = [
   { id: 'economia', name: 'Economia' },
   { id: 'sustentabilidade', name: 'Sustentabilidade' },
@@ -10,7 +9,6 @@ const categories = [
   { id: 'acesso', name: 'Flexibilidade' }
 ];
 
-// Features organizadas por categoria (mantido)
 const featuresByCategory = {
   economia: [
     {
@@ -89,28 +87,26 @@ const featuresByCategory = {
 };
 
 export default function Features() {
-  const [selectedCategory, setSelectedCategory] = useState('tecnologia'); // Categoria inicial
-  const [expandedIndex, setExpandedIndex] = useState(null); // Armazena o índice do card expandido (ou null)
+  const [selectedCategory, setSelectedCategory] = useState('tecnologia');
+  const [expandedIndex, setExpandedIndex] = useState(null);
   const carouselRef = useRef(null);
   const [showArrows, setShowArrows] = useState(false);
 
   const currentFeatures = featuresByCategory[selectedCategory] || [];
 
-  // Reseta o card expandido e o scroll ao mudar de categoria
   useEffect(() => {
     setExpandedIndex(null);
     if (carouselRef.current) {
       carouselRef.current.scrollTo({ left: 0, behavior: 'smooth' });
     }
-    checkArrows(); // Verifica se as setas são necessárias na nova categoria
+    checkArrows();
   }, [selectedCategory]);
 
-  // Função para expandir/recolher o card
-  const toggleExpand = (index) => {
+  const toggleExpand = (index, event) => {
+    event.stopPropagation();
     setExpandedIndex(prevIndex => (prevIndex === index ? null : index));
   };
 
-  // Função para verificar se as setas de navegação são necessárias
   const checkArrows = () => {
     if (carouselRef.current) {
       const { scrollWidth, clientWidth } = carouselRef.current;
@@ -118,20 +114,17 @@ export default function Features() {
     }
   };
 
-  // Verifica as setas no carregamento inicial e no redimensionamento da janela
   useEffect(() => {
     checkArrows();
     window.addEventListener('resize', checkArrows);
     return () => {
       window.removeEventListener('resize', checkArrows);
     };
-  }, [currentFeatures]); // Re-verifica quando as features mudam
+  }, [currentFeatures]);
 
-  // Funções de navegação do carrossel
   const handleScroll = (direction) => {
     if (carouselRef.current) {
       const { clientWidth } = carouselRef.current;
-      // Scrolla aproximadamente a largura visível do carrossel
       const scrollAmount = direction === 'left' ? -clientWidth * 0.8 : clientWidth * 0.8;
       carouselRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
     }
@@ -140,29 +133,37 @@ export default function Features() {
   const renderFeatureCard = (feature, index) => (
     <div
       key={`${selectedCategory}-${index}`}
-      className={styles.featureCard}
-      // Adiciona um ID para possível navegação interna ou testes
-      id={`feature-card-${selectedCategory}-${index}`}
+      className={`${styles.featureCard} ${expandedIndex === index ? styles.expanded : ''}`}
+      onClick={(e) => toggleExpand(index, e)}
     >
-      <div className={styles.featureIconWrapper}>
-        <div className={styles.featureIcon}>{feature.icon}</div>
+      <div className={styles.cardImageContainer}>
+        <div className={styles.cardImagePlaceholder}>
+          {feature.icon}
+        </div>
       </div>
-      <div className={styles.featureTitle}>{feature.title}</div>
-      {/* Descrição padronizada pelo CSS */}
-      <div className={styles.featureDescription}>{feature.description}</div>
-      {/* Detalhes expansíveis */}
-      <div
-        className={`${styles.featureDetails} ${expandedIndex === index ? styles.expanded : ''}`}
-      >
-        {feature.details}
+      <div className={styles.cardContent}>
+        <h3 className={styles.featureTitle}>{feature.title}</h3>
+        <div
+          className={styles.descriptionContainer}
+          id={`feature-details-${index}`}
+        >
+          <p className={styles.featureDescription}>
+            {expandedIndex === index ? feature.description : `${feature.description.substring(0, 60)}...`}
+          </p>
+          {expandedIndex === index && (
+            <p className={styles.featureDetailsExpanded}>
+              {feature.details}
+            </p>
+          )}
+        </div>
       </div>
-      {/* Botão "Saiba mais" / "Ver menos" */}
       <button
-        className={styles.detailsButton}
-        onClick={() => toggleExpand(index)}
+        className={styles.toggleButton}
+        onClick={(e) => toggleExpand(index, e)}
         aria-expanded={expandedIndex === index}
+        aria-controls={`feature-details-${index}`}
+        aria-label={expandedIndex === index ? 'Ver menos' : 'Saiba mais'}
       >
-        {expandedIndex === index ? 'Ver menos' : 'Saiba mais'}
       </button>
     </div>
   );
@@ -171,7 +172,6 @@ export default function Features() {
     <section id="features" className={styles.featuresContainer}>
       <h2 className={styles.title}>Diferenciais</h2>
 
-      {/* Navegação por categorias (mantida) */}
       <div className={styles.categoriesNav}>
         {categories.map(category => (
           <button
@@ -184,34 +184,28 @@ export default function Features() {
         ))}
       </div>
 
-      {/* Carrossel Unificado */}
       <div className={styles.carouselContainer}>
-        {/* Seta Esquerda (visível se necessário) */}
         {showArrows && (
           <button
             className={`${styles.carouselArrow} ${styles.carouselArrowLeft}`}
             onClick={() => handleScroll('left')}
             aria-label="Anterior"
-            // Desabilitar pode ser baseado no scrollLeft === 0, mas scrollBy lida bem com limites
           >
             <FaChevronLeft />
           </button>
         )}
 
-        {/* Conteúdo do Carrossel */}
         <div className={styles.carousel} ref={carouselRef}>
           {currentFeatures.map((feature, index) =>
             renderFeatureCard(feature, index)
           )}
         </div>
 
-        {/* Seta Direita (visível se necessário) */}
         {showArrows && (
           <button
             className={`${styles.carouselArrow} ${styles.carouselArrowRight}`}
             onClick={() => handleScroll('right')}
             aria-label="Próximo"
-            // Desabilitar pode ser baseado no scrollLeft >= scrollWidth - clientWidth
           >
             <FaChevronRight />
           </button>
@@ -220,4 +214,5 @@ export default function Features() {
     </section>
   );
 }
+
 

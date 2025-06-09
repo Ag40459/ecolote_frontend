@@ -1,9 +1,10 @@
-import { useEffect } from 'react';
+import { useEffect, useCallback } from 'react';
 import styles from './ContactModal.module.css';
 import { useForm, Controller } from 'react-hook-form';
 import { NumericFormat } from 'react-number-format';
 import { formatCNPJ, formatPhone, onlyNumbers } from '../../utils/formatters';
 import { fetchCNPJData } from '../../utils/cnpjService';
+import { fetchCepData } from '../../utils/cepService';
 import { modelosImovelPJ, pretensaoPagamentoOptions } from '../../config/formConfig';
 
 const setIfEmpty = (currentValue, newValue, setFunction) => {
@@ -12,59 +13,48 @@ const setIfEmpty = (currentValue, newValue, setFunction) => {
   }
 };
 
-const PessoaJuridicaForm = ({ formData, loadingCep, cepError }) => {
+const PessoaJuridicaForm = ({ onFormSubmitReady, onFormSubmitData, loadingCep, cepError, setLoadingCep, setCepError }) => {
   const {
     control,
     register,
     setValue,
     watch,
+    handleSubmit,
     formState: { errors }
   } = useForm({
     defaultValues: {
-      pjCnpj: formData.pjCnpj || '',
-      pjNomeEmpresa: formData.pjNomeEmpresa || '',
-      pjNomeResponsavel: formData.pjNomeResponsavel || '',
-      pjTelefone: formData.pjTelefone || '',
-      pjEmailComercial: formData.pjEmailComercial || '',
-      pjModeloImovel: formData.pjModeloImovel || '',
-      pjOutroModeloImovel: formData.pjOutroModeloImovel || '',
-      pjMediaContaEnergia: formData.pjMediaContaEnergia || null,
-      pjCep: formData.pjCep || '',
-      pjPretensaoPagamento: formData.pjPretensaoPagamento || '',
-      pjRua: formData.pjRua || '',
-      pjNumero: formData.pjNumero || '0002',
-      pjComplemento: formData.pjComplemento || '',
-      pjBairro: formData.pjBairro || '',
-      pjCidade: formData.pjCidade || '',
-      pjEstado: formData.pjEstado || '',
-      pjTelefoneResponsavel: formData.pjTelefoneResponsavel || formData.pjTelefone || '' // Initialize with pjTelefone if empty
+      pjCnpj: '',
+      pjNomeEmpresa: '',
+      pjNomeResponsavel: '',
+      pjTelefone: '',
+      pjEmailComercial: '',
+      pjModeloImovel: '',
+      pjOutroModeloImovel: '',
+      pjMediaContaEnergia: null,
+      pjCep: '',
+      pjPretensaoPagamento: '',
+      pjRua: '',
+      pjNumero: '0002',
+      pjComplemento: '',
+      pjBairro: '',
+      pjCidade: '',
+      pjEstado: '',
+      pjTelefoneResponsavel: ''
     }
   });
 
   const watchedValues = watch();
 
-  // Effect 1: Update external formData state when RHF values change
-  useEffect(() => {
-    formData.setPjCnpj(watchedValues.pjCnpj);
-    formData.setPjNomeEmpresa(watchedValues.pjNomeEmpresa);
-    formData.setPjNomeResponsavel(watchedValues.pjNomeResponsavel);
-    formData.setPjTelefone(watchedValues.pjTelefone);
-    formData.setPjEmailComercial(watchedValues.pjEmailComercial);
-    formData.setPjModeloImovel(watchedValues.pjModeloImovel);
-    formData.setPjOutroModeloImovel(watchedValues.pjOutroModeloImovel);
-    formData.setPjMediaContaEnergia(watchedValues.pjMediaContaEnergia);
-    formData.setPjCep(watchedValues.pjCep);
-    formData.setPjPretensaoPagamento(watchedValues.pjPretensaoPagamento);
-    formData.setPjRua(watchedValues.pjRua);
-    formData.setPjNumero(watchedValues.pjNumero);
-    formData.setPjComplemento(watchedValues.pjComplemento);
-    formData.setPjBairro(watchedValues.pjBairro);
-    formData.setPjCidade(watchedValues.pjCidade);
-    formData.setPjEstado(watchedValues.pjEstado);
-    formData.setPjTelefoneResponsavel(watchedValues.pjTelefoneResponsavel);
-  }, [watchedValues, formData]); // Keep formData in dependencies as its methods are used
+   const handleFormSubmit = useCallback((data) => {
+      onFormSubmitData(data);
+    }, [onFormSubmitData]);
+  
+   useEffect(() => {
+      const wrapped = handleSubmit(handleFormSubmit);
+      onFormSubmitReady(wrapped);
+    }, [handleFormSubmit, handleSubmit, onFormSubmitReady]);
 
-  // Effect 2: Fetch CNPJ data and update RHF state if fields are empty
+  // Effect to fetch CNPJ data and update RHF state if fields are empty
   useEffect(() => {
     const fetchData = async () => {
       const cleanCnpj = watchedValues.pjCnpj?.replace(/\D/g, '');
@@ -75,7 +65,6 @@ const PessoaJuridicaForm = ({ formData, loadingCep, cepError }) => {
           setIfEmpty(watchedValues.pjEmailComercial, data.email, (val) => setValue('pjEmailComercial', val));
           setIfEmpty(watchedValues.pjTelefone, formatPhone(`${data.ddd}${data.telefone}`), (val) => {
              setValue('pjTelefone', val);
-             // Also update responsible phone if it was empty or same as commercial
              if (!watchedValues.pjTelefoneResponsavel || watchedValues.pjTelefoneResponsavel === watchedValues.pjTelefone) {
                 setValue('pjTelefoneResponsavel', val);
              }
@@ -85,24 +74,53 @@ const PessoaJuridicaForm = ({ formData, loadingCep, cepError }) => {
           setIfEmpty(watchedValues.pjBairro, data.bairro, (val) => setValue('pjBairro', val));
           setIfEmpty(watchedValues.pjCidade, data.municipio, (val) => setValue('pjCidade', val));
           setIfEmpty(watchedValues.pjEstado, data.uf, (val) => setValue('pjEstado', val));
-          // Update CEP from CNPJ fetch only if the RHF CEP field is currently empty
           const fetchedCep = data.cep?.replace(/\D/g, '');
           setIfEmpty(watchedValues.pjCep, fetchedCep, (val) => setValue('pjCep', val));
         }
       }
     };
-    // Only run fetch if CNPJ is valid length
     if (watchedValues.pjCnpj?.replace(/\D/g, '').length === 14) {
         fetchData();
     }
-  }, [watchedValues.pjCnpj, setValue]); // Rerun only when CNPJ changes
+  }, [watchedValues.pjCnpj, setValue]);
 
-  // REMOVED Effect 3: Sync external formData.pjCep back to RHF - This caused the loop
-  // useEffect(() => {
-  //   if (formData.pjCep !== watchedValues.pjCep) {
-  //       setValue('pjCep', formData.pjCep || '');
-  //   }
-  // }, [formData.pjCep, setValue, watchedValues.pjCep]);
+  // Effect to fetch CEP data
+  const watchedCep = watch('pjCep');
+  useEffect(() => {
+    if (watchedCep && watchedCep.replace(/[^0-9]/g, '').length === 8) {
+      const numericCep = watchedCep.replace(/[^0-9]/g, '');
+      setLoadingCep(true);
+      setCepError('');
+      fetchCepData(numericCep)
+        .then(data => {
+          setLoadingCep(false);
+          if (data.erro) {
+            setCepError('CEP não encontrado.');
+            setValue('pjRua', '');
+            setValue('pjNumero', '0002');
+            setValue('pjComplemento', '');
+            setValue('pjBairro', '');
+            setValue('pjCidade', '');
+            setValue('pjEstado', '');
+            return;
+          }
+          setValue('pjRua', data.logradouro || '');
+          setValue('pjBairro', data.bairro || '');
+          setValue('pjCidade', data.localidade || '');
+          setValue('pjEstado', data.uf || '');
+        })
+        .catch(err => {
+          setLoadingCep(false);
+          setCepError(err.message || 'Erro ao buscar CEP. Tente novamente.');
+          setValue('pjRua', '');
+          setValue('pjNumero', '0002');
+          setValue('pjComplemento', '');
+          setValue('pjBairro', '');
+          setValue('pjCidade', '');
+          setValue('pjEstado', '');
+        });
+    }
+  }, [watchedCep, setValue, setLoadingCep, setCepError]);
 
   const isNomeEmpresaFromApi = watchedValues.pjCnpj?.replace(/\D/g, '').length === 14 && watchedValues.pjNomeEmpresa;
 
@@ -145,7 +163,6 @@ const PessoaJuridicaForm = ({ formData, loadingCep, cepError }) => {
           type="text"
           className={styles.formInput}
           placeholder="Nome"
-
           {...register('pjNomeResponsavel', { required: 'Nome do Responsável é obrigatório' })}
         />
         {errors.pjNomeResponsavel && <p className={styles.errorMessage}>{errors.pjNomeResponsavel.message}</p>}
@@ -164,7 +181,6 @@ const PessoaJuridicaForm = ({ formData, loadingCep, cepError }) => {
             onChange: (e) => {
               const formatted = formatPhone(e.target.value);
               setValue('pjTelefone', formatted, { shouldValidate: true });
-              // Update responsible phone only if it was empty or same as previous commercial phone
               if (!watchedValues.pjTelefoneResponsavel || watchedValues.pjTelefoneResponsavel === watchedValues.pjTelefone) {
                  setValue('pjTelefoneResponsavel', formatted);
               }
@@ -257,13 +273,12 @@ const PessoaJuridicaForm = ({ formData, loadingCep, cepError }) => {
           id="pjCep"
           type="tel"
           className={styles.formInput}
-          maxLength={8} // Keep maxLength to limit input length
+          maxLength={8}
           placeholder="CEP"
           {...register('pjCep', {
             required: 'CEP é obrigatório',
             pattern: { value: /^\d{8}$/, message: 'CEP inválido (somente números)' },
             onChange: (e) => {
-              // Allow only numbers and update RHF value
               const formatted = onlyNumbers(e.target.value);
               setValue('pjCep', formatted, { shouldValidate: true });
             }
@@ -289,7 +304,6 @@ const PessoaJuridicaForm = ({ formData, loadingCep, cepError }) => {
         {errors.pjPretensaoPagamento && <p className={styles.errorMessage}>{errors.pjPretensaoPagamento.message}</p>}
       </div>
 
-      {/* Hidden fields managed by RHF */}
       <input type="hidden" {...register('pjRua')} />
       <input type="hidden" {...register('pjNumero')} />
       <input type="hidden" {...register('pjComplemento')} />
@@ -302,3 +316,5 @@ const PessoaJuridicaForm = ({ formData, loadingCep, cepError }) => {
 };
 
 export default PessoaJuridicaForm;
+
+

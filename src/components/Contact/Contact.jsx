@@ -1,21 +1,20 @@
 import { useState, useEffect, useRef } from 'react';
-import styles from './Contact.module.css'; // Certifique-se que este é o Contact_corrected.module.css
-import ContactModal from '../ContactModal/ContactModal.jsx';
+import styles from './Contact.module.css';
+import SimulationModal from '../SimulationModal/SimulationModal.jsx';
 
 // --- Ícones Placeholder --- 
-// Substitua por seus SVGs reais ou componentes de ícones
 const PropertyIcon = () => <span style={{ fontSize: '2rem' }}>🔑</span>; 
 const SecurityIcon = () => <span style={{ fontSize: '2rem' }}>🛡️</span>;
 const SustainabilityIcon = () => <span style={{ fontSize: '2rem' }}>🌱</span>;
 // --- Fim Ícones Placeholder ---
 
 const ContactSection = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isSimulationModalOpen, setIsSimulationModalOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef(null);
 
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
+  const openSimulationModal = () => setIsSimulationModalOpen(true);
+  const closeSimulationModal = () => setIsSimulationModalOpen(false);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -40,7 +39,6 @@ const ContactSection = () => {
   }, []);
 
   const renderSolarParticles = () => {
-    // Função mantida como no original
     const particles = [];
     for (let i = 0; i < 10; i++) {
       particles.push(
@@ -76,14 +74,13 @@ const ContactSection = () => {
       </div>
 
       <div className={`${styles.contactContainer} container`}>
-         <h2 className={styles.sectionTitle}>
-            <span className={styles.titleHighlight}>Fale Conosco</span> e Faça Seu Pré-Cadastro
-         </h2>
+        <h2 className={styles.sectionTitle}>
+          <span className={styles.titleHighlight}>Fale Conosco</span> e Faça Seu Pré-Cadastro
+        </h2>
 
         <div className={styles.contactContent}>
           {/* Coluna Esquerda: Conteúdo Exclusivo para Desktop */}
           <div className={styles.contactInfoDesktopOnly}>
-            {/* Card/Seção 1: Propriedade Real */}
             <div className={styles.desktopInfoCard}>
               <div className={styles.desktopInfoIcon}> <PropertyIcon /> </div>
               <div className={styles.desktopInfoText}>
@@ -92,7 +89,6 @@ const ContactSection = () => {
               </div>
             </div>
 
-            {/* Card/Seção 2: Segurança e Garantia */}
             <div className={styles.desktopInfoCard}>
               <div className={styles.desktopInfoIcon}> <SecurityIcon /> </div>
               <div className={styles.desktopInfoText}>
@@ -100,10 +96,9 @@ const ContactSection = () => {
                 <p>Conte com 25 anos de garantia nos equipamentos, monitoramento 24/7 e seguro. Nossa associação garante a gestão e manutenção.</p>
               </div>
             </div>
+          </div>
 
-            </div>
-
-          {/* Coluna Direita: Ação de Pré-Cadastro (Mantida como antes) */}
+          {/* Coluna Direita: Ação de Pré-Cadastro */}
           <div className={styles.contactAction}>
             <div className={styles.actionCard}>
               <div className={styles.cardContent}>
@@ -114,8 +109,7 @@ const ContactSection = () => {
                   Faça seu pré-cadastro agora mesmo e garanta:
                 </p>
                 <div className={styles.benefitsList}>
-                   {/* Itens de benefício mantidos */}
-                   <div className={styles.benefitItem}>
+                  <div className={styles.benefitItem}>
                     <div className={styles.benefitCheck}>✓</div>
                     <span>Preço especial de pré-cadastro</span>
                   </div>
@@ -133,7 +127,7 @@ const ContactSection = () => {
                   </div>
                 </div>
                 <button
-                  onClick={openModal}
+                  onClick={openSimulationModal}
                   className={`${styles.reserveButton} ${styles.energyButton}`}
                 >
                   <span className={styles.buttonText}>Faça Sua Reserva</span>
@@ -153,10 +147,14 @@ const ContactSection = () => {
         </div>
       </div>
 
-      <ContactModal isOpen={isModalOpen} onClose={closeModal} />
+      {isSimulationModalOpen && (
+        <SimulationModal
+          initialValue={200}
+          onClose={closeSimulationModal}
+        />
+      )}
     </section>
   );
 };
 
 export default ContactSection;
-

@@ -1,6 +1,6 @@
 .faqSection {
   padding: 5rem 0;
-  background-color: var(--primary-bg-color);
+      background-color: color-mix(in srgb, var(--background-color), transparent 50%);
   position: relative;
   overflow: hidden;
 }
