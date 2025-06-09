@@ -131,6 +131,12 @@ const Navbar = ({ openAuthModal }) => {
     closeMenu();
   };
 
+  const handleFaqClick = (e) => {
+    e.preventDefault();
+    navigate('/faq');
+    closeMenu();
+  };
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (isMenuOpen && navContainerRef.current && !navContainerRef.current.contains(event.target) && menuToggleRef.current && !menuToggleRef.current.contains(event.target)) {
@@ -204,6 +210,7 @@ const Navbar = ({ openAuthModal }) => {
           <li><a href="#how-it-works" onClick={closeMenu}>Funcionamento</a></li>
           <li><a href="#simulation" onClick={closeMenu}>Simulação</a></li>
           <li><a href="#contact" onClick={closeMenu}>Contato</a></li>
+          <li><Link to="/faq" onClick={closeMenu}>FAQ</Link></li>
 
           {admin ? (
             <>

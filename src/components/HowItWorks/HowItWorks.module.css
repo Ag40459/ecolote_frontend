@@ -18,7 +18,7 @@
 }
 
 .stepCard {
-  background-color: var(--card-bg, white);
+  background-color: color-mix(in srgb, var(--background-color), transparent 50%); 
   color: var(--text-color);
   border-radius: 20px;
   box-shadow: var(--shadow-md);

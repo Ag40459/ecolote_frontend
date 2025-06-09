@@ -7,7 +7,7 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  background-color: color-mix(in srgb, var(--background-color), transparent 50%);
+  background-color: color-mix(in srgb, var(--background-color), transparent 50%); 
   overflow: hidden;
   width: 100%;
 }
@@ -17,7 +17,7 @@
   z-index: 2; /* Above blobs and dots */
   max-width: 900px;
   width: 100%;
-  padding: 0 20px;
+  padding: 0 20px; 
 }
 
 @keyframes fadeInUp {
