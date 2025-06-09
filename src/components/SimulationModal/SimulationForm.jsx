@@ -93,7 +93,7 @@ const SimulationForm = ({
                 placeholder="Valor médio da conta de luz"
                 className={styles.simulatorInput}
                 required
-                aria-label="Valor médio mensal da conta de energia"
+                aria-label="Valor médio mensal da conta de energia" 
               />
             </div>
           </div>

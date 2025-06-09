@@ -203,7 +203,6 @@ const Navbar = ({ openAuthModal }) => {
           <li><a href="#features" onClick={closeMenu}>Diferenciais</a></li>
           <li><a href="#how-it-works" onClick={closeMenu}>Funcionamento</a></li>
           <li><a href="#simulation" onClick={closeMenu}>Simulação</a></li>
-          <li><a href="#payment" onClick={closeMenu}>Pagamento</a></li>
           <li><a href="#contact" onClick={closeMenu}>Contato</a></li>
 
           {admin ? (

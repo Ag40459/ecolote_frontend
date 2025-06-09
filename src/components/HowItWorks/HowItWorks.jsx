@@ -154,7 +154,7 @@ const HowItWorks = () => {
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
-      <h2 className={styles.title}>Sua Jornada com o EcoLote</h2>
+      <h2 className={styles.title}>Funcionamento</h2>
 
       <div className={styles.carouselWrapper}>
         {!isMobile && (
