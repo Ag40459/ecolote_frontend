@@ -30,12 +30,12 @@
 @media (max-width: 768px) {
   .scrollToTopContainer {
   left: 89%;
-    bottom: 22%; 
+    bottom: 25%; 
   }
   }
 @media (max-width: 480px) {
      .scrollToTopContainer {
   left: 83%;
-    top: 10%; 
+    bottom: 27%; 
   }
 }
