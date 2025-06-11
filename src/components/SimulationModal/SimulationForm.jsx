@@ -78,11 +78,13 @@ const SimulationForm = ({
       </div>
       
       <div className={styles.modalContent}>
-        <h2 className={`${styles.modalTitle} sectionTitle`}>Custo Do Seu Ecolote</h2>
+        <h2 className={`${styles.modalTitle} sectionTitle`}>Custo Da Usina Solar</h2>
                 
         <form onSubmit={handleSubmitInternal}>
           {/* Input Valor da Conta - Label removido, placeholder adicionado */}
+              <span className={styles.currencySymbol2}>Custo médio mensal da sua conta de energia.</span>
           <div className={styles.formGroup} style={{"--animation-order": 1}}>
+
             <div className={styles.inputGroup}>
               <span className={styles.currencySymbol}>R$</span>
               <input

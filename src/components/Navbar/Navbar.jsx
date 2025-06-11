@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
-import styles from './Navbar.module.css'; 
+import Logo from '../../assets/logo.png';
+import styles from './Navbar.module.css';
 
 const themes = [
   { name: 'light', displayName: 'Claro', logoName: 'Ecolote Sol' }, 
@@ -27,12 +28,11 @@ const Navbar = ({ openAuthModal }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [currentTheme, setCurrentTheme] = useState(() => {
-      const savedTheme = localStorage.getItem('theme');
-      return themes.some(t => t.name === savedTheme) ? savedTheme : 'dark';
+    const savedTheme = localStorage.getItem('theme');
+    return themes.some(t => t.name === savedTheme) ? savedTheme : 'dark';
   });
   const [isThemeMenuOpen, setIsThemeMenuOpen] = useState(false);
   const [themeChangeMessage, setThemeChangeMessage] = useState('');
-  const [currentLogoName, setCurrentLogoName] = useState('');
   const { admin, logout } = useAuth();
   const navigate = useNavigate();
   const themeMenuToggleRef = useRef(null);
@@ -42,8 +42,6 @@ const Navbar = ({ openAuthModal }) => {
 
   useEffect(() => {
     applyTheme(currentTheme);
-    const themeData = themes.find(t => t.name === currentTheme);
-    setCurrentLogoName('EcoLote'); 
   }, [currentTheme]);
 
   const handleScroll = useCallback(() => {
@@ -70,7 +68,7 @@ const Navbar = ({ openAuthModal }) => {
     setIsMenuOpen(false);
     setIsThemeMenuOpen(false);
     if (window.innerWidth <= 992) {
-        document.body.style.overflow = '';
+      document.body.style.overflow = '';
     }
   }, []);
 
@@ -140,13 +138,13 @@ const Navbar = ({ openAuthModal }) => {
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (isMenuOpen && navContainerRef.current && !navContainerRef.current.contains(event.target) && menuToggleRef.current && !menuToggleRef.current.contains(event.target)) {
-         closeMenu();
+        closeMenu();
       }
       if (isThemeMenuOpen && themeMenuToggleRef.current && !themeMenuToggleRef.current.contains(event.target) && navContainerRef.current && !navContainerRef.current.contains(event.target)) {
-         const submenu = document.getElementById('theme-submenu');
-         if (submenu && !submenu.contains(event.target)) {
-            setIsThemeMenuOpen(false);
-         }
+        const submenu = document.getElementById('theme-submenu');
+        if (submenu && !submenu.contains(event.target)) {
+          setIsThemeMenuOpen(false);
+        }
       }
     };
 
@@ -169,7 +167,7 @@ const Navbar = ({ openAuthModal }) => {
       <div className={`${styles.container} container`}>
         <div className={styles.logoAreaContainer}>
           <a href="#" className={styles.logo} onClick={handleLogoClick}>
-            {currentLogoName}
+            <img src={Logo} alt="Logo Ecolote" className={styles.logoImage} />
           </a>
           {themeChangeMessage && (
             <span className={styles.themeChangeMessage}>{themeChangeMessage}</span>

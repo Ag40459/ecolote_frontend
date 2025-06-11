@@ -223,6 +223,7 @@
   font-size: 1rem;
   line-height: 1.6;
   color: var(--text-color);
+  text-align: justify;
 }
 
 .noResults {
@@ -356,7 +357,7 @@
   .faqCategory {
     width: 100%;
     max-width: 300px;
-    justify-content: center;
+    justify-content: left;
   }
   
   .faqQuestion {

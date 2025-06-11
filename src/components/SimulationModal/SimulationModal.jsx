@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import styles from './SimulationModal.module.css';
-import { solarCalculator, formatCurrency } from '../../utils/calc';
+import { solarCalculator,  formatCurrency } from '../../utils/calc';
 import { formatPhone, formatCep } from '../../utils/formatters';
 import { fetchCepData } from '../../utils/cepService';
 import apiClient from '../../services/apiClient';
@@ -27,7 +27,7 @@ const PaymentIntentionModal = ({ isOpen, onClose, onSelect }) => {
         >×</button>
         <h3 className={styles.intentionModalTitle}>Pretensão de Pagamento</h3>
         <p className={styles.intentionModalSubtitle}>
-          Como você pretende realizar o pagamento?
+          Pretenção de pagamento?
         </p>
         <div className={styles.intentionOptions}>
           {options.map(option => (

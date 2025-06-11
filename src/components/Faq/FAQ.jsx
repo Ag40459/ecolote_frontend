@@ -8,61 +8,67 @@ const faqData = [
     id: 1,
     category: 'concept',
     question: 'O que é exatamente o Ecolote e como funciona?',
-    answer: 'O Ecolote é um lote de 30m² com painéis solares instalados em uma região de alta incidência solar, registrado como sua propriedade individual. Os painéis geram energia que é convertida em créditos na sua conta de luz, eliminando ou reduzindo drasticamente sua fatura mensal, sem necessidade de instalação em sua residência.'
+    answer: 'O Ecolote é uma usina solar com tamanho mínimo de 35m², localizado em uma das cidades de maior incidência solar do estado, registrado como sua propriedade individual. Os painéis geram energia que é injetada na concessionária de elétrica e convertida em kWh.'
   },
   {
     id: 2,
     category: 'concept',
     question: 'Como funciona a propriedade do Ecolote?',
-    answer: 'Você é o proprietário legal do seu Ecolote, com escritura registrada em seu nome. A propriedade é permanente e pode ser vendida, transferida ou herdada como qualquer outro bem imóvel. Você mantém 100% dos créditos de energia gerados pelo seu lote.'
+    answer: 'Você é o proprietário legal do seu Ecolote, com escritura registrada em seu nome. A propriedade é permanente e pode ser vendida, transferida ou herdada como qualquer outro bem imóvel. Você mantém os kWh de energia gerados pelo seu lote.'
   },
   {
     id: 3,
     category: 'advantages',
     question: 'Quais as vantagens do Ecolote em comparação com painéis solares convencionais?',
-    answer: 'O Ecolote elimina a necessidade de espaço físico próprio, obras, manutenção direta e investimento inicial alto. É ideal para quem mora em apartamentos, imóveis alugados ou sem condições estruturais para instalação. Além disso, a localização em região de alta incidência solar garante geração otimizada durante todo o ano.'
+    answer: 'O Ecolote elimina a necessidade de espaço físico próprio, obras e manutenção direta. É ideal para quem mora em apartamentos, imóveis alugados ou sem condições estruturais para instalação. Além disso, a localização em região de alta incidência solar garante geração otimizada durante todo o ano.'
   },
   {
     id: 4,
     category: 'advantages',
     question: 'Posso ter um Ecolote mesmo morando em apartamento ou imóvel alugado?',
-    answer: 'Sim! Esta é uma das principais vantagens do Ecolote. Como sua usina é remota, você não precisa de telhado próprio ou autorização de proprietários. Os créditos são aplicados diretamente na sua conta de energia, independentemente de onde você more ou se mudar no futuro.'
+    answer: 'Sim! Esta é uma das principais vantagens do Ecolote. Como sua usina é remota, você não precisa de telhado próprio ou autorização de proprietários. Os kWh são armazenados diretamente no seu cadastro, e podem ser utilizados em qualquer cidade dentro do estado.'
   },
   {
     id: 5,
     category: 'financial',
     question: 'Qual o retorno financeiro esperado com o Ecolote?',
-    answer: 'O investimento no Ecolote geralmente se paga entre 4 e 6 anos, dependendo do seu consumo e da tarifa local de energia. Após esse período, você economiza 100% da sua conta de luz (exceto taxa mínima) por mais de 25 anos. Considerando o aumento constante das tarifas de energia, o retorno tende a ser ainda mais rápido ao longo do tempo.'
+    answer: 'O investimento no Ecolote geralmente se paga entre 3 e 6 anos, dependendo do seu consumo e da tarifa local de energia. Após esse período, você economiza 100% da sua conta de luz (exceto taxa mínima). Considerando o aumento constante das tarifas de energia, o retorno tende a ser ainda mais rápido ao longo do tempo.'
   },
   {
     id: 6,
     category: 'financial',
     question: 'O que acontece com a taxa de administração após o período inicial?',
-    answer: 'Seu investimento inclui a cobertura da taxa de administração por 6 anos (para pagamentos à vista) ou durante todo o financiamento. Após esse período, a taxa mensal será proporcional ao tamanho da sua usina, representando aproximadamente 15% da economia gerada, garantindo a manutenção e gestão contínua do sistema.'
+    answer: 'Seu investimento inclui a cobertura da taxa de administração por 5 anos (para pagamentos à vista) ou durante todo o financiamento. Após esse período, a taxa mensal será proporcional ao tamanho da sua usina, tendo seu valor mínima de R$ 24,90.'
   },
   {
     id: 7,
     category: 'technical',
     question: 'Como a energia gerada pelo meu Ecolote chega até minha casa?',
-    answer: 'A energia gerada é injetada na rede da concessionária e convertida em créditos através do sistema de compensação de energia. Esses créditos são automaticamente descontados da sua fatura mensal. Não há transmissão física direta - o sistema funciona como um banco de energia, onde você deposita a geração e retira quando precisa.'
+    answer: 'A energia gerada é injetada na rede da concessionária e convertida em kWh através do sistema de compensação de energia. Esses créditos são descontados na conta de energia indicada pelo proprietário.'
   },
   {
     id: 8,
     category: 'technical',
     question: 'Como é feita a manutenção e monitoramento do meu Ecolote?',
-    answer: 'Toda a manutenção é realizada por nossa equipe técnica especializada, sem custo adicional durante o período de garantia dos equipamentos (25 anos). O monitoramento é feito 24/7 por nosso sistema inteligente que detecta qualquer variação de desempenho. Você acompanha a geração em tempo real através do aplicativo Ecolote.'
+    answer: 'Toda a manutenção é realizada pela equipe técnica especializada da associação Ecolote. O monitoramento é feito 24/7 por nosso sistema inteligente que detecta qualquer variação de desempenho. Você acompanha a geração em tempo real através do aplicativo.'
   },
   {
     id: 9,
     category: 'advantages',
     question: 'O que acontece se eu me mudar para outro endereço?',
-    answer: 'Seus créditos de energia podem ser transferidos para qualquer nova unidade consumidora em seu nome, dentro da mesma área de concessão. Se você se mudar para outra região, pode transferir a propriedade do Ecolote ou mantê-la e destinar os créditos para familiares ou para venda.'
+    answer: 'Seus créditos de energia podem ser transferidos para qualquer nova unidade consumidora dentro da mesma área de concessão. Se você se mudar para outra região, pode vender, transferir a propriedade do Ecolote ou mantê-la e destinar os créditos para familiares ou para venda.'
   },
   {
     id: 10,
     category: 'technical',
     question: 'Qual a garantia de que meu Ecolote continuará gerando energia no futuro?',
-    answer: 'Os equipamentos têm garantia de fábrica de 25 anos, com vida útil estimada superior a 30 anos. A associação de proprietários garante a manutenção contínua e eventual substituição de componentes. Além disso, o contrato prevê seguro contra eventos climáticos e outros imprevistos.'
+    answer: 'Os equipamentos têm garantia de fábrica de 10 anos para defeitos de equipamentos e 25 aos de garantia na potencia de até 80% das placas solares. A associação de proprietários garante a manutenção contínua e eventual substituição de componentes. Além disso, o contrato prevê seguro contra eventos climáticos e outros imprevistos.'
+  },
+  {
+    id: 11,
+    category: 'technical',
+    question: 'Troca de peças após a garantia a preço de fábrica?',
+    answer: 'A associação Ecolote garante que, após o período de garantia, você poderá substituir qualquer componente do seu Ecolote a preço de custo. Isso garante que sua usina continue operando com eficiência máxima por muitos anos, sem custos excessivos.'
   }
 ];
 

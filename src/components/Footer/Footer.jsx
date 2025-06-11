@@ -14,7 +14,7 @@ const Footer = () => {
         </a>
       </div>
       <div className={styles.socialLinks}>
-        {/* Redes sociais */}
+        {/* Redes sociais 
         <a href="https://www.instagram.com/yourprofile" className={styles.socialIcon} target="_blank" rel="noopener noreferrer">
           <FaInstagram />
         </a>
@@ -27,6 +27,7 @@ const Footer = () => {
         <a href="https://www.tiktok.com/@yourprofile" className={styles.socialIcon} target="_blank" rel="noopener noreferrer">
           <FaTiktok />
         </a>
+        */}
       </div>
     </footer>
   );

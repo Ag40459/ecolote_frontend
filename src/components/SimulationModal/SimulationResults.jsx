@@ -43,13 +43,7 @@ const SimulationResults = ({ results, onPreRegister, onClose }) => {
             </span>
           </div>
           
-          <div className={styles.specificationCard2}>
-            <div className={styles.specificationIcon}>💰</div>
-            <div className={styles.specificationLabel}>Desconto Pré-Cadastro</div>
-            <div className={styles.specificationValue}>{formatCurrency(results.discount, 'display')}</div>
-          </div>
-
-          <div className={styles.specificationsGrid}>
+                   <div className={styles.specificationsGrid}>
             <div className={styles.specificationCard} style={{"--animation-order": 1}}>
               <div className={styles.specificationIcon}>📅</div>
               <div className={styles.specificationLabel}>Necessário Para Conta Informada</div>
@@ -73,19 +67,25 @@ const SimulationResults = ({ results, onPreRegister, onClose }) => {
               <div className={styles.specificationLabel}>Quantidade de Painéis</div>
               <div className={styles.specificationValue}>{results.modules} {'Unidades'}</div>
             </div>
-            
-            <div className={styles.specificationCard} style={{"--animation-order": 5}}>
-              <div className={styles.specificationIcon}>💹</div>
-              <div className={styles.specificationLabel}>Economia em 10 anos</div>
-              <div className={styles.specificationValue}>{formatCurrency(results.savingsIn10Years, 'display')}</div>
-            </div>
+           
             
             <div className={styles.specificationCard} style={{"--animation-order": 6}}>
               <div className={styles.specificationIcon}>⏱️</div>
-              <div className={styles.specificationLabel}>Tempo de Retorno</div>
+              <div className={styles.specificationLabel}>Payback (à-vista)</div>
               <div className={styles.specificationValue}>{results.paybackTime} {'anos'}</div>
             </div>
+
+
+<div className={styles.specificationCard}>
+            <div className={styles.specificationIcon}>💰</div>
+            <div className={styles.specificationLabel}>Desconto Pré-Cadastro</div>
+            <div className={styles.specificationValue}>{formatCurrency(results.discount, 'display')}</div>
           </div>
+
+            
+          </div>
+
+          
           
          <div className={styles.installmentNote}>
   {results.installmentCount === 60 ? (

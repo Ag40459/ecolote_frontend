@@ -65,7 +65,6 @@ export function formatCurrencyInput(value) {
   return `${formattedInteger},${decimalPart}`;
 }
 
-
 export const DROPDOWN_OPTIONS = [
   { value: 200, text: 'Até R$200' },
   { value: 400, text: 'De R$200 até R$400' },
@@ -76,6 +75,61 @@ export const DROPDOWN_OPTIONS = [
   { value: 2000, text: 'De R$1500 até R$2000' },
   { value: 3000, text: 'Acima de R$2000' }
 ];
+
+function calculateSavingsIn10Years(realGenerationKwh, energyRate, estimatedProjectCost) {
+  const annualTariffIncrease = 0.08;
+  const systemDegradation = 0.007;
+  const yearlyData = [];
+  
+  let currentRate = energyRate;
+  let currentGeneration = realGenerationKwh;
+  let totalSavings = 0;
+  let cumulativeSavings = 0;
+  
+  for (let year = 1; year <= 25; year++) {
+    const annualGeneration = currentGeneration * 12;
+    const annualSavings = annualGeneration * currentRate;
+    
+    totalSavings += annualSavings;
+    cumulativeSavings = totalSavings - estimatedProjectCost;
+    
+    yearlyData.push({
+      year,
+      generation: annualGeneration,
+      tariff: currentRate,
+      savings: annualSavings,
+      cumulativeSavings,
+      roi: (cumulativeSavings / estimatedProjectCost) * 100
+    });
+    
+    currentRate *= (1 + annualTariffIncrease);
+    currentGeneration *= (1 - systemDegradation);
+  }
+  
+  const savingsIn10Years = yearlyData
+    .filter(data => data.year <= 10)
+    .reduce((sum, data) => sum + data.savings, 0);
+  
+  let paybackTime = 25;
+  const paybackYear = yearlyData.find(data => data.cumulativeSavings >= 0);
+  
+  if (paybackYear) {
+    if (paybackYear.year === 1) {
+      paybackTime = 1;
+    } else {
+      const previousYear = yearlyData[paybackYear.year - 2];
+      const remainingToPayback = Math.abs(previousYear.cumulativeSavings);
+      const savingsInPaybackYear = paybackYear.savings;
+      const fraction = remainingToPayback / savingsInPaybackYear;
+      paybackTime = Number((previousYear.year + fraction).toFixed(1));
+    }
+  }
+  
+  return {
+    savingsIn10Years: Number(savingsIn10Years.toFixed(2)),
+    paybackTime
+  };
+}
 
 export function solarCalculator({
   monthlyBill,
@@ -91,11 +145,9 @@ export function solarCalculator({
   const baseAreaLimit = 35;
   const valorMetroQuadrado = 174;
 
-  // Ajuste 1: força o mínimo de 260 em vez de 272
   let consumptionKwh = Math.ceil(monthlyBill / energyRate);
   if (consumptionKwh < 260) consumptionKwh = 260;
 
-  // Cálculo base sem adicionais (como foi solicitado)
   const requiredKwp = consumptionKwh / (solarIrradiance * daysPerMonth * performanceRatio);
   const modules = Math.ceil(requiredKwp / modulePowerKw);
   const finalPowerKwp = Math.ceil(modules * modulePowerKw * 10) / 10;
@@ -107,13 +159,10 @@ export function solarCalculator({
   const areaAdditionalCost = Math.ceil(excessArea) * valorMetroQuadrado;
   const areaUsedInLots = Number((totalAreaRequired / baseAreaLimit).toFixed(2));
 
-  // Cálculo base do sistema sem adicionais (usado para entender valor por kWp)
   const estimatedPrice = finalPowerKwp * 2686;
 
-  // Ajuste 2: custo final com adicionais, sem alterar nome da variável final
   const estimatedPriceAdditionalCost = estimatedPrice + 6000 + areaAdditionalCost;
 
-  // Modelo do inversor com base no finalPowerKwp
   let inverterModel = "";
   if (finalPowerKwp <= 5) inverterModel = "WEG SIW300H M030 Híbrido";
   else if (finalPowerKwp <= 6) inverterModel = "WEG SIW200G M050";
@@ -125,7 +174,6 @@ export function solarCalculator({
   const inverterBrand = "GROWATT";
   const inverterQuantity = 1;
 
-  // Cálculo de financiamento
   const interestRate = 0.0156;
   let totalInstallments = 60;
 
@@ -145,8 +193,9 @@ export function solarCalculator({
       monthlyInstallment = calculateInstallment(estimatedPriceAdditionalCost, totalInstallments);
     }
   }
+  
+  const financialMetrics = calculateSavingsIn10Years(realGenerationKwh, energyRate, estimatedPriceAdditionalCost);
 
-  // Retorno com todos os campos preservados
   return {
     monthlyBill: Number(monthlyBill),
     energyRate: Number(energyRate),
@@ -169,6 +218,8 @@ export function solarCalculator({
     totalAreaRequired: Number(totalAreaRequired.toFixed(2)),
     excessArea: Number(excessArea.toFixed(2)),
     valorMetroQuadrado,
-    areaUsedInLots
+    areaUsedInLots,
+    savingsIn10Years: financialMetrics.savingsIn10Years,
+    paybackTime: financialMetrics.paybackTime
   };
 }
