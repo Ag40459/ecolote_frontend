@@ -1,5 +1,6 @@
 .navbar {
   background-color: var(--navbar-bg-color, rgba(34, 34, 34, 0.85));
+  background-color: color-mix(in srgb, var(--navbar-bg-color), transparent 50%); 
   padding: 0.8rem 0;
   position: fixed;
   top: 0;
@@ -13,9 +14,8 @@
 }
 
 .navbar.scrolled {
-  /* Use theme variable for scrolled background, with fallback */
-  background-color: var(--navbar-bg-scrolled-color, var(--secondary-bg-color, rgba(51, 51, 51, 0.9))); /* Added specific scrolled var, fallback to secondary, then default */
-  box-shadow: var(--shadow-md, 0 4px 8px rgba(0, 0, 0, 0.15)); /* Use theme shadow or fallback */
+  background-color: color-mix(in srgb, var(--background-color), transparent 50%); 
+    box-shadow: var(--shadow-md, 0 4px 8px rgba(0, 0, 0, 0.15));
   padding: 0.5rem 0;
 }
 

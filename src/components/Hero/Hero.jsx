@@ -16,8 +16,8 @@ const Hero = () => {
 
    const slides =  [
     {
-      title: "Pague Taxa Mínima na Sua Conta de Energia.",
-      content: " Se você mora em Pernambuco isso será possível com o Ecolote. Não é desconto na conta. Não é cota de energia. É sua conta de energia cobrando taxa mínima. "
+      title: "Pague Taxa Mínima na Sua Conta de Energia",
+      content: " Moradores de Pernambuco, isso é possível com o Ecolote. Não é desconto na conta. Não é cota de energia. É sua conta de energia cobrando taxa mínima. "
     },
     {
       title: "Não Vendemos Paineis Solares",
@@ -28,7 +28,7 @@ const Hero = () => {
       content: " Sem problemas! O Ecolote leva a energia solar até você, eliminando a necessidade de telhado próprio."
     },
     {
-      title: "Adquira Sem Entrada. ",
+      title: "Adquira Sem Entrada",
       content: " Sim, Isso Mesmo! Não tem entrada no nosso modelo de financiamento. Troque o gasto mensal da sua conta de luz pela parcela da sua usina solar."
     },
     {
