@@ -1,17 +1,19 @@
 import React, { useEffect, useState, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext"; 
 import apiClient from "../../services/apiClient";
 import styles from "./AdminPages.module.css";
 
 const AdminDashboardPage = () => {
     const { admin, logout } = useAuth();
+    const navigate = useNavigate();
     const [pessoasFisicas, setPessoasFisicas] = useState([]);
     const [pessoasJuridicas, setPessoasJuridicas] = useState([]);
     const [investidores, setInvestidores] = useState([]);
+    const [totalVisits, setTotalVisits] = useState(0);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
 
-    // Estados para busca e ordenação
     const [searchTermPf, setSearchTermPf] = useState("");
     const [sortConfigPf, setSortConfigPf] = useState({ key: "created_at", direction: "descending" });
 
@@ -20,6 +22,38 @@ const AdminDashboardPage = () => {
 
     const [searchTermInv, setSearchTermInv] = useState("");
     const [sortConfigInv, setSortConfigInv] = useState({ key: "created_at", direction: "descending" });
+
+    const generateUniqueIdentifier = () => {
+        const stored = localStorage.getItem('ecolote_visitor_id');
+        if (stored) {
+            return stored;
+        }
+        
+        const timestamp = Date.now();
+        const random = Math.random().toString(36).substring(2);
+        const identifier = `visitor_${timestamp}_${random}`;
+        
+        localStorage.setItem('ecolote_visitor_id', identifier);
+        return identifier;
+    };
+
+    const recordVisit = async () => {
+        try {
+            const uniqueIdentifier = generateUniqueIdentifier();
+            await apiClient.post("/visits/record", { uniqueIdentifier });
+        } catch (err) {
+            console.error("Erro ao registrar visita:", err);
+        }
+    };
+
+    const fetchTotalVisits = async () => {
+        try {
+            const response = await apiClient.get("/visits/total");
+            setTotalVisits(response.data.totalVisits);
+        } catch (err) {
+            console.error("Erro ao buscar total de visitas:", err);
+        }
+    };
 
     useEffect(() => {
         const fetchData = async () => {
@@ -46,6 +80,8 @@ const AdminDashboardPage = () => {
 
         if (admin) {
             fetchData();
+            recordVisit();
+            fetchTotalVisits();
         }
     }, [admin, logout]);
 
@@ -60,7 +96,7 @@ const AdminDashboardPage = () => {
         } else if (tableType === "pj") {
             setSortConfig = setSortConfigPj;
             currentSortConfig = sortConfigPj;
-        } else { // inv
+        } else {
             setSortConfig = setSortConfigInv;
             currentSortConfig = sortConfigInv;
         }
@@ -102,7 +138,6 @@ const AdminDashboardPage = () => {
     const processedPessoasFisicas = useMemo(() => sortedAndFilteredData(pessoasFisicas, searchTermPf, sortConfigPf, pfSearchKeys), [pessoasFisicas, searchTermPf, sortConfigPf]);
     const processedPessoasJuridicas = useMemo(() => sortedAndFilteredData(pessoasJuridicas, searchTermPj, sortConfigPj, pjSearchKeys), [pessoasJuridicas, searchTermPj, sortConfigPj]);
     const processedInvestidores = useMemo(() => sortedAndFilteredData(investidores, searchTermInv, sortConfigInv, invSearchKeys), [investidores, searchTermInv, sortConfigInv]);
-
 
     const renderTable = (title, data, columns, tableType, searchTerm, setSearchTerm, currentSortConfig) => {
         if (loading) return <p className={styles.loadingMessageDashboard}>Carregando dados de {title.toLowerCase()}...</p>;
@@ -185,12 +220,19 @@ const AdminDashboardPage = () => {
         <div className={styles.dashboardContainer}>
             <div className={styles.dashboardHeader}>
                 <h1>Dashboard Administrativo</h1>
-                {admin && (
-                    <div>
-                        <span>Olá, {admin.nome_completo}!</span>
-                        <button onClick={logout} className={styles.logoutButton} style={{ marginLeft: "15px" }}>Sair</button>
+                <button onClick={() => navigate(-1)} className={styles.backButton}>Voltar</button>
+                <div className={styles.headerInfo}>
+                    {admin && (
+                        <div>
+                            <span>Olá, {admin.nome_completo}!</span>
+                            <button onClick={logout} className={styles.logoutButton} style={{ marginLeft: "15px" }}>Sair</button>
+                        </div>
+                    )}
+                    <div className={styles.visitCounter}>
+                        <span className={styles.visitCounterLabel}>Visitas Únicas:</span>
+                        <span className={styles.visitCounterValue}>{totalVisits.toLocaleString()}</span>
                     </div>
-                )}
+                </div>
             </div>
 
             {error && <p className={styles.errorMessageDashboard}>{error}</p>}

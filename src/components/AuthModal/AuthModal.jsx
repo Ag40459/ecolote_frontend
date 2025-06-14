@@ -26,7 +26,7 @@ const AuthModal = ({ isOpen, onClose }) => {
                 <button className={styles.closeButton} onClick={onClose}>X</button>
                 {
                     currentView === "login" ? (
-                        <LoginPageContent switchToRegister={switchToRegister} />
+                        <LoginPageContent switchToRegister={switchToRegister} onClose={onClose} />
                     ) : (
                         <AdminRegisterPageContent switchToLogin={switchToLogin} />
                     )

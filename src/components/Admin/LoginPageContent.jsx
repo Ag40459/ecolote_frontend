@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import modalStyles from "../AuthModal/AuthModal.module.css"; // Usando estilos do modal
 import ForgotPasswordModal from "../AuthModal/ForgotPasswordModal"; // Importar o novo modal
@@ -9,6 +10,7 @@ const LoginPageContent = ({ switchToRegister, onClose }) => {
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
     const { login } = useAuth();
+    const navigate = useNavigate();
     const [isForgotPasswordModalOpen, setIsForgotPasswordModalOpen] = useState(false);
 
     const handleSubmit = async (e) => {
@@ -18,7 +20,8 @@ const LoginPageContent = ({ switchToRegister, onClose }) => {
         try {
             const result = await login(email, senha);
             if (result.success) {
-                if (onClose) onClose(); // Fecha o modal principal de autenticação em caso de sucesso
+                if (onClose) onClose();
+                navigate('/admin/dashboard');
             } else {
                 setError(result.error || "Falha no login. Verifique suas credenciais.");
             }
@@ -42,7 +45,6 @@ const LoginPageContent = ({ switchToRegister, onClose }) => {
             <h2>Login de Administrador</h2>
             <form onSubmit={handleSubmit}>
                 <div className={modalStyles.formGroup}>
-                    <label htmlFor="login-email">Email:</label>
                     <input
                         type="email"
                         id="login-email"
@@ -53,13 +55,14 @@ const LoginPageContent = ({ switchToRegister, onClose }) => {
                     />
                 </div>
                 <div className={modalStyles.formGroup}>
-                    <label htmlFor="login-senha">Senha:</label>
                     <input
                         type="password"
                         id="login-senha"
                         value={senha}
                         onChange={(e) => setSenha(e.target.value)}
                         required
+                        placeholder="Senha"
+
                     />
                 </div>
                 <span className={modalStyles.forgotPasswordLink} onClick={openForgotPasswordModal}>
