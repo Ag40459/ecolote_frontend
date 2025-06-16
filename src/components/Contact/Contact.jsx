@@ -93,7 +93,7 @@ const ContactSection = () => {
               <div className={styles.desktopInfoIcon}> <SecurityIcon /> </div>
               <div className={styles.desktopInfoText}>
                 <h3>Investimento Seguro e Garantido</h3>
-                <p>Conte com 25 anos de garantia nos equipamentos, monitoramento 24/7 e seguro. Nossa associação garante a gestão e manutenção.</p>
+                <p>Oferecemos 10 anos de garantia nos equipamentos e até 25 anos para perda de potência, monitoramento 24/7 e seguro. Nossa associação garante a gestão e manutenção.</p>
               </div>
             </div>
           </div>
