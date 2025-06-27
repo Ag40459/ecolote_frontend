@@ -59,6 +59,18 @@
   --card-icon-fill: rgb(70, 130, 180);
   --text-secondary-dark: rgba(45, 55, 65, 0.85);
   --text-secondary-light: rgba(80, 90, 100, 0.75);
+
+    --gradient-primary-start: var(--primary-color-light); /* Azul claro */
+  --gradient-primary-end: var(--secondary-color); /* Azul esverdeado */
+  --gradient-secondary-start: var(--secondary-color); /* Azul esverdeado */
+  --gradient-secondary-end: var(--secondary-color-light); /* Azul esverdeado mais claro */
+  --gradient-whatsapp-start: var(--secondary-color); /* Azul esverdeado */
+  --gradient-whatsapp-end: var(--secondary-color-light); /* Azul esverdeado mais claro */
+  --gradient-house-start: var(--primary-color-light); /* Azul claro */
+  --gradient-house-end: var(--secondary-color); /* Azul esverdeado */
+  --accent-color-purple: var(--secondary-color); /* Azul esverdeado (substituindo roxo por algo forte do tema) */
+  --success-color-green: var(--success-color); /* Verde */
+  --footer-bg-dark: var(--footer-bg-color); /* Cinza claro */
 }
 
 body.light-theme {

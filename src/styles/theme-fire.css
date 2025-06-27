@@ -46,6 +46,19 @@
   --text-secondary-dark: rgba(255, 255, 255, 0.85);
   --text-secondary-light: rgba(0, 0, 0, 0.75);
   --warning-color: rgb(255, 214, 0);
+
+
+    --gradient-primary-start: var(--primary-color-light); /* Laranja claro */
+  --gradient-primary-end: var(--primary-color); /* Laranja */
+  --gradient-secondary-start: var(--primary-color); /* Laranja */
+  --gradient-secondary-end: var(--secondary-color-light); /* Laranja mais claro */
+  --gradient-whatsapp-start: var(--primary-color); /* Laranja */
+  --gradient-whatsapp-end: var(--secondary-color-light); /* Laranja mais claro */
+  --gradient-house-start: var(--primary-color-light); /* Laranja claro */
+  --gradient-house-end: var(--primary-color); /* Laranja */
+  --accent-color-purple: var(--primary-color); /* Laranja (substituindo roxo por algo forte do tema) */
+  --success-color-green: var(--success-color); /* Verde */
+  --footer-bg-dark: var(--footer-bg-color); /* Cinza escuro */
 }
 
 body.fire-theme {

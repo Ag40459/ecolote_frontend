@@ -69,6 +69,19 @@
   --card-icon-fill: rgb(60, 179, 113);
   --text-secondary-dark: rgba(245, 245, 220, 0.85);
   --text-secondary-light: rgba(51, 51, 51, 0.75);
+
+
+    --gradient-primary-start: var(--primary-color-light); /* Verde claro */
+  --gradient-primary-end: var(--secondary-color); /* Laranja avermelhado */
+  --gradient-secondary-start: var(--secondary-color); /* Laranja avermelhado */
+  --gradient-secondary-end: var(--secondary-color-light); /* Laranja avermelhado mais claro */
+  --gradient-whatsapp-start: var(--secondary-color); /* Laranja avermelhado */
+  --gradient-whatsapp-end: var(--secondary-color-light); /* Laranja avermelhado mais claro */
+  --gradient-house-start: var(--primary-color-light); /* Verde claro */
+  --gradient-house-end: var(--secondary-color); /* Laranja avermelhado */
+  --accent-color-purple: var(--secondary-color); /* Laranja avermelhado (substituindo roxo por algo forte do tema) */
+  --success-color-green: var(--success-color); /* Verde */
+  --footer-bg-dark: var(--footer-bg-color); /* Verde escuro */
 }
 
 body.nature-theme {

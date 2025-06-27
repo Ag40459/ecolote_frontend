@@ -5,7 +5,7 @@ export function parseToNumber(value) {
 
   const cleanValue = value
     .toString()
-    .replace(/[^0-9,.-]+/g,"")
+    .replace(/[^0-9,.-]+/g, "")
     .trim();
 
   if (cleanValue.includes(',')) {
@@ -16,7 +16,7 @@ export function parseToNumber(value) {
 
 export function formatCurrency(value, context = 'display') {
   if (value === '' && context === 'input') return '';
-  
+
   const number = parseToNumber(value);
 
   if (context === 'input') {
@@ -67,19 +67,19 @@ function calculateSavingsIn10Years(realGenerationKwh, energyRate, estimatedProje
   const annualTariffIncrease = 0.08;
   const systemDegradation = 0.007;
   const yearlyData = [];
-  
+
   let currentRate = energyRate;
   let currentGeneration = realGenerationKwh;
   let totalSavings = 0;
   let cumulativeSavings = 0;
-  
+
   for (let year = 1; year <= 25; year++) {
     const annualGeneration = currentGeneration * 12;
     const annualSavings = annualGeneration * currentRate;
-    
+
     totalSavings += annualSavings;
     cumulativeSavings = totalSavings - estimatedProjectCost;
-    
+
     yearlyData.push({
       year,
       generation: annualGeneration,
@@ -88,18 +88,18 @@ function calculateSavingsIn10Years(realGenerationKwh, energyRate, estimatedProje
       cumulativeSavings,
       roi: (cumulativeSavings / estimatedProjectCost) * 100
     });
-    
+
     currentRate *= (1 + annualTariffIncrease);
     currentGeneration *= (1 - systemDegradation);
   }
-  
+
   const savingsIn10Years = yearlyData
     .filter(data => data.year <= 10)
     .reduce((sum, data) => sum + data.savings, 0);
-  
+
   let paybackTime = 25;
   const paybackYear = yearlyData.find(data => data.cumulativeSavings >= 0);
-  
+
   if (paybackYear) {
     if (paybackYear.year === 1) {
       paybackTime = 1;
@@ -111,7 +111,7 @@ function calculateSavingsIn10Years(realGenerationKwh, energyRate, estimatedProje
       paybackTime = Number((previousYear.year + fraction).toFixed(1));
     }
   }
-  
+
   return {
     savingsIn10Years: Number(savingsIn10Years.toFixed(2)),
     paybackTime
@@ -147,7 +147,6 @@ export function solarCalculator({
   const areaUsedInLots = Number((totalAreaRequired / baseAreaLimit).toFixed(2));
 
   const estimatedPrice = finalPowerKwp * 2686;
-
   const estimatedPriceAdditionalCost = estimatedPrice + 6000 + areaAdditionalCost;
 
   let inverterModel = "";
@@ -180,8 +179,16 @@ export function solarCalculator({
       monthlyInstallment = calculateInstallment(estimatedPriceAdditionalCost, totalInstallments);
     }
   }
-  
-  const financialMetrics = calculateSavingsIn10Years(realGenerationKwh, energyRate, estimatedPriceAdditionalCost);
+
+  const financialMetrics = calculateSavingsIn10Years(
+    realGenerationKwh,
+    energyRate,
+    estimatedPriceAdditionalCost
+  );
+
+  const associationFee = Number(((totalAreaRequired / baseAreaLimit) * 24.90).toFixed(2));
+  const installment36x = Number(calculateInstallment(estimatedPriceAdditionalCost, 36).toFixed(2));
+  const installment48x = Number(calculateInstallment(estimatedPriceAdditionalCost, 48).toFixed(2));
 
   return {
     monthlyBill: Number(monthlyBill),
@@ -207,6 +214,10 @@ export function solarCalculator({
     valorMetroQuadrado,
     areaUsedInLots,
     savingsIn10Years: financialMetrics.savingsIn10Years,
-    paybackTime: financialMetrics.paybackTime
+    paybackTime: financialMetrics.paybackTime,
+    associationFee,
+    installment36x,
+    installment48x
   };
 }
+

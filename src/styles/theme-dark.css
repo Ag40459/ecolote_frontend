@@ -47,6 +47,18 @@
   --text-secondary-light: rgba(0, 0, 0, 0.75);
   --text-secondary-color: rgb(189, 189, 189);
   --warning-color: rgb(255, 171, 64);
+
+    --gradient-primary-start: var(--primary-color-light); /* Azul claro */
+  --gradient-primary-end: var(--accent-color); /* Roxo */
+  --gradient-secondary-start: var(--accent-color); /* Roxo */
+  --gradient-secondary-end: var(--accent-color-light); /* Roxo mais claro */
+  --gradient-whatsapp-start: var(--accent-color); /* Roxo */
+  --gradient-whatsapp-end: var(--accent-color-light); /* Roxo mais claro */
+  --gradient-house-start: var(--primary-color-light); /* Azul claro */
+  --gradient-house-end: var(--accent-color); /* Roxo */
+  --accent-color-purple: var(--accent-color); /* Roxo */
+  --success-color-green: var(--accent-color-green); /* Verde */
+  --footer-bg-dark: var(--background-color); /* Fundo escuro */
 }
 
 body.dark-theme {

@@ -59,6 +59,19 @@
   --card-icon-fill: rgb(0, 255, 255);
   --text-secondary-dark: rgba(224, 247, 250, 0.85);
   --text-secondary-light: rgba(178, 235, 242, 0.75);
+
+
+    --gradient-primary-start: var(--primary-color-light); /* Ciano claro */
+  --gradient-primary-end: var(--secondary-color); /* Laranja */
+  --gradient-secondary-start: var(--secondary-color); /* Laranja */
+  --gradient-secondary-end: var(--secondary-color-light); /* Laranja mais claro */
+  --gradient-whatsapp-start: var(--secondary-color); /* Laranja */
+  --gradient-whatsapp-end: var(--secondary-color-light); /* Laranja mais claro */
+  --gradient-house-start: var(--primary-color-light); /* Ciano claro */
+  --gradient-house-end: var(--secondary-color); /* Laranja */
+  --accent-color-purple: var(--secondary-color); /* Laranja (substituindo roxo por algo forte do tema) */
+  --success-color-green: var(--accent-color-green); /* Verde água */
+  --footer-bg-dark: var(--footer-bg-color); /* Azul escuro */
 }
 
 body.ocean-theme {

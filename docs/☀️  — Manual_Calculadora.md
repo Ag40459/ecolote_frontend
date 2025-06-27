@@ -44,6 +44,11 @@ Ela estima consumo, geração, quantidade de módulos, custo total, financiament
 | `areaUsedInLots`         | `number` | Proporção da área utilizada em relação a um lote de 35 m² (ex: 1.5)      |
 | `savingsIn10Years`       | `number` | Economia total estimada em 10 anos de uso do sistema                     |
 | `paybackTime`            | `number` | Tempo de retorno do investimento em anos (com uma casa decimal)          |
+| `installment36x`         | `number` | Valor estimado da parcela em 36 meses (juros compostos 1,56% a.m.)       |
+| `installment48x`         | `number` | Valor estimado da parcela em 48 meses (juros compostos 1,56% a.m.)       |
+| `associationFee`         | `number` | Mensalidade proporcional da associação com base na área utilizada       |
+
+
 
 ---
 
