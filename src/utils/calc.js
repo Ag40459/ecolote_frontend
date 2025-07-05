@@ -184,6 +184,18 @@ export function solarCalculator({
     realGenerationKwh,
     energyRate,
     estimatedPriceAdditionalCost
+
+  function applyDiscount(estimatedPriceAdditionalCost, totalAreaRequired) {
+  let discount = 2000;  
+ 
+  if (totalAreaRequired > 35) {
+    const excessArea = totalAreaRequired - 35;
+    const discountPerSquareMeter = 57; 
+    discount += excessArea * discountPerSquareMeter; 
+  }
+
+  return discount;
+}
   );
 
   const associationFee = Number(((totalAreaRequired / baseAreaLimit) * 24.90).toFixed(2));
@@ -208,7 +220,7 @@ export function solarCalculator({
     estimatedProjectCost: Number(estimatedPriceAdditionalCost.toFixed(2)),
     monthlyInstallment: Number(monthlyInstallment.toFixed(2)),
     installmentCount: totalInstallments,
-    discount: 2000,
+    discount,
     totalAreaRequired: Number(totalAreaRequired.toFixed(2)),
     excessArea: Number(excessArea.toFixed(2)),
     valorMetroQuadrado,
